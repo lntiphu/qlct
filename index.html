@@ -117,16 +117,7 @@
                 <div class="history-controls">
                     <div class="search-bar">
                         <i data-lucide="search" class="search-icon"></i>
-                        <input type="text" id="search-input" placeholder="Tìm kiếm chi tiêu, ghi chú...">
-                    </div>
-                    <div class="filter-scroll">
-                        <button class="filter-tag active" data-category="all">Tất cả</button>
-                        <button class="filter-tag" data-category="Ăn uống">🍔 Ăn uống</button>
-                        <button class="filter-tag" data-category="Mua sắm">🛍️ Mua sắm</button>
-                        <button class="filter-tag" data-category="Di chuyển">🚗 Di chuyển</button>
-                        <button class="filter-tag" data-category="Giải trí">🎉 Giải trí</button>
-                        <button class="filter-tag" data-category="Hóa đơn">⚡ Hóa đơn</button>
-                        <button class="filter-tag" data-category="Khác">📦 Khác</button>
+                        <input type="text" id="search-input" placeholder="Tìm kiếm chi tiêu...">
                     </div>
                 </div>
 
@@ -137,26 +128,7 @@
 
             <!-- TAB 3: REPORTS & SETTINGS -->
             <section id="tab-reports" class="tab-panel">
-                <!-- Doughnut Chart for monthly categories -->
-                <div class="section-card chart-card">
-                    <div class="section-header">
-                        <h3>Cơ cấu chi tiêu tháng</h3>
-                        <span class="chart-subtitle" id="report-month-year">Tháng này</span>
-                    </div>
-                    <div class="chart-container doughnut-container">
-                        <canvas id="monthlyCategoryChart"></canvas>
-                    </div>
-                </div>
 
-                <!-- Category breakdown list -->
-                <div class="section-card category-breakdown-card">
-                    <div class="section-header">
-                        <h3>Chi tiết theo danh mục</h3>
-                    </div>
-                    <div class="category-breakdown-list" id="category-report-list">
-                        <!-- Dynamic breakdown -->
-                    </div>
-                </div>
 
                 <!-- Configuration & Backup -->
                 <div class="section-card settings-card">
@@ -237,62 +209,23 @@
                     <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required>
                 </div>
 
-                <!-- Camera / Image Upload Zone -->
-                <div class="photo-upload-zone" id="photo-dropzone">
-                    <input type="file" id="expense-image-input" accept="image/*" capture="environment" style="display: none;">
-                    <div class="upload-placeholder" id="upload-placeholder-content">
-                        <i data-lucide="camera"></i>
-                        <span>Chụp ảnh hóa đơn / món đồ</span>
-                        <span class="upload-sub">Nhấp để mở Camera hoặc chọn ảnh</span>
-                    </div>
-                    <div class="image-preview-container" id="image-preview-container" style="display: none;">
-                        <img src="" alt="Preview" id="image-preview">
-                        <button type="button" class="remove-photo-btn" id="btn-remove-photo">
-                            <i data-lucide="trash-2"></i>
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Form Fields -->
                 <div class="form-fields">
                     <!-- Title -->
                     <div class="form-group">
-                        <label for="expense-title">Tên món đồ / Nội dung</label>
+                        <label for="expense-title">Nội dung chi tiêu</label>
                         <div class="input-wrapper">
                             <i data-lucide="tag" class="field-icon"></i>
-                            <input type="text" id="expense-title" placeholder="Ví dụ: Ăn trưa, Cà phê, Xăng xe..." required>
+                            <input type="text" id="expense-title" placeholder="Ăn sáng, mua đồ, xăng xe..." required>
                         </div>
                     </div>
 
-                    <!-- Category tag selector -->
+                    <!-- Date -->
                     <div class="form-group">
-                        <label>Danh mục</label>
-                        <div class="category-grid" id="category-selector-grid">
-                            <div class="category-tag-option active" data-val="Ăn uống">🍔 Ăn uống</div>
-                            <div class="category-tag-option" data-val="Mua sắm">🛍️ Mua sắm</div>
-                            <div class="category-tag-option" data-val="Di chuyển">🚗 Di chuyển</div>
-                            <div class="category-tag-option" data-val="Giải trí">🎉 Giải trí</div>
-                            <div class="category-tag-option" data-val="Hóa đơn">⚡ Hóa đơn</div>
-                            <div class="category-tag-option" data-val="Khác">📦 Khác</div>
-                        </div>
-                    </div>
-
-                    <!-- Date & Notes Grid -->
-                    <div class="form-row-grid">
-                        <div class="form-group">
-                            <label for="expense-date">Ngày chi tiêu</label>
-                            <div class="input-wrapper">
-                                <i data-lucide="calendar" class="field-icon"></i>
-                                <input type="date" id="expense-date" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="expense-notes">Ghi chú (Tùy chọn)</label>
+                        <label for="expense-date">Ngày chi tiêu</label>
                         <div class="input-wrapper">
-                            <i data-lucide="file-text" class="field-icon"></i>
-                            <input type="text" id="expense-notes" placeholder="Ghi chú thêm thông tin...">
+                            <i data-lucide="calendar" class="field-icon"></i>
+                            <input type="date" id="expense-date" required>
                         </div>
                     </div>
                 </div>
@@ -321,7 +254,6 @@
             <div class="detail-body">
                 <div class="detail-amount-display">
                     <span id="detail-amount">0đ</span>
-                    <span class="detail-category-badge" id="detail-category">Danh mục</span>
                 </div>
                 
                 <div class="detail-info-list">
@@ -332,17 +264,6 @@
                     <div class="detail-info-item">
                         <span class="info-label">Ngày chi tiêu</span>
                         <span class="info-value" id="detail-date">Ngày</span>
-                    </div>
-                    <div class="detail-info-item">
-                        <span class="info-label">Ghi chú</span>
-                        <span class="info-value" id="detail-notes">-</span>
-                    </div>
-                </div>
-
-                <div class="detail-photo-container" id="detail-photo-container" style="display: none;">
-                    <span class="info-label">Hình ảnh đính kèm</span>
-                    <div class="detail-photo-wrapper">
-                        <img src="" id="detail-photo" alt="Ảnh hóa đơn">
                     </div>
                 </div>
 
