@@ -83,67 +83,7 @@ function saveData() {
 
 // DỮ LIỆU MẪU BAN ĐẦU
 function getSampleData() {
-    const todayStr = getTodayDateString();
-    const yesterdayStr = getDateOffsetString(-1);
-    const threeDaysAgoStr = getDateOffsetString(-3);
-    const fiveDaysAgoStr = getDateOffsetString(-5);
-
-    return [
-        {
-            id: 'sample-1',
-            amount: 55000,
-            title: 'Phở bò ăn sáng',
-            category: 'Ăn uống',
-            date: todayStr,
-            notes: 'Quán quen đầu ngõ',
-            image: null
-        },
-        {
-            id: 'sample-2',
-            amount: 32000,
-            title: 'Cà phê sữa đá',
-            category: 'Ăn uống',
-            date: todayStr,
-            notes: 'Mua mang đi',
-            image: null
-        },
-        {
-            id: 'sample-3',
-            amount: 150000,
-            title: 'Đổ xăng xe máy',
-            category: 'Di chuyển',
-            date: yesterdayStr,
-            notes: 'Đầy bình xăng xe ga',
-            image: null
-        },
-        {
-            id: 'sample-4',
-            amount: 1200000,
-            title: 'Mua giày thể thao mới',
-            category: 'Mua sắm',
-            date: threeDaysAgoStr,
-            notes: 'Hàng chính hãng sale 20%',
-            image: null
-        },
-        {
-            id: 'sample-5',
-            amount: 350000,
-            title: 'Vé xem phim & Bắp nước',
-            category: 'Giải trí',
-            date: fiveDaysAgoStr,
-            notes: 'Rạp CGV với bạn bè',
-            image: null
-        },
-        {
-            id: 'sample-6',
-            amount: 450000,
-            title: 'Hóa đơn tiền điện nước',
-            category: 'Hóa đơn',
-            date: fiveDaysAgoStr,
-            notes: 'Thanh toán online',
-            image: null
-        }
-    ];
+    return [];
 }
 
 // ĐỊNH DẠNG NGÀY & TIỀN TỆ
