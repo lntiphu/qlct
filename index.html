@@ -53,11 +53,7 @@
                 <span class="date-today" id="current-date">Thứ Ba, 21 Tháng 7</span>
                 <h1 class="header-title">iSpend</h1>
             </div>
-            <div class="header-right">
-                <button class="icon-btn settings-btn" id="btn-backup-trigger" title="Sao lưu dữ liệu">
-                    <i data-lucide="database"></i>
-                </button>
-            </div>
+
         </header>
 
         <!-- MAIN CONTENT PANELS (Tabs) -->
@@ -126,52 +122,7 @@
                 </div>
             </section>
 
-            <!-- TAB 3: REPORTS & SETTINGS -->
-            <section id="tab-reports" class="tab-panel">
 
-
-                <!-- Configuration & Backup -->
-                <div class="section-card settings-card">
-                    <div class="section-header">
-                        <h3>Cài đặt & Dữ liệu</h3>
-                    </div>
-                    <div class="settings-list">
-                        <!-- Supabase Sync Configuration -->
-                        <div class="setting-item flex-column">
-                            <div class="setting-info w-100">
-                                <span class="setting-title">Đồng bộ dữ liệu Supabase (Real-time)</span>
-                                <span class="setting-desc">Nhập URL dự án và Anon Key của dự án Supabase để tự động lưu và đồng bộ tức thời.</span>
-                            </div>
-                            <div class="sync-input-row w-100 flex-column" style="gap: 8px; align-items: stretch !important; display: flex;">
-                                <input type="url" id="setting-supabase-url" placeholder="Supabase Project URL (https://xxxx.supabase.co)" class="settings-input text-left w-100" style="padding: 8px 12px; font-size: 0.78rem;">
-                                <input type="text" id="setting-supabase-key" placeholder="Supabase Anon Key (Public API Key)" class="settings-input text-left w-100" style="padding: 8px 12px; font-size: 0.78rem;">
-                                <button type="button" class="btn btn-secondary w-100" id="btn-connect-supabase" style="height: 38px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
-                                    Kết nối Supabase
-                                </button>
-                            </div>
-                            <div class="sync-status-row w-100" style="margin-top: 4px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center;">
-                                <span id="supabase-status-text" class="status-disconnected">❌ Chưa kết nối Supabase</span>
-                                <button type="button" class="btn-text-link-small" id="btn-sync-local-to-supabase" style="display: none;">Đồng bộ dữ liệu cũ lên cloud</button>
-                            </div>
-                        </div>
-
-                        <div class="setting-item actions-row">
-                            <button class="btn btn-secondary" id="btn-export-data">
-                                <i data-lucide="download"></i> Xuất dữ liệu (JSON)
-                            </button>
-                            <button class="btn btn-secondary" id="btn-import-data-trigger">
-                                <i data-lucide="upload"></i> Nhập dữ liệu
-                            </button>
-                            <input type="file" id="import-file-input" accept=".json" style="display: none;">
-                        </div>
-                        <div class="setting-item">
-                            <button class="btn btn-danger-link" id="btn-clear-all-data">
-                                <i data-lucide="trash-2"></i> Xóa toàn bộ dữ liệu
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </main>
 
         <!-- BOTTOM NAVIGATION BAR -->
@@ -187,10 +138,6 @@
             <!-- Center Add button -->
             <button class="nav-item-add" id="btn-open-add-modal" aria-label="Thêm chi tiêu">
                 <i data-lucide="plus"></i>
-            </button>
-            <button class="nav-item" data-tab="reports">
-                <i data-lucide="pie-chart"></i>
-                <span>Báo cáo</span>
             </button>
         </nav>
 
