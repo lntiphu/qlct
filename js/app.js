@@ -41,25 +41,8 @@ function loadData() {
 
 
 
-    const savedUrl = localStorage.getItem('ispend_supabase_url');
-    const savedKey = localStorage.getItem('ispend_supabase_key');
-    if (savedUrl && savedKey) {
-        state.supabaseUrl = savedUrl;
-        state.supabaseKey = savedKey;
-    }
-    
-    // Khởi tạo Supabase nếu có thông tin (từ localStorage hoặc cấu hình mặc định)
-    if (state.supabaseUrl && state.supabaseKey) {
-        // Chờ DOM load xong rồi gán giá trị và init
-        setTimeout(() => {
-            const urlInput = document.getElementById('setting-supabase-url');
-            const keyInput = document.getElementById('setting-supabase-key');
-            if (urlInput) urlInput.value = state.supabaseUrl;
-            if (keyInput) keyInput.value = state.supabaseKey;
-            
-            initSupabase();
-        }, 100);
-    }
+    // Tự động kết nối Supabase
+    initSupabase();
 }
 
 // LƯU DỮ LIỆU XUỐNG LOCALSTORAGE
@@ -191,49 +174,7 @@ function registerEventListeners() {
 
 
 
-    // Sao lưu xuất dữ liệu (JSON)
-    document.getElementById('btn-export-data').addEventListener('click', exportData);
-    document.getElementById('btn-backup-trigger').addEventListener('click', () => {
-        switchTab('reports');
-        // Cuộn tới phần Backup
-        document.querySelector('.settings-card').scrollIntoView({ behavior: 'smooth' });
-    });
 
-    // Nhập dữ liệu (JSON)
-    const importFileInput = document.getElementById('import-file-input');
-    document.getElementById('btn-import-data-trigger').addEventListener('click', () => {
-        importFileInput.click();
-    });
-    importFileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            importData(file);
-        }
-    });
-
-    // Xóa toàn bộ dữ liệu
-    document.getElementById('btn-clear-all-data').addEventListener('click', clearAllData);
-
-    // Cấu hình URL và Key Supabase
-    document.getElementById('setting-supabase-url').addEventListener('input', (e) => {
-        state.supabaseUrl = e.target.value.trim();
-        if (!state.supabaseUrl) {
-            localStorage.removeItem('ispend_supabase_url');
-            updateSupabaseStatusUI('disconnected');
-        }
-    });
-    
-    document.getElementById('setting-supabase-key').addEventListener('input', (e) => {
-        state.supabaseKey = e.target.value.trim();
-        if (!state.supabaseKey) {
-            localStorage.removeItem('ispend_supabase_key');
-            updateSupabaseStatusUI('disconnected');
-        }
-    });
-
-    // Các nút kết nối & đồng bộ dữ liệu
-    document.getElementById('btn-connect-supabase').addEventListener('click', connectSupabase);
-    document.getElementById('btn-sync-local-to-supabase').addEventListener('click', syncLocalToSupabase);
 }
 
 // XỬ LÝ CHUYỂN TAB
@@ -390,12 +331,7 @@ function updateUI() {
     calculateAndRenderSummaries();
     renderRecentSpendings();
 
-    // Cập nhật hiển thái trạng thái đồng bộ Supabase
-    if (supabaseClient) {
-        updateSupabaseStatusUI('connected');
-    } else {
-        updateSupabaseStatusUI('disconnected');
-    }
+
     
     if (state.currentTab === 'dashboard') {
         renderDashboardCharts();
@@ -701,27 +637,6 @@ function createLucideIcons() {
 // SUPABASE SYNCHRONIZATION HELPERS
 // ==========================================================================
 
-// Kiểm tra và cập nhật giao diện kết nối Supabase
-function updateSupabaseStatusUI(status) {
-    const statusText = document.getElementById('supabase-status-text');
-    const syncNowBtn = document.getElementById('btn-sync-local-to-supabase');
-    if (!statusText || !syncNowBtn) return;
-    
-    if (status === 'connected') {
-        statusText.innerText = "🟢 Đã kết nối Supabase Real-time";
-        statusText.className = "status-connected";
-        syncNowBtn.style.display = 'block';
-    } else if (status === 'syncing') {
-        statusText.innerText = "🟡 Đang kết nối...";
-        statusText.className = "status-syncing";
-        syncNowBtn.style.display = 'none';
-    } else {
-        statusText.innerText = "❌ Chưa kết nối Supabase";
-        statusText.className = "status-disconnected";
-        syncNowBtn.style.display = 'none';
-    }
-}
-
 // Khởi tạo Supabase Client và Đăng ký Real-time listener
 function initSupabase() {
     if (typeof supabase === 'undefined') {
@@ -749,10 +664,8 @@ function initSupabase() {
             })
             .subscribe();
             
-        updateSupabaseStatusUI('connected');
     } catch (err) {
         console.error("Lỗi khởi tạo Supabase:", err);
-        updateSupabaseStatusUI('disconnected');
     }
 }
 
@@ -801,78 +714,4 @@ function handleRealtimeDbChange(payload) {
     
     saveData();
     updateUI();
-}
-
-// Bấm kết nối Supabase từ UI Cài đặt
-async function connectSupabase() {
-    const urlInput = document.getElementById('setting-supabase-url').value.trim();
-    const keyInput = document.getElementById('setting-supabase-key').value.trim();
-    
-    if (!urlInput || !keyInput) {
-        alert("Vui lòng nhập cả URL dự án và Anon Key!");
-        return;
-    }
-    
-    updateSupabaseStatusUI('syncing');
-    
-    try {
-        const testClient = supabase.createClient(urlInput, keyInput);
-        
-        // Thử thực hiện một truy vấn SELECT đơn giản để kiểm tra kết nối
-        const { data, error } = await testClient
-            .from('expenses')
-            .select('id')
-            .limit(1);
-            
-        if (error) throw error;
-        
-        // Lưu thông tin kết nối thành công
-        state.supabaseUrl = urlInput;
-        state.supabaseKey = keyInput;
-        localStorage.setItem('ispend_supabase_url', urlInput);
-        localStorage.setItem('ispend_supabase_key', keyInput);
-        
-        supabaseClient = testClient;
-        
-        // Triển khai kết nối thực tế
-        initSupabase();
-        
-        alert("Kết nối Supabase thành công! Dữ liệu sẽ tự động đồng bộ thời gian thực.");
-    } catch (err) {
-        console.error(err);
-        alert("Kết nối thất bại! Hãy chắc chắn bạn đã tạo bảng 'expenses' đúng cấu trúc trong Supabase và RLS đã được cấu hình cho phép truy cập public.\nChi tiết lỗi: " + err.message);
-        updateSupabaseStatusUI('disconnected');
-    }
-}
-
-// Đồng bộ ngược dữ liệu cũ từ máy lên Supabase
-async function syncLocalToSupabase() {
-    if (!supabaseClient || state.expenses.length === 0) return;
-    
-    if (!confirm(`Bạn có muốn đẩy toàn bộ ${state.expenses.length} khoản chi tiêu hiện tại trên máy lên đám mây Supabase không? (Các giao dịch trùng ID sẽ bị ghi đè)`)) {
-        return;
-    }
-    
-    updateSupabaseStatusUI('syncing');
-    
-    try {
-        const { error } = await supabaseClient
-            .from('expenses')
-            .upsert(state.expenses.map(e => ({
-                id: e.id,
-                date: e.date,
-                title: e.title,
-                amount: e.amount
-            })));
-            
-        if (error) throw error;
-        
-        alert("Đồng bộ dữ liệu cục bộ lên đám mây thành công!");
-        fetchExpensesFromSupabase(); // Load lại
-        updateSupabaseStatusUI('connected');
-    } catch (err) {
-        console.error(err);
-        alert("Lỗi đồng bộ dữ liệu lên: " + err.message);
-        updateSupabaseStatusUI('connected');
-    }
 }
