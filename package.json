@@ -1,0 +1,14 @@
+{
+  "name": "qlct-mobile-app",
+  "version": "1.0.0",
+  "description": "Spending Management Mobile Web App",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

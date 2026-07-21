@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>iSpend - Quản Lý Chi Tiêu</title>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Debug Console Overlay to catch local browser errors -->
+    <div id="debug-console" style="position: fixed; bottom: 0; left: 0; right: 0; max-height: 250px; overflow-y: auto; background: #3c0000; color: #fff; font-family: monospace; font-size: 13px; z-index: 100000; padding: 15px; border-top: 3px solid #ff453a; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); display: none;">
+        <strong style="color: #ff9f0a;">🔍 iSpend Debug Console (Phát hiện lỗi):</strong>
+        <pre id="debug-log" style="margin-top: 8px; white-space: pre-wrap; line-height: 1.4; color: #eee;"></pre>
+    </div>
+    <script>
+        (function() {
+            const consoleEl = document.getElementById('debug-console');
+            const logEl = document.getElementById('debug-log');
+            function showLog(msg) {
+                consoleEl.style.display = 'block';
+                logEl.textContent += msg + '\n';
+            }
+            window.onerror = function(message, source, lineno, colno, error) {
+                // Bỏ qua lỗi "Script error." vì đây là lỗi bảo mật CORS khi trình duyệt chặn CDN ngoại tuyến.
+                // Chúng ta đã có chế độ vẽ biểu đồ bằng SVG tự động dự phòng ngoại tuyến.
+                if (message === 'Script error.' && lineno === 0) {
+                    console.warn('CORS CDN Blocked - Running in offline fallback mode.');
+                    return true;
+                }
+                showLog('❌ LỖI: ' + message + '\nTại: ' + source + ' (Dòng ' + lineno + ', Cột ' + colno + ')');
+                return false;
+            };
+            window.onunhandledrejection = function(event) {
+                showLog('⚠️ HỨA BỊ TỪ CHỐI: ' + event.reason);
+            };
+        })();
+    </script>
+
+    <div class="app-container">
+        <!-- iOS Status Bar Background Spacer for viewport-fit=cover -->
+        <div class="ios-status-bar-spacer"></div>
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-left">
+                <span class="date-today" id="current-date">Thứ Ba, 21 Tháng 7</span>
+                <h1 class="header-title">iSpend</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn settings-btn" id="btn-backup-trigger" title="Sao lưu dữ liệu">
+                    <i data-lucide="database"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT PANELS (Tabs) -->
+        <main class="app-main">
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="tab-panel active">
+                <!-- Summary Cards Row -->
+                <div class="summary-cards">
+                    <div class="card card-today">
+                        <div class="card-icon"><i data-lucide="calendar"></i></div>
+                        <span class="card-label">Hôm nay</span>
+                        <h2 class="card-amount" id="sum-today">0đ</h2>
+                    </div>
+                    <div class="card card-week">
+                        <div class="card-icon"><i data-lucide="trending-up"></i></div>
+                        <span class="card-label">Tuần này</span>
+                        <h2 class="card-amount" id="sum-week">0đ</h2>
+                    </div>
+                    <div class="card card-month">
+                        <div class="card-icon"><i data-lucide="credit-card"></i></div>
+                        <span class="card-label">Tháng này</span>
+                        <h2 class="card-amount" id="sum-month">0đ</h2>
+                    </div>
+                </div>
+
+
+
+                <!-- Weekly Chart -->
+                <div class="section-card chart-card">
+                    <div class="section-header">
+                        <h3>Xu hướng tuần này</h3>
+                        <span class="chart-subtitle">7 ngày gần nhất</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Spendings -->
+                <div class="recent-section">
+                    <div class="section-header">
+                        <h3>Giao dịch gần đây</h3>
+                        <button class="text-link-btn" id="btn-see-all">Xem tất cả</button>
+                    </div>
+                    <div class="spending-list compact-list" id="recent-spendings-list">
+                        <!-- Dynamic content -->
+                        <div class="empty-state">
+                            <i data-lucide="inbox"></i>
+                            <p>Chưa có chi tiêu nào. Bấm (+) để thêm!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: HISTORY (TRANSACTIONS) -->
+            <section id="tab-history" class="tab-panel">
+                <div class="history-controls">
+                    <div class="search-bar">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Tìm kiếm chi tiêu, ghi chú...">
+                    </div>
+                    <div class="filter-scroll">
+                        <button class="filter-tag active" data-category="all">Tất cả</button>
+                        <button class="filter-tag" data-category="Ăn uống">🍔 Ăn uống</button>
+                        <button class="filter-tag" data-category="Mua sắm">🛍️ Mua sắm</button>
+                        <button class="filter-tag" data-category="Di chuyển">🚗 Di chuyển</button>
+                        <button class="filter-tag" data-category="Giải trí">🎉 Giải trí</button>
+                        <button class="filter-tag" data-category="Hóa đơn">⚡ Hóa đơn</button>
+                        <button class="filter-tag" data-category="Khác">📦 Khác</button>
+                    </div>
+                </div>
+
+                <div class="spending-list" id="history-spendings-list">
+                    <!-- Dynamic history content -->
+                </div>
+            </section>
+
+            <!-- TAB 3: REPORTS & SETTINGS -->
+            <section id="tab-reports" class="tab-panel">
+                <!-- Doughnut Chart for monthly categories -->
+                <div class="section-card chart-card">
+                    <div class="section-header">
+                        <h3>Cơ cấu chi tiêu tháng</h3>
+                        <span class="chart-subtitle" id="report-month-year">Tháng này</span>
+                    </div>
+                    <div class="chart-container doughnut-container">
+                        <canvas id="monthlyCategoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Category breakdown list -->
+                <div class="section-card category-breakdown-card">
+                    <div class="section-header">
+                        <h3>Chi tiết theo danh mục</h3>
+                    </div>
+                    <div class="category-breakdown-list" id="category-report-list">
+                        <!-- Dynamic breakdown -->
+                    </div>
+                </div>
+
+                <!-- Configuration & Backup -->
+                <div class="section-card settings-card">
+                    <div class="section-header">
+                        <h3>Cài đặt & Dữ liệu</h3>
+                    </div>
+                    <div class="settings-list">
+                        <!-- Google Sheets Sync Configuration -->
+                        <div class="setting-item flex-column">
+                            <div class="setting-info w-100">
+                                <span class="setting-title">Đồng bộ Google Sheets</span>
+                                <span class="setting-desc">Nhập URL của Google Apps Script để tự động lưu chi tiêu lên Trang tính.</span>
+                            </div>
+                            <div class="sync-input-row w-100">
+                                <input type="url" id="setting-sheets-url" placeholder="https://script.google.com/macros/s/.../exec" class="settings-input text-left w-100">
+                                <button type="button" class="btn btn-secondary btn-icon-only" id="btn-test-sync" title="Kiểm tra kết nối">
+                                    Kiểm tra
+                                </button>
+                            </div>
+                            <div class="sync-status-row w-100" style="margin-top: 4px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center;">
+                                <span id="sync-status-text" class="status-disconnected">❌ Chưa kết nối Google Sheets</span>
+                                <button type="button" class="btn-text-link-small" id="btn-sync-now" style="display: none;">Đồng bộ dữ liệu cũ</button>
+                            </div>
+                        </div>
+
+                        <div class="setting-item actions-row">
+                            <button class="btn btn-secondary" id="btn-export-data">
+                                <i data-lucide="download"></i> Xuất dữ liệu (JSON)
+                            </button>
+                            <button class="btn btn-secondary" id="btn-import-data-trigger">
+                                <i data-lucide="upload"></i> Nhập dữ liệu
+                            </button>
+                            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                        </div>
+                        <div class="setting-item">
+                            <button class="btn btn-danger-link" id="btn-clear-all-data">
+                                <i data-lucide="trash-2"></i> Xóa toàn bộ dữ liệu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- BOTTOM NAVIGATION BAR -->
+        <nav class="app-nav">
+            <button class="nav-item active" data-tab="dashboard">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Tổng quan</span>
+            </button>
+            <button class="nav-item" data-tab="history">
+                <i data-lucide="receipt"></i>
+                <span>Lịch sử</span>
+            </button>
+            <!-- Center Add button -->
+            <button class="nav-item-add" id="btn-open-add-modal" aria-label="Thêm chi tiêu">
+                <i data-lucide="plus"></i>
+            </button>
+            <button class="nav-item" data-tab="reports">
+                <i data-lucide="pie-chart"></i>
+                <span>Báo cáo</span>
+            </button>
+        </nav>
+
+    <!-- BOTTOM SHEET MODAL (ADD EXPENSE) -->
+    <div class="modal-overlay" id="add-expense-modal">
+        <div class="modal-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header">
+                <h2>Thêm Chi Tiêu Mới</h2>
+                <button class="modal-close-btn" id="btn-close-modal"><i data-lucide="x"></i></button>
+            </div>
+            
+            <form id="add-expense-form" class="modal-form">
+                <!-- Amount input (Huge, like Apple Pay / iOS style) -->
+                <div class="amount-input-container">
+                    <span class="currency-symbol">₫</span>
+                    <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required>
+                </div>
+
+                <!-- Camera / Image Upload Zone -->
+                <div class="photo-upload-zone" id="photo-dropzone">
+                    <input type="file" id="expense-image-input" accept="image/*" capture="environment" style="display: none;">
+                    <div class="upload-placeholder" id="upload-placeholder-content">
+                        <i data-lucide="camera"></i>
+                        <span>Chụp ảnh hóa đơn / món đồ</span>
+                        <span class="upload-sub">Nhấp để mở Camera hoặc chọn ảnh</span>
+                    </div>
+                    <div class="image-preview-container" id="image-preview-container" style="display: none;">
+                        <img src="" alt="Preview" id="image-preview">
+                        <button type="button" class="remove-photo-btn" id="btn-remove-photo">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="form-fields">
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="expense-title">Tên món đồ / Nội dung</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="tag" class="field-icon"></i>
+                            <input type="text" id="expense-title" placeholder="Ví dụ: Ăn trưa, Cà phê, Xăng xe..." required>
+                        </div>
+                    </div>
+
+                    <!-- Category tag selector -->
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <div class="category-grid" id="category-selector-grid">
+                            <div class="category-tag-option active" data-val="Ăn uống">🍔 Ăn uống</div>
+                            <div class="category-tag-option" data-val="Mua sắm">🛍️ Mua sắm</div>
+                            <div class="category-tag-option" data-val="Di chuyển">🚗 Di chuyển</div>
+                            <div class="category-tag-option" data-val="Giải trí">🎉 Giải trí</div>
+                            <div class="category-tag-option" data-val="Hóa đơn">⚡ Hóa đơn</div>
+                            <div class="category-tag-option" data-val="Khác">📦 Khác</div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Notes Grid -->
+                    <div class="form-row-grid">
+                        <div class="form-group">
+                            <label for="expense-date">Ngày chi tiêu</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="calendar" class="field-icon"></i>
+                                <input type="date" id="expense-date" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-notes">Ghi chú (Tùy chọn)</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="file-text" class="field-icon"></i>
+                            <input type="text" id="expense-notes" placeholder="Ghi chú thêm thông tin...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions-row">
+                    <button type="button" class="btn btn-secondary btn-cancel" id="btn-cancel-add">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <i data-lucide="check"></i> Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL VIEW MODAL (FOR HISTORY VIEWING) -->
+    <div class="modal-overlay" id="detail-expense-modal">
+        <div class="modal-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header">
+                <h2>Chi Tiết Chi Tiêu</h2>
+                <button class="modal-close-btn" id="btn-close-detail"><i data-lucide="x"></i></button>
+            </div>
+            <div class="detail-body">
+                <div class="detail-amount-display">
+                    <span id="detail-amount">0đ</span>
+                    <span class="detail-category-badge" id="detail-category">Danh mục</span>
+                </div>
+                
+                <div class="detail-info-list">
+                    <div class="detail-info-item">
+                        <span class="info-label">Nội dung</span>
+                        <span class="info-value" id="detail-title">Tên món đồ</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="info-label">Ngày chi tiêu</span>
+                        <span class="info-value" id="detail-date">Ngày</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="info-label">Ghi chú</span>
+                        <span class="info-value" id="detail-notes">-</span>
+                    </div>
+                </div>
+
+                <div class="detail-photo-container" id="detail-photo-container" style="display: none;">
+                    <span class="info-label">Hình ảnh đính kèm</span>
+                    <div class="detail-photo-wrapper">
+                        <img src="" id="detail-photo" alt="Ảnh hóa đơn">
+                    </div>
+                </div>
+
+                <div class="detail-actions">
+                    <button class="btn btn-danger" id="btn-delete-expense">
+                        <i data-lucide="trash-2"></i> Xóa khoản chi này
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="js/chart-config.js" defer></script>
+    <script src="js/app.js" defer></script>
+</body>
+</html>
