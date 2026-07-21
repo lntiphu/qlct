@@ -8,8 +8,11 @@ const state = {
     expenses: [],
     currentTab: 'dashboard',
     searchQuery: '',
-    sheetsUrl: null // Đường dẫn Google Apps Script Web App
+    supabaseUrl: null,
+    supabaseKey: null
 };
+let supabaseClient = null;
+let supabaseSubscription = null;
 
 // KHỞI CHẠY ỨNG DỤNG
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,14 +41,19 @@ function loadData() {
 
 
 
-    const savedUrl = localStorage.getItem('ispend_sheets_url');
-    if (savedUrl) {
-        state.sheetsUrl = savedUrl;
-        // Chờ DOM load xong rồi gán giá trị
+    const savedUrl = localStorage.getItem('ispend_supabase_url');
+    const savedKey = localStorage.getItem('ispend_supabase_key');
+    if (savedUrl && savedKey) {
+        state.supabaseUrl = savedUrl;
+        state.supabaseKey = savedKey;
+        // Chờ DOM load xong rồi gán giá trị và init
         setTimeout(() => {
-            const input = document.getElementById('setting-sheets-url');
-            if (input) input.value = savedUrl;
-            updateSyncStatusUI('connected');
+            const urlInput = document.getElementById('setting-supabase-url');
+            const keyInput = document.getElementById('setting-supabase-key');
+            if (urlInput) urlInput.value = savedUrl;
+            if (keyInput) keyInput.value = savedKey;
+            
+            initSupabase();
         }, 100);
     }
 }
@@ -202,20 +210,26 @@ function registerEventListeners() {
     // Xóa toàn bộ dữ liệu
     document.getElementById('btn-clear-all-data').addEventListener('click', clearAllData);
 
-    // Cấu hình URL đồng bộ Google Sheets
-    const sheetsUrlInput = document.getElementById('setting-sheets-url');
-    sheetsUrlInput.addEventListener('input', (e) => {
-        state.sheetsUrl = e.target.value.trim();
-        if (!state.sheetsUrl) {
-            localStorage.removeItem('ispend_sheets_url');
-            updateSyncStatusUI('disconnected');
+    // Cấu hình URL và Key Supabase
+    document.getElementById('setting-supabase-url').addEventListener('input', (e) => {
+        state.supabaseUrl = e.target.value.trim();
+        if (!state.supabaseUrl) {
+            localStorage.removeItem('ispend_supabase_url');
+            updateSupabaseStatusUI('disconnected');
+        }
+    });
+    
+    document.getElementById('setting-supabase-key').addEventListener('input', (e) => {
+        state.supabaseKey = e.target.value.trim();
+        if (!state.supabaseKey) {
+            localStorage.removeItem('ispend_supabase_key');
+            updateSupabaseStatusUI('disconnected');
         }
     });
 
-    // Các nút kiểm tra kết nối & đồng bộ dữ liệu
-    document.getElementById('btn-test-sync').addEventListener('click', testSyncConnection);
-    document.getElementById('btn-sync-now').addEventListener('click', syncAllUnsynced);
-    document.getElementById('btn-pull-sheets').addEventListener('click', pullDataFromSheets);
+    // Các nút kết nối & đồng bộ dữ liệu
+    document.getElementById('btn-connect-supabase').addEventListener('click', connectSupabase);
+    document.getElementById('btn-sync-local-to-supabase').addEventListener('click', syncLocalToSupabase);
 }
 
 // XỬ LÝ CHUYỂN TAB
@@ -313,14 +327,23 @@ function handleAddExpenseSubmit(e) {
     state.expenses.unshift(newExpense); // Đưa lên hàng đầu tiên
     saveData();
 
-    // Tự động đồng bộ lên Google Sheets trong nền (nếu đã cấu hình)
-    if (state.sheetsUrl) {
-        syncToGoogleSheets(newExpense).then(success => {
-            if (success) {
-                console.log("Tự động đồng bộ giao dịch mới lên Google Sheets thành công.");
-                updateSyncStatusUI('connected'); // Cập nhật lại số lượng hàng chưa đồng bộ
-            }
-        });
+    // Tự động đồng bộ lên Supabase trong nền (nếu đã cấu hình)
+    if (supabaseClient) {
+        supabaseClient
+            .from('expenses')
+            .insert([{
+                id: newExpense.id,
+                date: newExpense.date,
+                title: newExpense.title,
+                amount: newExpense.amount
+            }])
+            .then(({ error }) => {
+                if (error) {
+                    console.error("Lỗi khi thêm giao dịch lên Supabase:", error);
+                } else {
+                    console.log("Đã thêm giao dịch lên Supabase thành công.");
+                }
+            });
     }
 
     // Đóng modal và reset
@@ -342,27 +365,19 @@ function deleteExpense(id) {
     saveData();
     updateUI();
 
-    // Nếu đã kết nối Google Sheets, tự động gửi yêu cầu xóa dòng tương ứng
-    if (state.sheetsUrl && expenseToDelete) {
-        fetch(state.sheetsUrl, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify({
-                action: "delete",
-                id: id
-            })
-        }).then(response => response.json())
-          .then(result => {
-              if (result && result.status === 'success') {
-                  console.log("Đã xóa giao dịch thành công trên Google Sheets.");
-                  updateSyncStatusUI('connected');
-              }
-          }).catch(err => {
-              console.error("Lỗi khi gửi yêu cầu xóa lên Google Sheets:", err);
-          });
+    // Nếu đã kết nối Supabase, tự động xóa dòng tương ứng
+    if (supabaseClient) {
+        supabaseClient
+            .from('expenses')
+            .delete()
+            .eq('id', id)
+            .then(({ error }) => {
+                if (error) {
+                    console.error("Lỗi khi xóa giao dịch trên Supabase:", error);
+                } else {
+                    console.log("Đã xóa giao dịch thành công trên Supabase.");
+                }
+            });
     }
 }
 
@@ -371,11 +386,11 @@ function updateUI() {
     calculateAndRenderSummaries();
     renderRecentSpendings();
 
-    // Cập nhật hiển thị trạng thái đồng bộ Google Sheets
-    if (state.sheetsUrl) {
-        updateSyncStatusUI('connected');
+    // Cập nhật hiển thái trạng thái đồng bộ Supabase
+    if (supabaseClient) {
+        updateSupabaseStatusUI('connected');
     } else {
-        updateSyncStatusUI('disconnected');
+        updateSupabaseStatusUI('disconnected');
     }
     
     if (state.currentTab === 'dashboard') {
@@ -679,174 +694,181 @@ function createLucideIcons() {
 }
 
 // ==========================================================================
-// GOOGLE SHEETS SYNCHRONIZATION HELPERS
+// SUPABASE SYNCHRONIZATION HELPERS
 // ==========================================================================
 
-// Hàm kiểm tra trạng thái và cập nhật giao diện kết nối
-function updateSyncStatusUI(status) {
-    const statusText = document.getElementById('sync-status-text');
-    const syncNowBtn = document.getElementById('btn-sync-now');
-    const pullSheetsBtn = document.getElementById('btn-pull-sheets');
-    if (!statusText || !syncNowBtn || !pullSheetsBtn) return;
+// Kiểm tra và cập nhật giao diện kết nối Supabase
+function updateSupabaseStatusUI(status) {
+    const statusText = document.getElementById('supabase-status-text');
+    const syncNowBtn = document.getElementById('btn-sync-local-to-supabase');
+    if (!statusText || !syncNowBtn) return;
     
     if (status === 'connected') {
-        statusText.innerText = "🟢 Đã kết nối Google Sheets";
+        statusText.innerText = "🟢 Đã kết nối Supabase Real-time";
         statusText.className = "status-connected";
-        pullSheetsBtn.style.display = 'block';
-        // Đếm số dòng chưa được đồng bộ (không có cờ synced)
-        const unsyncedCount = state.expenses.filter(e => !e.synced).length;
-        if (unsyncedCount > 0) {
-            syncNowBtn.style.display = 'block';
-            syncNowBtn.innerText = `Đồng bộ ${unsyncedCount} dữ liệu cũ`;
-        } else {
-            syncNowBtn.style.display = 'none';
-        }
+        syncNowBtn.style.display = 'block';
     } else if (status === 'syncing') {
-        statusText.innerText = "🟡 Đang đồng bộ...";
+        statusText.innerText = "🟡 Đang kết nối...";
         statusText.className = "status-syncing";
         syncNowBtn.style.display = 'none';
-        pullSheetsBtn.style.display = 'none';
     } else {
-        statusText.innerText = "❌ Chưa kết nối Google Sheets";
+        statusText.innerText = "❌ Chưa kết nối Supabase";
         statusText.className = "status-disconnected";
         syncNowBtn.style.display = 'none';
-        pullSheetsBtn.style.display = 'none';
     }
 }
 
-// Đồng bộ một giao dịch đơn lẻ lên Google Sheets
-async function syncToGoogleSheets(expense) {
-    if (!state.sheetsUrl) return false;
-    
-    try {
-        const response = await fetch(state.sheetsUrl, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'text/plain' // Bỏ qua CORS preflight của trình duyệt
-            },
-            body: JSON.stringify(expense)
-        });
-        
-        const result = await response.json();
-        if (result && result.status === 'success') {
-            expense.synced = true;
-            saveData();
-            return true;
-        }
-        return false;
-    } catch (err) {
-        console.error("Lỗi kết nối đồng bộ:", err);
-        return false;
-    }
-}
-
-// Kiểm tra kết nối đến Web App Apps Script
-async function testSyncConnection() {
-    if (!state.sheetsUrl) {
-        alert('Vui lòng nhập URL Web App Google Apps Script trước!');
+// Khởi tạo Supabase Client và Đăng ký Real-time listener
+function initSupabase() {
+    if (typeof supabase === 'undefined') {
+        console.warn("Supabase SDK is not loaded.");
         return;
     }
     
-    updateSyncStatusUI('syncing');
+    if (!state.supabaseUrl || !state.supabaseKey) return;
     
     try {
-        const response = await fetch(state.sheetsUrl, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify({ test: true })
-        });
+        supabaseClient = supabase.createClient(state.supabaseUrl, state.supabaseKey);
         
-        const result = await response.json();
-        if (result && result.status === 'success') {
-            localStorage.setItem('ispend_sheets_url', state.sheetsUrl);
-            alert('Kết nối đến Google Sheets thành công!');
-            updateSyncStatusUI('connected');
-        } else {
-            alert('Kết nối thất bại: ' + (result ? result.message : 'Phản hồi không hợp lệ'));
-            updateSyncStatusUI('disconnected');
+        // 1. Tải toàn bộ chi tiêu từ Cloud về máy lần đầu
+        fetchExpensesFromSupabase();
+        
+        // 2. Đăng ký nhận sự thay đổi dữ liệu thời gian thực (Real-time listener)
+        if (supabaseSubscription) {
+            supabaseSubscription.unsubscribe();
         }
+        
+        supabaseSubscription = supabaseClient
+            .channel('expenses-realtime')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, payload => {
+                handleRealtimeDbChange(payload);
+            })
+            .subscribe();
+            
+        updateSupabaseStatusUI('connected');
     } catch (err) {
-        console.error(err);
-        alert('Kết nối thất bại. Chắc chắn bạn đã Deploy Web App ở chế độ "Anyone" công khai!\nChi tiết lỗi: ' + err.toString());
-        updateSyncStatusUI('disconnected');
+        console.error("Lỗi khởi tạo Supabase:", err);
+        updateSupabaseStatusUI('disconnected');
     }
 }
 
-// Đồng bộ tất cả dữ liệu cũ chưa sync
-async function syncAllUnsynced() {
-    const unsyncedItems = state.expenses.filter(e => !e.synced);
-    if (unsyncedItems.length === 0) return;
-    
-    updateSyncStatusUI('syncing');
-    
+// Lấy danh sách chi tiêu từ Supabase
+async function fetchExpensesFromSupabase() {
+    if (!supabaseClient) return;
     try {
-        const response = await fetch(state.sheetsUrl, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify(unsyncedItems)
-        });
+        const { data, error } = await supabaseClient
+            .from('expenses')
+            .select('*')
+            .order('date', { ascending: false });
+            
+        if (error) throw error;
         
-        const result = await response.json();
-        if (result && result.status === 'success') {
-            unsyncedItems.forEach(item => {
-                item.synced = true;
-            });
+        if (data) {
+            state.expenses = data;
             saveData();
-            alert(`Đồng bộ thành công ${unsyncedItems.length} khoản chi tiêu lên Google Trang tính!`);
-            updateSyncStatusUI('connected');
             updateUI();
-        } else {
-            alert('Đồng bộ thất bại: ' + (result ? result.message : 'Không phản hồi'));
-            updateSyncStatusUI('connected');
         }
     } catch (err) {
-        console.error(err);
-        alert('Lỗi kết nối đồng bộ loạt: ' + err.toString());
-        updateSyncStatusUI('connected');
+        console.error("Lỗi khi fetch chi tiêu từ Supabase:", err);
     }
 }
 
-// Tải dữ liệu ngược từ Google Sheets về máy
-async function pullDataFromSheets() {
-    if (!state.sheetsUrl) return;
+// Xử lý sự kiện Real-time từ DB
+function handleRealtimeDbChange(payload) {
+    console.log("Phát hiện thay đổi DB Real-time:", payload);
+    const eventType = payload.eventType;
+    const newRecord = payload.new;
+    const oldRecord = payload.old;
     
-    if (!confirm("Hành động này sẽ tải về toàn bộ chi tiêu từ Google Sheets và ghi đè lên dữ liệu chi tiêu hiện tại trên máy bạn. Bạn có muốn tiếp tục không?")) {
+    if (eventType === 'INSERT') {
+        if (!state.expenses.some(e => e.id === newRecord.id)) {
+            state.expenses.unshift(newRecord);
+            state.expenses.sort((a, b) => b.date.localeCompare(a.date));
+        }
+    } else if (eventType === 'DELETE') {
+        state.expenses = state.expenses.filter(e => e.id !== oldRecord.id);
+    } else if (eventType === 'UPDATE') {
+        const idx = state.expenses.findIndex(e => e.id === newRecord.id);
+        if (idx !== -1) {
+            state.expenses[idx] = newRecord;
+            state.expenses.sort((a, b) => b.date.localeCompare(a.date));
+        }
+    }
+    
+    saveData();
+    updateUI();
+}
+
+// Bấm kết nối Supabase từ UI Cài đặt
+async function connectSupabase() {
+    const urlInput = document.getElementById('setting-supabase-url').value.trim();
+    const keyInput = document.getElementById('setting-supabase-key').value.trim();
+    
+    if (!urlInput || !keyInput) {
+        alert("Vui lòng nhập cả URL dự án và Anon Key!");
         return;
     }
     
-    updateSyncStatusUI('syncing');
+    updateSupabaseStatusUI('syncing');
     
     try {
-        const response = await fetch(state.sheetsUrl, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify({ action: 'fetch' })
-        });
+        const testClient = supabase.createClient(urlInput, keyInput);
         
-        const result = await response.json();
-        if (result && result.status === 'success' && Array.isArray(result.expenses)) {
-            state.expenses = result.expenses;
-            saveData();
-            updateUI();
-            alert(`Tải thành công ${result.expenses.length} khoản chi tiêu từ Google Sheets về máy!`);
-            updateSyncStatusUI('connected');
-        } else {
-            alert('Tải dữ liệu thất bại: ' + (result ? result.message : 'Không có phản hồi'));
-            updateSyncStatusUI('connected');
-        }
+        // Thử thực hiện một truy vấn SELECT đơn giản để kiểm tra kết nối
+        const { data, error } = await testClient
+            .from('expenses')
+            .select('id')
+            .limit(1);
+            
+        if (error) throw error;
+        
+        // Lưu thông tin kết nối thành công
+        state.supabaseUrl = urlInput;
+        state.supabaseKey = keyInput;
+        localStorage.setItem('ispend_supabase_url', urlInput);
+        localStorage.setItem('ispend_supabase_key', keyInput);
+        
+        supabaseClient = testClient;
+        
+        // Triển khai kết nối thực tế
+        initSupabase();
+        
+        alert("Kết nối Supabase thành công! Dữ liệu sẽ tự động đồng bộ thời gian thực.");
     } catch (err) {
         console.error(err);
-        alert('Lỗi kết nối tải dữ liệu: ' + err.toString());
-        updateSyncStatusUI('connected');
+        alert("Kết nối thất bại! Hãy chắc chắn bạn đã tạo bảng 'expenses' đúng cấu trúc trong Supabase và RLS đã được cấu hình cho phép truy cập public.\nChi tiết lỗi: " + err.message);
+        updateSupabaseStatusUI('disconnected');
+    }
+}
+
+// Đồng bộ ngược dữ liệu cũ từ máy lên Supabase
+async function syncLocalToSupabase() {
+    if (!supabaseClient || state.expenses.length === 0) return;
+    
+    if (!confirm(`Bạn có muốn đẩy toàn bộ ${state.expenses.length} khoản chi tiêu hiện tại trên máy lên đám mây Supabase không? (Các giao dịch trùng ID sẽ bị ghi đè)`)) {
+        return;
+    }
+    
+    updateSupabaseStatusUI('syncing');
+    
+    try {
+        const { error } = await supabaseClient
+            .from('expenses')
+            .upsert(state.expenses.map(e => ({
+                id: e.id,
+                date: e.date,
+                title: e.title,
+                amount: e.amount
+            })));
+            
+        if (error) throw error;
+        
+        alert("Đồng bộ dữ liệu cục bộ lên đám mây thành công!");
+        fetchExpensesFromSupabase(); // Load lại
+        updateSupabaseStatusUI('connected');
+    } catch (err) {
+        console.error(err);
+        alert("Lỗi đồng bộ dữ liệu lên: " + err.message);
+        updateSupabaseStatusUI('connected');
     }
 }
