@@ -3,17 +3,6 @@
  */
 
 let weeklyChartInstance = null;
-let monthlyCategoryChartInstance = null;
-
-// Cấu hình màu sắc phù hợp với hệ thống CSS variables
-const CATEGORY_COLORS = {
-    "Ăn uống": "#ff9f0a",   // Cam
-    "Mua sắm": "#bf5af2",   // Tím
-    "Di chuyển": "#0a84ff", // Xanh dương
-    "Giải trí": "#ff453a",  // Đỏ
-    "Hóa đơn": "#5e5ce6",   // Indigo
-    "Khác": "#8e8e93"       // Xám
-};
 
 /**
  * Khởi tạo biểu đồ xu hướng tuần (Bar Chart)
@@ -135,97 +124,7 @@ function initWeeklyChart(canvasId, labels, data) {
     });
 }
 
-/**
- * Khởi tạo biểu đồ phân bố danh mục tháng (Doughnut Chart)
- * @param {string} canvasId 
- * @param {Array} labels - Danh sách các danh mục có chi tiêu
- * @param {Array} data - Số tiền chi tiêu
- */
-function initMonthlyCategoryChart(canvasId, labels, data) {
-    const canvasEl = document.getElementById(canvasId);
-    if (!canvasEl) return;
-    const container = canvasEl.parentElement;
 
-    // KIỂM TRA NẾU KHÔNG CÓ THƯ VIỆN CHART.JS (CHẠY OFFLINE)
-    if (typeof Chart === 'undefined') {
-        console.warn("Chart.js is not loaded. Using offline SVG fallback for monthly chart.");
-        
-        // Ẩn canvas
-        canvasEl.style.display = 'none';
-        
-        // Tìm hoặc tạo wrapper cho SVG
-        let svgWrapper = container.querySelector('.svg-chart-wrapper');
-        if (!svgWrapper) {
-            svgWrapper = document.createElement('div');
-            svgWrapper.className = 'svg-chart-wrapper';
-            svgWrapper.style.width = '100%';
-            svgWrapper.style.height = '100%';
-            svgWrapper.style.display = 'flex';
-            svgWrapper.style.justifyContent = 'center';
-            svgWrapper.style.alignItems = 'center';
-            container.appendChild(svgWrapper);
-        } else {
-            svgWrapper.style.display = 'flex';
-        }
-        
-        drawSVGDoughnutChart(svgWrapper, labels, data);
-        return;
-    }
-
-    // Nếu có Chart.js, ẩn SVG wrapper (nếu có) và hiện canvas
-    const svgWrapper = container.querySelector('.svg-chart-wrapper');
-    if (svgWrapper) svgWrapper.style.display = 'none';
-    canvasEl.style.display = 'block';
-
-    const ctx = canvasEl.getContext('2d');
-    if (monthlyCategoryChartInstance) {
-        monthlyCategoryChartInstance.destroy();
-    }
-
-    if (labels.length === 0) {
-        labels = ['Chưa có dữ liệu'];
-        data = [1];
-    }
-
-    const colors = labels.map(label => CATEGORY_COLORS[label] || '#8e8e93');
-
-    monthlyCategoryChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: colors,
-                borderWidth: 0,
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '75%',
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            if (context.label === 'Chưa có dữ liệu') return ' Chưa có dữ liệu';
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const val = context.parsed;
-                            const pct = ((val / total) * 100).toFixed(1) + '%';
-                            return ` ${context.label}: ${formatCurrency(val)} (${pct})`;
-                        }
-                    },
-                    backgroundColor: '#2c2c2e',
-                    padding: 10,
-                    cornerRadius: 8
-                }
-            }
-        }
-    });
-}
 
 /**
  * Vẽ biểu đồ cột tuần bằng SVG (Chạy Offline không cần thư viện)
@@ -299,66 +198,7 @@ function drawSVGWeeklyChart(wrapper, labels, data) {
     `;
 }
 
-/**
- * Vẽ biểu đồ hình tròn phân bổ tháng bằng SVG (Chạy Offline không cần thư viện)
- */
-function drawSVGDoughnutChart(wrapper, labels, data) {
-    const width = 200;
-    const height = 200;
-    const radius = 60;
-    const strokeWidth = 16;
-    const cx = width / 2;
-    const cy = height / 2;
-    const circumference = 2 * Math.PI * radius;
-    
-    let total = data.reduce((a, b) => a + b, 0);
-    
-    if (total === 0 || labels.length === 0) {
-        wrapper.innerHTML = `
-            <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}">
-                <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="${strokeWidth}" />
-                <text x="${cx}" y="${cy + 4}" fill="rgba(255,255,255,0.3)" font-size="11" text-anchor="middle" font-family="Plus Jakarta Sans">Không có dữ liệu chi tiêu</text>
-            </svg>
-        `;
-        return;
-    }
-    
-    let currentOffset = 0;
-    let segmentsHtml = '';
-    
-    labels.forEach((label, index) => {
-        const val = data[index];
-        const percent = val / total;
-        const strokeLength = percent * circumference;
-        const strokeOffset = circumference - currentOffset;
-        currentOffset += strokeLength;
-        
-        const color = CATEGORY_COLORS[label] || '#8e8e93';
-        
-        segmentsHtml += `
-            <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${color}" 
-                    stroke-width="${strokeWidth}" 
-                    stroke-dasharray="${strokeLength} ${circumference}" 
-                    stroke-dashoffset="${-strokeOffset + strokeLength}"
-                    transform="rotate(-90 ${cx} ${cy})"
-                    style="transition: stroke-width 0.2s; cursor: pointer;">
-                <title>${label}: ${formatCurrency(val)} (${(percent*100).toFixed(1)}%)</title>
-            </circle>
-        `;
-    });
-    
-    // Vẽ phần chữ tổng tiền ở tâm hình tròn
-    segmentsHtml += `
-        <text x="${cx}" y="${cy - 3}" fill="rgba(255,255,255,0.5)" font-size="9" font-weight="600" text-anchor="middle" font-family="Plus Jakarta Sans" letter-spacing="0.5">TỔNG CHI</text>
-        <text x="${cx}" y="${cy + 11}" fill="#ffffff" font-size="12" font-weight="800" text-anchor="middle" font-family="Plus Jakarta Sans">${formatCurrency(total).replace('đ','')}</text>
-    `;
-    
-    wrapper.innerHTML = `
-        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="overflow: visible;">
-            ${segmentsHtml}
-        </svg>
-    `;
-}
+
 
 // Hàm hỗ trợ định dạng tiền tệ trong chart
 function formatCurrency(amount) {

@@ -6,31 +6,9 @@
 // STATE SYSTEM
 const state = {
     expenses: [],
-    budget: 10000000, // Hạn mức tháng mặc định (10 triệu VND)
     currentTab: 'dashboard',
-    activeCategoryFilter: 'all',
     searchQuery: '',
-    newExpenseImage: null, // Lưu trữ base64 của ảnh mới chụp/chọn
     sheetsUrl: null // Đường dẫn Google Apps Script Web App
-};
-
-// CATEGORY ICON CONFIG
-const CATEGORY_ICONS = {
-    "Ăn uống": "🍔",
-    "Mua sắm": "🛍️",
-    "Di chuyển": "🚗",
-    "Giải trí": "🎉",
-    "Hóa đơn": "⚡",
-    "Khác": "📦"
-};
-
-const CATEGORY_CLASSES = {
-    "Ăn uống": "cat-anuong",
-    "Mua sắm": "cat-muasam",
-    "Di chuyển": "cat-dichuyen",
-    "Giải trí": "cat-giaitri",
-    "Hóa đơn": "cat-hoadon",
-    "Khác": "cat-khac"
 };
 
 // KHỞI CHẠY ỨNG DỤNG
@@ -58,10 +36,7 @@ function loadData() {
         saveData();
     }
 
-    const savedBudget = localStorage.getItem('ispend_budget');
-    if (savedBudget) {
-        state.budget = parseInt(savedBudget, 10);
-    }
+
 
     const savedUrl = localStorage.getItem('ispend_sheets_url');
     if (savedUrl) {
@@ -78,7 +53,6 @@ function loadData() {
 // LƯU DỮ LIỆU XUỐNG LOCALSTORAGE
 function saveData() {
     localStorage.setItem('ispend_expenses', JSON.stringify(state.expenses));
-    localStorage.setItem('ispend_budget', state.budget.toString());
 }
 
 // DỮ LIỆU MẪU BAN ĐẦU
@@ -171,15 +145,6 @@ function registerEventListeners() {
         if (e.target.id === 'add-expense-modal') closeAddModal();
     });
 
-    // Chọn danh mục ở Form Thêm Chi Tiêu
-    const categoryOptions = document.querySelectorAll('#category-selector-grid .category-tag-option');
-    categoryOptions.forEach(opt => {
-        opt.addEventListener('click', () => {
-            categoryOptions.forEach(o => o.classList.remove('active'));
-            opt.classList.add('active');
-        });
-    });
-
     // Định dạng số tiền nhập trực tiếp (Chỉ cho phép số và thêm dấu phẩy phân cách hàng nghìn)
     const amountInput = document.getElementById('expense-amount');
     amountInput.addEventListener('input', (e) => {
@@ -192,29 +157,6 @@ function registerEventListeners() {
         } else {
             e.target.value = '';
         }
-    });
-
-    // Upload & Chụp ảnh hóa đơn
-    const uploadZone = document.getElementById('photo-dropzone');
-    const imageInput = document.getElementById('expense-image-input');
-    
-    uploadZone.addEventListener('click', (e) => {
-        // Tránh kích hoạt lại khi bấm nút Xóa ảnh
-        if (e.target.closest('#btn-remove-photo')) return;
-        imageInput.click();
-    });
-
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            processAndPreviewImage(file);
-        }
-    });
-
-    // Xóa ảnh đã đính kèm
-    document.getElementById('btn-remove-photo').addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeAttachedPhoto();
     });
 
     // Submit form thêm mới
@@ -233,16 +175,7 @@ function registerEventListeners() {
         renderHistoryList();
     });
 
-    // Lọc theo danh mục ở Lịch sử
-    const historyFilters = document.querySelectorAll('.history-controls .filter-tag');
-    historyFilters.forEach(tag => {
-        tag.addEventListener('click', () => {
-            historyFilters.forEach(t => t.classList.remove('active'));
-            tag.classList.add('active');
-            state.activeCategoryFilter = tag.getAttribute('data-category');
-            renderHistoryList();
-        });
-    });
+
 
 
 
@@ -374,7 +307,6 @@ function openAddModal() {
 function closeAddModal() {
     document.getElementById('add-expense-modal').classList.remove('active');
     document.getElementById('add-expense-form').reset();
-    removeAttachedPhoto();
 }
 
 function openDetailModal(expenseId) {
@@ -382,27 +314,8 @@ function openDetailModal(expenseId) {
     if (!exp) return;
 
     document.getElementById('detail-amount').innerText = formatCurrency(exp.amount);
-    
-    // Gán Badge Danh mục & màu sắc
-    const catBadge = document.getElementById('detail-category');
-    catBadge.innerText = `${CATEGORY_ICONS[exp.category]} ${exp.category}`;
-    catBadge.className = 'detail-category-badge'; // reset class
-    catBadge.classList.add(CATEGORY_CLASSES[exp.category]);
-
     document.getElementById('detail-title').innerText = exp.title;
     document.getElementById('detail-date').innerText = formatDateStringVietnamese(exp.date);
-    document.getElementById('detail-notes').innerText = exp.notes || 'Không có ghi chú';
-
-    // Hiển thị ảnh nếu có
-    const photoContainer = document.getElementById('detail-photo-container');
-    const photoImg = document.getElementById('detail-photo');
-    if (exp.image) {
-        photoImg.src = exp.image;
-        photoContainer.style.display = 'flex';
-    } else {
-        photoImg.src = '';
-        photoContainer.style.display = 'none';
-    }
 
     // Nút Xóa
     const deleteBtn = document.getElementById('btn-delete-expense');
@@ -436,23 +349,15 @@ function handleAddExpenseSubmit(e) {
     // Lấy tên/nội dung
     const title = document.getElementById('expense-title').value.trim();
     
-    // Lấy danh mục đang chọn
-    const activeCatEl = document.querySelector('#category-selector-grid .category-tag-option.active');
-    const category = activeCatEl ? activeCatEl.getAttribute('data-val') : 'Khác';
-
-    // Lấy ngày và ghi chú
+    // Lấy ngày
     const date = document.getElementById('expense-date').value;
-    const notes = document.getElementById('expense-notes').value.trim();
 
     // Tạo đối tượng chi tiêu mới
     const newExpense = {
         id: 'exp-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
         amount: amount,
         title: title,
-        category: category,
-        date: date,
-        notes: notes,
-        image: state.newExpenseImage
+        date: date
     };
 
     // Lưu vào state và LocalStorage
@@ -528,8 +433,6 @@ function updateUI() {
         renderDashboardCharts();
     } else if (state.currentTab === 'history') {
         renderHistoryList();
-    } else if (state.currentTab === 'reports') {
-        renderReportsTab();
     }
 }
 
@@ -616,19 +519,16 @@ function createTransactionDOMItem(exp) {
     const itemEl = document.createElement('div');
     itemEl.className = 'transaction-item';
     itemEl.onclick = () => openDetailModal(exp.id);
-
-    const hasPhotoHtml = exp.image ? `<span class="item-has-photo"><i data-lucide="image"></i> Ảnh đính kèm</span>` : '';
     
     itemEl.innerHTML = `
         <div class="item-left">
-            <div class="item-icon-wrapper ${CATEGORY_CLASSES[exp.category]}">
-                ${CATEGORY_ICONS[exp.category]}
+            <div class="item-icon-wrapper font-emoji" style="background-color: rgba(10, 132, 255, 0.12); color: #0a84ff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px;">
+                💰
             </div>
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
                 <div class="item-meta">
-                    <span>${exp.category}</span>
-                    ${hasPhotoHtml}
+                    <span>${formatDateStringVietnamese(exp.date)}</span>
                 </div>
             </div>
         </div>
@@ -671,18 +571,13 @@ function renderHistoryList() {
     const historyListContainer = document.getElementById('history-spendings-list');
     historyListContainer.innerHTML = '';
 
-    // Lọc dữ liệu theo Danh mục & Từ khóa tìm kiếm
+    // Lọc dữ liệu theo Từ khóa tìm kiếm
     let filtered = state.expenses;
-
-    if (state.activeCategoryFilter !== 'all') {
-        filtered = filtered.filter(exp => exp.category === state.activeCategoryFilter);
-    }
 
     if (state.searchQuery.trim() !== '') {
         const query = state.searchQuery.toLowerCase().trim();
         filtered = filtered.filter(exp => 
             exp.title.toLowerCase().includes(query) || 
-            (exp.notes && exp.notes.toLowerCase().includes(query)) ||
             exp.amount.toString().includes(query)
         );
     }
@@ -727,86 +622,7 @@ function renderHistoryList() {
     createLucideIcons();
 }
 
-// HIỂN THỊ TRANG BÁO CÁO (REPORTS TAB)
-function renderReportsTab() {
-    // Cập nhật tiêu đề tháng hiện tại
-    const now = new Date();
-    const currentMonthVal = now.getMonth() + 1;
-    const currentYearVal = now.getFullYear();
-    document.getElementById('report-month-year').innerText = `Tháng ${currentMonthVal} / ${currentYearVal}`;
 
-    // Lọc các khoản chi tiêu trong tháng hiện tại
-    const currentMonthExpenses = state.expenses.filter(exp => {
-        const expDate = new Date(exp.date);
-        return expDate.getFullYear() === currentYearVal && expDate.getMonth() === now.getMonth();
-    });
-
-    // Gom nhóm tổng chi theo danh mục
-    const categoryTotals = {};
-    let totalMonthSum = 0;
-
-    currentMonthExpenses.forEach(exp => {
-        if (!categoryTotals[exp.category]) {
-            categoryTotals[exp.category] = 0;
-        }
-        categoryTotals[exp.category] += exp.amount;
-        totalMonthSum += exp.amount;
-    });
-
-    // Chuẩn bị dữ liệu cho biểu đồ tròn
-    const labels = Object.keys(categoryTotals);
-    const dataValues = labels.map(label => categoryTotals[label]);
-
-    // Khởi tạo biểu đồ tròn
-    initMonthlyCategoryChart('monthlyCategoryChart', labels, dataValues);
-
-    // Vẽ danh sách cơ cấu danh mục kèm Progress bar
-    const reportListContainer = document.getElementById('category-report-list');
-    reportListContainer.innerHTML = '';
-
-    if (labels.length === 0) {
-        reportListContainer.innerHTML = `
-            <div class="empty-state">
-                <i data-lucide="pie-chart"></i>
-                <p>Tháng này chưa có chi tiêu để báo cáo.</p>
-            </div>
-        `;
-        createLucideIcons();
-        return;
-    }
-
-    // Sắp xếp danh mục từ nhiều tiền nhất xuống ít nhất
-    const sortedCategories = labels.sort((a, b) => categoryTotals[b] - categoryTotals[a]);
-
-    sortedCategories.forEach(cat => {
-        const amount = categoryTotals[cat];
-        const pct = totalMonthSum > 0 ? Math.round((amount / totalMonthSum) * 100) : 0;
-        
-        const itemEl = document.createElement('div');
-        itemEl.className = 'breakdown-item';
-        
-        // Tạo thanh phần trăm tương ứng với class danh mục
-        const color = CATEGORY_COLORS[cat] || '#8e8e93';
-
-        itemEl.innerHTML = `
-            <div class="breakdown-info">
-                <span class="breakdown-label">
-                    <span>${CATEGORY_ICONS[cat]}</span>
-                    <span>${cat}</span>
-                </span>
-                <span class="breakdown-amount">
-                    ${formatCurrency(amount)} <strong>(${pct}%)</strong>
-                </span>
-            </div>
-            <div class="breakdown-bar-bg">
-                <div class="breakdown-bar-fill" style="width: ${pct}%; background-color: ${color};"></div>
-            </div>
-        `;
-        reportListContainer.appendChild(itemEl);
-    });
-
-    createLucideIcons();
-}
 
 // XUẤT DỮ LIỆU SANG JSON
 function exportData() {
