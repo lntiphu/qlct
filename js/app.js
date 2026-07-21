@@ -215,6 +215,7 @@ function registerEventListeners() {
     // Các nút kiểm tra kết nối & đồng bộ dữ liệu
     document.getElementById('btn-test-sync').addEventListener('click', testSyncConnection);
     document.getElementById('btn-sync-now').addEventListener('click', syncAllUnsynced);
+    document.getElementById('btn-pull-sheets').addEventListener('click', pullDataFromSheets);
 }
 
 // XỬ LÝ CHUYỂN TAB
@@ -685,11 +686,13 @@ function createLucideIcons() {
 function updateSyncStatusUI(status) {
     const statusText = document.getElementById('sync-status-text');
     const syncNowBtn = document.getElementById('btn-sync-now');
-    if (!statusText || !syncNowBtn) return;
+    const pullSheetsBtn = document.getElementById('btn-pull-sheets');
+    if (!statusText || !syncNowBtn || !pullSheetsBtn) return;
     
     if (status === 'connected') {
         statusText.innerText = "🟢 Đã kết nối Google Sheets";
         statusText.className = "status-connected";
+        pullSheetsBtn.style.display = 'block';
         // Đếm số dòng chưa được đồng bộ (không có cờ synced)
         const unsyncedCount = state.expenses.filter(e => !e.synced).length;
         if (unsyncedCount > 0) {
@@ -702,10 +705,12 @@ function updateSyncStatusUI(status) {
         statusText.innerText = "🟡 Đang đồng bộ...";
         statusText.className = "status-syncing";
         syncNowBtn.style.display = 'none';
+        pullSheetsBtn.style.display = 'none';
     } else {
         statusText.innerText = "❌ Chưa kết nối Google Sheets";
         statusText.className = "status-disconnected";
         syncNowBtn.style.display = 'none';
+        pullSheetsBtn.style.display = 'none';
     }
 }
 
@@ -725,10 +730,6 @@ async function syncToGoogleSheets(expense) {
         
         const result = await response.json();
         if (result && result.status === 'success') {
-            // Thay thế ảnh base64 nặng bằng link ảnh Drive trả về từ API
-            if (result.results && result.results[0] && result.results[0].imageUrl) {
-                expense.image = result.results[0].imageUrl;
-            }
             expense.synced = true;
             saveData();
             return true;
@@ -794,14 +795,8 @@ async function syncAllUnsynced() {
         
         const result = await response.json();
         if (result && result.status === 'success') {
-            result.results.forEach(res => {
-                const item = state.expenses.find(e => e.id === res.id);
-                if (item) {
-                    item.synced = true;
-                    if (res.imageUrl) {
-                        item.image = res.imageUrl; // Thay bằng link Drive để giải phóng LocalStorage
-                    }
-                }
+            unsyncedItems.forEach(item => {
+                item.synced = true;
             });
             saveData();
             alert(`Đồng bộ thành công ${unsyncedItems.length} khoản chi tiêu lên Google Trang tính!`);
@@ -814,6 +809,44 @@ async function syncAllUnsynced() {
     } catch (err) {
         console.error(err);
         alert('Lỗi kết nối đồng bộ loạt: ' + err.toString());
+        updateSyncStatusUI('connected');
+    }
+}
+
+// Tải dữ liệu ngược từ Google Sheets về máy
+async function pullDataFromSheets() {
+    if (!state.sheetsUrl) return;
+    
+    if (!confirm("Hành động này sẽ tải về toàn bộ chi tiêu từ Google Sheets và ghi đè lên dữ liệu chi tiêu hiện tại trên máy bạn. Bạn có muốn tiếp tục không?")) {
+        return;
+    }
+    
+    updateSyncStatusUI('syncing');
+    
+    try {
+        const response = await fetch(state.sheetsUrl, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify({ action: 'fetch' })
+        });
+        
+        const result = await response.json();
+        if (result && result.status === 'success' && Array.isArray(result.expenses)) {
+            state.expenses = result.expenses;
+            saveData();
+            updateUI();
+            alert(`Tải thành công ${result.expenses.length} khoản chi tiêu từ Google Sheets về máy!`);
+            updateSyncStatusUI('connected');
+        } else {
+            alert('Tải dữ liệu thất bại: ' + (result ? result.message : 'Không có phản hồi'));
+            updateSyncStatusUI('connected');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Lỗi kết nối tải dữ liệu: ' + err.toString());
         updateSyncStatusUI('connected');
     }
 }
