@@ -136,24 +136,22 @@
                         <h3>Cài đặt & Dữ liệu</h3>
                     </div>
                     <div class="settings-list">
-                        <!-- Google Sheets Sync Configuration -->
+                        <!-- Supabase Sync Configuration -->
                         <div class="setting-item flex-column">
                             <div class="setting-info w-100">
-                                <span class="setting-title">Đồng bộ Google Sheets</span>
-                                <span class="setting-desc">Nhập URL của Google Apps Script để tự động lưu chi tiêu lên Trang tính.</span>
+                                <span class="setting-title">Đồng bộ dữ liệu Supabase (Real-time)</span>
+                                <span class="setting-desc">Nhập URL dự án và Anon Key của dự án Supabase để tự động lưu và đồng bộ tức thời.</span>
                             </div>
-                            <div class="sync-input-row w-100">
-                                <input type="url" id="setting-sheets-url" placeholder="https://script.google.com/macros/s/.../exec" class="settings-input text-left w-100">
-                                <button type="button" class="btn btn-secondary btn-icon-only" id="btn-test-sync" title="Kiểm tra kết nối">
-                                    Kiểm tra
+                            <div class="sync-input-row w-100 flex-column" style="gap: 8px; align-items: stretch !important; display: flex;">
+                                <input type="url" id="setting-supabase-url" placeholder="Supabase Project URL (https://xxxx.supabase.co)" class="settings-input text-left w-100" style="padding: 8px 12px; font-size: 0.78rem;">
+                                <input type="text" id="setting-supabase-key" placeholder="Supabase Anon Key (Public API Key)" class="settings-input text-left w-100" style="padding: 8px 12px; font-size: 0.78rem;">
+                                <button type="button" class="btn btn-secondary w-100" id="btn-connect-supabase" style="height: 38px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                    Kết nối Supabase
                                 </button>
                             </div>
                             <div class="sync-status-row w-100" style="margin-top: 4px; font-size: 0.72rem; display: flex; justify-content: space-between; align-items: center;">
-                                <span id="sync-status-text" class="status-disconnected">❌ Chưa kết nối Google Sheets</span>
-                                <div style="display: flex; gap: 10px;">
-                                    <button type="button" class="btn-text-link-small" id="btn-sync-now" style="display: none;">Đồng bộ dữ liệu cũ</button>
-                                    <button type="button" class="btn-text-link-small" id="btn-pull-sheets" style="display: none;">Tải về máy</button>
-                                </div>
+                                <span id="supabase-status-text" class="status-disconnected">❌ Chưa kết nối Supabase</span>
+                                <button type="button" class="btn-text-link-small" id="btn-sync-local-to-supabase" style="display: none;">Đồng bộ dữ liệu cũ lên cloud</button>
                             </div>
                         </div>
 
@@ -283,6 +281,7 @@
 <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/chart-config.js" defer></script>
     <script src="js/app.js" defer></script>
 </body>
