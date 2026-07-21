@@ -240,62 +240,10 @@ function switchTab(tabId) {
         renderDashboardCharts();
     } else if (tabId === 'history') {
         renderHistoryList();
-    } else if (tabId === 'reports') {
-        renderReportsTab();
     }
 }
 
-// XỬ LÝ ẢNH CHỤP / TẢI LÊN (NÉN & PREVIEW)
-function processAndPreviewImage(file) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            // Nén ảnh để tránh tràn bộ nhớ LocalStorage (Giới hạn chiều rộng/cao tối đa 500px)
-            const MAX_WIDTH = 500;
-            const MAX_HEIGHT = 500;
-            let width = img.width;
-            let height = img.height;
 
-            if (width > height) {
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                }
-            } else {
-                if (height > MAX_HEIGHT) {
-                    width *= MAX_HEIGHT / height;
-                    height = MAX_HEIGHT;
-                }
-            }
-
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            // Nén sang JPEG với chất lượng 0.6
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
-            state.newExpenseImage = dataUrl;
-
-            // Hiển thị preview lên UI
-            document.getElementById('image-preview').src = dataUrl;
-            document.getElementById('image-preview-container').style.display = 'block';
-            document.getElementById('upload-placeholder-content').style.display = 'none';
-        };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-function removeAttachedPhoto() {
-    state.newExpenseImage = null;
-    document.getElementById('expense-image-input').value = '';
-    document.getElementById('image-preview').src = '';
-    document.getElementById('image-preview-container').style.display = 'none';
-    document.getElementById('upload-placeholder-content').style.display = 'flex';
-}
 
 // CÁC HÀM MỞ/ĐÓNG MODAL
 function openAddModal() {
