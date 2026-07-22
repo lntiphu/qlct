@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>iSpend - Quản Lý Chi Tiêu</title>
+    <meta name="apple-mobile-web-app-title" content="Money">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Money - Quản Lý Chi Tiêu</title>
     <!-- Google Fonts: Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +21,7 @@
 <body>
     <!-- Debug Console Overlay to catch local browser errors -->
     <div id="debug-console" style="position: fixed; bottom: 0; left: 0; right: 0; max-height: 250px; overflow-y: auto; background: #3c0000; color: #fff; font-family: monospace; font-size: 13px; z-index: 100000; padding: 15px; border-top: 3px solid #ff453a; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); display: none;">
-        <strong style="color: #ff9f0a;">🔍 iSpend Debug Console (Phát hiện lỗi):</strong>
+        <strong style="color: #ff9f0a;">🔍 Money Debug Console (Phát hiện lỗi):</strong>
         <pre id="debug-log" style="margin-top: 8px; white-space: pre-wrap; line-height: 1.4; color: #eee;"></pre>
     </div>
     <script>
@@ -29,8 +33,6 @@
                 logEl.textContent += msg + '\n';
             }
             window.onerror = function(message, source, lineno, colno, error) {
-                // Bỏ qua lỗi "Script error." vì đây là lỗi bảo mật CORS khi trình duyệt chặn CDN ngoại tuyến.
-                // Chúng ta đã có chế độ vẽ biểu đồ bằng SVG tự động dự phòng ngoại tuyến.
                 if (message === 'Script error.' && lineno === 0) {
                     console.warn('CORS CDN Blocked - Running in offline fallback mode.');
                     return true;
@@ -51,8 +53,12 @@
         <header class="app-header">
             <div class="header-left">
                 <span class="date-today" id="current-date">Thứ Ba, 21 Tháng 7</span>
-                <h1 class="header-title">iSpend</h1>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
+                    <img src="assets/logo.png" alt="Money Logo" style="width: 26px; height: 26px; filter: invert(1);">
+                    <h1 class="header-title" style="font-size: 1.6rem; font-weight: 800; margin: 0;">Money</h1>
+                </div>
             </div>
+        </header>
 
         </header>
 
