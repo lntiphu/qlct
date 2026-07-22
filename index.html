@@ -168,6 +168,22 @@
                         </div>
                     </div>
 
+                    <!-- Category / Classification -->
+                    <div class="form-group">
+                        <label for="expense-category">Phân loại</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="layout-grid" class="field-icon"></i>
+                            <select id="expense-category" style="padding: 10px 12px 10px 38px; font-size: 0.88rem; border-radius: 10px; border: 1px solid var(--border-gray); background-color: var(--bg-input); color: var(--text-primary); outline: none; width: 100%; -webkit-appearance: none; appearance: none;">
+                                <option value="Ăn uống">🍔 Ăn uống</option>
+                                <option value="Mua sắm">🛒 Mua sắm</option>
+                                <option value="Di chuyển">🚗 Di chuyển</option>
+                                <option value="Giải trí">🍿 Giải trí</option>
+                                <option value="Sinh hoạt">💡 Sinh hoạt</option>
+                                <option value="Khác" selected>📝 Khác</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Date -->
                     <div class="form-group">
                         <label for="expense-date">Ngày chi tiêu</label>
@@ -208,6 +224,10 @@
                     <div class="detail-info-item">
                         <span class="info-label">Nội dung</span>
                         <span class="info-value" id="detail-title">Tên món đồ</span>
+                    </div>
+                    <div class="detail-info-item">
+                        <span class="info-label">Phân loại</span>
+                        <span class="info-value" id="detail-category">Danh mục</span>
                     </div>
                     <div class="detail-info-item">
                         <span class="info-label">Ngày chi tiêu</span>
