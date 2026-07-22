@@ -1,5 +1,5 @@
 /**
- * iSpend - Quản Lý Chi Tiêu Mobile Web App
+ * Money - Quản Lý Chi Tiêu Mobile Web App
  * Core Application Logic
  */
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // LOAD DỮ LIỆU TỪ LOCALSTORAGE
 function loadData() {
-    const savedExpenses = localStorage.getItem('ispend_expenses');
+    const savedExpenses = localStorage.getItem('money_expenses') || localStorage.getItem('ispend_expenses');
     if (savedExpenses) {
         try {
             state.expenses = JSON.parse(savedExpenses);
@@ -60,15 +60,13 @@ function loadData() {
         saveData();
     }
 
-
-
     // Tự động kết nối Supabase
     initSupabase();
 }
 
 // LƯU DỮ LIỆU XUỐNG LOCALSTORAGE
 function saveData() {
-    localStorage.setItem('ispend_expenses', JSON.stringify(state.expenses));
+    localStorage.setItem('money_expenses', JSON.stringify(state.expenses));
 }
 
 // DỮ LIỆU MẪU BAN ĐẦU
