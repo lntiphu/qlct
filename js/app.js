@@ -120,6 +120,44 @@ function formatDateStringVietnamese(dateStr) {
     }
 }
 
+// Định dạng Giờ & Ngày chi tiết: Vd 10:12 AM 22/07/26
+function formatDateTimeVietnamese(exp) {
+    if (!exp) return '';
+    let d;
+    if (exp.created_at) {
+        d = new Date(exp.created_at);
+    } else if (exp.id && exp.id.startsWith('exp-')) {
+        const parts = exp.id.split('-');
+        const ts = parseInt(parts[1], 10);
+        if (!isNaN(ts)) {
+            d = new Date(ts);
+        }
+    }
+    
+    if (!d || isNaN(d.getTime())) {
+        if (exp.date) {
+            const parts = exp.date.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0].slice(-2)}`;
+            }
+        }
+        return exp.date || '';
+    }
+
+    let hours = d.getHours();
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const hoursStr = hours.toString().padStart(2, '0');
+
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear().toString().slice(-2);
+
+    return `${hoursStr}:${minutes} ${ampm} ${day}/${month}/${year}`;
+}
+
 // KHỞI TẠO CÁC PHẦN TỬ UI BAN ĐẦU
 function initUI() {
     // Cập nhật ngày tháng trên header
@@ -184,6 +222,19 @@ function registerEventListeners() {
         if (e.target.id === 'detail-expense-modal') closeDetailModal();
     });
 
+    // Định dạng số tiền nhập ở ô chỉnh sửa
+    const detailAmountInput = document.getElementById('detail-amount-input');
+    if (detailAmountInput) {
+        detailAmountInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val) {
+                e.target.value = parseInt(val, 10).toLocaleString('vi-VN');
+            } else {
+                e.target.value = '';
+            }
+        });
+    }
+
     // Tìm kiếm lịch sử
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
@@ -244,10 +295,10 @@ function openDetailModal(expenseId) {
     const exp = state.expenses.find(item => item.id === expenseId);
     if (!exp) return;
 
-    document.getElementById('detail-amount').innerText = formatCurrency(exp.amount);
-    document.getElementById('detail-title').innerText = exp.title;
-    document.getElementById('detail-category').innerText = exp.category || 'Khác';
-    document.getElementById('detail-date').innerText = formatDateStringVietnamese(exp.date);
+    document.getElementById('detail-amount-input').value = exp.amount.toLocaleString('vi-VN');
+    document.getElementById('detail-title-input').value = exp.title;
+    document.getElementById('detail-category-select').value = exp.category || 'Khác';
+    document.getElementById('detail-date').innerText = formatDateTimeVietnamese(exp);
 
     // Nút Xóa
     const deleteBtn = document.getElementById('btn-delete-expense');
@@ -258,8 +309,61 @@ function openDetailModal(expenseId) {
         }
     };
 
+    // Nút Lưu thay đổi
+    const saveBtn = document.getElementById('btn-save-edit-expense');
+    saveBtn.onclick = () => saveEditedExpense(exp.id);
+
     document.getElementById('detail-expense-modal').classList.add('active');
     document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
+}
+
+function saveEditedExpense(id) {
+    const exp = state.expenses.find(item => item.id === id);
+    if (!exp) return;
+
+    const amountRaw = document.getElementById('detail-amount-input').value.replace(/\D/g, '');
+    const amount = parseInt(amountRaw, 10);
+    if (isNaN(amount) || amount <= 0) {
+        alert('Vui lòng nhập số tiền chi tiêu hợp lệ lớn hơn 0!');
+        return;
+    }
+
+    const title = document.getElementById('detail-title-input').value.trim();
+    if (!title) {
+        alert('Vui lòng nhập nội dung chi tiêu!');
+        return;
+    }
+
+    const category = document.getElementById('detail-category-select').value;
+
+    exp.amount = amount;
+    exp.title = title;
+    exp.category = category;
+
+    sortExpenses();
+    saveData();
+    updateUI();
+
+    // Đồng bộ lên Supabase nếu có
+    if (supabaseClient) {
+        supabaseClient
+            .from('expenses')
+            .update({
+                amount: exp.amount,
+                title: exp.title,
+                category: exp.category
+            })
+            .eq('id', id)
+            .then(({ error }) => {
+                if (error) {
+                    console.error("Lỗi khi cập nhật giao dịch lên Supabase:", error);
+                } else {
+                    console.log("Đã cập nhật giao dịch lên Supabase thành công.");
+                }
+            });
+    }
+
+    closeDetailModal();
 }
 
 function closeDetailModal() {
@@ -466,7 +570,7 @@ function createTransactionDOMItem(exp) {
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
                 <div class="item-meta">
-                    <span>${formatDateStringVietnamese(exp.date)}</span>
+                    <span>${formatDateTimeVietnamese(exp)}</span>
                 </div>
             </div>
         </div>
@@ -477,31 +581,87 @@ function createTransactionDOMItem(exp) {
     return itemEl;
 }
 
-// VẼ BIỂU ĐỒ Ở DASHBOARD
+// VẼ BIỂU ĐỒ CƠ CẤU CHI TIÊU Ở DASHBOARD
 function renderDashboardCharts() {
-    // Biểu đồ xu hướng tuần (7 ngày gần nhất)
-    const daysLabel = [];
-    const values = [];
-    
-    // Tính toán lượng chi tiêu cho 7 ngày qua
-    for (let i = 6; i >= 0; i--) {
-        const dateStr = getDateOffsetString(-i);
-        const dayName = getVietnameseDayOfWeek(dateStr);
-        // Định dạng ngắn gọn cho chart trục x (T2, T3... CN)
-        const chartDayLabel = dayName === 'Chủ Nhật' ? 'CN' : dayName.replace('Thứ ', 'T');
-        daysLabel.push(chartDayLabel);
+    const todayObj = new Date();
+    const currentYear = todayObj.getFullYear();
+    const currentMonth = todayObj.getMonth();
 
-        // Cộng dồn chi tiêu trong ngày đó
-        let sum = 0;
-        state.expenses.forEach(exp => {
-            if (exp.date === dateStr) {
-                sum += exp.amount;
-            }
+    // Lọc chi tiêu trong tháng hiện tại
+    const currentMonthExpenses = state.expenses.filter(exp => {
+        const expDate = new Date(exp.date);
+        return expDate.getFullYear() === currentYear && expDate.getMonth() === currentMonth;
+    });
+
+    // Gom nhóm tổng tiền theo phân loại
+    const categoryTotals = {};
+    let totalSum = 0;
+
+    currentMonthExpenses.forEach(exp => {
+        const cat = exp.category || 'Khác';
+        categoryTotals[cat] = (categoryTotals[cat] || 0) + exp.amount;
+        totalSum += exp.amount;
+    });
+
+    const labels = [];
+    const data = [];
+    const colors = [];
+    const breakdownList = [];
+
+    // Sắp xếp danh mục có số tiền nhiều nhất lên đầu
+    const sortedCategories = Object.keys(categoryTotals).sort((a, b) => categoryTotals[b] - categoryTotals[a]);
+
+    sortedCategories.forEach(cat => {
+        const amount = categoryTotals[cat];
+        const pct = totalSum > 0 ? ((amount / totalSum) * 100).toFixed(1) : 0;
+        const style = CATEGORY_STYLES[cat] || CATEGORY_STYLES["Khác"];
+
+        labels.push(cat);
+        data.push(amount);
+        colors.push(style.color);
+
+        breakdownList.push({
+            category: cat,
+            amount: amount,
+            pct: pct,
+            emoji: style.emoji,
+            color: style.color
         });
-        values.push(sum);
-    }
+    });
 
-    initWeeklyChart('weeklyChart', daysLabel, values);
+    // Khởi tạo biểu đồ Doughnut
+    initCategoryDoughnutChart('categoryChart', labels, data, colors);
+
+    // Vẽ danh sách cơ cấu % chi tiết ở dưới biểu đồ
+    const legendContainer = document.getElementById('category-breakdown-legend');
+    if (legendContainer) {
+        legendContainer.innerHTML = '';
+
+        if (breakdownList.length === 0) {
+            legendContainer.innerHTML = `
+                <div class="empty-state" style="padding: 10px 0;">
+                    <p style="font-size: 0.78rem; color: var(--text-secondary);">Tháng này chưa có chi tiêu nào để phân tích.</p>
+                </div>
+            `;
+            return;
+        }
+
+        breakdownList.forEach(item => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; padding: 7px 0; border-bottom: 1px dashed rgba(255,255,255,0.06);';
+            row.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1rem;">${item.emoji}</span>
+                    <span style="font-weight: 600; color: var(--text-primary);">${item.category}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="color: var(--text-secondary); font-size: 0.75rem;">${formatCurrency(item.amount)}</span>
+                    <span style="font-weight: 700; color: ${item.color}; min-width: 45px; text-align: right;">${item.pct}%</span>
+                </div>
+            `;
+            legendContainer.appendChild(row);
+        });
+    }
 }
 
 // HIỂN THỊ DANH SÁCH LỊCH SỬ (HISTORY TAB)
