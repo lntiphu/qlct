@@ -14,6 +14,25 @@ const state = {
 let supabaseClient = null;
 let supabaseSubscription = null;
 
+// Sắp xếp chi tiêu: Ngày mới nhất lên đầu, nếu cùng ngày thì ID lớn nhất (mới nhất) lên đầu
+function sortExpenses() {
+    state.expenses.sort((a, b) => {
+        const dateCompare = b.date.localeCompare(a.date);
+        if (dateCompare !== 0) return dateCompare;
+        return b.id.localeCompare(a.id);
+    });
+}
+
+// Cấu hình Emoji & Màu sắc cho từng Phân loại
+const CATEGORY_STYLES = {
+    "Ăn uống": { emoji: "🍔", bg: "rgba(255, 159, 10, 0.12)", color: "#ff9f0a" },
+    "Mua sắm": { emoji: "🛒", bg: "rgba(191, 90, 242, 0.12)", color: "#bf5af2" },
+    "Di chuyển": { emoji: "🚗", bg: "rgba(10, 132, 255, 0.12)", color: "#0a84ff" },
+    "Giải trí": { emoji: "🍿", bg: "rgba(255, 69, 58, 0.12)", color: "#ff453a" },
+    "Sinh hoạt": { emoji: "💡", bg: "rgba(94, 92, 230, 0.12)", color: "#5e5ce6" },
+    "Khác": { emoji: "📝", bg: "rgba(142, 142, 147, 0.12)", color: "#8e8e93" }
+};
+
 // KHỞI CHẠY ỨNG DỤNG
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
@@ -29,6 +48,7 @@ function loadData() {
     if (savedExpenses) {
         try {
             state.expenses = JSON.parse(savedExpenses);
+            sortExpenses();
         } catch (e) {
             console.error("Lỗi parse dữ liệu chi tiêu:", e);
             state.expenses = [];
@@ -36,6 +56,7 @@ function loadData() {
     } else {
         // Tạo một số dữ liệu mẫu ban đầu để giao diện đẹp ngay lập tức
         state.expenses = getSampleData();
+        sortExpenses();
         saveData();
     }
 
@@ -210,10 +231,12 @@ function openAddModal() {
     // Đặt lại ngày mặc định là hôm nay
     document.getElementById('expense-date').value = getTodayDateString();
     document.getElementById('add-expense-modal').classList.add('active');
+    document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
 }
 
 function closeAddModal() {
     document.getElementById('add-expense-modal').classList.remove('active');
+    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
     document.getElementById('add-expense-form').reset();
 }
 
@@ -223,6 +246,7 @@ function openDetailModal(expenseId) {
 
     document.getElementById('detail-amount').innerText = formatCurrency(exp.amount);
     document.getElementById('detail-title').innerText = exp.title;
+    document.getElementById('detail-category').innerText = exp.category || 'Khác';
     document.getElementById('detail-date').innerText = formatDateStringVietnamese(exp.date);
 
     // Nút Xóa
@@ -235,10 +259,12 @@ function openDetailModal(expenseId) {
     };
 
     document.getElementById('detail-expense-modal').classList.add('active');
+    document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
 }
 
 function closeDetailModal() {
     document.getElementById('detail-expense-modal').classList.remove('active');
+    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
 }
 
 // THÊM CHI TIÊU MỚI (SUBMIT FORM)
@@ -257,19 +283,24 @@ function handleAddExpenseSubmit(e) {
     // Lấy tên/nội dung
     const title = document.getElementById('expense-title').value.trim();
     
+    // Lấy phân loại
+    const category = document.getElementById('expense-category').value;
+    
     // Lấy ngày
     const date = document.getElementById('expense-date').value;
 
-    // Tạo đối tượng chi tiêu mới
+    // Tạo đối tượng chi tiêu mới (sử dụng ID chứa timestamp để sắp xếp)
     const newExpense = {
         id: 'exp-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
         amount: amount,
         title: title,
+        category: category,
         date: date
     };
 
     // Lưu vào state và LocalStorage
     state.expenses.unshift(newExpense); // Đưa lên hàng đầu tiên
+    sortExpenses();
     saveData();
 
     // Tự động đồng bộ lên Supabase trong nền (nếu đã cấu hình)
@@ -280,7 +311,8 @@ function handleAddExpenseSubmit(e) {
                 id: newExpense.id,
                 date: newExpense.date,
                 title: newExpense.title,
-                amount: newExpense.amount
+                amount: newExpense.amount,
+                category: newExpense.category
             }])
             .then(({ error }) => {
                 if (error) {
@@ -424,10 +456,12 @@ function createTransactionDOMItem(exp) {
     itemEl.className = 'transaction-item';
     itemEl.onclick = () => openDetailModal(exp.id);
     
+    const style = CATEGORY_STYLES[exp.category] || CATEGORY_STYLES["Khác"];
+    
     itemEl.innerHTML = `
         <div class="item-left">
-            <div class="item-icon-wrapper font-emoji" style="background-color: rgba(10, 132, 255, 0.12); color: #0a84ff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px;">
-                💰
+            <div class="item-icon-wrapper font-emoji" style="background-color: ${style.bg}; color: ${style.color}; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px;">
+                ${style.emoji}
             </div>
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
@@ -675,13 +709,13 @@ async function fetchExpensesFromSupabase() {
     try {
         const { data, error } = await supabaseClient
             .from('expenses')
-            .select('*')
-            .order('date', { ascending: false });
+            .select('*');
             
         if (error) throw error;
         
         if (data) {
             state.expenses = data;
+            sortExpenses(); // Sắp xếp sau khi fetch
             saveData();
             updateUI();
         }
@@ -700,7 +734,7 @@ function handleRealtimeDbChange(payload) {
     if (eventType === 'INSERT') {
         if (!state.expenses.some(e => e.id === newRecord.id)) {
             state.expenses.unshift(newRecord);
-            state.expenses.sort((a, b) => b.date.localeCompare(a.date));
+            sortExpenses();
         }
     } else if (eventType === 'DELETE') {
         state.expenses = state.expenses.filter(e => e.id !== oldRecord.id);
@@ -708,7 +742,7 @@ function handleRealtimeDbChange(payload) {
         const idx = state.expenses.findIndex(e => e.id === newRecord.id);
         if (idx !== -1) {
             state.expenses[idx] = newRecord;
-            state.expenses.sort((a, b) => b.date.localeCompare(a.date));
+            sortExpenses();
         }
     }
     
