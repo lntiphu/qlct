@@ -81,14 +81,17 @@
 
 
 
-                <!-- Weekly Chart -->
+                <!-- Category Breakdown Chart -->
                 <div class="section-card chart-card">
                     <div class="section-header">
-                        <h3>Xu hướng tuần này</h3>
-                        <span class="chart-subtitle">7 ngày gần nhất</span>
+                        <h3>Cơ cấu chi tiêu</h3>
+                        <span class="chart-subtitle">Tháng này</span>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="weeklyChart"></canvas>
+                    <div class="chart-container" style="position: relative; height: 180px; display: flex; justify-content: center; align-items: center;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div id="category-breakdown-legend" class="category-breakdown-legend" style="margin-top: 12px; display: flex; flex-direction: column;">
+                        <!-- Dynamic Legend List with % -->
                     </div>
                 </div>
 
@@ -207,36 +210,55 @@
         </div>
     </div>
 
-    <!-- DETAIL VIEW MODAL (FOR HISTORY VIEWING) -->
+    <!-- DETAIL / EDIT VIEW MODAL -->
     <div class="modal-overlay" id="detail-expense-modal">
         <div class="modal-sheet">
             <div class="modal-drag-indicator"></div>
-            <div class="modal-header">
-                <h2>Chi Tiết Chi Tiêu</h2>
+            <div class="modal-header" style="justify-content: flex-end;">
                 <button class="modal-close-btn" id="btn-close-detail"><i data-lucide="x"></i></button>
             </div>
             <div class="detail-body">
-                <div class="detail-amount-display">
-                    <span id="detail-amount">0đ</span>
+                <!-- Amount input (iOS style) -->
+                <div class="amount-input-container" style="margin-bottom: 15px;">
+                    <span class="currency-symbol">₫</span>
+                    <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required>
                 </div>
                 
-                <div class="detail-info-list">
-                    <div class="detail-info-item">
-                        <span class="info-label">Nội dung</span>
-                        <span class="info-value" id="detail-title">Tên món đồ</span>
+                <div class="detail-info-list" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label for="detail-title-input">Nội dung</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="tag" class="field-icon"></i>
+                            <input type="text" id="detail-title-input" placeholder="Nội dung chi tiêu" required>
+                        </div>
                     </div>
-                    <div class="detail-info-item">
-                        <span class="info-label">Phân loại</span>
-                        <span class="info-value" id="detail-category">Danh mục</span>
+
+                    <div class="form-group">
+                        <label for="detail-category-select">Phân loại</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="layout-grid" class="field-icon"></i>
+                            <select id="detail-category-select" style="padding: 10px 12px 10px 38px; font-size: 0.88rem; border-radius: 10px; border: 1px solid var(--border-gray); background-color: var(--bg-input); color: var(--text-primary); outline: none; width: 100%; -webkit-appearance: none; appearance: none;">
+                                <option value="Ăn uống">🍔 Ăn uống</option>
+                                <option value="Mua sắm">🛒 Mua sắm</option>
+                                <option value="Di chuyển">🚗 Di chuyển</option>
+                                <option value="Giải trí">🍿 Giải trí</option>
+                                <option value="Sinh hoạt">💡 Sinh hoạt</option>
+                                <option value="Khác">📝 Khác</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="detail-info-item">
-                        <span class="info-label">Ngày chi tiêu</span>
-                        <span class="info-value" id="detail-date">Ngày</span>
+
+                    <div class="detail-info-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-gray);">
+                        <span class="info-label" style="font-size: 0.85rem; color: var(--text-secondary);">Thời gian</span>
+                        <span class="info-value" id="detail-date" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-blue);"></span>
                     </div>
                 </div>
 
-                <div class="detail-actions">
-                    <button class="btn btn-danger" id="btn-delete-expense">
+                <div class="detail-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn btn-primary" id="btn-save-edit-expense" style="width: 100%; font-weight: 700;">
+                        <i data-lucide="check"></i> Lưu thay đổi
+                    </button>
+                    <button class="btn btn-danger" id="btn-delete-expense" style="width: 100%;">
                         <i data-lucide="trash-2"></i> Xóa khoản chi này
                     </button>
                 </div>
