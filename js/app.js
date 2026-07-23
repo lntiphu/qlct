@@ -13,6 +13,8 @@ const state = {
 };
 let supabaseClient = null;
 let supabaseSubscription = null;
+let calendarYear = new Date().getFullYear();
+let calendarMonth = new Date().getMonth();
 
 // Sắp xếp chi tiêu: Ngày mới nhất lên đầu, nếu cùng ngày thì ID lớn nhất (mới nhất) lên đầu
 function sortExpenses() {
@@ -189,6 +191,13 @@ function registerEventListeners() {
         switchTab('history');
     });
 
+    // Bấm thẻ Hôm nay mở Lịch chi tiêu
+    const cardToday = document.querySelector('.card-today');
+    if (cardToday) {
+        cardToday.style.cursor = 'pointer';
+        cardToday.addEventListener('click', openCalendarModal);
+    }
+
     // Mở / Đóng Modal Thêm Chi Tiêu
     document.getElementById('btn-open-add-modal').addEventListener('click', openAddModal);
     document.getElementById('btn-close-modal').addEventListener('click', closeAddModal);
@@ -239,6 +248,46 @@ function registerEventListeners() {
         state.searchQuery = e.target.value;
         renderHistoryList();
     });
+
+    // Mở / Đóng Modal Lịch Chi Tiêu
+    const btnOpenCalendar = document.getElementById('btn-open-calendar-modal');
+    if (btnOpenCalendar) {
+        btnOpenCalendar.addEventListener('click', openCalendarModal);
+    }
+    const btnCloseCalendar = document.getElementById('btn-close-calendar');
+    if (btnCloseCalendar) {
+        btnCloseCalendar.addEventListener('click', closeCalendarModal);
+    }
+    const calendarModal = document.getElementById('calendar-expense-modal');
+    if (calendarModal) {
+        calendarModal.addEventListener('click', (e) => {
+            if (e.target.id === 'calendar-expense-modal') closeCalendarModal();
+        });
+    }
+
+    // Điều hướng Tháng Lịch (Trước / Sau)
+    const btnPrevMonth = document.getElementById('btn-prev-month');
+    if (btnPrevMonth) {
+        btnPrevMonth.addEventListener('click', () => {
+            calendarMonth--;
+            if (calendarMonth < 0) {
+                calendarMonth = 11;
+                calendarYear--;
+            }
+            renderCalendar();
+        });
+    }
+    const btnNextMonth = document.getElementById('btn-next-month');
+    if (btnNextMonth) {
+        btnNextMonth.addEventListener('click', () => {
+            calendarMonth++;
+            if (calendarMonth > 11) {
+                calendarMonth = 0;
+                calendarYear++;
+            }
+            renderCalendar();
+        });
+    }
 
 
 
@@ -367,6 +416,158 @@ function saveEditedExpense(id) {
 function closeDetailModal() {
     document.getElementById('detail-expense-modal').classList.remove('active');
     document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
+}
+
+// CÁC HÀM XỬ LÝ MODAL LỊCH CHI TIÊU HÀNG NGÀY
+function openCalendarModal() {
+    console.log("Mở modal Lịch Chi Tiêu...");
+    const today = new Date();
+    calendarYear = today.getFullYear();
+    calendarMonth = today.getMonth();
+    
+    renderCalendar();
+    const modalEl = document.getElementById('calendar-expense-modal');
+    if (modalEl) {
+        modalEl.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
+    }
+}
+
+function closeCalendarModal() {
+    const modalEl = document.getElementById('calendar-expense-modal');
+    if (modalEl) {
+        modalEl.classList.remove('active');
+    }
+    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
+}
+
+// Gắn toàn cục để chạy an toàn với onclick inline
+window.openCalendarModal = openCalendarModal;
+window.closeCalendarModal = closeCalendarModal;
+
+function formatShortAmount(amount) {
+    if (!amount || amount <= 0) return '';
+    if (amount >= 1000000) {
+        return (amount / 1000000).toFixed(1).replace('.0', '') + 'M';
+    } else if (amount >= 1000) {
+        return (amount / 1000).toFixed(0) + 'k';
+    }
+    return amount.toString();
+}
+
+function showDayExpensesDetail(dayStr) {
+    const dayExpenses = state.expenses.filter(exp => {
+        if (!exp || !exp.date) return false;
+        let dStr = exp.date;
+        if (dStr.includes('T')) dStr = dStr.split('T')[0];
+        return dStr === dayStr;
+    });
+
+    if (dayExpenses.length === 0) {
+        return;
+    }
+
+    // Đóng modal lịch và chuyển sang trang Lịch sử lọc theo ngày đó
+    closeCalendarModal();
+    state.searchQuery = dayStr;
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = dayStr;
+    switchTab('history');
+    renderHistoryList();
+}
+
+function renderCalendar() {
+    const titleEl = document.getElementById('calendar-month-title');
+    if (titleEl) {
+        titleEl.innerText = `Tháng ${calendarMonth + 1}, ${calendarYear}`;
+    }
+
+    const daysGridContainer = document.getElementById('calendar-days-grid');
+    if (!daysGridContainer) return;
+    daysGridContainer.innerHTML = '';
+
+    // Số ngày trong tháng
+    const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+    // Thứ của ngày đầu tiên trong tháng (0 = Chủ nhật, 1 = Thứ hai...)
+    let firstDayOfWeek = new Date(calendarYear, calendarMonth, 1).getDay();
+    // Đổi sang định dạng T2 = 0, T3 = 1, ..., CN = 6
+    let firstDayOffset = (firstDayOfWeek === 0) ? 6 : firstDayOfWeek - 1;
+
+    // Tính tổng chi tiêu từng ngày trong tháng
+    const dayTotals = {};
+    let monthTotal = 0;
+
+    state.expenses.forEach(exp => {
+        if (!exp || !exp.date) return;
+        let dateStr = exp.date;
+        if (typeof dateStr === 'string' && dateStr.includes('T')) {
+            dateStr = dateStr.split('T')[0];
+        }
+        const parts = String(dateStr).split('-');
+        if (parts.length >= 3) {
+            const y = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10);
+            const d = parseInt(parts[2], 10);
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                if (y === calendarYear && (m - 1) === calendarMonth) {
+                    dayTotals[d] = (dayTotals[d] || 0) + (exp.amount || 0);
+                    monthTotal += (exp.amount || 0);
+                }
+            }
+        }
+    });
+
+    // Cập nhật tổng chi tháng
+    const monthTotalEl = document.getElementById('calendar-month-total');
+    if (monthTotalEl) {
+        monthTotalEl.innerText = formatCurrency(monthTotal);
+    }
+
+    // Ngày hôm nay để highlight
+    const todayObj = new Date();
+    const isCurrentYear = todayObj.getFullYear() === calendarYear;
+    const isCurrentMonth = todayObj.getMonth() === calendarMonth;
+    const todayDate = todayObj.getDate();
+
+    // 1. Các ô trống padding đầu tháng
+    for (let i = 0; i < firstDayOffset; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day-cell empty';
+        daysGridContainer.appendChild(emptyCell);
+    }
+
+    // 2. Các ô đại diện cho từng ngày (1..daysInMonth)
+    for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement('div');
+        let classNames = 'calendar-day-cell';
+
+        const isToday = isCurrentYear && isCurrentMonth && day === todayDate;
+        if (isToday) classNames += ' today';
+
+        const amount = dayTotals[day] || 0;
+        if (amount > 0) classNames += ' has-expense';
+
+        cell.className = classNames;
+        cell.style.cursor = 'pointer';
+
+        const mStr = String(calendarMonth + 1).padStart(2, '0');
+        const dStr = String(day).padStart(2, '0');
+        const dayStr = `${calendarYear}-${mStr}-${dStr}`;
+
+        cell.onclick = () => showDayExpensesDetail(dayStr);
+
+        const shortAmtStr = formatShortAmount(amount);
+
+        cell.innerHTML = `
+            <span class="calendar-day-number">${day}</span>
+            <span class="calendar-day-amount">${shortAmtStr ? '-' + shortAmtStr : ''}</span>
+        `;
+
+        daysGridContainer.appendChild(cell);
+    }
+
+    createLucideIcons();
 }
 
 // THÊM CHI TIÊU MỚI (SUBMIT FORM)
