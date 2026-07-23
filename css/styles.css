@@ -33,7 +33,7 @@
     --ios-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --card-radius: 20px;
     --btn-radius: 14px;
-    --nav-height: 83px; /* iOS standard bottom bar height */
+    --nav-height: calc(62px + env(safe-area-inset-bottom, 0px));
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -74,47 +74,29 @@ input, select, textarea {
     font-size: 16px; /* 16px ngăn iOS Safari tự Zoom in khi click */
 }
 
-html {
+html, body {
     width: 100%;
     height: 100%;
-    height: 100dvh;
-    height: -webkit-fill-available;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overscroll-behavior: none;
-}
-
-body {
-    background-color: #08080a;
-    color: var(--text-primary);
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    height: 100dvh;
-    height: -webkit-fill-available;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overscroll-behavior: none;
+    background-color: #000000;
     -webkit-user-select: none;
     user-select: none;
 }
 
-/* Giả lập khung điện thoại khi xem trên máy tính */
+/* Khung điện thoại hiển thị chính xác theo Viewport iOS */
 .app-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
-    height: 100dvh;
-    height: -webkit-fill-available;
     background-color: var(--bg-black);
     display: flex;
     flex-direction: column;
-    position: relative;
     overflow: hidden;
     overscroll-behavior: none;
 }
@@ -736,18 +718,20 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
+    right: 0;
     width: 100%;
-    height: var(--nav-height);
-    background-color: rgba(20, 20, 22, 0.85);
+    height: calc(62px + env(safe-area-inset-bottom, 0px));
+    background-color: rgba(20, 20, 22, 0.92);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    padding-top: 10px;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-top: 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     z-index: 100;
+    box-sizing: border-box;
 }
 
 .nav-item {
