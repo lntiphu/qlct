@@ -255,10 +255,22 @@ html, body {
 .card-amount {
     font-size: 0.95rem;
     font-weight: 800;
-    color: #ffffff !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Vibrant iOS Accent Colors cho từng thẻ */
+.card-today .card-amount {
+    color: var(--accent-blue) !important;
+}
+
+.card-week .card-amount {
+    color: var(--accent-green) !important;
+}
+
+.card-month .card-amount {
+    color: var(--accent-purple) !important;
 }
 
 /* SECTION CARDS */
