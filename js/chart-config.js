@@ -55,21 +55,23 @@ function initCategoryDoughnutChart(canvasId, labels, data, colors) {
         colors = ['rgba(255, 255, 255, 0.1)'];
     }
 
+    // BIỂU ĐỒ HÌNH TRÒN ĐẦY ĐỦ (PIE CHART - SOLID CIRCLE)
     categoryChartInstance = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'pie',
         data: {
             labels: labels,
             datasets: [{
                 data: data,
                 backgroundColor: colors,
-                borderWidth: 0,
+                borderWidth: 1.5,
+                borderColor: '#1c1c1e',
                 hoverOffset: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '72%',
+            cutout: 0, // Khung tròn đặc 100% không bị lủng lỗ giữa
             plugins: {
                 legend: {
                     display: false
@@ -94,13 +96,13 @@ function initCategoryDoughnutChart(canvasId, labels, data, colors) {
 }
 
 /**
- * Vẽ biểu đồ hình tròn phân bổ bằng SVG (Chạy Offline không cần thư viện)
+ * Vẽ biểu đồ hình tròn đầy đủ bằng SVG (Offline Fallback)
  */
 function drawSVGDoughnutChart(wrapper, labels, data, colors) {
-    const width = 180;
-    const height = 180;
-    const radius = 55;
-    const strokeWidth = 16;
+    const width = 170;
+    const height = 170;
+    const radius = 38;
+    const strokeWidth = 76; // Bằng 2x radius -> tạo hình tròn đặc full 100%
     const cx = width / 2;
     const cy = height / 2;
     const circumference = 2 * Math.PI * radius;
@@ -140,11 +142,6 @@ function drawSVGDoughnutChart(wrapper, labels, data, colors) {
             </circle>
         `;
     });
-    
-    segmentsHtml += `
-        <text x="${cx}" y="${cy - 2}" fill="rgba(255,255,255,0.5)" font-size="9" font-weight="600" text-anchor="middle" font-family="Plus Jakarta Sans" letter-spacing="0.5">TỔNG CHI</text>
-        <text x="${cx}" y="${cy + 12}" fill="#ffffff" font-size="11" font-weight="800" text-anchor="middle" font-family="Plus Jakarta Sans">${formatCurrency(total).replace('đ','')}</text>
-    `;
     
     wrapper.innerHTML = `
         <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" style="overflow: visible;">
