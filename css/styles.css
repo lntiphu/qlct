@@ -161,11 +161,11 @@ html, body {
 /* MAIN CONTENT PANELS */
 .app-main {
     flex: 1;
+    min-height: 0; /* Quan trọng để flexbox child cuộn độc lập */
     overflow-y: auto;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
-    padding: 20px 16px;
-    padding-bottom: calc(var(--nav-height) + 30px);
+    padding: 20px 16px 24px 16px;
     background-color: var(--bg-black);
     position: relative;
     z-index: 1;
@@ -246,15 +246,16 @@ html, body {
 }
 
 .card-label {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 600;
     margin-bottom: 4px;
 }
 
 .card-amount {
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 800;
+    color: #ffffff !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -715,21 +716,16 @@ html, body {
 
 /* APP NAVIGATION BOTTOM BAR */
 .app-nav {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    flex-shrink: 0;
     width: 100%;
-    height: calc(65px + env(safe-area-inset-bottom, 0px));
     background-color: #141416;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
     padding-top: 10px;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
     z-index: 100;
     box-sizing: border-box;
 }
