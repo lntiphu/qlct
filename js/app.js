@@ -186,9 +186,14 @@ function registerEventListeners() {
         });
     });
 
-    // Bấm xem tất cả ở Dashboard chuyển sang History tab
+    // Bấm xem tất cả ở Dashboard chuyển sang History tab (xóa tìm kiếm cũ và cuộn lên đầu)
     document.getElementById('btn-see-all').addEventListener('click', () => {
+        state.searchQuery = '';
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) searchInput.value = '';
         switchTab('history');
+        renderHistoryList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // Bấm thẻ Hôm nay mở Lịch chi tiêu
@@ -419,17 +424,24 @@ function closeDetailModal() {
 }
 
 // CÁC HÀM XỬ LÝ MODAL LỊCH CHI TIÊU HÀNG NGÀY
-function openCalendarModal() {
+function openCalendarModal(e) {
+    if (e && e.preventDefault) e.preventDefault();
     console.log("Mở modal Lịch Chi Tiêu...");
-    const today = new Date();
-    calendarYear = today.getFullYear();
-    calendarMonth = today.getMonth();
     
-    renderCalendar();
     const modalEl = document.getElementById('calendar-expense-modal');
     if (modalEl) {
         modalEl.classList.add('active');
         document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
+    }
+
+    const today = new Date();
+    calendarYear = today.getFullYear();
+    calendarMonth = today.getMonth();
+    
+    try {
+        renderCalendar();
+    } catch (err) {
+        console.error("Lỗi khi vẽ lịch:", err);
     }
 }
 
@@ -477,10 +489,11 @@ function showDayExpensesDetail(dayStr) {
 }
 
 function renderCalendar() {
-    const titleEl = document.getElementById('calendar-month-title');
-    if (titleEl) {
-        titleEl.innerText = `Tháng ${calendarMonth + 1}, ${calendarYear}`;
-    }
+    // Cập nhật tiêu đề tháng + năm (layout mới)
+    const monthTitleEl = document.getElementById('calendar-month-title');
+    const yearLabelEl = document.getElementById('calendar-year-label');
+    if (monthTitleEl) monthTitleEl.innerText = `Tháng ${calendarMonth + 1}`;
+    if (yearLabelEl) yearLabelEl.innerText = `${calendarYear}`;
 
     const daysGridContainer = document.getElementById('calendar-days-grid');
     if (!daysGridContainer) return;
@@ -541,6 +554,10 @@ function renderCalendar() {
     for (let day = 1; day <= daysInMonth; day++) {
         const cell = document.createElement('div');
         let classNames = 'calendar-day-cell';
+
+        // Xác định thứ trong tuần của ngày này (0=CN, 6=T7)
+        const dayOfWeek = new Date(calendarYear, calendarMonth, day).getDay();
+        if (dayOfWeek === 0) classNames += ' sunday'; // Chủ Nhật - màu đỏ
 
         const isToday = isCurrentYear && isCurrentMonth && day === todayDate;
         if (isToday) classNames += ' today';
