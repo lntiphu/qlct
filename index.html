@@ -278,42 +278,67 @@
     <div class="modal-overlay" id="calendar-expense-modal">
         <div class="modal-sheet calendar-modal-sheet">
 
-            <!-- Header: Tháng + Năm bên trái, Điều hướng + X bên phải -->
-            <div class="calendar-header-row">
-                <div class="calendar-title-block">
-                    <span class="calendar-year-label" id="calendar-year-label">2026</span>
-                    <span class="calendar-month-label" id="calendar-month-title">Tháng 7</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 6px;">
-                    <div class="calendar-nav-controls">
-                        <button class="calendar-nav-btn" id="btn-prev-month"><i data-lucide="chevron-left"></i></button>
-                        <button class="calendar-nav-btn" id="btn-next-month"><i data-lucide="chevron-right"></i></button>
+            <!-- ===== VIEW 1: LƯỚI LỊCH ===== -->
+            <div id="calendar-grid-view">
+                <!-- Header: Tháng + Năm bên trái, Điều hướng + X bên phải -->
+                <div class="calendar-header-row">
+                    <div class="calendar-title-block">
+                        <span class="calendar-year-label" id="calendar-year-label">2026</span>
+                        <span class="calendar-month-label" id="calendar-month-title">Tháng 7</span>
                     </div>
-                    <button class="modal-close-btn" id="btn-close-calendar" style="margin-left: 4px;"><i data-lucide="x"></i></button>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <div class="calendar-nav-controls">
+                            <button class="calendar-nav-btn" id="btn-prev-month"><i data-lucide="chevron-left"></i></button>
+                            <button class="calendar-nav-btn" id="btn-next-month"><i data-lucide="chevron-right"></i></button>
+                        </div>
+                        <button class="modal-close-btn" id="btn-close-calendar" style="margin-left: 4px;"><i data-lucide="x"></i></button>
+                    </div>
+                </div>
+
+                <!-- Tổng chi tháng -->
+                <div class="calendar-month-summary">
+                    <span>Tổng chi tháng này</span>
+                    <strong id="calendar-month-total">0đ</strong>
+                </div>
+
+                <!-- Thứ trong tuần -->
+                <div class="calendar-weekdays">
+                    <div>T2</div><div>T3</div><div>T4</div>
+                    <div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                </div>
+
+                <!-- Lưới ngày -->
+                <div class="calendar-days-grid" id="calendar-days-grid">
+                    <!-- Dynamic Days -->
                 </div>
             </div>
 
-            <!-- Tổng chi tháng -->
-            <div class="calendar-month-summary">
-                <span>Tổng chi tháng này</span>
-                <strong id="calendar-month-total">0đ</strong>
+            <!-- ===== VIEW 2: CHI TIẾT NGÀY ===== -->
+            <div id="calendar-day-detail" style="display: none;">
+                <!-- Header ngày -->
+                <div class="calendar-header-row">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <button class="calendar-nav-btn" id="btn-back-to-calendar"><i data-lucide="arrow-left"></i></button>
+                        <div class="calendar-title-block">
+                            <span class="calendar-year-label">Chi tiêu trong ngày</span>
+                            <span class="calendar-month-label" id="cal-day-detail-title">22/07/26</span>
+                        </div>
+                    </div>
+                    <button class="modal-close-btn" onclick="closeCalendarModal()"><i data-lucide="x"></i></button>
+                </div>
+
+                <!-- Tổng ngày -->
+                <div class="calendar-month-summary" style="margin-top: 14px;">
+                    <span>Tổng chi trong ngày</span>
+                    <strong id="cal-day-detail-total" style="color: #ff9f0a;">0đ</strong>
+                </div>
+
+                <!-- Danh sách chi tiêu ngày -->
+                <div id="cal-day-expense-list" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px; max-height: 340px; overflow-y: auto;">
+                    <!-- Dynamic -->
+                </div>
             </div>
 
-            <!-- Thứ trong tuần -->
-            <div class="calendar-weekdays">
-                <div>T2</div>
-                <div>T3</div>
-                <div>T4</div>
-                <div>T5</div>
-                <div>T6</div>
-                <div>T7</div>
-                <div>CN</div>
-            </div>
-
-            <!-- Lưới ngày -->
-            <div class="calendar-days-grid" id="calendar-days-grid">
-                <!-- Dynamic Days -->
-            </div>
         </div>
     </div><!-- End #calendar-expense-modal -->
 
@@ -323,8 +348,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/chart-config.js?v=5" defer></script>
-    <script src="js/app.js?v=5" defer></script>
+    <script src="js/chart-config.js?v=6" defer></script>
+    <script src="js/app.js?v=6" defer></script>
 </body>
 </html>
-
