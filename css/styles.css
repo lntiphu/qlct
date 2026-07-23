@@ -720,15 +720,15 @@ html, body {
     left: 0;
     right: 0;
     width: 100%;
-    height: calc(62px + env(safe-area-inset-bottom, 0px));
-    background-color: rgba(20, 20, 22, 0.92);
+    height: calc(65px + env(safe-area-inset-bottom, 0px));
+    background-color: #141416;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    padding-top: 8px;
+    padding-top: 10px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     z-index: 100;
     box-sizing: border-box;
@@ -1263,16 +1263,25 @@ html, body {
 @media (min-width: 480px) {
     body {
         background: radial-gradient(circle at top right, #181622 0%, #08070b 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
     }
     .app-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
         width: 393px;  /* iPhone 15 Pro Width */
         height: 852px; /* iPhone 15 Pro Height */
         border-radius: 48px; /* Bo góc cực mượt */
         border: 11px solid #8c8a84; /* Viền titan tự nhiên (Natural Titanium) */
         box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0,0,0,0.6);
-        position: relative;
+        margin: auto;
     }
-    /* iOS Dynamic Island Simulator */
+    /* iOS Dynamic Island Simulator (Chỉ hiện trên máy tính) */
     .app-container::before {
         content: '';
         position: absolute;
@@ -1289,7 +1298,30 @@ html, body {
         pointer-events: none;
     }
     .ios-status-bar-spacer {
-        height: 44px !important; /* Dùng !important để đảm bảo ghi đè các cấu hình khác */
+        height: 44px !important;
+    }
+}
+
+/* HIỂN THỊ TOÀN MÀN HÌNH TRÊN ĐIỆN THOẠI THẬT (MOBILE) */
+@media (max-width: 479px) {
+    body {
+        background-color: #000000;
+    }
+    .app-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    /* Ẩn giả lập Dynamic Island trên điện thoại thật */
+    .app-container::before {
+        display: none !important;
     }
 }
 
