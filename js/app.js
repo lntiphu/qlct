@@ -343,12 +343,10 @@ function openAddModal() {
     // Đặt lại ngày mặc định là hôm nay
     document.getElementById('expense-date').value = getTodayDateString();
     document.getElementById('add-expense-modal').classList.add('active');
-    document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
 }
 
 function closeAddModal() {
     document.getElementById('add-expense-modal').classList.remove('active');
-    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
     document.getElementById('add-expense-form').reset();
 }
 
@@ -375,7 +373,6 @@ function openDetailModal(expenseId) {
     saveBtn.onclick = () => saveEditedExpense(exp.id);
 
     document.getElementById('detail-expense-modal').classList.add('active');
-    document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
 }
 
 function saveEditedExpense(id) {
@@ -429,7 +426,6 @@ function saveEditedExpense(id) {
 
 function closeDetailModal() {
     document.getElementById('detail-expense-modal').classList.remove('active');
-    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
 }
 
 // CÁC HÀM XỬ LÝ MODAL LỊCH CHI TIÊU HÀNG NGÀY
@@ -445,7 +441,6 @@ function openCalendarModal(e) {
     const modalEl = document.getElementById('calendar-expense-modal');
     if (modalEl) {
         modalEl.classList.add('active');
-        document.body.style.overflow = 'hidden';
     }
 
     const today = new Date();
@@ -462,7 +457,6 @@ function openCalendarModal(e) {
 function closeCalendarModal() {
     const modalEl = document.getElementById('calendar-expense-modal');
     if (modalEl) modalEl.classList.remove('active');
-    document.body.style.overflow = '';
 
     // Reset về view lưới sau khi đóng
     setTimeout(() => {
@@ -1227,21 +1221,24 @@ function createLucideIcons() {
 // Khởi tạo Supabase Client và Đăng ký Real-time listener
 function initSupabase() {
     if (typeof supabase === 'undefined') {
-        console.warn("Supabase SDK is not loaded.");
+        console.warn("Supabase SDK chưa nạp.");
         return;
     }
     
     if (!state.supabaseUrl || !state.supabaseKey) return;
     
     try {
-        supabaseClient = supabase.createClient(state.supabaseUrl, state.supabaseKey);
+        supabaseClient = supabase.createClient(state.supabaseUrl, state.supabaseKey, {
+            auth: { persistSession: false },
+            realtime: { timeout: 5000 }
+        });
         
-        // 1. Tải toàn bộ chi tiêu từ Cloud về máy lần đầu
+        // 1. Tải toàn bộ chi tiêu từ Cloud về máy lần đầu (không làm đứng trang)
         fetchExpensesFromSupabase();
         
         // 2. Đăng ký nhận sự thay đổi dữ liệu thời gian thực (Real-time listener)
         if (supabaseSubscription) {
-            supabaseSubscription.unsubscribe();
+            try { supabaseSubscription.unsubscribe(); } catch(e){}
         }
         
         supabaseSubscription = supabaseClient
@@ -1252,29 +1249,60 @@ function initSupabase() {
             .subscribe();
             
     } catch (err) {
-        console.error("Lỗi khởi tạo Supabase:", err);
+        console.warn("Lỗi khởi tạo Supabase:", err);
     }
 }
 
-// Lấy danh sách chi tiêu từ Supabase
+// Lấy danh sách chi tiêu từ Supabase với Timeout 3.5s cực kỳ an toàn
 async function fetchExpensesFromSupabase() {
     if (!supabaseClient) return;
+
+    // Timeout 3.5s bằng AbortController để ngăn iOS bị đơ/treo mạng
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+
     try {
         const { data, error } = await supabaseClient
             .from('expenses')
-            .select('*');
+            .select('*')
+            .abortSignal(controller.signal);
+            
+        clearTimeout(timeoutId);
             
         if (error) throw error;
         
-        if (data) {
-            state.expenses = data;
-            sortExpenses(); // Sắp xếp sau khi fetch
-            saveData();
-            updateUI();
+        if (data && Array.isArray(data)) {
+            // Hợp nhất dữ liệu Cloud và Local (không xóa mất khoản vừa tạo)
+            mergeLocalAndRemoteExpenses(data);
         }
     } catch (err) {
-        console.error("Lỗi khi fetch chi tiêu từ Supabase:", err);
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+            console.warn("⚡ Fetch Supabase quá 3.5s - Tự động ưu tiên dữ liệu bộ nhớ máy.");
+        } else {
+            console.warn("Lỗi fetch Supabase:", err.message || err);
+        }
     }
+}
+
+// Hợp nhất dữ liệu cloud và local
+function mergeLocalAndRemoteExpenses(remoteData) {
+    const remoteMap = new Map();
+    remoteData.forEach(item => {
+        if (item && item.id) remoteMap.set(item.id, item);
+    });
+
+    // Giữ lại item local chưa sync
+    state.expenses.forEach(localItem => {
+        if (localItem && localItem.id && !remoteMap.has(localItem.id)) {
+            remoteMap.set(localItem.id, localItem);
+        }
+    });
+
+    state.expenses = Array.from(remoteMap.values());
+    sortExpenses();
+    saveData();
+    updateUI();
 }
 
 // Xử lý sự kiện Real-time từ DB
