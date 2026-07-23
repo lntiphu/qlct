@@ -294,6 +294,15 @@ function registerEventListeners() {
         });
     }
 
+    // Nút quay lại lịch từ view chi tiết ngày
+    const btnBack = document.getElementById('btn-back-to-calendar');
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+            document.getElementById('calendar-day-detail').style.display = 'none';
+            document.getElementById('calendar-grid-view').style.display = 'block';
+        });
+    }
+
 
 
 
@@ -426,18 +435,23 @@ function closeDetailModal() {
 // CÁC HÀM XỬ LÝ MODAL LỊCH CHI TIÊU HÀNG NGÀY
 function openCalendarModal(e) {
     if (e && e.preventDefault) e.preventDefault();
-    console.log("Mở modal Lịch Chi Tiêu...");
-    
+
+    // Reset về view lưới lịch (nếu đang ở view chi tiết ngày)
+    const gridView = document.getElementById('calendar-grid-view');
+    const detailView = document.getElementById('calendar-day-detail');
+    if (gridView) gridView.style.display = 'block';
+    if (detailView) detailView.style.display = 'none';
+
     const modalEl = document.getElementById('calendar-expense-modal');
     if (modalEl) {
         modalEl.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Khóa cuộn màn hình nền
+        document.body.style.overflow = 'hidden';
     }
 
     const today = new Date();
     calendarYear = today.getFullYear();
     calendarMonth = today.getMonth();
-    
+
     try {
         renderCalendar();
     } catch (err) {
@@ -447,11 +461,18 @@ function openCalendarModal(e) {
 
 function closeCalendarModal() {
     const modalEl = document.getElementById('calendar-expense-modal');
-    if (modalEl) {
-        modalEl.classList.remove('active');
-    }
-    document.body.style.overflow = ''; // Mở khóa cuộn màn hình nền
+    if (modalEl) modalEl.classList.remove('active');
+    document.body.style.overflow = '';
+
+    // Reset về view lưới sau khi đóng
+    setTimeout(() => {
+        const gridView = document.getElementById('calendar-grid-view');
+        const detailView = document.getElementById('calendar-day-detail');
+        if (gridView) gridView.style.display = 'block';
+        if (detailView) detailView.style.display = 'none';
+    }, 350); // Đợi animation đóng xong
 }
+
 
 // Gắn toàn cục để chạy an toàn với onclick inline
 window.openCalendarModal = openCalendarModal;
@@ -468,25 +489,69 @@ function formatShortAmount(amount) {
 }
 
 function showDayExpensesDetail(dayStr) {
+    // Lọc chi tiêu của ngày được chọn
     const dayExpenses = state.expenses.filter(exp => {
         if (!exp || !exp.date) return false;
         let dStr = exp.date;
-        if (dStr.includes('T')) dStr = dStr.split('T')[0];
+        if (typeof dStr === 'string' && dStr.includes('T')) dStr = dStr.split('T')[0];
         return dStr === dayStr;
     });
 
-    if (dayExpenses.length === 0) {
-        return;
+    // Cập nhật tiêu đề ngày (dạng DD/MM/YY)
+    const parts = dayStr.split('-');
+    const displayDate = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0].slice(-2)}` : dayStr;
+    const dayDetailTitle = document.getElementById('cal-day-detail-title');
+    if (dayDetailTitle) dayDetailTitle.innerText = displayDate;
+
+    // Tính tổng ngày
+    const dayTotal = dayExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+    const dayTotalEl = document.getElementById('cal-day-detail-total');
+    if (dayTotalEl) dayTotalEl.innerText = formatCurrency(dayTotal);
+
+    // Render danh sách chi tiêu
+    const listEl = document.getElementById('cal-day-expense-list');
+    if (listEl) {
+        if (dayExpenses.length === 0) {
+            listEl.innerHTML = `
+                <div style="text-align: center; padding: 30px 0; color: var(--text-secondary); font-size: 0.88rem;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">📭</div>
+                    <p>Không có chi tiêu nào trong ngày này</p>
+                </div>`;
+        } else {
+            listEl.innerHTML = dayExpenses.map(exp => {
+                const style = CATEGORY_STYLES[exp.category] || CATEGORY_STYLES['Khác'];
+                const amountStr = formatCurrency(exp.amount || 0);
+                const timeStr = formatDateTimeVietnamese(exp);
+                return `
+                <div style="
+                    display: flex; align-items: center; gap: 12px;
+                    background: rgba(255,255,255,0.04);
+                    border-radius: 14px; padding: 12px 14px;
+                    border: 1px solid rgba(255,255,255,0.07);
+                ">
+                    <div style="
+                        width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+                        background: ${style.bg}; display: flex; align-items: center; justify-content: center;
+                        font-size: 1.3rem;
+                    ">${style.emoji}</div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;">${exp.category || 'Khác'} · ${timeStr}</div>
+                    </div>
+                    <div style="font-size: 0.95rem; font-weight: 800; color: ${style.color}; white-space: nowrap; flex-shrink: 0;">-${amountStr}</div>
+                </div>`;
+            }).join('');
+        }
     }
 
-    // Đóng modal lịch và chuyển sang trang Lịch sử lọc theo ngày đó
-    closeCalendarModal();
-    state.searchQuery = dayStr;
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.value = dayStr;
-    switchTab('history');
-    renderHistoryList();
+    // Chuyển sang view chi tiết (ẩn lưới lịch)
+    const gridView = document.getElementById('calendar-grid-view');
+    const detailView = document.getElementById('calendar-day-detail');
+    if (gridView) gridView.style.display = 'none';
+    if (detailView) detailView.style.display = 'block';
+    createLucideIcons();
 }
+
 
 function renderCalendar() {
     // Cập nhật tiêu đề tháng + năm (layout mới)
