@@ -186,15 +186,24 @@ function registerEventListeners() {
         });
     });
 
-    // Bấm xem tất cả ở Dashboard chuyển sang History tab (xóa tìm kiếm cũ và cuộn lên đầu)
-    document.getElementById('btn-see-all').addEventListener('click', () => {
-        state.searchQuery = '';
-        const searchInput = document.getElementById('search-input');
-        if (searchInput) searchInput.value = '';
-        switchTab('history');
-        renderHistoryList();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // Bấm xem tất cả ở Dashboard chuyển sang History tab (xóa tìm kiếm cũ và cuộn lên đầu 100%)
+    const btnSeeAll = document.getElementById('btn-see-all');
+    if (btnSeeAll) {
+        btnSeeAll.addEventListener('click', () => {
+            state.searchQuery = '';
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+            switchTab('history');
+            renderHistoryList();
+            
+            // Cuộn khung app-main về vị trí đầu trang 0
+            const appMain = document.querySelector('.app-main');
+            if (appMain) {
+                appMain.scrollTop = 0;
+            }
+            window.scrollTo(0, 0);
+        });
+    }
 
     // Bấm thẻ Hôm nay mở Lịch chi tiêu
     const cardToday = document.querySelector('.card-today');
@@ -327,6 +336,13 @@ function switchTab(tabId) {
         const isTarget = panel.getAttribute('id') === `tab-${tabId}`;
         panel.classList.toggle('active', isTarget);
     });
+
+    // Đảm bảo cuộn về đầu trang 100% trên container app-main
+    const appMain = document.querySelector('.app-main');
+    if (appMain) {
+        appMain.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
 
     // Cập nhật lại UI cụ thể khi chuyển tab (ví dụ: Biểu đồ)
     if (tabId === 'dashboard') {
