@@ -55,7 +55,7 @@ function initCategoryDoughnutChart(canvasId, labels, data, colors) {
         colors = ['rgba(255, 255, 255, 0.1)'];
     }
 
-    // BIỂU ĐỒ HÌNH TRÒN ĐẦY ĐỦ (PIE CHART - SOLID CIRCLE)
+    // BIỂU ĐỒ HÌNH TRÒN ĐẦY ĐỦ VỚI VIỀN TRẮNG PHÂN CÁCH (PIE CHART)
     categoryChartInstance = new Chart(ctx, {
         type: 'pie',
         data: {
@@ -63,15 +63,15 @@ function initCategoryDoughnutChart(canvasId, labels, data, colors) {
             datasets: [{
                 data: data,
                 backgroundColor: colors,
-                borderWidth: 1.5,
-                borderColor: '#1c1c1e',
+                borderWidth: 2.5,
+                borderColor: '#ffffff',
                 hoverOffset: 6
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: 0, // Khung tròn đặc 100% không bị lủng lỗ giữa
+            cutout: 0,
             plugins: {
                 legend: {
                     display: false

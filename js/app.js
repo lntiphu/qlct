@@ -845,12 +845,12 @@ function createTransactionDOMItem(exp) {
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
                 <div class="item-meta">
-                    <span>${formatDateTimeVietnamese(exp)}</span>
+                    <span style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span> · <span>${formatDateTimeVietnamese(exp)}</span>
                 </div>
             </div>
         </div>
         <div class="item-right">
-            <div class="item-amount">-${formatCurrency(exp.amount)}</div>
+            <div class="item-amount" style="color: ${style.color} !important; font-weight: 800;">-${formatCurrency(exp.amount)}</div>
         </div>
     `;
     return itemEl;
