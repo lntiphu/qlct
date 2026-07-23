@@ -927,26 +927,138 @@ function renderDashboardCharts() {
             return;
         }
 
+        // Wrap toàn bộ legend trong bảng grid 3 cột
+        const table = document.createElement('div');
+        table.style.cssText = 'display: flex; flex-direction: column; gap: 0;';
+
         breakdownList.forEach(item => {
             const row = document.createElement('div');
-            row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; padding: 7px 0; border-bottom: 1px dashed rgba(255,255,255,0.06);';
-            row.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1rem;">${item.emoji}</span>
-                    <span style="font-weight: 600; color: var(--text-primary);">${item.category}</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="color: var(--text-secondary); font-size: 0.75rem;">${formatCurrency(item.amount)}</span>
-                    <span style="font-weight: 700; color: ${item.color}; min-width: 45px; text-align: right;">${item.pct}%</span>
-                </div>
+            row.style.cssText = `
+                display: grid;
+                grid-template-columns: 26px 1fr auto auto;
+                align-items: center;
+                column-gap: 8px;
+                padding: 9px 10px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: background 0.15s ease;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
             `;
-            legendContainer.appendChild(row);
+            row.innerHTML = `
+                <span style="font-size: 1.1rem; text-align: center; display: block;">${item.emoji}</span>
+                <span style="font-weight: 600; color: var(--text-primary); font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.category}</span>
+                <span style="color: var(--text-secondary); font-size: 0.78rem; white-space: nowrap; text-align: right;">${formatCurrency(item.amount)}</span>
+                <span style="font-weight: 700; color: ${item.color}; font-size: 0.8rem; text-align: right; white-space: nowrap; width: 48px;">${item.pct}%</span>
+            `;
+
+
+            // Active state khi bấm
+            row.addEventListener('touchstart', () => { row.style.background = 'rgba(255,255,255,0.06)'; }, { passive: true });
+            row.addEventListener('touchend', () => { row.style.background = ''; }, { passive: true });
+            row.addEventListener('mouseover', () => { row.style.background = 'rgba(255,255,255,0.05)'; });
+            row.addEventListener('mouseout', () => { row.style.background = ''; });
+
+            // Click -> hiện popup chi tiêu theo thể loại
+            row.addEventListener('click', () => showCategoryExpenses(item.category, currentMonthExpenses));
+
+            table.appendChild(row);
         });
+
+        legendContainer.appendChild(table);
     }
+}
+
+// HIỂN THỊ CHI TIÊU THEO THỂ LOẠI (POPUP)
+function showCategoryExpenses(categoryName, monthExpenses) {
+    const catExpenses = (monthExpenses || state.expenses).filter(e => (e.category || 'Khác') === categoryName);
+    const style = CATEGORY_STYLES[categoryName] || CATEGORY_STYLES['Khác'];
+    const total = catExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+    // Tạo overlay popup
+    let overlay = document.getElementById('category-popup-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'category-popup-overlay';
+        overlay.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.65); z-index: 200000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; transition: opacity 0.25s ease;
+            pointer-events: none;
+        `;
+        document.body.appendChild(overlay);
+    }
+
+    overlay.innerHTML = `
+        <div style="
+            background: #1c1c1e; border-radius: 20px;
+            width: 100%; max-width: 360px; max-height: 80vh;
+            display: flex; flex-direction: column;
+            padding: 18px 16px 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.08);
+        ">
+            <!-- Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 38px; height: 38px; border-radius: 12px; background: ${style.bg}; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">${style.emoji}</div>
+                    <div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Thể loại</div>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: #fff;">${categoryName}</div>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('category-popup-overlay').style.opacity='0'; setTimeout(()=>{document.getElementById('category-popup-overlay').style.pointerEvents='none';},250);"
+                    style="background: rgba(255,255,255,0.1); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;">✕</button>
+            </div>
+
+            <!-- Tổng -->
+            <div style="
+                display: flex; justify-content: space-between; align-items: center;
+                padding: 9px 12px; background: rgba(${style.color.replace('#','').match(/.{2}/g).map(h=>parseInt(h,16)).join(',')}, 0.12);
+                border-radius: 10px; margin-bottom: 12px;
+                border: 1px solid rgba(${style.color.replace('#','').match(/.{2}/g).map(h=>parseInt(h,16)).join(',')}, 0.25);
+            ">
+                <span style="font-size: 0.82rem; color: var(--text-secondary);">Tổng tháng này</span>
+                <strong style="color: ${style.color}; font-size: 0.95rem;">${formatCurrency(total)}</strong>
+            </div>
+
+            <!-- Danh sách -->
+            <div style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 290px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent;">
+
+                ${catExpenses.length === 0
+                    ? `<div style="text-align:center; padding: 30px 0; color: var(--text-secondary);">Không có chi tiêu nào</div>`
+                    : catExpenses.map(exp => `
+                        <div style="
+                            display: flex; align-items: center; gap: 12px;
+                            background: rgba(255,255,255,0.04); border-radius: 12px;
+                            padding: 11px 13px; border: 1px solid rgba(255,255,255,0.06);
+                        ">
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-size: 0.88rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">${formatDateTimeVietnamese(exp)}</div>
+                            </div>
+                            <div style="font-size: 0.9rem; font-weight: 800; color: ${style.color}; flex-shrink: 0;">-${formatCurrency(exp.amount || 0)}</div>
+                        </div>
+                    `).join('')}
+            </div>
+        </div>
+    `;
+
+    overlay.style.pointerEvents = 'auto';
+    requestAnimationFrame(() => { overlay.style.opacity = '1'; });
+
+    // Bấm ngoài popup để đóng
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.pointerEvents = 'none'; }, 250);
+        }
+    }, { once: false });
 }
 
 // HIỂN THỊ DANH SÁCH LỊCH SỬ (HISTORY TAB)
 function renderHistoryList() {
+
     const historyListContainer = document.getElementById('history-spendings-list');
     historyListContainer.innerHTML = '';
 
