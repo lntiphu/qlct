@@ -50,7 +50,7 @@
         <!-- iOS Status Bar Background Spacer for viewport-fit=cover -->
         <div class="ios-status-bar-spacer"></div>
         <!-- HEADER -->
-        <header class="app-header">
+        <header class="app-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
             <div class="header-left">
                 <span class="date-today" id="current-date">Thứ Ba, 21 Tháng 7</span>
                 <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
@@ -58,8 +58,11 @@
                     <h1 class="header-title" style="font-size: 1.6rem; font-weight: 800; margin: 0;">Money</h1>
                 </div>
             </div>
-        </header>
-
+            <div class="header-right">
+                <button id="btn-open-calendar-modal" class="header-icon-btn" aria-label="Xem Lịch Chi Tiêu" onclick="openCalendarModal()">
+                    <i data-lucide="calendar"></i>
+                </button>
+            </div>
         </header>
 
         <!-- MAIN CONTENT PANELS (Tabs) -->
@@ -267,12 +270,47 @@
                         <i data-lucide="trash-2"></i> Xóa khoản chi này
                     </button>
                 </div>
+    <!-- CALENDAR VIEW MODAL -->
+    <div class="modal-overlay" id="calendar-expense-modal">
+        <div class="modal-sheet calendar-modal-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div class="calendar-nav-controls">
+                    <button class="calendar-nav-btn" id="btn-prev-month"><i data-lucide="chevron-left"></i></button>
+                    <h2 id="calendar-month-title" style="font-size: 1.1rem; font-weight: 700; margin: 0;">Tháng 7, 2026</h2>
+                    <button class="calendar-nav-btn" id="btn-next-month"><i data-lucide="chevron-right"></i></button>
+                </div>
+                <button class="modal-close-btn" id="btn-close-calendar"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div class="calendar-body">
+                <!-- Summary for month -->
+                <div class="calendar-month-summary">
+                    <span>Tổng chi tháng này:</span>
+                    <strong id="calendar-month-total">0đ</strong>
+                </div>
+
+                <!-- Days of week header -->
+                <div class="calendar-weekdays">
+                    <div>T2</div>
+                    <div>T3</div>
+                    <div>T4</div>
+                    <div>T5</div>
+                    <div>T6</div>
+                    <div>T7</div>
+                    <div>CN</div>
+                </div>
+
+                <!-- Calendar Days Grid -->
+                <div class="calendar-days-grid" id="calendar-days-grid">
+                    <!-- Dynamic Days -->
+                </div>
             </div>
         </div>
     </div>
-</div>
+    </div> <!-- End app-container -->
 
-<!-- JS Scripts -->
+    <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
