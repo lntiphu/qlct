@@ -47,6 +47,29 @@
     font-family: var(--ios-font);
 }
 
+/* Custom Scrollbar - mỏng và tối giản */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* Ẩn scrollbar nhưng vẫn cuộn được trên các container nhất định */
+#cal-day-expense-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+
 body {
     background-color: #08080a;
     color: var(--text-primary);
