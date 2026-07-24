@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/styles.css?v=16">
+    <link rel="stylesheet" href="css/styles.css?v=18">
 </head>
 <body>
     <!-- Debug Console Overlay to catch local browser errors -->
@@ -232,7 +232,6 @@
             <div class="modal-header" style="justify-content: flex-end;">
                 <button class="modal-close-btn" id="btn-close-detail"><i data-lucide="x"></i></button>
             </div>
-            <!-- Vùng cuộn nội dung -->
             <div class="detail-body">
                 <!-- Amount input (iOS style) -->
                 <div class="amount-input-container" style="margin-bottom: 15px;">
@@ -269,20 +268,19 @@
                         <span class="info-value" id="detail-date" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-blue);"></span>
                     </div>
                 </div>
-            </div><!-- End detail-body (scrollable) -->
 
-            <!-- Nút hành động - nằm ngoài vùng cuộn, luôn hiển thị ở đáy -->
-            <div class="detail-actions">
-                <button class="btn btn-primary" id="btn-save-edit-expense" style="width: 100%; font-weight: 700;">
-                    <i data-lucide="check"></i> Lưu thay đổi
-                </button>
-                <button class="btn btn-danger" id="btn-delete-expense" style="width: 100%;">
-                    <i data-lucide="trash-2"></i> Xóa khoản chi này
-                </button>
-            </div>
+                <!-- Nút hành động - trong detail-body, cuộn cùng nội dung -->
+                <div class="detail-actions">
+                    <button class="btn btn-primary" id="btn-save-edit-expense" style="width: 100%; font-weight: 700;">
+                        <i data-lucide="check"></i> Lưu thay đổi
+                    </button>
+                    <button class="btn btn-danger" id="btn-delete-expense" style="width: 100%;">
+                        <i data-lucide="trash-2"></i> Xóa khoản chi này
+                    </button>
+                </div>
+            </div><!-- End detail-body -->
         </div><!-- End modal-sheet -->
     </div><!-- End #detail-expense-modal -->
-
 
     <!-- CALENDAR VIEW MODAL -->
     <div class="modal-overlay" id="calendar-expense-modal">
@@ -358,7 +356,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/chart-config.js?v=16" defer></script>
-    <script src="js/app.js?v=16" defer></script>
+    <script src="js/chart-config.js?v=18" defer></script>
+    <script src="js/app.js?v=18" defer></script>
 </body>
 </html>
