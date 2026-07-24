@@ -99,6 +99,7 @@ html, body {
     flex-direction: column;
     overflow: hidden;
     overscroll-behavior: none;
+    /* Quan trọng: dùng 100% thay vì 100vh trên iOS */
 }
 
 /* Status Bar spacer cho iOS notched phones */
@@ -808,8 +809,9 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    /* Dùng 100% fixed thay vì 100vh — trên iOS Safari 100vh bao gồm thanh URL bar ẩn */
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 100000;
     display: flex;
@@ -833,19 +835,27 @@ html, body {
 
 .modal-sheet {
     width: 100%;
-    max-height: 92vh;
+    /* dvh = dynamic viewport height - không bao gồm thanh Safari URL bar ẩn */
+    /* svh = small viewport height - cũng an toàn cho iOS */
+    /* Fallback: 85vh cho trình duyệt cũ */
+    max-height: 85vh;
+    max-height: 85svh; /* small viewport - an toàn nhất */
     background-color: #1c1c1e;
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
-    padding: 10px 20px 0 20px;
-    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    /* padding-bottom dùng safe-area-inset-bottom cho nút home iPhone 15 Pro (~34px) */
+    padding: 10px 20px max(20px, env(safe-area-inset-bottom)) 20px;
     display: flex;
     flex-direction: column;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    /* Đảm bảo không bị trượt xuống khỏi màn hình */
+    will-change: transform;
 }
 
 .modal-overlay.active .modal-sheet {
@@ -1000,15 +1010,9 @@ html, body {
 }
 
 /* FORM FIELDS */
-/* Vùng cuộn nội dung modal - flex: 1 để chiếm hết không gian thừa, overflow-y để cuộn */
+/* modal-form và detail-body: không dùng flex:1 - để modal-sheet tự cuộn toàn bộ */
 .modal-form, .detail-body {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 8px;
-    /* Cuộn mượt trên iOS */
-    -webkit-overflow-scrolling: auto;
-    overscroll-behavior-y: contain;
+    display: block;
 }
 
 .form-fields {
@@ -1338,7 +1342,7 @@ html, body {
     }
 }
 
-/* HIỂN THỊ TOÀN MÀN HÌNH TRÊN ĐIỆN THOẠI THẬT (MOBILE) */
+/* HIỂN THỊ TOÀN MÀN HÌNH TRÊN ĐIỆN THOẠI THẬT (MOBILE) - iPhone 15 Pro tối ưu */
 @media (max-width: 479px) {
     body {
         background-color: #000000;
@@ -1350,6 +1354,7 @@ html, body {
         right: 0;
         bottom: 0;
         width: 100%;
+        /* Dùng 100% thay vì 100vh / 100dvh vì .app-container đã position: fixed */
         height: 100%;
         border: none;
         border-radius: 0;
@@ -1358,6 +1363,41 @@ html, body {
     /* Ẩn giả lập Dynamic Island trên điện thoại thật */
     .app-container::before {
         display: none !important;
+    }
+
+    /* iOS Status Bar spacer: dùng env(safe-area-inset-top) thật của iPhone 15 Pro */
+    /* iPhone 15 Pro: safe-area-inset-top = 59px (Dynamic Island) */
+    .ios-status-bar-spacer {
+        height: env(safe-area-inset-top, 47px);
+    }
+
+    /* App nav: ôm sát thanh Home Indicator của iPhone 15 Pro (~34px) */
+    .app-nav {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    /* Modal overlay: full-screen fixed, không dùng 100vh */
+    .modal-overlay {
+        width: 100%;
+        height: 100%;
+        /* Đảm bảo modal overlay bắt đầu từ top: 0 tức thật của màn hình */
+        top: 0;
+        left: 0;
+    }
+
+    /* Modal sheet: giới hạn max-height theo svh để không kéo ra ngoài màn hình
+       iPhone 15 Pro = 852px height, safe area top ~59px, bottom ~34px
+       Dùng svh (small viewport height) = chiều cao khi Safari toolbar hiển thị đầy đủ */
+    .modal-sheet {
+        max-height: 82svh;     /* svh an toàn nhất trên iOS 15.4+ */
+        max-height: 82vh;      /* fallback */
+        /* padding bottom = home indicator của iPhone 15 Pro */
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    /* Font size thêm 1 lần để chắc chắn không bị iOS auto-zoom */
+    input, select, textarea {
+        font-size: 16px !important;
     }
 }
 
