@@ -35,6 +35,27 @@ const CATEGORY_STYLES = {
     "Khác": { emoji: "📝", bg: "rgba(142, 142, 147, 0.12)", color: "#8e8e93" }
 };
 
+// TỰ ĐỘNG CO CHỮ SỐ TIỀN THEO ĐỘ DÀI (kiểu Apple Pay / iOS)
+// Đảm bảo số hiển thị vừa ô dù dài đến 100.000.000
+function scaleAmountFont(inputEl) {
+    if (!inputEl) return;
+    const len = (inputEl.value || '').length;
+    let size;
+    if (len <= 7)       size = '3.8rem';   // 0 - 9.999.999 (7 ký tự)
+    else if (len <= 9)  size = '3.0rem';   // 10.000.000 - 99.999.999 (8-9 ký tự)
+    else                size = '2.4rem';   // 100.000.000 (11 ký tự với dấu chấm)
+    inputEl.style.fontSize = size;
+    // Đồng bộ ký hiệu ₫ với kích thước chữ
+    const container = inputEl.closest('.amount-input-container');
+    if (container) {
+        const symbol = container.querySelector('.currency-symbol');
+        if (symbol) {
+            const symSize = parseFloat(size) * 0.74;
+            symbol.style.fontSize = symSize + 'rem';
+        }
+    }
+}
+
 // KHỞI CHẠY ỨNG DỤNG
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
@@ -220,19 +241,23 @@ function registerEventListeners() {
         if (e.target.id === 'add-expense-modal') closeAddModal();
     });
 
-    // Định dạng số tiền nhập trực tiếp (Chỉ cho phép số và thêm dấu phẩy phân cách hàng nghìn)
+    // Định dạng & tự động co chữ theo độ dài số tiền nhập (kiểu Apple Pay)
     const amountInput = document.getElementById('expense-amount');
     amountInput.addEventListener('input', (e) => {
-        let val = e.target.value;
-        // Loại bỏ mọi ký tự không phải số
-        val = val.replace(/\D/g, '');
+        let val = e.target.value.replace(/\D/g, '');
+        // Giới hạn tối đa 100.000.000 (100 triệu)
+        if (val && parseInt(val, 10) > 100000000) {
+            val = '100000000';
+        }
         if (val) {
-            // Định dạng phân tách phần nghìn
             e.target.value = parseInt(val, 10).toLocaleString('vi-VN');
         } else {
             e.target.value = '';
         }
+        scaleAmountFont(e.target);
     });
+    // Scale lần đầu khi modal mở
+    scaleAmountFont(amountInput);
 
     // Submit form thêm mới
     document.getElementById('add-expense-form').addEventListener('submit', handleAddExpenseSubmit);
@@ -243,16 +268,21 @@ function registerEventListeners() {
         if (e.target.id === 'detail-expense-modal') closeDetailModal();
     });
 
-    // Định dạng số tiền nhập ở ô chỉnh sửa
+    // Định dạng & tự động co chữ cho ô số tiền chỉnh sửa
     const detailAmountInput = document.getElementById('detail-amount-input');
     if (detailAmountInput) {
         detailAmountInput.addEventListener('input', (e) => {
             let val = e.target.value.replace(/\D/g, '');
+            // Giới hạn tối đa 100.000.000 (100 triệu)
+            if (val && parseInt(val, 10) > 100000000) {
+                val = '100000000';
+            }
             if (val) {
                 e.target.value = parseInt(val, 10).toLocaleString('vi-VN');
             } else {
                 e.target.value = '';
             }
+            scaleAmountFont(e.target);
         });
     }
 
@@ -370,7 +400,9 @@ function openDetailModal(expenseId) {
     const exp = state.expenses.find(item => item.id === expenseId);
     if (!exp) return;
 
-    document.getElementById('detail-amount-input').value = exp.amount.toLocaleString('vi-VN');
+    const detailAmountEl = document.getElementById('detail-amount-input');
+    detailAmountEl.value = exp.amount.toLocaleString('vi-VN');
+    scaleAmountFont(detailAmountEl); // Tự động co chữ ngay khi mở
     document.getElementById('detail-title-input').value = exp.title;
     document.getElementById('detail-category-select').value = exp.category || 'Khác';
     document.getElementById('detail-date').innerText = formatDateTimeVietnamese(exp);
