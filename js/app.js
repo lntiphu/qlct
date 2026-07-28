@@ -25,14 +25,14 @@ function sortExpenses() {
     });
 }
 
-// Cấu hình Emoji & Màu sắc cho từng Phân loại
+// Cấu hình Emoji & Màu sắc cho từng Phân loại (Florenté Lifestyle Palette)
 const CATEGORY_STYLES = {
-    "Ăn uống": { emoji: "🍔", bg: "rgba(255, 159, 10, 0.12)", color: "#ff9f0a" },
-    "Mua sắm": { emoji: "🛒", bg: "rgba(191, 90, 242, 0.12)", color: "#bf5af2" },
-    "Di chuyển": { emoji: "🚗", bg: "rgba(10, 132, 255, 0.12)", color: "#0a84ff" },
-    "Giải trí": { emoji: "🍿", bg: "rgba(255, 69, 58, 0.12)", color: "#ff453a" },
-    "Sinh hoạt": { emoji: "💡", bg: "rgba(94, 92, 230, 0.12)", color: "#5e5ce6" },
-    "Khác": { emoji: "📝", bg: "rgba(142, 142, 147, 0.12)", color: "#8e8e93" }
+    "Ăn uống": { emoji: "🍔", bg: "rgba(220, 139, 120, 0.14)", color: "#dc8b78" },
+    "Mua sắm": { emoji: "🛒", bg: "rgba(214, 149, 138, 0.14)", color: "#d6958a" },
+    "Di chuyển": { emoji: "🚗", bg: "rgba(52, 66, 55, 0.14)", color: "#344237" },
+    "Giải trí": { emoji: "🍿", bg: "rgba(200, 155, 103, 0.14)", color: "#c89b67" },
+    "Sinh hoạt": { emoji: "💡", bg: "rgba(106, 123, 104, 0.14)", color: "#6a7b68" },
+    "Khác": { emoji: "📝", bg: "rgba(131, 140, 132, 0.14)", color: "#838c84" }
 };
 
 // TỰ ĐỘNG CO CHỮ SỐ TIỀN THEO ĐỘ DÀI (kiểu Apple Pay / iOS)
