@@ -1,47 +1,53 @@
 /* ==========================================================================
-   Money - Premium Fintech UI v2.0
+   Money - Florenté Lifestyle Aesthetic Theme
    ========================================================================== */
 
-/* Hệ thống biến màu cân nặng hơn, cao cấp hơn */
+/* Hệ thống màu sắc sang trọng & Variables Florenté */
 :root {
-    /* Nền gradient sâu */
-    --bg-black: #080810;
-    --bg-dark-gray: #0e0e18;
-    --bg-card: rgba(255, 255, 255, 0.055);
-    --bg-card-hover: rgba(255, 255, 255, 0.09);
-    --bg-input: rgba(255, 255, 255, 0.06);
-    --border-gray: rgba(255, 255, 255, 0.09);
-    --border-glow: rgba(10, 132, 255, 0.25);
+    /* Nền sang trọng Florenté Soft Cream & Olive Forest Green */
+    --bg-cream: #FAF7F2;
+    --bg-cream-subtle: #F5EFE8;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8F4EC;
+    --bg-input: #F2EBE1;
+    --border-gray: rgba(52, 66, 55, 0.08);
+    --border-glow: rgba(226, 174, 162, 0.35);
 
-    /* Accent colors - tiếnh tế hơn */
-    --accent-blue: #2d9cff;
-    --accent-blue-rgb: 45, 156, 255;
-    --accent-green: #34d86a;
-    --accent-green-rgb: 52, 216, 106;
-    --accent-orange: #ff9f0a;
-    --accent-orange-rgb: 255, 159, 10;
-    --accent-red: #ff4d4d;
-    --accent-red-rgb: 255, 77, 77;
-    --accent-indigo: #7b78ff;
-    --accent-indigo-rgb: 123, 120, 255;
-    --accent-purple: #c86ef7;
-    --accent-purple-rgb: 200, 110, 247;
+    /* Palette Florenté chính */
+    --accent-olive: #344237;
+    --accent-olive-dark: #253128;
+    --accent-coral: #DC8B78;
+    --accent-rose: #E2AEA2;
+    --accent-sand-cream: #F7ECE1;
+    --accent-rose-cream: #F5DDD6;
+    --accent-olive-cream: #EDECE5;
+    --accent-sage: #6A7B68;
+    --accent-gold: #C89B67;
+
+    /* Legacy mapping cho các thẻ & danh mục */
+    --accent-blue: #344237;
+    --accent-green: #6A7B68;
+    --accent-purple: #DC8B78;
+    --accent-orange: #C89B67;
+    --accent-red: #D45B50;
+    --accent-indigo: #4F5E52;
+
+    /* Text */
+    --text-primary: #232C25;
+    --text-secondary: #6B786D;
+    --text-tertiary: #929E94;
 
     /* Typography */
-    --text-primary: #f2f2f7;
-    --text-secondary: rgba(242, 242, 247, 0.55);
-    --text-tertiary: rgba(242, 242, 247, 0.3);
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --ios-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     /* Tokens */
-    --ios-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --card-radius: 22px;
-    --btn-radius: 16px;
-    --nav-height: calc(68px + env(safe-area-inset-bottom, 0px));
+    --card-radius: 20px;
+    --btn-radius: 14px;
+    --shadow-card: 0 8px 30px rgba(52, 66, 55, 0.04);
+    --shadow-hover: 0 12px 36px rgba(52, 66, 55, 0.08);
     --transition-smooth: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --glass-blur: blur(20px) saturate(180%);
-    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
-    --shadow-glow-blue: 0 0 20px rgba(45, 156, 255, 0.25);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Reset cơ bản */
@@ -62,22 +68,20 @@
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(52, 66, 55, 0.15);
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.28);
+    background: rgba(52, 66, 55, 0.28);
 }
 
-/* Ẩn scrollbar nhưng vẫn cuộn được trên các container nhất định */
 #cal-day-expense-list {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    scrollbar-color: rgba(52, 66, 55, 0.15) transparent;
 }
 
-/* Ngăn ngừa iOS Safari tự động Zoom khi bấm ô nhập liệu (tránh lệch khung hình & kẹt cuộn) */
 input, select, textarea {
-    font-size: 16px; /* 16px ngăn iOS Safari tự Zoom in khi click */
+    font-size: 16px;
 }
 
 html, body {
@@ -87,18 +91,19 @@ html, body {
     padding: 0;
     overflow: hidden;
     background-color: var(--bg-black);
+    color: var(--text-primary);
     -webkit-user-select: none;
     user-select: none;
 }
 
-/* Gradient nền toàn trang - hiệu ứng ánh sáng từ trên */
+/* Florenté Warm Cream Ambient Background */
 .app-container {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     width: 100%; height: 100%;
-    background: radial-gradient(ellipse 80% 40% at 50% -10%, rgba(45, 156, 255, 0.12) 0%, transparent 70%),
-                radial-gradient(ellipse 60% 30% at 80% 80%, rgba(200, 110, 247, 0.07) 0%, transparent 60%),
-                linear-gradient(180deg, #080810 0%, #0a0a16 100%);
+    background: radial-gradient(circle at 10% 10%, #FFFDFA 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, #F7ECE1 0%, transparent 50%),
+                linear-gradient(180deg, #FAF7F2 0%, #F4EFE6 100%);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -113,14 +118,14 @@ html, body {
     width: 100%;
 }
 
-/* HEADER - không nền đặc, trong suốt để thấy gradient */
+/* HEADER */
 .app-header {
     padding: 10px 20px 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     background: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(52, 66, 55, 0.06);
     flex-shrink: 0;
     z-index: 10;
 }
@@ -130,32 +135,27 @@ html, body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    color: var(--accent-blue);
+    color: var(--accent-coral);
     display: block;
-    margin-bottom: 3px;
-    opacity: 0.9;
+    margin-bottom: 2px;
 }
 
 .header-title {
-    font-size: 1.9rem;
-    font-weight: 800;
-    /* Gradient chữ cao cấp */
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--accent-olive);
     letter-spacing: -0.5px;
+    line-height: 1.1;
 }
 
 .icon-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.07);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: var(--text-primary);
+    border: 1px solid rgba(52, 66, 55, 0.08);
+    background: var(--accent-sand-cream);
+    color: var(--accent-olive);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,8 +164,8 @@ html, body {
 }
 
 .icon-btn:active {
-    transform: scale(0.9);
-    background: rgba(255,255,255,0.14);
+    transform: scale(0.92);
+    background: #EFE2D5;
 }
 
 /* MAIN CONTENT PANELS */
@@ -198,7 +198,7 @@ html, body {
     transform: translateY(0);
 }
 
-/* SUMMARY CARDS ROW - Glassmorphism cards */
+/* SUMMARY CARDS ROW - Florenté Palette */
 .summary-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -207,28 +207,15 @@ html, body {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.055);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-radius: var(--card-radius);
     padding: 14px 12px;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(52, 66, 55, 0.08);
     position: relative;
     overflow: hidden;
     transition: var(--transition-bounce);
-    box-shadow: var(--shadow-card);
-}
-
-/* Ánh sáng phản chiếu nhẹ */
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-    pointer-events: none;
+    box-shadow: 0 6px 20px rgba(52, 66, 55, 0.03);
 }
 
 .card:active { transform: scale(0.95); }
@@ -236,36 +223,68 @@ html, body {
 .card-icon {
     width: 30px;
     height: 30px;
-    border-radius: 9px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
 }
 
+.card-icon i { width: 15px; height: 15px; }
+
+/* Thẻ 1 (Hôm nay): Deep Olive Forest Green Card */
+.card-today {
+    background: var(--accent-olive);
+    border-color: var(--accent-olive);
+    box-shadow: 0 8px 24px rgba(52, 66, 55, 0.2);
+}
 .card-today .card-icon {
-    background: linear-gradient(135deg, rgba(45, 156, 255, 0.25), rgba(45, 156, 255, 0.08));
-    color: var(--accent-blue);
-    box-shadow: 0 2px 8px rgba(45, 156, 255, 0.2);
+    background: rgba(226, 174, 162, 0.2);
+    color: var(--accent-rose);
 }
-.card-week .card-icon {
-    background: linear-gradient(135deg, rgba(52, 216, 106, 0.25), rgba(52, 216, 106, 0.08));
-    color: var(--accent-green);
-    box-shadow: 0 2px 8px rgba(52, 216, 106, 0.2);
+.card-today .card-label {
+    color: rgba(250, 247, 242, 0.75);
 }
-.card-month .card-icon {
-    background: linear-gradient(135deg, rgba(200, 110, 247, 0.25), rgba(200, 110, 247, 0.08));
-    color: var(--accent-purple);
-    box-shadow: 0 2px 8px rgba(200, 110, 247, 0.2);
+.card-today .card-amount {
+    color: var(--accent-rose) !important;
 }
 
-.card-icon i { width: 15px; height: 15px; }
+/* Thẻ 2 (Tuần này): Soft Sand Cream Card */
+.card-week {
+    background: var(--accent-sand-cream);
+    border-color: rgba(226, 174, 162, 0.3);
+}
+.card-week .card-icon {
+    background: rgba(52, 66, 55, 0.1);
+    color: var(--accent-olive);
+}
+.card-week .card-label {
+    color: var(--text-secondary);
+}
+.card-week .card-amount {
+    color: var(--accent-olive) !important;
+}
+
+/* Thẻ 3 (Tháng này): Soft Coral Rose Cream Card */
+.card-month {
+    background: var(--accent-rose-cream);
+    border-color: rgba(220, 139, 120, 0.2);
+}
+.card-month .card-icon {
+    background: rgba(52, 66, 55, 0.1);
+    color: var(--accent-olive);
+}
+.card-month .card-label {
+    color: var(--text-secondary);
+}
+.card-month .card-amount {
+    color: var(--accent-olive) !important;
+}
 
 .card-label {
     font-size: 0.68rem;
-    color: var(--text-secondary);
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     letter-spacing: 0.2px;
 }
 
@@ -278,32 +297,16 @@ html, body {
     letter-spacing: -0.3px;
 }
 
-/* Accent colors cho các thẻ */
-.card-today .card-amount  { color: var(--accent-blue) !important; }
-.card-week .card-amount   { color: var(--accent-green) !important; }
-.card-month .card-amount  { color: var(--accent-purple) !important; }
-
-/* SECTION CARDS - glass style */
+/* SECTION CARDS - Clean Warm White Cards */
 .section-card {
-    background: rgba(255, 255, 255, 0.045);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: #FFFFFF;
     border-radius: var(--card-radius);
     padding: 18px;
     margin-bottom: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(52, 66, 55, 0.07);
     box-shadow: var(--shadow-card);
     position: relative;
     overflow: hidden;
-}
-
-.section-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-    pointer-events: none;
 }
 
 .section-header {
@@ -314,9 +317,10 @@ html, body {
 }
 
 .section-header h3 {
-    font-size: 0.95rem;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--accent-olive);
     letter-spacing: -0.2px;
 }
 
@@ -327,8 +331,8 @@ html, body {
 
 /* BUDGET CARD */
 .budget-card {
-    background: linear-gradient(145deg, rgba(45, 156, 255, 0.06) 0%, rgba(255,255,255,0.03) 100%);
-    border-color: rgba(45, 156, 255, 0.15);
+    background: linear-gradient(145deg, #FFFDF9 0%, #F7ECE1 100%);
+    border-color: rgba(226, 174, 162, 0.25);
 }
 
 .budget-header {
@@ -345,25 +349,25 @@ html, body {
 }
 
 .budget-percent {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--accent-blue);
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-olive);
 }
 
 .progress-bar-container {
-    height: 6px;
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 3px;
+    height: 7px;
+    background: rgba(52, 66, 55, 0.08);
+    border-radius: 4px;
     overflow: hidden;
     margin-bottom: 12px;
 }
 
 .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent-blue) 0%, #7ec8ff 100%);
-    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-olive) 0%, var(--accent-sage) 100%);
+    border-radius: 4px;
     transition: width 0.6s ease-out;
-    box-shadow: 0 0 8px rgba(45, 156, 255, 0.5);
 }
 
 .budget-footer {
@@ -393,11 +397,11 @@ html, body {
 .text-link-btn {
     background: none;
     border: none;
-    color: var(--accent-blue);
+    color: var(--accent-coral);
     font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
-    opacity: 0.9;
+    opacity: 0.95;
     transition: opacity 0.2s;
 }
 .text-link-btn:active { opacity: 0.6; }
@@ -417,10 +421,10 @@ html, body {
     align-items: center;
     gap: 10px;
 }
-.empty-state i { width: 36px; height: 36px; opacity: 0.4; }
+.empty-state i { width: 36px; height: 36px; opacity: 0.4; color: var(--accent-olive); }
 .empty-state p { font-size: 0.85rem; }
 
-/* TRANSACTION ITEM - kiểu card mới cao cấp */
+/* TRANSACTION ITEM - Florenté Clean Soft Card */
 .transaction-group-date {
     font-size: 0.68rem;
     font-weight: 700;
@@ -432,34 +436,21 @@ html, body {
 }
 
 .transaction-item {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #FFFFFF;
     border-radius: 18px;
-    padding: 11px 14px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(52, 66, 55, 0.06);
+    box-shadow: 0 4px 14px rgba(52, 66, 55, 0.03);
     transition: all 0.2s ease;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Đường sáng trên cùng của card */
-.transaction-item::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 12px; right: 12px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    pointer-events: none;
 }
 
 .transaction-item:active {
-    transform: scale(0.97);
-    background: rgba(255, 255, 255, 0.08);
+    transform: scale(0.98);
+    background: var(--bg-card-hover);
 }
 
 .item-left {
@@ -479,8 +470,7 @@ html, body {
     justify-content: center;
     font-size: 1.18rem;
     flex-shrink: 0;
-    /* Viền trong nhẹ */
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(52, 66, 55, 0.06);
 }
 
 .item-details { min-width: 0; }
@@ -493,7 +483,6 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 3px;
-    letter-spacing: -0.1px;
 }
 
 .item-meta {
@@ -531,27 +520,27 @@ html, body {
 
 .search-bar input {
     width: 100%;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    height: 42px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.12);
     color: var(--text-primary);
-    padding-left: 38px;
+    padding-left: 40px;
     padding-right: 14px;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     outline: none;
     transition: var(--transition-smooth);
+    box-shadow: 0 4px 14px rgba(52, 66, 55, 0.02);
 }
 
 .search-bar input:focus {
-    border-color: rgba(45, 156, 255, 0.4);
-    background: rgba(45, 156, 255, 0.06);
-    box-shadow: 0 0 0 3px rgba(45, 156, 255, 0.1);
+    border-color: var(--accent-olive);
+    box-shadow: 0 0 0 3px rgba(52, 66, 55, 0.08);
 }
 
 .search-icon {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     width: 16px;
@@ -568,15 +557,13 @@ html, body {
     -webkit-overflow-scrolling: touch;
 }
 
-.filter-scroll::-webkit-scrollbar {
-    display: none;
-}
+.filter-scroll::-webkit-scrollbar { display: none; }
 
 .filter-tag {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-gray);
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.1);
     color: var(--text-secondary);
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -586,9 +573,9 @@ html, body {
 }
 
 .filter-tag.active {
-    background-color: var(--accent-blue);
-    color: var(--text-primary);
-    border-color: var(--accent-blue);
+    background-color: var(--accent-olive);
+    color: #FAF7F2;
+    border-color: var(--accent-olive);
 }
 
 /* BREAKDOWN REPORT */
@@ -623,7 +610,7 @@ html, body {
 
 .breakdown-bar-bg {
     height: 6px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(52, 66, 55, 0.06);
     border-radius: 3px;
     overflow: hidden;
 }
@@ -645,7 +632,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(52, 66, 55, 0.06);
     padding-bottom: 12px;
 }
 
@@ -671,8 +658,8 @@ html, body {
 }
 
 .settings-input {
-    background-color: var(--bg-black);
-    border: 1px solid var(--border-gray);
+    background-color: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.12);
     color: var(--text-primary);
     padding: 6px 10px;
     border-radius: 8px;
@@ -684,7 +671,7 @@ html, body {
 }
 
 .settings-input:focus {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-olive);
 }
 
 .actions-row {
@@ -696,7 +683,7 @@ html, body {
 
 .btn {
     border: none;
-    padding: 10px 14px;
+    padding: 10px 16px;
     border-radius: var(--btn-radius);
     font-size: 0.8rem;
     font-weight: 700;
@@ -714,13 +701,13 @@ html, body {
 }
 
 .btn-secondary {
-    background-color: var(--bg-card-hover);
-    color: var(--text-primary);
-    border: 1px solid var(--border-gray);
+    background-color: var(--accent-sand-cream);
+    color: var(--accent-olive);
+    border: 1px solid rgba(226, 174, 162, 0.3);
 }
 
 .btn-secondary:active {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: #EFE2D5;
 }
 
 .btn-danger-link {
@@ -739,20 +726,17 @@ html, body {
 }
 
 .btn-danger:active {
-    background-color: #d1342c;
+    background-color: #b84339;
     transform: scale(0.98);
 }
 
-/* APP NAVIGATION BOTTOM BAR - Premium glassmorphism */
+/* APP NAVIGATION BOTTOM BAR - Deep Dark Olive Forest Green */
 .app-nav {
     position: relative;
     flex-shrink: 0;
     width: 100%;
-    /* Glass effect cho nav */
-    background: rgba(10, 10, 20, 0.85);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--accent-olive);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -760,13 +744,13 @@ html, body {
     padding-bottom: max(16px, env(safe-area-inset-bottom));
     z-index: 100;
     box-sizing: border-box;
-    box-shadow: 0 -1px 0 rgba(255,255,255,0.04), 0 -8px 32px rgba(0,0,0,0.4);
+    box-shadow: 0 -6px 25px rgba(52, 66, 55, 0.25);
 }
 
 .nav-item {
     background: none;
     border: none;
-    color: var(--text-tertiary);
+    color: rgba(250, 247, 242, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -789,26 +773,27 @@ html, body {
 }
 
 .nav-item.active {
-    color: var(--accent-blue);
+    color: #FAF7F2;
 }
 
 .nav-item.active i {
+    color: var(--accent-rose);
     transform: scale(1.12) translateY(-1px);
-    filter: drop-shadow(0 0 6px rgba(45, 156, 255, 0.5));
+    filter: drop-shadow(0 2px 8px rgba(226, 174, 162, 0.4));
 }
 
-/* Quick Add button - gradient + glow */
+/* Quick Add button - Soft Coral Rose Gradient */
 .nav-item-add {
     width: 52px;
     height: 52px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #3da8ff 0%, #0066d6 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, #E2AEA2 0%, #DC8B78 100%);
+    color: var(--accent-olive);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(45, 156, 255, 0.5), 0 0 0 1px rgba(255,255,255,0.1) inset;
+    box-shadow: 0 6px 20px rgba(220, 139, 120, 0.4);
     cursor: pointer;
     margin-top: -18px;
     transition: var(--transition-bounce);
@@ -816,22 +801,22 @@ html, body {
 
 .nav-item-add:active {
     transform: scale(0.83) rotate(90deg);
-    box-shadow: 0 2px 8px rgba(45, 156, 255, 0.3);
 }
 
-.nav-item-add i { width: 24px; height: 24px; }
+.nav-item-add i { width: 24px; height: 24px; stroke-width: 2.5; }
 
 /* ==========================================================================
-   MODALS (BOTTOM SHEET)
+   MODALS (BOTTOM SHEET - Florenté Warm Style)
    ========================================================================== */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    /* Dùng 100% fixed thay vì 100vh — trên iOS Safari 100vh bao gồm thanh URL bar ẩn */
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(35, 44, 37, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 100000;
     display: flex;
     align-items: flex-end;
@@ -845,7 +830,6 @@ html, body {
     pointer-events: auto;
 }
 
-/* Calendar modal is centered, not bottom sheet */
 #calendar-expense-modal {
     align-items: center;
     justify-content: center;
@@ -856,19 +840,16 @@ html, body {
     width: 100%;
     max-height: 85vh;
     max-height: 85svh;
-    /* Glass dark modal */
-    background: rgba(12, 12, 22, 0.96);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
+    background: var(--bg-cream);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
     padding: 10px 20px max(20px, env(safe-area-inset-bottom)) 20px;
     display: flex;
     flex-direction: column;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.7);
+    border-top: 1px solid rgba(52, 66, 55, 0.1);
+    box-shadow: 0 -15px 50px rgba(52, 66, 55, 0.2);
     overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior-y: contain;
@@ -882,7 +863,7 @@ html, body {
 .modal-drag-indicator {
     width: 40px;
     height: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(52, 66, 55, 0.15);
     border-radius: 2px;
     align-self: center;
     margin-bottom: 16px;
@@ -898,15 +879,16 @@ html, body {
 }
 
 .modal-header h2 {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-olive);
     letter-spacing: -0.3px;
 }
 
 .modal-close-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(52, 66, 55, 0.07);
+    border: 1px solid rgba(52, 66, 55, 0.08);
     color: var(--text-secondary);
     cursor: pointer;
     width: 30px;
@@ -917,24 +899,27 @@ html, body {
     justify-content: center;
     transition: background 0.2s;
 }
-.modal-close-btn:active { background: rgba(255,255,255,0.15); }
-
+.modal-close-btn:active { background: rgba(52, 66, 55, 0.15); }
 .modal-close-btn i { width: 16px; height: 16px; }
 
-/* AMOUNT INPUT (APPLE-PAY-STYLE) */
+/* AMOUNT INPUT */
 .amount-input-container {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(52, 66, 55, 0.08);
+    box-shadow: 0 6px 24px rgba(52, 66, 55, 0.03);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 0;
-    margin-bottom: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .currency-symbol {
+    font-family: var(--font-heading);
     font-size: 2.8rem;
-    font-weight: 800;
-    color: var(--accent-blue);
+    font-weight: 700;
+    color: var(--accent-coral);
     margin-right: 6px;
     line-height: 1;
 }
@@ -943,99 +928,19 @@ html, body {
 #detail-amount-input {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--accent-olive);
+    font-family: var(--font-heading);
     font-size: 3.8rem;
-    font-weight: 800;
+    font-weight: 700;
     width: 100%;
     max-width: 280px;
     outline: none;
     text-align: left;
-    caret-color: var(--accent-blue);
+    caret-color: var(--accent-olive);
     line-height: 1.1;
 }
 
-/* PHOTO UPLOAD ZONE */
-.photo-upload-zone {
-    width: 100%;
-    height: 120px;
-    border-radius: 16px;
-    border: 2px dashed rgba(255, 255, 255, 0.15);
-    background-color: rgba(255, 255, 255, 0.02);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    transition: var(--transition-smooth);
-}
-
-.photo-upload-zone:hover {
-    border-color: var(--accent-blue);
-    background-color: rgba(10, 132, 255, 0.02);
-}
-
-.upload-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-secondary);
-}
-
-.upload-placeholder i {
-    width: 28px;
-    height: 28px;
-    color: var(--accent-blue);
-}
-
-.upload-placeholder span {
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.upload-placeholder .upload-sub {
-    font-size: 0.65rem;
-    opacity: 0.6;
-}
-
-.image-preview-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.image-preview-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.remove-photo-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: rgba(255, 69, 58, 0.9);
-    border: none;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.remove-photo-btn i {
-    width: 14px;
-    height: 14px;
-}
-
 /* FORM FIELDS */
-/* modal-form và detail-body: không dùng flex:1 - để modal-sheet tự cuộn toàn bộ */
 .modal-form, .detail-body {
     display: block;
 }
@@ -1054,7 +959,7 @@ html, body {
 }
 
 .form-group label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text-secondary);
     text-transform: uppercase;
@@ -1069,77 +974,42 @@ html, body {
 
 .field-icon {
     position: absolute;
-    left: 12px;
+    left: 14px;
     width: 16px;
     height: 16px;
     color: var(--text-secondary);
     pointer-events: none;
 }
 
-.input-wrapper input {
+.input-wrapper input, select {
     width: 100%;
     height: 46px;
     border-radius: var(--btn-radius);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.12);
     color: var(--text-primary);
-    padding-left: 40px;
+    padding-left: 42px;
     padding-right: 14px;
     font-size: 0.88rem;
     outline: none;
     transition: var(--transition-smooth);
 }
 
-.input-wrapper input:focus {
-    border-color: rgba(45, 156, 255, 0.5);
-    background: rgba(45, 156, 255, 0.07);
-    box-shadow: 0 0 0 3px rgba(45, 156, 255, 0.12);
-}
-
-/* Category grid options */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.category-tag-option {
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-gray);
-    border-radius: 12px;
-    padding: 10px 4px;
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-}
-
-.category-tag-option.active {
-    background-color: var(--accent-blue);
-    color: #ffffff;
-    border-color: var(--accent-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(10, 132, 255, 0.2);
-}
-
-.form-row-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+.input-wrapper input:focus, select:focus {
+    border-color: var(--accent-olive);
+    box-shadow: 0 0 0 3px rgba(52, 66, 55, 0.08);
 }
 
 /* Submit Button */
 .btn-primary {
-    background: linear-gradient(135deg, #3da8ff 0%, #0066d6 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 16px rgba(45, 156, 255, 0.35);
+    background: linear-gradient(135deg, var(--accent-olive) 0%, var(--accent-olive-dark) 100%);
+    color: #FAF7F2;
+    box-shadow: 0 6px 20px rgba(52, 66, 55, 0.22);
 }
 
 .btn-primary:active {
-    background: #0066d6;
+    background: var(--accent-olive-dark);
     transform: scale(0.97);
-    box-shadow: 0 2px 8px rgba(45, 156, 255, 0.2);
 }
 
 .btn-submit {
@@ -1150,93 +1020,6 @@ html, body {
     letter-spacing: 0.2px;
 }
 
-/* DETAIL SHEET */
-.detail-amount-display {
-    text-align: center;
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 16px;
-}
-
-#detail-amount {
-    font-size: 2.5rem;
-    font-weight: 800;
-}
-
-.detail-category-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
-.detail-info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.detail-info-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.info-label {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.info-value {
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.detail-photo-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 24px;
-}
-
-.detail-photo-wrapper {
-    width: 100%;
-    max-height: 250px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border-gray);
-}
-
-.detail-photo-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.detail-actions {
-    margin-top: 10px;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Kiểu dáng cho hàng nút Hủy & Lưu trong Form - luôn dính sát đáy, không bị cắt */
 .form-actions-row {
     display: flex;
     gap: 12px;
@@ -1248,13 +1031,13 @@ html, body {
 
 .btn-cancel {
     flex: 1;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: var(--text-primary);
-    border: 1px solid var(--border-gray);
+    background-color: var(--accent-rose-cream);
+    color: var(--accent-olive);
+    border: 1px solid rgba(226, 174, 162, 0.3);
 }
 
 .btn-cancel:active {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: #EFE2D5;
 }
 
 .form-actions-row .btn-submit {
@@ -1262,7 +1045,6 @@ html, body {
     margin-top: 0 !important;
 }
 
-/* Nút trong detail-actions cũng không bị cắt */
 .detail-actions {
     flex-shrink: 0;
     margin-top: 16px;
@@ -1272,207 +1054,19 @@ html, body {
     gap: 10px;
 }
 
-/* Đồng bộ Google Sheets */
-.flex-column {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 10px;
-}
-.w-100 {
-    width: 100% !important;
-}
-.text-left {
-    text-align: left !important;
-}
-.sync-input-row {
-    display: flex;
-    gap: 8px;
-}
-.sync-input-row input {
-    flex: 1;
-    background-color: var(--bg-black);
-    border: 1px solid var(--border-gray);
-    color: var(--text-primary);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    outline: none;
-}
-.sync-input-row input:focus {
-    border-color: var(--accent-blue);
-}
-.status-disconnected {
-    color: var(--accent-red);
-    font-weight: 600;
-}
-.status-connected {
-    color: var(--accent-green);
-    font-weight: 600;
-}
-.status-syncing {
-    color: var(--accent-orange);
-    font-weight: 600;
-}
-.btn-text-link-small {
-    background: none;
-    border: none;
-    color: var(--accent-blue);
-    font-size: 0.72rem;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-}
-.btn-icon-only {
-    padding: 8px 12px;
-    height: 38px;
-}
-
-/* PHẦN GIAO DIỆN GIẢ LẬP IPHONE 15 PRO TRÊN MÁY TÍNH */
-@media (min-width: 480px) {
-    body {
-        background: radial-gradient(circle at top right, #181622 0%, #08070b 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-    }
-    .app-container {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        width: 393px;  /* iPhone 15 Pro Width */
-        height: 852px; /* iPhone 15 Pro Height */
-        border-radius: 48px; /* Bo góc cực mượt */
-        border: 11px solid #8c8a84; /* Viền titan tự nhiên (Natural Titanium) */
-        box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0,0,0,0.6);
-        margin: auto;
-    }
-    /* iOS Dynamic Island Simulator (Chỉ hiện trên máy tính) */
-    .app-container::before {
-        content: '';
-        position: absolute;
-        top: 11px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 110px;
-        height: 28px;
-        background-color: #000000;
-        border-radius: 14px;
-        border: 0.5px solid rgba(255, 255, 255, 0.15);
-        z-index: 9999;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        pointer-events: none;
-    }
-    .ios-status-bar-spacer {
-        height: 44px !important;
-    }
-}
-
-/* HIỂN THỊ TOÀN MÀN HÌNH TRÊN ĐIỆN THOẠI THẬT (MOBILE) - iPhone 15 Pro tối ưu */
-@media (max-width: 479px) {
-    body {
-        background-color: #000000;
-    }
-    .app-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        /* Dùng 100% thay vì 100vh / 100dvh vì .app-container đã position: fixed */
-        height: 100%;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-    }
-    /* Ẩn giả lập Dynamic Island trên điện thoại thật */
-    .app-container::before {
-        display: none !important;
-    }
-
-    /* iOS Status Bar spacer: dùng env(safe-area-inset-top) thật của iPhone 15 Pro */
-    /* iPhone 15 Pro: safe-area-inset-top = 59px (Dynamic Island) */
-    .ios-status-bar-spacer {
-        height: env(safe-area-inset-top, 47px);
-    }
-
-    /* App nav: ôm sát thanh Home Indicator của iPhone 15 Pro (~34px) */
-    .app-nav {
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-    }
-
-    /* Modal overlay: full-screen fixed, không dùng 100vh */
-    .modal-overlay {
-        width: 100%;
-        height: 100%;
-        /* Đảm bảo modal overlay bắt đầu từ top: 0 tức thật của màn hình */
-        top: 0;
-        left: 0;
-    }
-
-    /* Modal sheet: giới hạn max-height theo svh để không kéo ra ngoài màn hình
-       iPhone 15 Pro = 852px height, safe area top ~59px, bottom ~34px
-       Dùng svh (small viewport height) = chiều cao khi Safari toolbar hiển thị đầy đủ */
-    .modal-sheet {
-        max-height: 82svh;     /* svh an toàn nhất trên iOS 15.4+ */
-        max-height: 82vh;      /* fallback */
-        /* padding bottom = home indicator của iPhone 15 Pro */
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-    }
-
-    /* Font size thêm 1 lần để chắc chắn không bị iOS auto-zoom */
-    input, select, textarea {
-        font-size: 16px !important;
-    }
-}
-
-/* HEADER ICON BUTTON */
-.header-icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: var(--transition-smooth);
-    position: relative;
-    z-index: 100;
-}
-
-.header-icon-btn i,
-.header-icon-btn svg {
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-}
-
-.header-icon-btn:active {
-    transform: scale(0.92);
-    background: rgba(255, 255, 255, 0.18);
-}
-
-/* CALENDAR MODAL STYLES - Centered Popup */
+/* CALENDAR MODAL STYLES - Centered Florenté Popup */
 .calendar-modal-sheet {
-    /* Override bottom-sheet transform: use scale instead */
     width: calc(100% - 0px);
     max-width: 360px;
     max-height: 85vh;
     overflow-y: auto;
-    border-radius: 20px !important;
-    border-top-left-radius: 20px !important;
-    border-top-right-radius: 20px !important;
+    background: var(--bg-cream) !important;
+    border-radius: 24px !important;
     padding: 18px 16px 20px;
     transform: scale(0.92) !important;
     transition: transform 0.35s cubic-bezier(0.15, 0.85, 0.35, 1) !important;
+    border: 1px solid rgba(52, 66, 55, 0.1) !important;
+    box-shadow: 0 20px 60px rgba(52, 66, 55, 0.25) !important;
 }
 
 #calendar-expense-modal.active .calendar-modal-sheet {
@@ -1502,9 +1096,10 @@ html, body {
 }
 
 .calendar-month-label {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent-olive);
 }
 
 .calendar-nav-controls {
@@ -1514,11 +1109,11 @@ html, body {
 }
 
 .calendar-nav-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    color: var(--text-primary);
-    width: 30px;
-    height: 30px;
+    background: rgba(52, 66, 55, 0.07);
+    border: 1px solid rgba(52, 66, 55, 0.08);
+    color: var(--accent-olive);
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1534,26 +1129,30 @@ html, body {
 }
 
 .calendar-nav-btn:active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(52, 66, 55, 0.15);
 }
 
 .calendar-month-summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 9px 12px;
-    background: rgba(10, 132, 255, 0.1);
-    border: 1px solid rgba(10, 132, 255, 0.2);
-    border-radius: 10px;
-    margin-bottom: 14px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+    padding: 12px 16px;
+    background: var(--accent-olive);
+    border: 1px solid rgba(52, 66, 55, 0.2);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(250, 247, 242, 0.88);
+    box-shadow: 0 6px 18px rgba(52, 66, 55, 0.15);
 }
 
 .calendar-month-summary strong {
-    color: var(--accent-blue);
-    font-size: 0.95rem;
+    font-family: var(--ios-font);
+    color: var(--accent-rose);
+    font-size: 1.2rem;
     font-weight: 800;
+    letter-spacing: -0.3px;
 }
 
 .calendar-weekdays {
@@ -1568,7 +1167,7 @@ html, body {
 }
 
 .calendar-weekdays div:last-child {
-    color: #ff453a;
+    color: var(--accent-coral);
 }
 
 .calendar-days-grid {
@@ -1599,22 +1198,22 @@ html, body {
 }
 
 .calendar-day-cell.today {
-    background: var(--accent-blue);
+    background: var(--accent-olive);
     border-radius: 50%;
 }
 
 .calendar-day-cell.today .calendar-day-number {
-    color: #ffffff;
+    color: #FAF7F2;
     font-weight: 800;
 }
 
 .calendar-day-cell.has-expense:not(.today) {
-    background: rgba(255, 159, 10, 0.12);
-    border-color: rgba(255, 159, 10, 0.3);
+    background: rgba(226, 174, 162, 0.2);
+    border-color: rgba(220, 139, 120, 0.3);
 }
 
 .calendar-day-cell:not(.empty):not(.today):active {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(52, 66, 55, 0.08);
     transform: scale(0.92);
 }
 
@@ -1626,13 +1225,13 @@ html, body {
 }
 
 .calendar-day-cell.sunday .calendar-day-number {
-    color: #ff453a;
+    color: var(--accent-coral);
 }
 
 .calendar-day-amount {
     font-size: 0.52rem;
     font-weight: 700;
-    color: #ff9f0a;
+    color: var(--accent-coral);
     width: 100%;
     text-align: center;
     overflow: hidden;
@@ -1640,3 +1239,84 @@ html, body {
     white-space: nowrap;
     line-height: 1;
 }
+
+/* PHẦN GIAO DIỆN GIẢ LẬP IPHONE 15 PRO TRÊN MÁY TÍNH */
+@media (min-width: 480px) {
+    body {
+        background: radial-gradient(circle at top right, #EFE7DC 0%, #D6CCC0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    .app-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 393px;
+        height: 852px;
+        border-radius: 48px;
+        border: 11px solid #344237;
+        box-shadow: 0 30px 70px -10px rgba(52, 66, 55, 0.3), inset 0 0 10px rgba(0,0,0,0.1);
+        margin: auto;
+    }
+    .app-container::before {
+        content: '';
+        position: absolute;
+        top: 11px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 110px;
+        height: 28px;
+        background-color: #253128;
+        border-radius: 14px;
+        border: 0.5px solid rgba(255, 255, 255, 0.15);
+        z-index: 9999;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+    }
+    .ios-status-bar-spacer {
+        height: 44px !important;
+    }
+}
+
+/* HIỂN THỊ TOÀN MÀN HÌNH TRÊN ĐIỆN THOẠI THẬT (MOBILE) */
+@media (max-width: 479px) {
+    body {
+        background-color: #FAF7F2;
+    }
+    .app-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100%; height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .app-container::before {
+        display: none !important;
+    }
+    .ios-status-bar-spacer {
+        height: env(safe-area-inset-top, 47px);
+    }
+    .app-nav {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    .modal-overlay {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .modal-sheet {
+        max-height: 82svh;
+        max-height: 82vh;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
