@@ -32,6 +32,7 @@ const CATEGORY_STYLES = {
     "Di chuyển": { emoji: "🚗", bg: "rgba(52, 66, 55, 0.14)", color: "#344237" },
     "Giải trí": { emoji: "🍿", bg: "rgba(200, 155, 103, 0.14)", color: "#c89b67" },
     "Sinh hoạt": { emoji: "💡", bg: "rgba(106, 123, 104, 0.14)", color: "#6a7b68" },
+    "Chi phí cố định": { emoji: "📌", bg: "rgba(79, 94, 82, 0.14)", color: "#4f5e52" },
     "Khác": { emoji: "📝", bg: "rgba(131, 140, 132, 0.14)", color: "#838c84" }
 };
 
