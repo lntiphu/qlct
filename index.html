@@ -69,6 +69,9 @@
                 <button id="btn-open-calendar-modal" class="header-icon-btn" aria-label="Xem Lịch Chi Tiêu" onclick="openCalendarModal()">
                     <i data-lucide="calendar"></i>
                 </button>
+                <button id="btn-logout" class="header-icon-btn" aria-label="Đăng xuất" title="Đăng xuất" style="margin-left: 6px; display: none;">
+                    <i data-lucide="log-out"></i>
+                </button>
             </div>
         </header>
 
@@ -354,11 +357,72 @@
 
     </div> <!-- End app-container -->
 
+    <!-- META / INSTAGRAM STYLE LOGIN SCREEN OVERLAY -->
+    <div id="login-screen" class="login-screen-overlay">
+        <div class="login-card-container">
+            <!-- Instagram / Meta Style Gradient Logo -->
+            <div class="meta-logo-wrapper">
+                <svg class="instagram-logo-svg" viewBox="0 0 512 512" width="72" height="72">
+                    <defs>
+                        <radialGradient id="insta-grad" cx="0.2" cy="1" r="1">
+                            <stop offset="0%" stop-color="#ffd500"/>
+                            <stop offset="25%" stop-color="#ff7000"/>
+                            <stop offset="50%" stop-color="#ff0069"/>
+                            <stop offset="75%" stop-color="#d700b8"/>
+                            <stop offset="100%" stop-color="#6a00f4"/>
+                        </radialGradient>
+                    </defs>
+                    <rect x="36" y="36" width="440" height="440" rx="120" fill="none" stroke="url(#insta-grad)" stroke-width="36"/>
+                    <circle cx="256" cy="256" r="105" fill="none" stroke="url(#insta-grad)" stroke-width="36"/>
+                    <circle cx="370" cy="142" r="28" fill="url(#insta-grad)"/>
+                </svg>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="login-form" autocomplete="on">
+                <div class="login-input-group">
+                    <input 
+                        type="email" 
+                        id="login-email" 
+                        class="meta-input" 
+                        placeholder="Username, email or mobile number" 
+                        required 
+                        autocomplete="username"
+                        spellcheck="false"
+                    >
+                </div>
+                
+                <div class="login-input-group">
+                    <input 
+                        type="password" 
+                        id="login-password" 
+                        class="meta-input" 
+                        placeholder="Password" 
+                        required 
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <!-- Error Banner -->
+                <div id="login-error-msg" class="login-error-msg" style="display: none;"></div>
+
+                <!-- Meta Blue Pill Button -->
+                <button type="submit" id="btn-login-submit" class="meta-btn-primary">
+                    <span id="btn-login-text">Log in</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <span>Money App • Secure Supabase Cloud</span>
+            </div>
+        </div>
+    </div>
+
     <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/chart-config.js?v=26" defer></script>
-    <script src="js/app.js?v=26" defer></script>
+    <script src="js/app.js?v=27" defer></script>
 </body>
 </html>
