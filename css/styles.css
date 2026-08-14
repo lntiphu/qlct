@@ -168,6 +168,61 @@ html, body {
     background: #EFE2D5;
 }
 
+/* MODERN HEADER ICON BUTTONS (Lịch & Đăng xuất) */
+.header-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(52, 66, 55, 0.12);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--accent-olive);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(52, 66, 55, 0.05);
+    outline: none;
+}
+
+.header-icon-btn i {
+    width: 19px;
+    height: 19px;
+    transition: transform 0.25s ease;
+}
+
+.header-icon-btn:hover {
+    background: #ffffff;
+    border-color: rgba(52, 66, 55, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(52, 66, 55, 0.1);
+}
+
+.header-icon-btn:hover i {
+    transform: scale(1.1);
+}
+
+.header-icon-btn:active {
+    transform: scale(0.93) translateY(0);
+    box-shadow: 0 2px 8px rgba(52, 66, 55, 0.06);
+}
+
+/* Nút Đăng xuất với sắc thái Rose/Coral dịu nhẹ */
+#btn-logout {
+    color: var(--accent-coral);
+    border-color: rgba(220, 139, 120, 0.25);
+    background: rgba(255, 245, 243, 0.85);
+}
+
+#btn-logout:hover {
+    background: #fff0ec;
+    color: #d45b50;
+    border-color: rgba(212, 91, 80, 0.4);
+    box-shadow: 0 6px 16px rgba(220, 139, 120, 0.2);
+}
+
 /* MAIN CONTENT PANELS */
 .app-main {
     flex: 1;
@@ -1360,19 +1415,44 @@ html, body {
 }
 
 .meta-logo-wrapper {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
-.instagram-logo-svg {
-    filter: drop-shadow(0 4px 10px rgba(220, 39, 67, 0.15));
-    transition: transform 0.3s ease;
+.app-logo-badge {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 12px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.instagram-logo-svg:hover {
-    transform: scale(1.05);
+.app-logo-badge:hover {
+    transform: scale(1.06) rotate(-2deg);
+}
+
+.app-logo-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.login-brand-title {
+    font-family: var(--font-heading), 'Playfair Display', serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--accent-olive);
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
 }
 
 .login-form {
