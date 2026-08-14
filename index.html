@@ -61,13 +61,13 @@
             <div class="header-left">
                 <span class="date-today" id="current-date">Thứ Ba, 21 Tháng 7</span>
                 <div style="display: flex; align-items: center; gap: 8px; margin-top: 2px;">
-                    <img src="assets/logo.png" alt="Money Logo" style="width: 26px; height: 26px; filter: invert(1);">
+                    <img src="assets/logo.png" alt="Money Logo" style="width: 32px; height: 32px; object-fit: contain;">
                     <h1 class="header-title" style="font-size: 1.6rem; font-weight: 800; margin: 0;">Money</h1>
                 </div>
             </div>
             <div class="header-right">
                 <button id="btn-open-calendar-modal" class="header-icon-btn" aria-label="Xem Lịch Chi Tiêu" onclick="openCalendarModal()">
-                    <i data-lucide="calendar"></i>
+                    <img src="assets/calendar.png" alt="Lịch Chi Tiêu" style="width: 22px; height: 22px; object-fit: contain;">
                 </button>
                 <button id="btn-logout" class="header-icon-btn" aria-label="Đăng xuất" title="Đăng xuất" style="margin-left: 6px; display: none;">
                     <i data-lucide="log-out"></i>
@@ -82,7 +82,7 @@
                 <!-- Summary Cards Row -->
                 <div class="summary-cards">
                     <div class="card card-today">
-                        <div class="card-icon"><i data-lucide="calendar"></i></div>
+                        <div class="card-icon"><img src="assets/calendar.png" alt="Lịch" style="width: 18px; height: 18px; object-fit: contain;"></div>
                         <span class="card-label">Hôm nay</span>
                         <h2 class="card-amount" id="sum-today">0đ</h2>
                     </div>
@@ -360,22 +360,13 @@
     <!-- META / INSTAGRAM STYLE LOGIN SCREEN OVERLAY -->
     <div id="login-screen" class="login-screen-overlay">
         <div class="login-card-container">
-            <!-- Instagram / Meta Style Gradient Logo -->
+            <!-- Web App Brand Logo -->
             <div class="meta-logo-wrapper">
-                <svg class="instagram-logo-svg" viewBox="0 0 512 512" width="72" height="72">
-                    <defs>
-                        <radialGradient id="insta-grad" cx="0.2" cy="1" r="1">
-                            <stop offset="0%" stop-color="#ffd500"/>
-                            <stop offset="25%" stop-color="#ff7000"/>
-                            <stop offset="50%" stop-color="#ff0069"/>
-                            <stop offset="75%" stop-color="#d700b8"/>
-                            <stop offset="100%" stop-color="#6a00f4"/>
-                        </radialGradient>
-                    </defs>
-                    <rect x="36" y="36" width="440" height="440" rx="120" fill="none" stroke="url(#insta-grad)" stroke-width="36"/>
-                    <circle cx="256" cy="256" r="105" fill="none" stroke="url(#insta-grad)" stroke-width="36"/>
-                    <circle cx="370" cy="142" r="28" fill="url(#insta-grad)"/>
-                </svg>
+                <div class="app-logo-badge">
+                    <img src="assets/logo.png" alt="Money Logo" class="app-logo-img">
+                </div>
+                <h1 class="login-brand-title">Money</h1>
+                <p class="login-subtitle">Quản lý chi tiêu cá nhân thông minh</p>
             </div>
 
             <!-- Login Form -->
@@ -411,10 +402,6 @@
                     <span id="btn-login-text">Log in</span>
                 </button>
             </form>
-
-            <div class="login-footer">
-                <span>Money App • Secure Supabase Cloud</span>
-            </div>
         </div>
     </div>
 
