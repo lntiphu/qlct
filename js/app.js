@@ -1264,10 +1264,161 @@ function createLucideIcons() {
 }
 
 // ==========================================================================
-// SUPABASE SYNCHRONIZATION HELPERS
+// SUPABASE AUTHENTICATION & SYNCHRONIZATION HELPERS
 // ==========================================================================
 
-// Khởi tạo Supabase Client và Đăng ký Real-time listener
+function showLoginScreen() {
+    const loginOverlay = document.getElementById('login-screen');
+    if (loginOverlay) {
+        loginOverlay.classList.remove('fade-out');
+        loginOverlay.style.display = 'flex';
+    }
+}
+
+function hideLoginScreen() {
+    const loginOverlay = document.getElementById('login-screen');
+    if (loginOverlay) {
+        loginOverlay.classList.add('fade-out');
+        setTimeout(() => {
+            loginOverlay.style.display = 'none';
+        }, 350);
+    }
+}
+
+function showLogoutButton() {
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) btnLogout.style.display = 'inline-flex';
+}
+
+function hideLogoutButton() {
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) btnLogout.style.display = 'none';
+}
+
+function showLoginError(msg) {
+    const errorEl = document.getElementById('login-error-msg');
+    if (errorEl) {
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+    }
+}
+
+// Kiểm tra phiên đăng nhập Supabase Auth
+async function checkAuthSession() {
+    if (!supabaseClient) return;
+    
+    try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
+            hideLoginScreen();
+            showLogoutButton();
+            setupRealtimeSubscription();
+            fetchExpensesFromSupabase();
+        } else {
+            showLoginScreen();
+            hideLogoutButton();
+        }
+    } catch (e) {
+        console.warn("Lỗi kiểm tra Auth session:", e);
+        showLoginScreen();
+    }
+}
+
+// Đăng ký nhận sự thay đổi dữ liệu thời gian thực (Real-time listener)
+function setupRealtimeSubscription() {
+    if (!supabaseClient) return;
+    if (supabaseSubscription) {
+        try { supabaseSubscription.unsubscribe(); } catch(e){}
+    }
+    
+    supabaseSubscription = supabaseClient
+        .channel('expenses-realtime')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, payload => {
+            handleRealtimeDbChange(payload);
+        })
+        .subscribe();
+}
+
+// Xử lý Sự kiện Submit Form Đăng nhập Meta/Supabase Auth
+async function handleLogin(e) {
+    if (e) e.preventDefault();
+    
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+    const errorMsgEl = document.getElementById('login-error-msg');
+    const submitBtn = document.getElementById('btn-login-submit');
+    const btnText = document.getElementById('btn-login-text');
+
+    const email = (emailInput ? emailInput.value : '').trim();
+    const password = (passwordInput ? passwordInput.value : '').trim();
+
+    if (!email || !password) {
+        showLoginError("Vui lòng nhập đầy đủ email và mật khẩu.");
+        return;
+    }
+
+    if (!supabaseClient) {
+        initSupabase();
+    }
+    if (!supabaseClient) {
+        showLoginError("Không thể kết nối dịch vụ xác thực Supabase.");
+        return;
+    }
+
+    if (errorMsgEl) errorMsgEl.style.display = 'none';
+    if (submitBtn) submitBtn.disabled = true;
+    if (btnText) btnText.textContent = "Logging in...";
+
+    try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            console.warn("Đăng nhập Supabase thất bại:", error.message);
+            let friendlyError = "Email hoặc mật khẩu không chính xác.";
+            if (error.message.includes("Invalid login credentials")) {
+                friendlyError = "Email hoặc mật khẩu không chính xác.";
+            } else if (error.message.includes("Email not confirmed")) {
+                friendlyError = "Tài khoản email chưa được xác nhận trên Supabase.";
+            } else {
+                friendlyError = error.message;
+            }
+            showLoginError(friendlyError);
+        } else if (data && data.session) {
+            // Đăng nhập thành công
+            if (errorMsgEl) errorMsgEl.style.display = 'none';
+            hideLoginScreen();
+            showLogoutButton();
+            setupRealtimeSubscription();
+            fetchExpensesFromSupabase();
+        }
+    } catch (err) {
+        console.error("Lỗi đăng nhập:", err);
+        showLoginError("Lỗi kết nối máy chủ. Vui lòng thử lại.");
+    } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (btnText) btnText.textContent = "Log in";
+    }
+}
+
+// Đăng xuất khỏi hệ thống
+async function handleLogout() {
+    if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng?")) {
+        if (supabaseClient) {
+            try {
+                await supabaseClient.auth.signOut();
+            } catch (e) {
+                console.warn("Lỗi đăng xuất:", e);
+            }
+        }
+        showLoginScreen();
+        hideLogoutButton();
+    }
+}
+
+// Khởi tạo Supabase Client và Đăng ký Real-time listener & Auth
 function initSupabase() {
     if (typeof supabase === 'undefined') {
         console.warn("Supabase SDK chưa nạp.");
@@ -1278,24 +1429,37 @@ function initSupabase() {
     
     try {
         supabaseClient = supabase.createClient(state.supabaseUrl, state.supabaseKey, {
-            auth: { persistSession: false },
+            auth: { persistSession: true, autoRefreshToken: true },
             realtime: { timeout: 5000 }
         });
         
-        // 1. Tải toàn bộ chi tiêu từ Cloud về máy lần đầu (không làm đứng trang)
-        fetchExpensesFromSupabase();
-        
-        // 2. Đăng ký nhận sự thay đổi dữ liệu thời gian thực (Real-time listener)
-        if (supabaseSubscription) {
-            try { supabaseSubscription.unsubscribe(); } catch(e){}
+        // Đăng ký Event Listeners cho Login Form và Logout Button
+        const loginForm = document.getElementById('login-form');
+        if (loginForm && !loginForm.dataset.authBound) {
+            loginForm.addEventListener('submit', handleLogin);
+            loginForm.dataset.authBound = 'true';
         }
         
-        supabaseSubscription = supabaseClient
-            .channel('expenses-realtime')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, payload => {
-                handleRealtimeDbChange(payload);
-            })
-            .subscribe();
+        const btnLogout = document.getElementById('btn-logout');
+        if (btnLogout && !btnLogout.dataset.authBound) {
+            btnLogout.addEventListener('click', handleLogout);
+            btnLogout.dataset.authBound = 'true';
+        }
+        
+        // Lắng nghe sự thay đổi trạng thái xác thực từ Supabase Auth
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (session && session.user) {
+                hideLoginScreen();
+                showLogoutButton();
+                setupRealtimeSubscription();
+            } else if (event === 'SIGNED_OUT') {
+                showLoginScreen();
+                hideLogoutButton();
+            }
+        });
+        
+        // Kiểm tra phiên làm việc ban đầu
+        checkAuthSession();
             
     } catch (err) {
         console.warn("Lỗi khởi tạo Supabase:", err);
