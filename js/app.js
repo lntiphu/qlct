@@ -634,7 +634,11 @@ function showDayExpensesDetail(dayStr) {
                     ">${style.emoji}</div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
-                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;">${exp.category || 'Khác'} · ${timeStr}</div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span style="color: ${style.color}; font-weight: 600; flex-shrink: 0;">${exp.category || 'Khác'}</span>
+                            <span style="opacity: 0.4; flex-shrink: 0;">·</span>
+                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1;">${timeStr}</span>
+                        </div>
                     </div>
                     <div style="font-size: 0.95rem; font-weight: 800; color: ${style.color}; white-space: nowrap; flex-shrink: 0;">-${amountStr}</div>
                 </div>`;
@@ -946,13 +950,15 @@ function createTransactionDOMItem(exp) {
     
     itemEl.innerHTML = `
         <div class="item-left">
-            <div class="item-icon-wrapper font-emoji" style="background-color: ${style.bg}; color: ${style.color}; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px;">
+            <div class="item-icon-wrapper font-emoji" style="background-color: ${style.bg}; color: ${style.color}; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;">
                 ${style.emoji}
             </div>
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
                 <div class="item-meta">
-                    <span style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span> · <span>${formatDateTimeVietnamese(exp)}</span>
+                    <span class="item-cat" style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span>
+                    <span class="item-sep">·</span>
+                    <span class="item-time">${formatDateTimeVietnamese(exp)}</span>
                 </div>
             </div>
         </div>
@@ -1136,7 +1142,7 @@ function showCategoryExpenses(categoryName, monthExpenses) {
                         ">
                             <div style="flex: 1; min-width: 0;">
                                 <div style="font-size: 0.88rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">${formatDateTimeVietnamese(exp)}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatDateTimeVietnamese(exp)}</div>
                             </div>
                             <div style="font-size: 0.9rem; font-weight: 800; color: ${style.color}; flex-shrink: 0;">-${formatCurrency(exp.amount || 0)}</div>
                         </div>
