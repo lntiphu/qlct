@@ -16,15 +16,12 @@ let supabaseSubscription = null;
 let calendarYear = new Date().getFullYear();
 let calendarMonth = new Date().getMonth();
 
-// Sắp xếp chi tiêu: Ngày mới nhất lên đầu, nếu cùng ngày thì created_at hoặc ID lớn nhất (mới nhất) lên đầu
+// Sắp xếp chi tiêu: Ngày mới nhất lên đầu, nếu cùng ngày thì ID lớn nhất (mới nhất) lên đầu
 function sortExpenses() {
     state.expenses.sort((a, b) => {
-        const dateCompare = (b.date || '').localeCompare(a.date || '');
+        const dateCompare = b.date.localeCompare(a.date);
         if (dateCompare !== 0) return dateCompare;
-        if (b.created_at && a.created_at) {
-            return b.created_at.localeCompare(a.created_at);
-        }
-        return (b.id || '').localeCompare(a.id || '');
+        return b.id.localeCompare(a.id);
     });
 }
 
@@ -106,40 +103,16 @@ function formatCurrency(amount) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount).replace('₫', 'đ');
 }
 
-// Lấy thời gian ISO với Timezone +07:00 ('Asia/Ho_Chi_Minh')
-function getVietnamISOString(date = new Date()) {
-    const d = new Date(date);
-    const utcMs = d.getTime() + (d.getTimezoneOffset() * 60000);
-    const vnDate = new Date(utcMs + (7 * 60 * 60 * 1000));
-    
-    const year = vnDate.getFullYear();
-    const month = String(vnDate.getMonth() + 1).padStart(2, '0');
-    const day = String(vnDate.getDate()).padStart(2, '0');
-    const hours = String(vnDate.getHours()).padStart(2, '0');
-    const minutes = String(vnDate.getMinutes()).padStart(2, '0');
-    const seconds = String(vnDate.getSeconds()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+07:00`;
-}
-
 function getTodayDateString() {
-    const d = new Date();
-    const utcMs = d.getTime() + (d.getTimezoneOffset() * 60000);
-    const vnDate = new Date(utcMs + (7 * 60 * 60 * 1000));
-    const year = vnDate.getFullYear();
-    const month = String(vnDate.getMonth() + 1).padStart(2, '0');
-    const day = String(vnDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+    const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+    return localISOTime;
 }
 
 function getDateOffsetString(offsetDays) {
-    const d = new Date(Date.now() + (offsetDays * 24 * 60 * 60 * 1000));
-    const utcMs = d.getTime() + (d.getTimezoneOffset() * 60000);
-    const vnDate = new Date(utcMs + (7 * 60 * 60 * 1000));
-    const year = vnDate.getFullYear();
-    const month = String(vnDate.getMonth() + 1).padStart(2, '0');
-    const day = String(vnDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+    const date = new Date(Date.now() - tzoffset + (offsetDays * 24 * 60 * 60 * 1000));
+    return date.toISOString().slice(0, 10);
 }
 
 function getVietnameseDayOfWeek(dateStr) {
@@ -165,12 +138,11 @@ function formatDateStringVietnamese(dateStr) {
         return 'Hôm qua';
     } else {
         const dayOfWeek = getVietnameseDayOfWeek(dateStr);
-        const yearShort = year.slice(-2);
-        return `${dayOfWeek}, ${day}/${month}/${yearShort}`;
+        return `${dayOfWeek}, ${day}/${month}/${year}`;
     }
 }
 
-// Định dạng Giờ & Ngày chi tiết theo Asia/Ho_Chi_Minh (+7) và ngày dạng dd/mm/yy: Vd 10:12 AM 22/07/26
+// Định dạng Giờ & Ngày chi tiết: Vd 10:12 AM 22/07/26
 function formatDateTimeVietnamese(exp) {
     if (!exp) return '';
     let d;
@@ -194,45 +166,18 @@ function formatDateTimeVietnamese(exp) {
         return exp.date || '';
     }
 
-    try {
-        const formatter = new Intl.DateTimeFormat('en-GB', {
-            timeZone: 'Asia/Ho_Chi_Minh',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit'
-        });
-        
-        const formattedParts = formatter.formatToParts(d);
-        const partMap = {};
-        formattedParts.forEach(p => { partMap[p.type] = p.value; });
+    let hours = d.getHours();
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const hoursStr = hours.toString().padStart(2, '0');
 
-        const day = partMap.day;
-        const month = partMap.month;
-        const year = partMap.year; // 2-digit year (yy)
-        const hour = partMap.hour;
-        const minute = partMap.minute;
-        const ampm = (partMap.dayPeriod || '').toUpperCase();
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear().toString().slice(-2);
 
-        return `${hour}:${minute} ${ampm} ${day}/${month}/${year}`;
-    } catch (e) {
-        const utcMs = d.getTime() + (d.getTimezoneOffset() * 60000);
-        const vnDate = new Date(utcMs + (7 * 60 * 60 * 1000));
-
-        let hours = vnDate.getHours();
-        const minutes = vnDate.getMinutes().toString().padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12 || 12;
-        const hoursStr = hours.toString().padStart(2, '0');
-
-        const day = vnDate.getDate().toString().padStart(2, '0');
-        const month = (vnDate.getMonth() + 1).toString().padStart(2, '0');
-        const year = vnDate.getFullYear().toString().slice(-2);
-
-        return `${hoursStr}:${minutes} ${ampm} ${day}/${month}/${year}`;
-    }
+    return `${hoursStr}:${minutes} ${ampm} ${day}/${month}/${year}`;
 }
 
 // KHỞI TẠO CÁC PHẦN TỬ UI BAN ĐẦU
@@ -634,11 +579,7 @@ function showDayExpensesDetail(dayStr) {
                     ">${style.emoji}</div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
-                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="color: ${style.color}; font-weight: 600; flex-shrink: 0;">${exp.category || 'Khác'}</span>
-                            <span style="opacity: 0.4; flex-shrink: 0;">·</span>
-                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1;">${timeStr}</span>
-                        </div>
+                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;">${exp.category || 'Khác'} · ${timeStr}</div>
                     </div>
                     <div style="font-size: 0.95rem; font-weight: 800; color: ${style.color}; white-space: nowrap; flex-shrink: 0;">-${amountStr}</div>
                 </div>`;
@@ -776,15 +717,13 @@ function handleAddExpenseSubmit(e) {
     // Lấy ngày
     const date = document.getElementById('expense-date').value;
 
-    // Tạo đối tượng chi tiêu mới với created_at chuẩn TIME ZONE 'Asia/Ho_Chi_Minh' (+07:00)
-    const createdAt = getVietnamISOString();
+    // Tạo đối tượng chi tiêu mới (sử dụng ID chứa timestamp để sắp xếp)
     const newExpense = {
         id: 'exp-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
         amount: amount,
         title: title,
         category: category,
-        date: date,
-        created_at: createdAt
+        date: date
     };
 
     // Lưu vào state và LocalStorage
@@ -801,8 +740,7 @@ function handleAddExpenseSubmit(e) {
                 date: newExpense.date,
                 title: newExpense.title,
                 amount: newExpense.amount,
-                category: newExpense.category,
-                created_at: newExpense.created_at
+                category: newExpense.category
             }])
             .then(({ error }) => {
                 if (error) {
@@ -950,15 +888,13 @@ function createTransactionDOMItem(exp) {
     
     itemEl.innerHTML = `
         <div class="item-left">
-            <div class="item-icon-wrapper font-emoji" style="background-color: ${style.bg}; color: ${style.color}; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;">
+            <div class="item-icon-wrapper font-emoji" style="background-color: ${style.bg}; color: ${style.color}; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; width: 40px; height: 40px; border-radius: 12px;">
                 ${style.emoji}
             </div>
             <div class="item-details">
                 <div class="item-title">${exp.title}</div>
                 <div class="item-meta">
-                    <span class="item-cat" style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span>
-                    <span class="item-sep">·</span>
-                    <span class="item-time">${formatDateTimeVietnamese(exp)}</span>
+                    <span style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span> · <span>${formatDateTimeVietnamese(exp)}</span>
                 </div>
             </div>
         </div>
@@ -1142,7 +1078,7 @@ function showCategoryExpenses(categoryName, monthExpenses) {
                         ">
                             <div style="flex: 1; min-width: 0;">
                                 <div style="font-size: 0.88rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
-                                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${formatDateTimeVietnamese(exp)}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px;">${formatDateTimeVietnamese(exp)}</div>
                             </div>
                             <div style="font-size: 0.9rem; font-weight: 800; color: ${style.color}; flex-shrink: 0;">-${formatCurrency(exp.amount || 0)}</div>
                         </div>
