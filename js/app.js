@@ -579,7 +579,7 @@ function showDayExpensesDetail(dayStr) {
                     <div style="
                         width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
                         background: ${style.bg}; display: flex; align-items: center; justify-content: center;
-                        font-size: 1.3rem;
+                        font-size: 1.3rem; font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;
                     ">${style.emoji}</div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
@@ -992,7 +992,7 @@ function renderDashboardCharts() {
                 border-bottom: 1px solid rgba(255,255,255,0.05);
             `;
             row.innerHTML = `
-                <span style="font-size: 1.1rem; text-align: center; display: block;">${item.emoji}</span>
+                <span style="font-size: 1.1rem; text-align: center; display: block; font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;">${item.emoji}</span>
                 <span style="font-weight: 600; color: var(--text-primary); font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.category}</span>
                 <span style="color: var(--text-secondary); font-size: 0.78rem; white-space: nowrap; text-align: right;">${formatCurrency(item.amount)}</span>
                 <span style="font-weight: 700; color: ${item.color}; font-size: 0.8rem; text-align: right; white-space: nowrap; width: 48px;">${item.pct}%</span>
@@ -1048,7 +1048,7 @@ function showCategoryExpenses(categoryName, monthExpenses) {
             <!-- Header -->
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 38px; height: 38px; border-radius: 12px; background: ${style.bg}; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">${style.emoji}</div>
+                    <div style="width: 38px; height: 38px; border-radius: 12px; background: ${style.bg}; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;">${style.emoji}</div>
                     <div>
                         <div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Thể loại</div>
                         <div style="font-size: 1.15rem; font-weight: 800; color: #fff;">${categoryName}</div>
