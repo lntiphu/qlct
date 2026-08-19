@@ -59,6 +59,13 @@
     font-family: var(--ios-font);
 }
 
+/* Emoji luôn dùng đúng font màu, không bị Be Vietnam Pro override */
+.emoji-icon,
+.item-icon-wrapper,
+[class*="icon-wrapper"] {
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif !important;
+}
+
 /* Custom Scrollbar - mỏng và tối giản */
 ::-webkit-scrollbar {
     width: 3px;
@@ -526,6 +533,7 @@ html, body {
     font-size: 1.18rem;
     flex-shrink: 0;
     border: 1px solid rgba(52, 66, 55, 0.06);
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .item-details { min-width: 0; }
