@@ -36,6 +36,7 @@ const CATEGORY_STYLES = {
     "Y tế & Sức khỏe": { emoji: "🏥", bg: "rgba(74, 144, 186, 0.14)", color: "#4a90ba" },
     "Quà tặng & Hiếu hỷ": { emoji: "🎁", bg: "rgba(180, 100, 160, 0.14)", color: "#b464a0" },
     "Viễn thông": { emoji: "📱", bg: "rgba(32, 178, 170, 0.14)", color: "#20b2aa" },
+    "Sửa chữa & Bảo trì": { emoji: "🔧", bg: "rgba(210, 120, 50, 0.14)", color: "#d27832" },
     "Khác": { emoji: "📝", bg: "rgba(131, 140, 132, 0.14)", color: "#838c84" }
 };
 
