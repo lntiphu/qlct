@@ -34,6 +34,8 @@ const CATEGORY_STYLES = {
     "Sinh hoạt": { emoji: "💡", bg: "rgba(106, 123, 104, 0.14)", color: "#6a7b68" },
     "Chi phí cố định": { emoji: "📌", bg: "rgba(79, 94, 82, 0.14)", color: "#4f5e52" },
     "Y tế & Sức khỏe": { emoji: "🏥", bg: "rgba(74, 144, 186, 0.14)", color: "#4a90ba" },
+    "Quà tặng & Hiếu hỷ": { emoji: "🎁", bg: "rgba(180, 100, 160, 0.14)", color: "#b464a0" },
+    "Viễn thông": { emoji: "📱", bg: "rgba(32, 178, 170, 0.14)", color: "#20b2aa" },
     "Khác": { emoji: "📝", bg: "rgba(131, 140, 132, 0.14)", color: "#838c84" }
 };
 
@@ -1239,7 +1241,8 @@ const LUCIDE_EMOJI_FALLBACKS = {
     "trash-2": "🗑️",
     "camera": "📷",
     "image": "🖼️",
-    "inbox": "📥"
+    "inbox": "📥",
+    "layout-grid": "⊞"
 };
 
 // Hàm bổ trợ gọi Lucide Icons an toàn
