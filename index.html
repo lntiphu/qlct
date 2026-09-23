@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/styles.css?v=26">
+    <link rel="stylesheet" href="css/styles.css?v=30">
 </head>
 <body>
     <!-- Debug Console Overlay to catch local browser errors -->
@@ -66,8 +66,11 @@
                 </div>
             </div>
             <div class="header-right">
-                <button id="btn-open-calendar-modal" class="header-icon-btn" aria-label="Xem Lịch Chi Tiêu" onclick="openCalendarModal()">
-                    <img src="assets/calendar.png" alt="Lịch Chi Tiêu" style="width: 22px; height: 22px; object-fit: contain;">
+                <button id="btn-open-spending-analysis" class="header-icon-btn" aria-label="Phân tích dữ liệu sử dụng tiền" title="Phân tích dữ liệu sử dụng tiền">
+                    <i data-lucide="pie-chart"></i>
+                </button>
+                <button id="btn-open-saver-modal" class="header-icon-btn" aria-label="Xem Biểu Đồ Tiết Kiệm" title="Saver - Tiết Kiệm" onclick="openSaverModal()" style="margin-left: 6px;">
+                    <i data-lucide="piggy-bank"></i>
                 </button>
                 <button id="btn-logout" class="header-icon-btn" aria-label="Đăng xuất" title="Đăng xuất" style="margin-left: 6px; display: none;">
                     <i data-lucide="log-out"></i>
@@ -100,33 +103,33 @@
 
 
 
-                <!-- Category Breakdown Chart -->
-                <div class="section-card chart-card">
-                    <div class="section-header" style="justify-content: center; text-align: center; margin-bottom: 6px;">
-                        <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-secondary); margin: 0;">Tháng này</h3>
+                <!-- Monthly Spending Calendar -->
+                <div class="section-card spending-calendar-card">
+                    <div class="dashboard-calendar-header">
+                        <div class="calendar-title-block">
+                            <span class="calendar-year-label" id="dashboard-calendar-year-label">2026</span>
+                            <span class="calendar-month-label" id="dashboard-calendar-month-title">Tháng 7</span>
+                        </div>
+                        <div class="calendar-nav-controls">
+                            <button class="calendar-nav-btn" id="btn-dashboard-prev-month" aria-label="Tháng trước"><i data-lucide="chevron-left"></i></button>
+                            <button class="calendar-nav-btn" id="btn-dashboard-next-month" aria-label="Tháng sau"><i data-lucide="chevron-right"></i></button>
+                        </div>
                     </div>
-                    <div class="chart-container" style="position: relative; height: 180px; display: flex; justify-content: center; align-items: center;">
-                        <canvas id="categoryChart"></canvas>
+
+                    <div class="calendar-month-summary dashboard-calendar-summary">
+                        <span>Tổng chi trong tháng</span>
+                        <strong id="dashboard-calendar-month-total">0đ</strong>
                     </div>
-                    <div id="category-breakdown-legend" class="category-breakdown-legend" style="margin-top: 12px; display: flex; flex-direction: column;">
-                        <!-- Dynamic Legend List with % -->
+
+                    <div class="calendar-weekdays">
+                        <div>T2</div><div>T3</div><div>T4</div>
+                        <div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                    </div>
+                    <div class="calendar-days-grid dashboard-calendar-grid" id="dashboard-calendar-days-grid">
+                        <!-- Dynamic monthly calendar -->
                     </div>
                 </div>
 
-                <!-- Recent Spendings -->
-                <div class="recent-section">
-                    <div class="section-header">
-                        <h3>Giao dịch gần đây</h3>
-                        <button class="text-link-btn" id="btn-see-all">Xem tất cả</button>
-                    </div>
-                    <div class="spending-list compact-list" id="recent-spendings-list">
-                        <!-- Dynamic content -->
-                        <div class="empty-state">
-                            <i data-lucide="inbox"></i>
-                            <p>Chưa có chi tiêu nào. Bấm (+) để thêm!</p>
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <!-- TAB 2: HISTORY (TRANSACTIONS) -->
@@ -146,6 +149,100 @@
 
         </main>
 
+        <!-- SPENDING ANALYSIS PAGE -->
+        <div class="analysis-page" id="spending-analysis-page" aria-hidden="true">
+            <header class="analysis-page-header">
+                <button class="analysis-back-btn" id="btn-close-spending-analysis" aria-label="Quay lại tổng quan">
+                    <i data-lucide="arrow-left"></i>
+                </button>
+                <div class="analysis-page-title">
+                    <h2>Toàn cảnh tài chính</h2>
+                </div>
+                <div class="analysis-header-icon"><i data-lucide="bar-chart-3"></i></div>
+            </header>
+
+            <div class="analysis-page-scroll">
+                <div class="analysis-period-card">
+                    <div>
+                        <span class="analysis-overline">KHOẢNG THỜI GIAN</span>
+                        <strong id="analysis-period-label">Tháng 9, 2026</strong>
+                    </div>
+                    <div class="analysis-period-actions">
+                        <button id="btn-analysis-prev-month" aria-label="Tháng phân tích trước"><i data-lucide="chevron-left"></i></button>
+                        <button id="btn-analysis-next-month" aria-label="Tháng phân tích sau"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="analysis-kpi-grid">
+                    <div class="analysis-kpi-card analysis-kpi-total">
+                        <span>TỔNG CHI</span>
+                        <strong id="analysis-total-amount">0đ</strong>
+                        <small>trong tháng</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>TRUNG BÌNH / NGÀY</span>
+                        <strong id="analysis-daily-average">0đ</strong>
+                        <small>ngày có chi tiêu</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>NGÀY CAO NHẤT</span>
+                        <strong id="analysis-top-day">--</strong>
+                        <small id="analysis-top-day-amount">0đ</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>SỐ KHOẢN CHI</span>
+                        <strong id="analysis-transaction-count">0</strong>
+                        <small>giao dịch</small>
+                    </div>
+                </div>
+
+                <section class="analysis-section-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">CƠ CẤU CHI TIÊU</span>
+                            <h3>Tiền đang đi đâu?</h3>
+                        </div>
+                        <i data-lucide="pie-chart"></i>
+                    </div>
+                    <div class="analysis-chart-container">
+                        <canvas id="analysisCategoryChart"></canvas>
+                    </div>
+                    <div id="analysis-category-breakdown-legend" class="analysis-legend"></div>
+                </section>
+
+                <section class="analysis-section-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">NHỊP CHI TIÊU</span>
+                            <h3>Những ngày chi nhiều nhất</h3>
+                        </div>
+                        <i data-lucide="calendar-range"></i>
+                    </div>
+                    <div id="analysis-daily-insights" class="analysis-daily-insights"></div>
+                </section>
+
+                <section class="analysis-insight-card">
+                    <div class="analysis-insight-icon"><i data-lucide="sparkles"></i></div>
+                    <div>
+                        <span class="analysis-overline">NHẬN XÉT TỰ ĐỘNG</span>
+                        <h3>Điểm đáng chú ý</h3>
+                        <div id="analysis-insights-list" class="analysis-insights-list"></div>
+                    </div>
+                </section>
+
+                <section class="analysis-section-card analysis-top-expenses-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">CHI TIÊU NỔI BẬT</span>
+                            <h3>Các khoản lớn nhất</h3>
+                        </div>
+                        <i data-lucide="arrow-up-right"></i>
+                    </div>
+                    <div id="analysis-top-expenses" class="analysis-top-expenses"></div>
+                </section>
+            </div>
+        </div>
+
         <!-- BOTTOM NAVIGATION BAR -->
         <nav class="app-nav">
             <button class="nav-item active" data-tab="dashboard">
@@ -164,23 +261,36 @@
 
     <!-- BOTTOM SHEET MODAL (ADD EXPENSE) -->
     <div class="modal-overlay" id="add-expense-modal">
-        <div class="modal-sheet">
+        <div class="modal-sheet expense-entry-sheet">
             <div class="modal-drag-indicator"></div>
-            <div class="modal-header">
-                <h2 style="background: linear-gradient(135deg, var(--accent-blue) 0%, #54a9ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Thêm chi tiêu mới</h2>
+            <div class="modal-header expense-entry-header">
+                <div class="modal-title-group">
+                    <span class="modal-eyebrow">GIAO DỊCH MỚI</span>
+                    <h2>Thêm khoản chi</h2>
+                    <p>Ghi lại khoản chi để theo dõi dễ dàng hơn</p>
+                </div>
                 <button class="modal-close-btn" id="btn-close-modal"><i data-lucide="x"></i></button>
             </div>
             
-            <form id="add-expense-form" class="modal-form">
-                <!-- Amount input (Huge, like Apple Pay / iOS style) -->
-                <div class="amount-input-container">
-                    <span class="currency-symbol">₫</span>
-                    <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required>
+            <form id="add-expense-form" class="modal-form expense-entry-form">
+                <div class="amount-card">
+                    <div class="amount-card-top">
+                        <span class="amount-card-label">Số tiền chi</span>
+                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VND</span>
+                    </div>
+                    <div class="amount-input-container">
+                        <span class="currency-symbol">₫</span>
+                        <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                    </div>
+                    <span class="amount-helper"><i data-lucide="info"></i> Nhập số tiền bạn đã chi</span>
                 </div>
 
-                <!-- Form Fields -->
-                <div class="form-fields">
-                    <!-- Title -->
+                <div class="form-section">
+                    <div class="form-section-heading">
+                        <span>Thông tin khoản chi</span>
+                        <small>3 mục</small>
+                    </div>
+                    <div class="form-fields">
                     <div class="form-group">
                         <label for="expense-title">Nội dung chi tiêu</label>
                         <div class="input-wrapper">
@@ -194,7 +304,7 @@
                         <label for="expense-category">Phân loại</label>
                         <div class="input-wrapper">
                             <i data-lucide="layout-grid" class="field-icon"></i>
-                            <select id="expense-category" style="padding: 10px 12px 10px 38px; font-size: 0.88rem; border-radius: 10px; border: 1px solid var(--border-gray); background-color: var(--bg-input); color: var(--text-primary); outline: none; width: 100%; -webkit-appearance: none; appearance: none;">
+                            <select id="expense-category">
                                 <option value="Ăn uống">🍔 Ăn uống</option>
                                 <option value="Mua sắm">🛒 Mua sắm</option>
                                 <option value="Di chuyển">🚗 Di chuyển</option>
@@ -219,6 +329,7 @@
                             <input type="date" id="expense-date" required>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <!-- Action Buttons - nằm ngoài vùng cuộn để luôn hiển thị -->
@@ -236,19 +347,35 @@
 
     <!-- DETAIL / EDIT VIEW MODAL -->
     <div class="modal-overlay" id="detail-expense-modal">
-        <div class="modal-sheet">
+        <div class="modal-sheet expense-entry-sheet">
             <div class="modal-drag-indicator"></div>
-            <div class="modal-header" style="justify-content: flex-end;">
+            <div class="modal-header expense-entry-header">
+                <div class="modal-title-group">
+                    <span class="modal-eyebrow">CHI TIẾT GIAO DỊCH</span>
+                    <h2>Chỉnh sửa khoản chi</h2>
+                    <p>Cập nhật lại thông tin nếu khoản chi thay đổi</p>
+                </div>
                 <button class="modal-close-btn" id="btn-close-detail"><i data-lucide="x"></i></button>
             </div>
-            <div class="detail-body">
-                <!-- Amount input (iOS style) -->
-                <div class="amount-input-container" style="margin-bottom: 15px;">
-                    <span class="currency-symbol">₫</span>
-                    <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required>
+            <div class="detail-body expense-entry-form">
+                <div class="amount-card">
+                    <div class="amount-card-top">
+                        <span class="amount-card-label">Số tiền chi</span>
+                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VND</span>
+                    </div>
+                    <div class="amount-input-container">
+                        <span class="currency-symbol">₫</span>
+                        <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                    </div>
+                    <span class="amount-helper"><i data-lucide="edit-3"></i> Chạm vào số tiền để cập nhật</span>
                 </div>
                 
-                <div class="detail-info-list" style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="form-section">
+                    <div class="form-section-heading">
+                        <span>Thông tin khoản chi</span>
+                        <small>2 mục</small>
+                    </div>
+                    <div class="detail-info-list">
                     <div class="form-group">
                         <label for="detail-title-input">Nội dung</label>
                         <div class="input-wrapper">
@@ -261,7 +388,7 @@
                         <label for="detail-category-select">Phân loại</label>
                         <div class="input-wrapper">
                             <i data-lucide="layout-grid" class="field-icon"></i>
-                            <select id="detail-category-select" style="padding: 10px 12px 10px 38px; font-size: 0.88rem; border-radius: 10px; border: 1px solid var(--border-gray); background-color: var(--bg-input); color: var(--text-primary); outline: none; width: 100%; -webkit-appearance: none; appearance: none;">
+                            <select id="detail-category-select">
                                 <option value="Ăn uống">🍔 Ăn uống</option>
                                 <option value="Mua sắm">🛒 Mua sắm</option>
                                 <option value="Di chuyển">🚗 Di chuyển</option>
@@ -278,18 +405,18 @@
                         </div>
                     </div>
 
-                    <div class="detail-info-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-gray);">
-                        <span class="info-label" style="font-size: 0.85rem; color: var(--text-secondary);">Thời gian</span>
-                        <span class="info-value" id="detail-date" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-blue);"></span>
+                    <div class="detail-info-item">
+                        <span class="info-label"><i data-lucide="calendar-days"></i> Thời gian</span>
+                        <span class="info-value" id="detail-date"></span>
+                    </div>
                     </div>
                 </div>
 
-                <!-- Nút hành động - trong detail-body, cuộn cùng nội dung -->
                 <div class="detail-actions">
-                    <button class="btn btn-primary" id="btn-save-edit-expense" style="width: 100%; font-weight: 700;">
+                    <button class="btn btn-primary" id="btn-save-edit-expense">
                         <i data-lucide="check"></i> Lưu thay đổi
                     </button>
-                    <button class="btn btn-danger" id="btn-delete-expense" style="width: 100%;">
+                    <button class="btn btn-danger" id="btn-delete-expense">
                         <i data-lucide="trash-2"></i> Xóa khoản chi này
                     </button>
                 </div>
@@ -365,6 +492,202 @@
         </div>
     </div><!-- End #calendar-expense-modal -->
 
+    <!-- SAVER (QUẢN LÝ TIẾT KIỆM) FULL-SCREEN PAGE -->
+    <div class="modal-overlay" id="saver-page-modal" aria-hidden="true">
+        <div class="modal-sheet saver-modal-sheet">
+            <!-- Header của Saver -->
+            <div class="saver-header-row">
+                <div class="saver-title-block">
+                    <div class="saver-badge-icon">
+                        <i data-lucide="piggy-bank"></i>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="btn btn-primary btn-add-saver" id="btn-open-add-saver" aria-label="Thêm mục tiết kiệm" title="Thêm mục tiết kiệm" onclick="openAddSaverModal()">
+                        <i data-lucide="plus"></i>
+                    </button>
+                    <button class="modal-close-btn saver-back-btn" id="btn-close-saver" aria-label="Quay lại" title="Quay lại" onclick="closeSaverModal()"><i data-lucide="arrow-left"></i></button>
+                </div>
+            </div>
+
+            <!-- Tổng kết tiến độ Saver -->
+            <div class="saver-summary-grid">
+                <div class="saver-sum-card card-momo">
+                    <span class="saver-sum-label">💰 Tổng MoMo</span>
+                    <strong class="saver-sum-val" id="saver-sum-momo">0đ</strong>
+                </div>
+                <div class="saver-sum-card card-bank">
+                    <span class="saver-sum-label">🏦 Tổng ngân hàng</span>
+                    <strong class="saver-sum-val" id="saver-sum-bank">0đ</strong>
+                </div>
+                <div class="saver-sum-card card-target">
+                    <span class="saver-sum-label">🎯 Tổng mục tiêu</span>
+                    <strong class="saver-sum-val" id="saver-sum-target">0đ</strong>
+                </div>
+                <div class="saver-sum-card card-debt">
+                    <span class="saver-sum-label">⚠️ Tổng thiếu nợ</span>
+                    <strong class="saver-sum-val" id="saver-sum-debt">0đ</strong>
+                </div>
+            </div>
+
+            <!-- BẢNG BIỂU ĐỒ TIẾT KIỆM 5 CỘT -->
+            <div class="saver-table-responsive-wrapper">
+                <table class="saver-table" id="saver-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 130px; text-align: left;">Tên tiết kiệm</th>
+                            <th style="min-width: 110px; text-align: right;">MoMo</th>
+                            <th style="min-width: 110px; text-align: right;">Ngân hàng</th>
+                            <th style="min-width: 110px; text-align: right;">Mục tiêu</th>
+                            <th style="min-width: 110px; text-align: right;">Thiếu nợ</th>
+                            <th style="min-width: 80px; text-align: center;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="saver-table-body">
+                        <!-- Dynamic Saver Rows -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div><!-- End #saver-page-modal -->
+
+    <!-- MODAL THÊM / SỬA MỤC TIẾT KIỆM -->
+    <div class="modal-overlay" id="add-saver-modal">
+        <div class="modal-sheet add-saver-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header">
+                <h2 id="add-saver-modal-title">Thêm mục tiết kiệm</h2>
+                <button class="modal-close-btn" onclick="closeAddSaverModal()"><i data-lucide="x"></i></button>
+            </div>
+            
+            <form id="add-saver-form" class="modal-form">
+                <input type="hidden" id="saver-item-id" value="">
+                
+                <div class="form-fields">
+                    <!-- Tên mục -->
+                    <div class="form-group">
+                        <label for="saver-input-title">Tên mục tiết kiệm</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="bookmark" class="field-icon"></i>
+                            <input type="text" id="saver-input-title" placeholder="VD: Mua xe, Quỹ dự phòng, Du lịch..." required>
+                        </div>
+                    </div>
+
+                    <!-- Tiền MoMo -->
+                    <div class="form-group">
+                        <label for="saver-input-momo">Tiền đang có ở MoMo (₫)</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="wallet" class="field-icon"></i>
+                            <input type="text" id="saver-input-momo" placeholder="0" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <!-- Tiền Ngân hàng -->
+                    <div class="form-group">
+                        <label for="saver-input-bank">Tiền đang có ở NH (₫)</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="landmark" class="field-icon"></i>
+                            <input type="text" id="saver-input-bank" placeholder="0" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <!-- Mục tiêu -->
+                    <div class="form-group">
+                        <label for="saver-input-target">Mục tiêu tiền (₫)</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="target" class="field-icon"></i>
+                            <input type="text" id="saver-input-target" placeholder="0" inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <!-- Thiếu nợ -->
+                    <div class="form-group">
+                        <label for="saver-input-debt">Tiền đang thiếu nợ (₫)</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="alert-circle" class="field-icon"></i>
+                            <input type="text" id="saver-input-debt" placeholder="0" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions-row" style="margin-top: 18px;">
+                    <button type="button" class="btn btn-secondary btn-cancel" onclick="closeAddSaverModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <i data-lucide="check"></i> Lưu mục tiết kiệm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div><!-- End #add-saver-modal -->
+
+    <!-- MODAL ĐIỀU CHỈNH TĂNG / GIẢM TIỀN NHANH -->
+    <div class="modal-overlay" id="adjust-saver-amount-modal">
+        <div class="modal-sheet adjust-amount-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-size: 1.15rem; margin: 0;">Điều chỉnh số tiền</h2>
+                    <span id="adjust-modal-subtitle" style="font-size: 0.76rem; color: var(--text-secondary);">Mục: Quỹ phòng thân · MoMo</span>
+                </div>
+                <button class="modal-close-btn" onclick="closeAdjustAmountModal()"><i data-lucide="x"></i></button>
+            </div>
+
+            <!-- Current Amount Indicator -->
+            <div class="adjust-current-box">
+                <span class="adjust-current-label">Số dư hiện tại</span>
+                <span class="adjust-current-val" id="adjust-current-val">0đ</span>
+            </div>
+
+            <!-- Quick Step Buttons -->
+            <div class="adjust-quick-section">
+                <div class="adjust-quick-title">Tăng nhanh (+)</div>
+                <div class="adjust-quick-buttons">
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(50000)">+50k</button>
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(100000)">+100k</button>
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(500000)">+500k</button>
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(1000000)">+1Tr</button>
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(5000000)">+5Tr</button>
+                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(10000000)">+10Tr</button>
+                </div>
+            </div>
+
+            <div class="adjust-quick-section" style="margin-top: 10px;">
+                <div class="adjust-quick-title">Giảm nhanh (-)</div>
+                <div class="adjust-quick-buttons">
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-50000)">-50k</button>
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-100000)">-100k</button>
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-500000)">-500k</button>
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-1000000)">-1Tr</button>
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-5000000)">-5Tr</button>
+                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-10000000)">-10Tr</button>
+                </div>
+            </div>
+
+            <!-- Custom Input Amount -->
+            <div style="margin-top: 16px;">
+                <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">Nhập số tiền tùy chỉnh (₫)</label>
+                <div class="input-wrapper" style="margin-bottom: 12px;">
+                    <i data-lucide="edit-3" class="field-icon"></i>
+                    <input type="text" id="adjust-custom-input" placeholder="0" inputmode="numeric" style="font-weight: 700; font-size: 1.05rem;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <button type="button" class="btn btn-primary" onclick="applyCustomAdjust('add')" style="background: #2e7d32; padding: 10px 6px; font-size: 0.78rem;">
+                        <i data-lucide="plus"></i> Tăng (+)
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="applyCustomAdjust('sub')" style="background: #c62828; padding: 10px 6px; font-size: 0.78rem;">
+                        <i data-lucide="minus"></i> Giảm (-)
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="applyCustomAdjust('set')" style="padding: 10px 6px; font-size: 0.78rem;">
+                        <i data-lucide="check"></i> Đặt số này
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- End #adjust-saver-amount-modal -->
+
     </div> <!-- End app-container -->
 
     <!-- META / INSTAGRAM STYLE LOGIN SCREEN OVERLAY -->
@@ -420,6 +743,6 @@
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/chart-config.js?v=26" defer></script>
-    <script src="js/app.js?v=27" defer></script>
+    <script src="js/app.js?v=29" defer></script>
 </body>
 </html>
