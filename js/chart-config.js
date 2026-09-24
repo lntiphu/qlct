@@ -152,5 +152,5 @@ function drawSVGDoughnutChart(wrapper, labels, data, colors) {
 
 // Hàm hỗ trợ định dạng tiền tệ trong chart
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount).replace('₫', 'đ');
+    return `${new Intl.NumberFormat('vi-VN').format(amount)} VNĐ`;
 }

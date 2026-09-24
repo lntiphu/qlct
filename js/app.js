@@ -55,17 +55,17 @@ function scaleAmountFont(inputEl) {
     if (!inputEl) return;
     const len = (inputEl.value || '').length;
     let size;
-    if (len <= 7)       size = '3.8rem';   // 0 - 9.999.999 (7 ký tự)
-    else if (len <= 9)  size = '3.0rem';   // 10.000.000 - 99.999.999 (8-9 ký tự)
-    else                size = '2.4rem';   // 100.000.000 (11 ký tự với dấu chấm)
+    if (len <= 6)       size = '4.35rem';  // 0 - 999.999
+    else if (len <= 9)  size = '3.75rem';  // 1.000.000 - 99.999.999
+    else                size = '3.05rem';  // 100.000.000 (11 ký tự với dấu chấm)
     inputEl.style.fontSize = size;
-    // Đồng bộ ký hiệu ₫ với kích thước chữ
+    // Giữ đơn vị VNĐ cân đối với cỡ số đang hiển thị.
     const container = inputEl.closest('.amount-input-container');
     if (container) {
-        const symbol = container.querySelector('.currency-symbol');
-        if (symbol) {
-            const symSize = parseFloat(size) * 0.74;
-            symbol.style.fontSize = symSize + 'rem';
+        const suffix = container.querySelector('.currency-suffix');
+        if (suffix) {
+            const suffixSize = Math.max(1.05, parseFloat(size) * 0.34);
+            suffix.style.fontSize = suffixSize + 'rem';
         }
     }
 }
@@ -175,7 +175,7 @@ function getSampleData() {
 
 // ĐỊNH DẠNG NGÀY & TIỀN TỆ
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount).replace('₫', 'đ');
+    return `${new Intl.NumberFormat('vi-VN').format(amount)} VNĐ`;
 }
 
 function getTodayDateString() {
