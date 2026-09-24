@@ -106,7 +106,31 @@ function loadData() {
 
 // LƯU DỮ LIỆU XUỐNG LOCALSTORAGE
 function saveData() {
-    localStorage.setItem('money_expenses', JSON.stringify(state.expenses));
+    const storageKey = state.currentUserId
+        ? `money_expenses_${state.currentUserId}`
+        : 'money_expenses';
+    localStorage.setItem(storageKey, JSON.stringify(state.expenses));
+}
+
+function loadExpenseDataForCurrentUser() {
+    if (!state.currentUserId) {
+        state.expenses = [];
+        return;
+    }
+
+    const savedExpenses = localStorage.getItem(`money_expenses_${state.currentUserId}`);
+    if (!savedExpenses) {
+        state.expenses = [];
+        return;
+    }
+
+    try {
+        state.expenses = JSON.parse(savedExpenses);
+        sortExpenses();
+    } catch (e) {
+        console.error("Lỗi parse dữ liệu chi tiêu của tài khoản:", e);
+        state.expenses = [];
+    }
 }
 
 function loadSaverData() {
@@ -583,6 +607,11 @@ function openDetailModal(expenseId) {
 }
 
 function saveEditedExpense(id) {
+    if (!state.currentUserId) {
+        showLoginScreen();
+        return;
+    }
+
     const exp = state.expenses.find(item => item.id === id);
     if (!exp) return;
 
@@ -610,7 +639,7 @@ function saveEditedExpense(id) {
     updateUI();
 
     // Đồng bộ lên Supabase nếu có
-    if (supabaseClient) {
+    if (supabaseClient && state.currentUserId) {
         supabaseClient
             .from('expenses')
             .update({
@@ -619,6 +648,7 @@ function saveEditedExpense(id) {
                 category: exp.category
             })
             .eq('id', id)
+            .eq('user_id', state.currentUserId)
             .then(({ error }) => {
                 if (error) {
                     console.error("Lỗi khi cập nhật giao dịch lên Supabase:", error);
@@ -941,6 +971,11 @@ function renderCalendar() {
 function handleAddExpenseSubmit(e) {
     e.preventDefault();
 
+    if (!state.currentUserId) {
+        showLoginScreen();
+        return;
+    }
+
     // Lấy số tiền
     const amountRaw = document.getElementById('expense-amount').value.replace(/\D/g, '');
     const amount = parseInt(amountRaw, 10);
@@ -962,6 +997,7 @@ function handleAddExpenseSubmit(e) {
     // Tạo đối tượng chi tiêu mới (sử dụng ID chứa timestamp để sắp xếp)
     const newExpense = {
         id: 'exp-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+        user_id: state.currentUserId,
         amount: amount,
         title: title,
         category: category,
@@ -974,11 +1010,12 @@ function handleAddExpenseSubmit(e) {
     saveData();
 
     // Tự động đồng bộ lên Supabase trong nền (nếu đã cấu hình)
-    if (supabaseClient) {
+    if (supabaseClient && state.currentUserId) {
         supabaseClient
             .from('expenses')
             .insert([{
                 id: newExpense.id,
+                user_id: state.currentUserId,
                 date: newExpense.date,
                 title: newExpense.title,
                 amount: newExpense.amount,
@@ -1005,6 +1042,11 @@ function handleAddExpenseSubmit(e) {
 
 // XÓA KHOẢN CHI TIÊU
 function deleteExpense(id) {
+    if (!state.currentUserId) {
+        showLoginScreen();
+        return;
+    }
+
     const expenseToDelete = state.expenses.find(item => item.id === id);
     
     // Xóa cục bộ trên thiết bị trước
@@ -1013,11 +1055,12 @@ function deleteExpense(id) {
     updateUI();
 
     // Nếu đã kết nối Supabase, tự động xóa dòng tương ứng
-    if (supabaseClient) {
+    if (supabaseClient && state.currentUserId) {
         supabaseClient
             .from('expenses')
             .delete()
             .eq('id', id)
+            .eq('user_id', state.currentUserId)
             .then(({ error }) => {
                 if (error) {
                     console.error("Lỗi khi xóa giao dịch trên Supabase:", error);
@@ -1582,8 +1625,10 @@ function setCurrentSupabaseUser(user) {
 
     state.currentUserId = nextUserId;
     if (nextUserId) {
+        loadExpenseDataForCurrentUser();
         loadSaverData();
     } else {
+        state.expenses = [];
         state.savers = [];
         renderSaverTable();
     }
@@ -1623,8 +1668,13 @@ function setupRealtimeSubscription() {
     if (!state.currentUserId) return;
 
     supabaseSubscription = supabaseClient
-        .channel('money-data-realtime')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'expenses' }, payload => {
+        .channel(`money-data-realtime-${state.currentUserId}`)
+        .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'expenses',
+            filter: `user_id=eq.${state.currentUserId}`
+        }, payload => {
             handleRealtimeDbChange(payload);
         })
         .on('postgres_changes', {
@@ -1773,7 +1823,7 @@ function initSupabase() {
 
 // Lấy danh sách chi tiêu từ Supabase với Timeout 3.5s cực kỳ an toàn
 async function fetchExpensesFromSupabase() {
-    if (!supabaseClient) return;
+    if (!supabaseClient || !state.currentUserId) return;
 
     // Timeout 3.5s bằng AbortController để ngăn iOS bị đơ/treo mạng
     const controller = new AbortController();
@@ -1783,6 +1833,7 @@ async function fetchExpensesFromSupabase() {
         const { data, error } = await supabaseClient
             .from('expenses')
             .select('*')
+            .eq('user_id', state.currentUserId)
             .abortSignal(controller.signal);
             
         clearTimeout(timeoutId);
@@ -1810,9 +1861,9 @@ function mergeLocalAndRemoteExpenses(remoteData) {
         if (item && item.id) remoteMap.set(item.id, item);
     });
 
-    // Giữ lại item local chưa sync
+    // Keep only unsynced records owned by the current account.
     state.expenses.forEach(localItem => {
-        if (localItem && localItem.id && !remoteMap.has(localItem.id)) {
+        if (localItem && localItem.id && localItem.user_id === state.currentUserId && !remoteMap.has(localItem.id)) {
             remoteMap.set(localItem.id, localItem);
         }
     });
@@ -1829,6 +1880,9 @@ function handleRealtimeDbChange(payload) {
     const eventType = payload.eventType;
     const newRecord = payload.new;
     const oldRecord = payload.old;
+
+    const changedRecord = eventType === 'DELETE' ? oldRecord : newRecord;
+    if (!changedRecord || changedRecord.user_id !== state.currentUserId) return;
     
     if (eventType === 'INSERT') {
         if (!state.expenses.some(e => e.id === newRecord.id)) {
