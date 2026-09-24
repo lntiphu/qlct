@@ -202,6 +202,15 @@ function formatCurrency(amount) {
     return `${new Intl.NumberFormat('vi-VN').format(amount)} VNĐ`;
 }
 
+function formatSummaryCurrency(amount) {
+    const value = Number(amount) || 0;
+    if (value < 1000) {
+        return `${new Intl.NumberFormat('vi-VN').format(value)}đ`;
+    }
+
+    return `${new Intl.NumberFormat('vi-VN').format(Math.round(value / 1000))}k`;
+}
+
 function getTodayDateString() {
     const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
     const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -1130,9 +1139,18 @@ function calculateAndRenderSummaries() {
     });
 
     // Cập nhật giá trị hiển thị trên thẻ
-    document.getElementById('sum-today').innerText = formatCurrency(totalToday);
-    document.getElementById('sum-week').innerText = formatCurrency(totalWeek);
-    document.getElementById('sum-month').innerText = formatCurrency(totalMonth);
+    const summaryValues = [
+        ['sum-today', totalToday],
+        ['sum-week', totalWeek],
+        ['sum-month', totalMonth]
+    ];
+
+    summaryValues.forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (!element) return;
+        element.innerText = formatSummaryCurrency(value);
+        element.title = formatCurrency(value);
+    });
 
 }
 
