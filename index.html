@@ -87,17 +87,17 @@
                     <div class="card card-today">
                         <div class="card-icon"><img src="assets/calendar.png" alt="Lịch" style="width: 18px; height: 18px; object-fit: contain;"></div>
                         <span class="card-label">Hôm nay</span>
-                        <h2 class="card-amount" id="sum-today">0đ</h2>
+                        <h2 class="card-amount" id="sum-today">0 VNĐ</h2>
                     </div>
                     <div class="card card-week">
                         <div class="card-icon"><i data-lucide="trending-up"></i></div>
                         <span class="card-label">Tuần này</span>
-                        <h2 class="card-amount" id="sum-week">0đ</h2>
+                        <h2 class="card-amount" id="sum-week">0 VNĐ</h2>
                     </div>
                     <div class="card card-month">
                         <div class="card-icon"><i data-lucide="credit-card"></i></div>
                         <span class="card-label">Tháng này</span>
-                        <h2 class="card-amount" id="sum-month">0đ</h2>
+                        <h2 class="card-amount" id="sum-month">0 VNĐ</h2>
                     </div>
                 </div>
 
@@ -118,7 +118,7 @@
 
                     <div class="calendar-month-summary dashboard-calendar-summary">
                         <span>Tổng chi trong tháng</span>
-                        <strong id="dashboard-calendar-month-total">0đ</strong>
+                        <strong id="dashboard-calendar-month-total">0 VNĐ</strong>
                     </div>
 
                     <div class="calendar-weekdays">
@@ -176,18 +176,18 @@
                 <div class="analysis-kpi-grid">
                     <div class="analysis-kpi-card analysis-kpi-total">
                         <span>TỔNG CHI</span>
-                        <strong id="analysis-total-amount">0đ</strong>
+                        <strong id="analysis-total-amount">0 VNĐ</strong>
                         <small>trong tháng</small>
                     </div>
                     <div class="analysis-kpi-card">
                         <span>TRUNG BÌNH / NGÀY</span>
-                        <strong id="analysis-daily-average">0đ</strong>
+                        <strong id="analysis-daily-average">0 VNĐ</strong>
                         <small>ngày có chi tiêu</small>
                     </div>
                     <div class="analysis-kpi-card">
                         <span>NGÀY CAO NHẤT</span>
                         <strong id="analysis-top-day">--</strong>
-                        <small id="analysis-top-day-amount">0đ</small>
+                        <small id="analysis-top-day-amount">0 VNĐ</small>
                     </div>
                     <div class="analysis-kpi-card">
                         <span>SỐ KHOẢN CHI</span>
@@ -276,11 +276,11 @@
                 <div class="amount-card">
                     <div class="amount-card-top">
                         <span class="amount-card-label">Số tiền chi</span>
-                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VND</span>
+                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
                     </div>
                     <div class="amount-input-container">
-                        <span class="currency-symbol">₫</span>
                         <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                        <span class="currency-suffix">VNĐ</span>
                     </div>
                     <span class="amount-helper"><i data-lucide="info"></i> Nhập số tiền bạn đã chi</span>
                 </div>
@@ -361,11 +361,11 @@
                 <div class="amount-card">
                     <div class="amount-card-top">
                         <span class="amount-card-label">Số tiền chi</span>
-                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VND</span>
+                        <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
                     </div>
                     <div class="amount-input-container">
-                        <span class="currency-symbol">₫</span>
                         <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                        <span class="currency-suffix">VNĐ</span>
                     </div>
                     <span class="amount-helper"><i data-lucide="edit-3"></i> Chạm vào số tiền để cập nhật</span>
                 </div>
@@ -448,7 +448,7 @@
                 <!-- Tổng chi tháng -->
                 <div class="calendar-month-summary">
                     <span>Tổng chi tháng này</span>
-                    <strong id="calendar-month-total">0đ</strong>
+                    <strong id="calendar-month-total">0 VNĐ</strong>
                 </div>
 
                 <!-- Thứ trong tuần -->
@@ -480,7 +480,7 @@
                 <!-- Tổng ngày -->
                 <div class="calendar-month-summary" style="margin-top: 14px;">
                     <span>Tổng chi trong ngày</span>
-                    <strong id="cal-day-detail-total" style="color: #ff9f0a;">0đ</strong>
+                    <strong id="cal-day-detail-total" style="color: #ff9f0a;">0 VNĐ</strong>
                 </div>
 
                 <!-- Danh sách chi tiêu ngày -->
@@ -514,19 +514,19 @@
             <div class="saver-summary-grid">
                 <div class="saver-sum-card card-momo">
                     <span class="saver-sum-label">💰 Tổng MoMo</span>
-                    <strong class="saver-sum-val" id="saver-sum-momo">0đ</strong>
+                    <strong class="saver-sum-val" id="saver-sum-momo">0 VNĐ</strong>
                 </div>
                 <div class="saver-sum-card card-bank">
                     <span class="saver-sum-label">🏦 Tổng ngân hàng</span>
-                    <strong class="saver-sum-val" id="saver-sum-bank">0đ</strong>
+                    <strong class="saver-sum-val" id="saver-sum-bank">0 VNĐ</strong>
                 </div>
                 <div class="saver-sum-card card-target">
                     <span class="saver-sum-label">🎯 Tổng mục tiêu</span>
-                    <strong class="saver-sum-val" id="saver-sum-target">0đ</strong>
+                    <strong class="saver-sum-val" id="saver-sum-target">0 VNĐ</strong>
                 </div>
                 <div class="saver-sum-card card-debt">
                     <span class="saver-sum-label">⚠️ Tổng thiếu nợ</span>
-                    <strong class="saver-sum-val" id="saver-sum-debt">0đ</strong>
+                    <strong class="saver-sum-val" id="saver-sum-debt">0 VNĐ</strong>
                 </div>
             </div>
 
@@ -576,7 +576,7 @@
 
                     <!-- Tiền MoMo -->
                     <div class="form-group">
-                        <label for="saver-input-momo">Tiền đang có ở MoMo (₫)</label>
+                        <label for="saver-input-momo">Tiền đang có ở MoMo (VNĐ)</label>
                         <div class="input-wrapper">
                             <i data-lucide="wallet" class="field-icon"></i>
                             <input type="text" id="saver-input-momo" placeholder="0" inputmode="numeric">
@@ -585,7 +585,7 @@
 
                     <!-- Tiền Ngân hàng -->
                     <div class="form-group">
-                        <label for="saver-input-bank">Tiền đang có ở NH (₫)</label>
+                        <label for="saver-input-bank">Tiền đang có ở NH (VNĐ)</label>
                         <div class="input-wrapper">
                             <i data-lucide="landmark" class="field-icon"></i>
                             <input type="text" id="saver-input-bank" placeholder="0" inputmode="numeric">
@@ -594,7 +594,7 @@
 
                     <!-- Mục tiêu -->
                     <div class="form-group">
-                        <label for="saver-input-target">Mục tiêu tiền (₫)</label>
+                        <label for="saver-input-target">Mục tiêu tiền (VNĐ)</label>
                         <div class="input-wrapper">
                             <i data-lucide="target" class="field-icon"></i>
                             <input type="text" id="saver-input-target" placeholder="0" inputmode="numeric">
@@ -603,7 +603,7 @@
 
                     <!-- Thiếu nợ -->
                     <div class="form-group">
-                        <label for="saver-input-debt">Tiền đang thiếu nợ (₫)</label>
+                        <label for="saver-input-debt">Tiền đang thiếu nợ (VNĐ)</label>
                         <div class="input-wrapper">
                             <i data-lucide="alert-circle" class="field-icon"></i>
                             <input type="text" id="saver-input-debt" placeholder="0" inputmode="numeric">
@@ -636,7 +636,7 @@
             <!-- Current Amount Indicator -->
             <div class="adjust-current-box">
                 <span class="adjust-current-label">Số dư hiện tại</span>
-                <span class="adjust-current-val" id="adjust-current-val">0đ</span>
+                <span class="adjust-current-val" id="adjust-current-val">0 VNĐ</span>
             </div>
 
             <!-- Quick Step Buttons -->
@@ -666,7 +666,7 @@
 
             <!-- Custom Input Amount -->
             <div style="margin-top: 16px;">
-                <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">Nhập số tiền tùy chỉnh (₫)</label>
+                <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">Nhập số tiền tùy chỉnh (VNĐ)</label>
                 <div class="input-wrapper" style="margin-bottom: 12px;">
                     <i data-lucide="edit-3" class="field-icon"></i>
                     <input type="text" id="adjust-custom-input" placeholder="0" inputmode="numeric" style="font-weight: 700; font-size: 1.05rem;">
