@@ -996,13 +996,15 @@ html, body {
     justify-content: center;
 }
 
-.currency-symbol {
+.currency-suffix {
     font-family: var(--font-heading);
-    font-size: 2.8rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 800;
     color: var(--accent-coral);
-    margin-right: 6px;
+    margin-left: 10px;
     line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 #expense-amount,
@@ -1016,7 +1018,7 @@ html, body {
     width: 100%;
     max-width: 280px;
     outline: none;
-    text-align: left;
+    text-align: right;
     caret-color: var(--accent-olive);
     line-height: 1.1;
 }
@@ -1232,10 +1234,10 @@ html, body {
     justify-content: flex-start;
 }
 
-.expense-entry-sheet .currency-symbol {
-    margin-right: 8px;
+.expense-entry-sheet .currency-suffix {
+    margin-left: 10px;
     color: var(--accent-coral);
-    font-size: 2.35rem;
+    font-size: 1.2rem;
 }
 
 .expense-entry-sheet #expense-amount,
@@ -1411,7 +1413,7 @@ html, body {
 
     .expense-entry-sheet #expense-amount,
     .expense-entry-sheet #detail-amount-input {
-        font-size: 2.55rem;
+        font-size: 3.25rem;
     }
 
     .expense-entry-sheet .form-section {
