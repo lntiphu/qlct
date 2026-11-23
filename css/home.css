@@ -1,0 +1,485 @@
+/* ==========================================================================
+   HOME PAGE (TRANG CHỦ - WELCOME HUB 4x4 GRID MODERN UI)
+   ========================================================================== */
+
+/* Tràn viền & Nền thẩm mỹ Apple/Linear */
+.welcome-hub-page {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 9995 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: radial-gradient(120% 80% at 50% 0%, #EEF2F6 0%, #FAF8F5 45%, #F4F6F9 100%) !important;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.98);
+}
+
+.welcome-hub-page.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: scale(1) !important;
+    transition: none !important;
+}
+
+/* Khung bọc trung tâm giới hạn bề ngang thanh thoát */
+.welcome-hub-inner {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 1. TOP BAR HIỆN ĐẠI (BRAND + LIVE CLOCK + LOGOUT) */
+.welcome-hub-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding: 12px 18px !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+    margin-bottom: 0 !important;
+}
+
+.welcome-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.welcome-brand-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.welcome-brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.welcome-brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.welcome-brand-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #059669;
+    letter-spacing: 0.02em;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    animation: statusPulse 2s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+.welcome-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.welcome-hub-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: #F8FAFC;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 999px;
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02);
+}
+
+.welcome-hub-date-badge .date-icon {
+    width: 14px;
+    height: 14px;
+    color: #4F46E5;
+    stroke-width: 2.2px;
+}
+
+.welcome-hub-date {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    letter-spacing: 0.01em !important;
+    white-space: nowrap !important;
+    text-transform: none !important;
+}
+
+.welcome-hub-logout-btn {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+}
+
+.welcome-hub-logout-btn i {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2px !important;
+}
+
+.welcome-hub-logout-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.25) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.15) !important;
+}
+
+.welcome-hub-logout-btn:active {
+    transform: scale(0.93) !important;
+}
+
+/* 2. HERO GREETING SECTION */
+.welcome-hub-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 2px 4px !important;
+}
+
+.welcome-hub-greeting {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.welcome-hub-question {
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* 3. LƯỚI Ô 4x4 (GRID 4 CỘT) CHO CÁC CHỨC NĂNG MODAL */
+.welcome-hub-cards {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+/* 4. CÁC Ô TÍNH NĂNG (DẠNG Ô VUÔNG / SQUIRCLE BENTO TILE) */
+.welcome-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 22px !important;
+    padding: 20px 10px 18px !important;
+    min-height: 122px !important;
+    cursor: pointer !important;
+    transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, border-color 0.22s ease !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.welcome-card::before {
+    display: none !important;
+}
+
+.welcome-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(15, 23, 42, 0.16) !important;
+    box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+.welcome-card:active {
+    transform: scale(0.95) !important;
+}
+
+/* Biểu tượng Squircle rực rỡ, bo góc hiện đại */
+.welcome-card-icon-wrap {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 17px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 11px !important;
+    flex-shrink: 0 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.welcome-card:hover .welcome-card-icon-wrap {
+    transform: scale(1.08) !important;
+}
+
+.welcome-card-icon-wrap > i,
+.welcome-card-icon-wrap > svg:not(.icon-her-svg) {
+    width: 25px !important;
+    height: 25px !important;
+    stroke-width: 2.2px !important;
+    background: transparent !important;
+}
+
+/* Bảng màu rực rỡ và tinh tế theo từng tính năng */
+.icon-thuchi   { background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%) !important; color: #4338CA !important; border: 1px solid rgba(67, 56, 202, 0.16) !important; }
+.icon-tietkiem { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important; color: #047857 !important; border: 1px solid rgba(4, 120, 87, 0.16) !important; }
+.icon-her      { background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%) !important; color: #E11D48 !important; border: 1px solid rgba(225, 29, 72, 0.2) !important; }
+.icon-suckhoe  { background: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%) !important; color: #BE185D !important; border: 1px solid rgba(190, 24, 93, 0.16) !important; }
+.icon-congviec { background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%) !important; color: #0369A1 !important; border: 1px solid rgba(3, 105, 161, 0.16) !important; }
+.icon-ghichu   { background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%) !important; color: #B45309 !important; border: 1px solid rgba(180, 83, 9, 0.16) !important; }
+.icon-hotro    { background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%) !important; color: #334155 !important; border: 1px solid rgba(51, 65, 85, 0.16) !important; }
+.icon-wishlist { background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%) !important; color: #7E22CE !important; border: 1px solid rgba(126, 34, 206, 0.16) !important; }
+.icon-list     { background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%) !important; color: #0E7490 !important; border: 1px solid rgba(14, 116, 144, 0.16) !important; }
+.icon-quote    { background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%) !important; color: #6D28D9 !important; border: 1px solid rgba(109, 40, 217, 0.16) !important; }
+.icon-handbook { background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%) !important; color: #15803D !important; border: 1px solid rgba(21, 128, 61, 0.16) !important; }
+
+/* Icon riêng cho Cô ấy (Két bí mật) */
+.welcome-card-icon-wrap .icon-her-svg {
+    width: 28px !important;
+    height: 28px !important;
+    background: transparent !important;
+}
+
+/* Thẻ tên tính năng */
+.welcome-card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.welcome-card-title-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+}
+
+.welcome-card-name {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.015em !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+}
+
+/* Lược bỏ dòng ghi chú mô tả dài & mũi tên điều hướng thừa */
+.welcome-card-desc,
+.welcome-card-arrow {
+    display: none !important;
+}
+
+/* Badge Két bí mật nhỏ gọn góc thẻ Cô ấy */
+.welcome-card-badge-pink {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%) !important;
+    color: #E11D48 !important;
+    border: 1px solid rgba(225, 29, 72, 0.25) !important;
+    border-radius: 999px !important;
+    padding: 2px 6px !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 1px 3px rgba(225, 29, 72, 0.1) !important;
+    text-transform: uppercase !important;
+}
+
+/* Hover glow viền theo màu chủ đề */
+.welcome-card-thuchi:hover   { border-color: rgba(67, 56, 202, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(67, 56, 202, 0.15) !important; }
+.welcome-card-tietkiem:hover { border-color: rgba(4, 120, 87, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(4, 120, 87, 0.15) !important; }
+.welcome-card-her:hover      { border-color: rgba(225, 29, 72, 0.4) !important; box-shadow: 0 12px 28px -6px rgba(225, 29, 72, 0.18) !important; }
+.welcome-card-suckhoe:hover  { border-color: rgba(190, 24, 93, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(190, 24, 93, 0.15) !important; }
+.welcome-card-congviec:hover { border-color: rgba(3, 105, 161, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(3, 105, 161, 0.15) !important; }
+.welcome-card-ghichu:hover   { border-color: rgba(180, 83, 9, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(180, 83, 9, 0.15) !important; }
+.welcome-card-hotro:hover    { border-color: rgba(51, 65, 85, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(51, 65, 85, 0.15) !important; }
+.welcome-card-wishlist:hover { border-color: rgba(126, 34, 206, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(126, 34, 206, 0.15) !important; }
+.welcome-card-list:hover     { border-color: rgba(14, 116, 144, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(14, 116, 144, 0.15) !important; }
+.welcome-card-quote:hover    { border-color: rgba(109, 40, 217, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(109, 40, 217, 0.15) !important; }
+.welcome-card-handbook:hover { border-color: rgba(21, 128, 61, 0.35) !important; box-shadow: 0 12px 28px -6px rgba(21, 128, 61, 0.15) !important; }
+
+/* 5. RESPONSIVE MOBILE & MÀN HÌNH NHỎ (< 640px) */
+@media (max-width: 640px) {
+    .welcome-hub-page {
+        padding: max(12px, env(safe-area-inset-top)) 10px max(18px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .welcome-hub-inner {
+        gap: 14px;
+    }
+
+    .welcome-hub-header {
+        padding: 10px 12px !important;
+        border-radius: 16px !important;
+    }
+
+    .welcome-brand-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    .welcome-brand-title {
+        font-size: 13.5px;
+    }
+
+    .welcome-brand-status {
+        font-size: 10px;
+    }
+
+    .welcome-hub-date-badge {
+        padding: 5px 9px;
+    }
+
+    .welcome-hub-date-badge .date-icon {
+        display: none;
+    }
+
+    .welcome-hub-date {
+        font-size: 10.5px !important;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .welcome-hub-logout-btn {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 10px !important;
+    }
+
+    .welcome-hub-logout-btn i {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .welcome-hub-greeting {
+        font-size: 21px !important;
+    }
+
+    .welcome-hub-question {
+        font-size: 13px !important;
+    }
+
+    /* Giữ chuẩn ô 4x4 trên thiết bị di động */
+    .welcome-hub-cards {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 10px 6px !important;
+    }
+
+    .welcome-card {
+        padding: 12px 4px 10px !important;
+        min-height: 96px !important;
+        border-radius: 16px !important;
+    }
+
+    .welcome-card-icon-wrap {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 13px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .welcome-card-icon-wrap > i,
+    .welcome-card-icon-wrap > svg:not(.icon-her-svg) {
+        width: 21px !important;
+        height: 21px !important;
+    }
+
+    .welcome-card-icon-wrap .icon-her-svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .welcome-card-name {
+        font-size: 12px !important;
+        font-weight: 600 !important;
+    }
+
+    .welcome-card-badge-pink {
+        top: 5px !important;
+        right: 5px !important;
+        font-size: 7.5px !important;
+        padding: 1px 4px !important;
+    }
+}
+
+/* Màn hình cực nhỏ (< 360px) */
+@media (max-width: 359px) {
+    .welcome-hub-cards {
+        gap: 8px 4px !important;
+    }
+
+    .welcome-card {
+        padding: 10px 2px 8px !important;
+        min-height: 88px !important;
+    }
+
+    .welcome-card-icon-wrap {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 11px !important;
+    }
+
+    .welcome-card-name {
+        font-size: 11px !important;
+    }
+}
