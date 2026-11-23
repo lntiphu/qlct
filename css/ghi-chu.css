@@ -1,0 +1,1372 @@
+/* ==========================================================================
+   Money - Mô-đun Ghi Chú Cá Nhân (Notes Module Styles)
+   Nâng cấp giao diện hiện đại, chuyên nghiệp, chuẩn phong cách iOS Minimalist
+   ========================================================================== */
+:root {
+    --bg-cream: #FAF7F2;
+    --bg-card: #FFFFFF;
+    --bg-input: #FAF8F5;
+    --text-primary: #232C25;
+    --text-secondary: #6B786D;
+    --text-tertiary: #929E94;
+    --accent-sage: #6A7B68;
+    --accent-green: #2E7D32;
+    --accent-green-dark: #1B5E20;
+    --accent-red: #D45B50;
+    --ios-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    font-family: var(--ios-font);
+}
+
+html {
+    font-size: 15px !important;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: var(--ios-font);
+    width: 100%;
+    min-height: 100vh;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+}
+
+.notes-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Header Bar */
+.notes-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 2px 0 6px;
+}
+
+.notes-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+}
+
+.notes-header-back-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.12);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(35, 44, 37, 0.04);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.notes-header-back-btn:hover {
+    background: #FAF8F5;
+    border-color: rgba(46, 125, 50, 0.28);
+    transform: scale(0.96);
+}
+
+.notes-header-back-btn i,
+.notes-header-back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.2;
+}
+
+.notes-brand-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.14) 0%, rgba(46, 125, 50, 0.06) 100%);
+    border: 1px solid rgba(46, 125, 50, 0.18);
+    color: var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.08);
+}
+
+.notes-brand-badge i,
+.notes-brand-badge svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2.2;
+}
+
+.notes-header-title-wrap {
+    min-width: 0;
+    flex: 1;
+}
+
+.notes-header-eyebrow {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    display: block;
+    line-height: 1.2;
+}
+
+.notes-header-heading {
+    font-size: 1.24rem;
+    font-weight: 800;
+    color: #1A271D;
+    margin: 2px 0 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.notes-header-add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+    border: none;
+    color: #FFFFFF;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.28);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    flex-shrink: 0;
+}
+
+.notes-header-add-btn:hover {
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+}
+
+.notes-header-add-btn:active {
+    transform: scale(0.95);
+}
+
+.notes-header-add-btn i,
+.notes-header-add-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5;
+}
+
+@media (max-width: 440px) {
+    .notes-btn-text {
+        display: none;
+    }
+    .notes-header-add-btn {
+        width: 42px;
+        padding: 0;
+    }
+}
+
+/* ==========================================================================
+   POPUP MODAL (BOTTOM SHEET) - Thêm & Chỉnh Sửa Ghi Chú
+   ========================================================================== */
+.notes-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(18, 26, 20, 0.52);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.notes-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.notes-modal-sheet {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -15px 50px rgba(18, 26, 20, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 20px max(24px, env(safe-area-inset-bottom));
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 88vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.notes-modal-overlay.active .notes-modal-sheet {
+    transform: translateY(0);
+}
+
+.notes-drag-handle {
+    width: 42px;
+    height: 4px;
+    background: rgba(52, 66, 55, 0.18);
+    border-radius: 99px;
+    margin: 0 auto 16px;
+}
+
+.notes-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(52, 66, 55, 0.08);
+}
+
+.notes-modal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(52, 66, 55, 0.06);
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.notes-modal-close-btn:hover {
+    background: rgba(52, 66, 55, 0.14);
+    color: var(--text-primary);
+}
+
+.notes-badge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: rgba(46, 125, 50, 0.12);
+    color: var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notes-badge-icon i {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.4;
+}
+
+#notes-form-heading {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.25;
+}
+
+.notes-form-sub {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+.notes-collapse-btn {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.notes-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.notes-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.notes-form-group label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.note-label-icon {
+    width: 15px;
+    height: 15px;
+    color: var(--accent-green);
+}
+
+.required-mark {
+    color: var(--accent-red);
+    font-weight: 800;
+}
+
+.notes-form-group input,
+.notes-form-group textarea {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid rgba(52, 66, 55, 0.12);
+    border-radius: 15px;
+    padding: 12px 14px;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.notes-form-group input:focus,
+.notes-form-group textarea:focus {
+    background: #FFFFFF;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.14);
+}
+
+.notes-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+.notes-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 14px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: rgba(52, 66, 55, 0.08);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: rgba(52, 66, 55, 0.14);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.28);
+}
+
+.btn-primary:active {
+    transform: scale(0.96);
+}
+
+/* ==========================================================================
+   FIXED BOTTOM NAVIGATION BAR (HIDDEN / REMOVED)
+   ========================================================================== */
+.notes-bottom-nav {
+    display: none !important;
+}
+
+/* ==========================================================================
+   DANH SÁCH & THANH TÌM KIẾM GHI CHÚ (LUXURY EXECUTIVE STYLE)
+   ========================================================================== */
+.notes-search-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.notes-search-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.notes-search-icon {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    color: #718274;
+    pointer-events: none;
+    stroke-width: 2.2;
+}
+
+.notes-search-box input {
+    width: 100%;
+    height: 46px;
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.12);
+    border-radius: 16px;
+    padding: 0 42px 0 44px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    outline: none;
+    box-shadow: 0 2px 10px rgba(52, 66, 55, 0.03);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.notes-search-box input:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12), 0 4px 16px rgba(46, 125, 50, 0.08);
+}
+
+.notes-search-clear-btn {
+    position: absolute;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(52, 66, 55, 0.08);
+    border: none;
+    color: #58685A;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.notes-search-clear-btn:hover {
+    background: rgba(52, 66, 55, 0.16);
+    color: #1E2922;
+}
+
+.notes-search-clear-btn i,
+.notes-search-clear-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.4;
+}
+
+.notes-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+}
+
+.notes-stats-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #405043;
+}
+
+.notes-stats-label i,
+.notes-stats-label svg {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-green);
+}
+
+.notes-counter-badge {
+    font-size: 0.74rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(46, 125, 50, 0.1);
+    color: var(--accent-green-dark);
+    border: 1px solid rgba(46, 125, 50, 0.16);
+}
+
+/* ==========================================================================
+   THẺ GHI CHÚ (NOTE CARDS)
+   ========================================================================== */
+.notes-cards-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.note-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.note-card-title-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.note-card-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1A271D;
+    margin: 0;
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+.note-card-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6C7D6E;
+    margin-top: 4px;
+}
+
+.note-card-date i,
+.note-card-date svg {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2;
+}
+
+.note-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    background: rgba(52, 66, 55, 0.04);
+    padding: 3px;
+    border-radius: 12px;
+    border: 1px solid rgba(52, 66, 55, 0.06);
+}
+
+.note-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: transparent;
+    border: none;
+    color: #6A7B6D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.16s ease;
+}
+
+.note-action-btn:hover {
+    background: #FFFFFF;
+    color: var(--text-primary);
+    box-shadow: 0 2px 6px rgba(35, 44, 37, 0.08);
+}
+
+.note-action-btn:active {
+    transform: scale(0.92);
+}
+
+.note-action-btn i,
+.note-action-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.2;
+}
+
+.btn-copy-note:hover {
+    background: rgba(46, 125, 50, 0.12);
+    color: var(--accent-green);
+}
+
+.btn-delete-note:hover {
+    background: rgba(212, 91, 80, 0.14);
+    color: var(--accent-red);
+}
+
+.btn-edit-note:hover {
+    background: rgba(46, 125, 50, 0.12);
+    color: var(--accent-green);
+}
+
+.note-card-content {
+    font-size: 0.92rem;
+    color: #344237;
+    line-height: 1.62;
+    word-break: break-word;
+    white-space: pre-wrap;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(46, 125, 50, 0.25) transparent;
+}
+
+.note-card-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.note-card-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.note-card-content::-webkit-scrollbar-thumb {
+    background: rgba(46, 125, 50, 0.22);
+    border-radius: 99px;
+}
+
+.note-card-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(46, 125, 50, 0.4);
+}
+
+.notes-no-content {
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+/* ==========================================================================
+   TRẠNG THÁI TRỐNG & TOAST
+   ========================================================================== */
+.notes-empty-state {
+    text-align: center;
+    padding: 42px 18px;
+    background: #FFFFFF;
+    border: 1px dashed rgba(46, 125, 50, 0.2);
+    border-radius: 20px;
+    color: var(--text-secondary);
+}
+
+.notes-empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--accent-green);
+    margin: 0 auto 10px;
+    stroke-width: 1.6;
+    display: block;
+}
+
+.notes-empty-state h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+}
+
+.notes-empty-state p {
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1.45;
+}
+
+.notes-toast {
+    position: fixed;
+    bottom: 84px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: #232C25;
+    color: #FFFFFF;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    z-index: 100090;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notes-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================================
+   Google Keep inspired refresh - modal editor, pins and pastel note cards
+   ============================================================================ */
+:root {
+    --keep-ink: #202124;
+    --keep-muted: #5f6368;
+    --keep-border: #dadce0;
+    --keep-yellow: #fff8c5;
+    --keep-blue: #e8f0fe;
+    --keep-green: #e6f4ea;
+    --keep-peach: #fce8e6;
+    --keep-lilac: #f3e8fd;
+}
+
+body {
+    background-color: var(--bg-cream);
+}
+
+.notes-modal-overlay {
+    align-items: center;
+    padding: 18px;
+    background: rgba(32, 33, 36, 0.48);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.notes-modal-sheet {
+    width: min(100%, 520px);
+    max-height: min(720px, 90vh);
+    margin: 0 auto;
+    padding: 18px 22px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    background: #fffef9;
+    box-shadow: 0 18px 55px rgba(32, 33, 36, 0.24);
+    transform: translateY(18px) scale(.98);
+    transition: transform .24s cubic-bezier(.2, .8, .2, 1);
+}
+
+.notes-modal-overlay.active .notes-modal-sheet {
+    transform: translateY(0) scale(1);
+}
+
+.notes-drag-handle {
+    width: 34px;
+    height: 3px;
+    margin-bottom: 18px;
+    background: #c7c9cc;
+}
+
+.notes-modal-header {
+    margin-bottom: 0;
+    padding: 0 0 15px;
+    border-bottom: 1px solid rgba(95, 99, 104, .14);
+}
+
+.notes-modal-heading-wrap {
+    min-width: 0;
+}
+
+.notes-modal-kicker {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent-green);
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+}
+
+#notes-form-heading {
+    color: var(--keep-ink);
+    font-size: 1.28rem;
+    font-weight: 700;
+}
+
+.notes-modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.notes-pin-btn,
+.notes-modal-close-btn {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--keep-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: background .16s ease, color .16s ease, transform .16s ease;
+}
+
+.notes-pin-btn:hover,
+.notes-modal-close-btn:hover {
+    background: rgba(95, 99, 104, .1);
+}
+
+.notes-pin-btn:active,
+.notes-modal-close-btn:active {
+    transform: scale(.92);
+}
+
+.notes-pin-btn.is-active {
+    color: var(--accent-green-dark);
+    background: rgba(46, 125, 50, .12);
+}
+
+.notes-pin-btn.is-active svg {
+    fill: currentColor;
+}
+
+.notes-form {
+    gap: 0;
+}
+
+.notes-keep-editor {
+    padding: 12px 0 8px;
+}
+
+.notes-keep-editor input,
+.notes-keep-editor textarea {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--keep-ink);
+    font-family: inherit;
+    resize: none;
+}
+
+.notes-keep-editor input {
+    padding: 8px 0 10px;
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+.notes-keep-editor textarea {
+    min-height: 190px;
+    padding: 8px 0;
+    font-size: .98rem;
+    line-height: 1.6;
+}
+
+.notes-keep-editor input::placeholder,
+.notes-keep-editor textarea::placeholder {
+    color: #9aa0a6;
+    opacity: 1;
+}
+
+.notes-form-actions {
+    min-height: 42px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 0;
+    padding-top: 11px;
+    border-top: 1px solid rgba(95, 99, 104, .14);
+}
+
+.notes-save-status,
+.notes-char-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: auto;
+    color: var(--keep-muted);
+    font-size: .7rem;
+}
+
+.notes-save-status svg {
+    width: 13px;
+    height: 13px;
+}
+
+.notes-char-count {
+    margin-right: 4px;
+    color: #80868b;
+}
+
+.notes-modal-cancel,
+.notes-modal-save {
+    min-height: 38px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    font: inherit;
+    font-size: .82rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.notes-modal-cancel {
+    color: var(--keep-muted);
+    background: transparent;
+}
+
+.notes-modal-cancel:hover {
+    background: rgba(95, 99, 104, .1);
+}
+
+.notes-modal-save {
+    color: #fff;
+    background: var(--accent-green);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, .2);
+}
+
+.notes-modal-save:hover {
+    background: var(--accent-green-dark);
+}
+
+/* Note Card Design - Luxury Minimalist Apple Notes / Florenté style */
+.note-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(52, 66, 55, 0.09);
+    border-radius: 20px;
+    padding: 18px 20px;
+    box-shadow: 0 3px 12px rgba(35, 44, 37, 0.04), 0 1px 3px rgba(35, 44, 37, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(35, 44, 37, 0.08);
+    border-color: rgba(46, 125, 50, 0.26);
+}
+
+.note-card:active {
+    transform: scale(0.99);
+}
+
+/* Luxury subtle pastel background variations */
+.note-card:nth-child(5n + 1) { background: linear-gradient(155deg, #FFFFFF 0%, #FFFDF5 100%); }
+.note-card:nth-child(5n + 2) { background: linear-gradient(155deg, #FFFFFF 0%, #F6F9FD 100%); }
+.note-card:nth-child(5n + 3) { background: linear-gradient(155deg, #FFFFFF 0%, #F4FAF5 100%); }
+.note-card:nth-child(5n + 4) { background: linear-gradient(155deg, #FFFFFF 0%, #FDF7F5 100%); }
+.note-card:nth-child(5n + 5) { background: linear-gradient(155deg, #FFFFFF 0%, #F9F7FC 100%); }
+
+.note-card.is-pinned {
+    border-color: rgba(46, 125, 50, 0.36);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.09);
+    border-left: 4.5px solid var(--accent-green);
+}
+
+.note-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.note-pinned-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #1B5E20;
+    background: rgba(46, 125, 50, 0.12);
+    border: 1px solid rgba(46, 125, 50, 0.22);
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+}
+
+.note-pinned-tag i,
+.note-pinned-tag svg {
+    width: 11px;
+    height: 11px;
+    stroke-width: 2.4;
+}
+
+.note-card-actions {
+    background: rgba(52, 66, 55, 0.04);
+    padding: 3px;
+    border-radius: 12px;
+    border: 1px solid rgba(52, 66, 55, 0.06);
+}
+
+.note-action-btn.btn-pin-note.is-active {
+    color: var(--accent-green-dark);
+    background: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(46, 125, 50, 0.18);
+}
+
+.note-action-btn.btn-pin-note.is-active svg,
+.note-action-btn.btn-pin-note.is-active i {
+    fill: currentColor;
+}
+
+@media (max-width: 480px) {
+    .notes-modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .notes-modal-sheet {
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 24px 24px 0 0;
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+
+    .notes-save-status {
+        flex-basis: 100%;
+        order: 5;
+        margin-top: 2px;
+    }
+}
+
+/* ==========================================================================
+   APPLE / LINEAR PRECISION MINIMALIST DESIGN SYSTEM & UNIFIED MODAL SYSTEM
+   (PHÂN HỆ GHI CHÚ CÁ NHÂN - NOTES)
+   ========================================================================== */
+
+:root {
+}
+
+html, body {
+    background: var(--al-canvas) !important;
+    color: var(--al-ink) !important;
+    font-family: var(--al-font) !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.notes-header-bar {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid var(--al-border) !important;
+    box-shadow: none !important;
+}
+
+.notes-header-back-btn {
+    width: 38px !important;
+    height: 38px !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--al-border-strong) !important;
+    border-radius: 11px !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+    color: var(--al-ink) !important;
+    transition: all 0.16s ease !important;
+}
+
+.notes-header-back-btn:hover {
+    background: var(--al-subtle) !important;
+}
+
+.notes-header-back-btn:active {
+    transform: scale(0.92) !important;
+}
+
+.notes-brand-badge {
+    background: #FFFBEB !important;
+    border: 1px solid rgba(180, 83, 9, 0.14) !important;
+    color: #B45309 !important;
+    border-radius: 12px !important;
+}
+
+.notes-header-eyebrow {
+    color: var(--al-accent) !important;
+}
+
+.notes-header-heading {
+    color: var(--al-ink) !important;
+    letter-spacing: -0.025em !important;
+}
+
+.notes-header-add-btn {
+    border-radius: 11px !important;
+    background: var(--al-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    transition: all 0.18s ease !important;
+}
+
+.notes-header-add-btn:hover {
+    background: var(--al-primary-hover) !important;
+    transform: translateY(-1px) !important;
+}
+
+.notes-header-add-btn:active {
+    transform: scale(0.96) !important;
+}
+
+.notes-search-box {
+    background: #FFFFFF !important;
+    border: 1px solid var(--al-border-strong) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+}
+
+.notes-search-box:focus-within {
+    border-color: var(--al-accent) !important;
+    box-shadow: 0 0 0 3px var(--al-accent-ring) !important;
+}
+
+.notes-counter-badge {
+    background: var(--al-subtle) !important;
+    border: 1px solid var(--al-border) !important;
+    color: var(--al-ink-2) !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+}
+
+.note-card {
+    background: #FFFFFF !important;
+    border: 1px solid var(--al-border) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--al-shadow-sm) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.note-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(15, 23, 42, 0.16) !important;
+    box-shadow: var(--al-shadow-md) !important;
+}
+
+.note-card.is-pinned {
+    border-left: 3.5px solid var(--al-accent) !important;
+}
+
+.note-pinned-tag {
+    background: rgba(79, 70, 229, 0.1) !important;
+    color: var(--al-accent) !important;
+    border-color: rgba(79, 70, 229, 0.2) !important;
+}
+
+.note-card-actions {
+    background: var(--al-subtle) !important;
+    border: 1px solid var(--al-border) !important;
+    border-radius: 10px !important;
+}
+
+.note-action-btn {
+    border-radius: 7px !important;
+    color: var(--al-ink-2) !important;
+    transition: all 0.15s ease !important;
+}
+
+.note-action-btn:hover {
+    background: #FFFFFF !important;
+    color: var(--al-ink) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   UNIFIED MODAL SYSTEM — CHUẨN APP HIỆN ĐẠI (APPLE / LINEAR)
+   ══════════════════════════════════════════════════════════════════════════ */
+.notes-modal-overlay {
+    background: rgba(15, 23, 42, 0.46) !important;
+    backdrop-filter: blur(10px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+    transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@media (max-width: 639px) {
+    .notes-modal-overlay {
+        align-items: flex-end !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+
+    .notes-modal-sheet {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90dvh !important;
+        margin: 0 !important;
+        background: #FFFFFF !important;
+        border-radius: 24px 24px 0 0 !important;
+        border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        box-shadow: var(--al-shadow-sheet) !important;
+        padding: 12px 20px max(20px, env(safe-area-inset-bottom)) 20px !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .notes-modal-overlay.active .notes-modal-sheet {
+        transform: translateY(0) !important;
+    }
+
+    .notes-drag-handle {
+        display: block !important;
+        width: 36px !important;
+        height: 4px !important;
+        background: #CBD5E1 !important;
+        border-radius: 999px !important;
+        margin: 2px auto 14px !important;
+    }
+}
+
+@media (min-width: 640px) {
+    .notes-modal-overlay {
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 24px !important;
+    }
+
+    .notes-modal-sheet {
+        width: min(92vw, 500px) !important;
+        max-width: 500px !important;
+        max-height: min(86vh, 740px) !important;
+        margin: auto !important;
+        background: #FFFFFF !important;
+        border-radius: 22px !important;
+        border: 1px solid rgba(15, 23, 42, 0.1) !important;
+        box-shadow: var(--al-shadow-dialog) !important;
+        padding: 24px 26px !important;
+        transform: translateY(10px) scale(0.97) !important;
+        opacity: 0 !important;
+        transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease !important;
+    }
+
+    .notes-modal-overlay.active .notes-modal-sheet {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+    }
+
+    .notes-drag-handle {
+        display: none !important;
+    }
+}
+
+.notes-modal-header {
+    border-bottom: 1px solid var(--al-border) !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 16px !important;
+}
+
+.notes-modal-kicker {
+    color: var(--al-accent) !important;
+    font-size: 11px !important;
+    letter-spacing: 0.07em !important;
+}
+
+.notes-modal-sheet h2,
+.notes-modal-sheet h3,
+#notes-form-heading {
+    font-family: var(--al-font) !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: var(--al-ink) !important;
+    letter-spacing: -0.025em !important;
+}
+
+.notes-pin-btn,
+.notes-modal-close-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: var(--al-subtle) !important;
+    border: none !important;
+    color: var(--al-ink-2) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease !important;
+}
+
+.notes-pin-btn:hover,
+.notes-modal-close-btn:hover {
+    background: #E2E8F0 !important;
+    color: var(--al-ink) !important;
+}
+
+.notes-pin-btn.is-active {
+    background: rgba(79, 70, 229, 0.12) !important;
+    color: var(--al-accent) !important;
+}
+
+.notes-modal-sheet input,
+.notes-modal-sheet textarea {
+    background: #FFFFFF !important;
+    border: 1px solid var(--al-border-strong) !important;
+    border-radius: 11px !important;
+    padding: 11px 14px !important;
+    font-size: 14.5px !important;
+    color: var(--al-ink) !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+    font-family: var(--al-font) !important;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease !important;
+}
+
+.notes-keep-editor {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.notes-modal-sheet input:focus,
+.notes-modal-sheet textarea:focus {
+    background: #FFFFFF !important;
+    border-color: var(--al-accent) !important;
+    box-shadow: 0 0 0 3.5px var(--al-accent-ring) !important;
+    outline: none !important;
+}
+
+.notes-form-actions {
+    border-top: 1px solid var(--al-border) !important;
+    padding-top: 16px !important;
+    margin-top: 14px !important;
+}
+
+.notes-modal-save {
+    background: var(--al-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+    color: #FFFFFF !important;
+    font-family: var(--al-font) !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    min-height: 42px !important;
+    padding: 10px 18px !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    cursor: pointer !important;
+    transition: background-color 0.16s ease, transform 0.16s ease !important;
+}
+
+.notes-modal-save:hover {
+    background: var(--al-primary-hover) !important;
+    transform: translateY(-1px) !important;
+}
+
+.notes-modal-cancel {
+    background: var(--al-subtle) !important;
+    border: 1px solid var(--al-border) !important;
+    border-radius: 12px !important;
+    color: var(--al-ink-2) !important;
+    font-family: var(--al-font) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    min-height: 42px !important;
+    padding: 10px 18px !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.16s ease, color 0.16s ease !important;
+}
+
+.notes-modal-cancel:hover {
+    background: #E2E8F0 !important;
+    color: var(--al-ink) !important;
+}
+
+
+
+
