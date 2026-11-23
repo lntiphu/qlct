@@ -1,0 +1,11 @@
+import {getClient} from './api.js';import {createLucideIcons} from './utils.js';
+const $=id=>document.getElementById(id), client=getClient(), screen=$('login-screen'), error=$('login-error-msg');let signed=false,rev=0;
+function update(s){signed=!!s?.user;screen.style.display=signed?'none':'flex';$('welcome-hub-page').inert=!signed;if(signed&&['#add','#analysis'].includes(location.hash))location.replace('pages/thuchi.html'+location.hash);}
+function fail(msg){error.textContent=msg;error.style.display='block';}
+update(null);createLucideIcons();
+const date=new Intl.DateTimeFormat('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Ho_Chi_Minh'}),clock=new Intl.DateTimeFormat('vi-VN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Ho_Chi_Minh'});function tick(){const d=new Date();$('welcome-current-date').textContent=date.format(d)+' · '+clock.format(d);}tick();setInterval(tick,1000);
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{if(signed)location.assign('pages/'+b.dataset.page+'.html');});
+$('login-form').onsubmit=async e=>{e.preventDefault();const btn=$('btn-login-submit');btn.disabled=true;error.style.display='none';try{if(!client)throw Error('Không tải được kết nối Supabase.');const {data,error:err}=await client.auth.signInWithPassword({email:$('login-email').value.trim(),password:$('login-password').value});if(err)throw err;update(data.session);}catch(err){fail(err.message==='Invalid login credentials'?'Email hoặc mật khẩu không chính xác.':err.message);}finally{btn.disabled=false;}};
+$('btn-welcome-logout').onclick=async()=>{if(!confirm('Bạn có chắc chắn muốn đăng xuất khỏi ứng dụng?'))return;try{const {error}=await client.auth.signOut();if(error)throw error;update(null);}catch(err){alert(err.message);}};
+if(client){client.auth.onAuthStateChange((_,s)=>{rev++;update(s);});async function restore(){const n=rev;try{const {data,error}=await client.auth.getSession();if(error)throw error;if(n===rev)update(data.session);}catch(err){update(null);fail(err.message);}}restore();window.addEventListener('pageshow',e=>{if(e.persisted)restore();});}else fail('Không tải được kết nối Supabase. Vui lòng kiểm tra mạng và tải lại trang.');
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(console.warn);
