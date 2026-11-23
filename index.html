@@ -12,235 +12,175 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" sizes="180x180">
     <link rel="manifest" href="manifest.json">
     <title>Trang chủ - Làm chủ mọi thứ</title>
-    <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
+
     <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
     <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://unpkg.com">
     
-    <!-- Google Fonts: Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/shell.css">
-</head><body><div class="app-container">
-    <section class="welcome-hub-page active" id="welcome-hub-page" aria-label="Trang chủ chọn tính năng" aria-hidden="false">
-        <!-- Header Trang Chào -->
-        <div class="welcome-hub-header">
-            <div class="welcome-hub-brand-row">
-                <button id="btn-welcome-logout" class="welcome-hub-logout-btn" title="Đăng xuất" aria-label="Đăng xuất">
-                    <i data-lucide="power"></i>
-                </button>
-            </div>
-
-            <div class="welcome-hub-hero">
-                <span class="welcome-hub-date" id="welcome-current-date">Thứ Tư, 30 Tháng 9</span>
-                <h2 class="welcome-hub-greeting">Xin chào 👋</h2>
-                <p class="welcome-hub-question">Hôm nay bạn muốn sử dụng tính năng nào?</p>
-            </div>
-        </div>
-
-         <!-- Danh sách 10 tính năng chính -->
-        <div class="welcome-hub-cards">
-            <!-- 1. Thu Chi -->
-            <button type="button" class="welcome-card welcome-card-thuchi" id="welcome-opt-thuchi" data-page="thuchi">
-                <div class="welcome-card-icon-wrap icon-thuchi">
-                    <i data-lucide="wallet"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Thu chi</span>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <div class="app-container">
+        <section class="welcome-hub-page active" id="welcome-hub-page" aria-label="Trang chủ chọn tính năng" aria-hidden="false">
+            <div class="welcome-hub-inner">
+                <header class="welcome-hub-header">
+                    <div class="welcome-brand">
+                        <img src="assets/icon-192.png" alt="Logo" class="welcome-brand-logo" width="38" height="38">
+                        <div class="welcome-brand-info">
+                            <h1 class="welcome-brand-title">Làm chủ mọi thứ</h1>
+                            <span class="welcome-brand-status"><span class="status-dot"></span> Sẵn sàng</span>
+                        </div>
                     </div>
-                    <p class="welcome-card-desc">Nhập thu chi theo ngày, tra cứu lịch sử giao dịch và phân tích tài chính</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
 
-            <!-- 2. Tiết Kiệm -->
-            <button type="button" class="welcome-card welcome-card-tietkiem" id="welcome-opt-tietkiem" data-page="tietkiem">
-                <div class="welcome-card-icon-wrap icon-tietkiem">
-                    <i data-lucide="piggy-bank"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Tiết kiệm</span>
+                    <div class="welcome-header-actions">
+                        <div class="welcome-hub-date-badge">
+                            <i data-lucide="clock" class="date-icon"></i>
+                            <span class="welcome-hub-date" id="welcome-current-date">Thứ Tư, 30 Tháng 9</span>
+                        </div>
+                        <button id="btn-welcome-logout" class="welcome-hub-logout-btn" title="Đăng xuất" aria-label="Đăng xuất">
+                            <i data-lucide="power"></i>
+                        </button>
                     </div>
-                    <p class="welcome-card-desc">Theo dõi các quỹ tiết kiệm MoMo, ngân hàng, mục tiêu tích lũy và dư nợ</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
+                </header>
 
-            <!-- 3. Cô ấy (Két bí mật) -->
-            <button type="button" class="welcome-card welcome-card-her" id="welcome-opt-her" data-page="co-ay">
-                <div class="welcome-card-icon-wrap icon-her" title="Cô ấy - Két bí mật">
-                    <svg class="icon-her-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="herShieldGradWelcome" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#FF5E7E"/>
-                                <stop offset="100%" stop-color="#FF3358"/>
-                            </linearGradient>
-                            <linearGradient id="herHeartGradWelcome" x1="10" y1="12" x2="22" y2="24" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#FFFFFF"/>
-                                <stop offset="100%" stop-color="#FFF0F3"/>
-                            </linearGradient>
-                            <filter id="herGlowWelcome" x="0" y="0" width="32" height="32" filterUnits="userSpaceOnUse">
-                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#FF3358" flood-opacity="0.3"/>
-                            </filter>
-                        </defs>
-                        <!-- Outer Shield with Soft Glow -->
-                        <path d="M16 2.5L5 6.5V14.5C5 21.8 9.7 28.5 16 30C22.3 28.5 27 21.8 27 14.5V6.5L16 2.5Z" fill="url(#herShieldGradWelcome)" filter="url(#herGlowWelcome)"/>
-                        <!-- Inner Accent Rim -->
-                        <path d="M16 4.3L6.8 7.6V14.5C6.8 20.8 10.7 26.6 16 28C21.3 26.6 25.2 20.8 25.2 14.5V7.6L16 4.3Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
-                        <!-- Padlock Shackle -->
-                        <path d="M12.5 13.5V11C12.5 9.07 14.07 7.5 16 7.5C17.93 7.5 19.5 9.07 19.5 11V13.5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
-                        <!-- Heart Lock Body -->
-                        <path d="M16 23.5C16 23.5 10 19.8 10 16.2C10 14.4 11.4 13 13.2 13C14.3 13 15.3 13.6 16 14.5C16.7 13.6 17.7 13 18.8 13C20.6 13 22 14.4 22 16.2C22 19.8 16 23.5 16 23.5Z" fill="url(#herHeartGradWelcome)"/>
-                        <!-- Keyhole -->
-                        <circle cx="16" cy="16.5" r="1.3" fill="#FF3358"/>
-                        <path d="M15.4 17.5H16.6L17 19.5H15L15.4 17.5Z" fill="#FF3358"/>
-                        <!-- Sparkle Star -->
-                        <path d="M24 4L24.6 5.4L26 6L24.6 6.6L24 8L23.4 6.6L22 6L23.4 5.4L24 4Z" fill="#FFD166"/>
-                    </svg>
+                <div class="welcome-hub-hero">
+                    <h2 class="welcome-hub-greeting">Xin chào 👋</h2>
+                    <p class="welcome-hub-question">Hôm nay bạn muốn sử dụng tính năng nào?</p>
                 </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Cô ấy</span>
+
+                <div class="welcome-hub-cards">
+                    <button type="button" class="welcome-card welcome-card-thuchi" id="welcome-opt-thuchi" data-page="thuchi">
+                        <div class="welcome-card-icon-wrap icon-thuchi">
+                            <i data-lucide="wallet"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Thu chi</span>
+                        </div>
+                    </button>
+
+                    <button type="button" class="welcome-card welcome-card-tietkiem" id="welcome-opt-tietkiem" data-page="tietkiem">
+                        <div class="welcome-card-icon-wrap icon-tietkiem">
+                            <i data-lucide="piggy-bank"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Tiết kiệm</span>
+                        </div>
+                    </button>
+
+                    <button type="button" class="welcome-card welcome-card-her" id="welcome-opt-her" data-page="co-ay">
                         <span class="welcome-card-badge-pink">Két bí mật</span>
-                    </div>
-                </div>
-                <div class="welcome-card-arrow"><i data-lucide="chevron-right"></i></div>
-            </button>
+                        <div class="welcome-card-icon-wrap icon-her" title="Cô ấy - Két bí mật">
+                            <svg class="icon-her-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="herShieldGradWelcome" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#FF5E7E"/>
+                                        <stop offset="100%" stop-color="#FF3358"/>
+                                    </linearGradient>
+                                    <linearGradient id="herHeartGradWelcome" x1="10" y1="12" x2="22" y2="24" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#FFFFFF"/>
+                                        <stop offset="100%" stop-color="#FFF0F3"/>
+                                    </linearGradient>
+                                    <filter id="herGlowWelcome" x="0" y="0" width="32" height="32" filterUnits="userSpaceOnUse">
+                                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#FF3358" flood-opacity="0.3"/>
+                                    </filter>
+                                </defs>
+                                <path d="M16 2.5L5 6.5V14.5C5 21.8 9.7 28.5 16 30C22.3 28.5 27 21.8 27 14.5V6.5L16 2.5Z" fill="url(#herShieldGradWelcome)" filter="url(#herGlowWelcome)"/>
+                                <path d="M16 4.3L6.8 7.6V14.5C6.8 20.8 10.7 26.6 16 28C21.3 26.6 25.2 20.8 25.2 14.5V7.6L16 4.3Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+                                <path d="M12.5 13.5V11C12.5 9.07 14.07 7.5 16 7.5C17.93 7.5 19.5 9.07 19.5 11V13.5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+                                <path d="M16 23.5C16 23.5 10 19.8 10 16.2C10 14.4 11.4 13 13.2 13C14.3 13 15.3 13.6 16 14.5C16.7 13.6 17.7 13 18.8 13C20.6 13 22 14.4 22 16.2C22 19.8 16 23.5 16 23.5Z" fill="url(#herHeartGradWelcome)"/>
+                                <circle cx="16" cy="16.5" r="1.3" fill="#FF3358"/>
+                                <path d="M15.4 17.5H16.6L17 19.5H15L15.4 17.5Z" fill="#FF3358"/>
+                                <path d="M24 4L24.6 5.4L26 6L24.6 6.6L24 8L23.4 6.6L22 6L23.4 5.4L24 4Z" fill="#FFD166"/>
+                            </svg>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Cô ấy</span>
+                        </div>
+                    </button>
 
-            <!-- 4. Sức Khỏe -->
-            <button type="button" class="welcome-card welcome-card-suckhoe" id="welcome-opt-suckhoe" data-page="suc-khoe">
-                <div class="welcome-card-icon-wrap icon-suckhoe">
-                    <i data-lucide="heart-pulse"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Sức khỏe</span>
-                    </div>
-                    <p class="welcome-card-desc">Theo dõi chu kỳ kinh nguyệt và ghi chép nhật ký quan hệ riêng tư</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-suckhoe" id="welcome-opt-suckhoe" data-page="suc-khoe">
+                        <div class="welcome-card-icon-wrap icon-suckhoe">
+                            <i data-lucide="heart-pulse"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Sức khỏe</span>
+                        </div>
+                    </button>
 
-            <!-- 5. Công Việc -->
-            <button type="button" class="welcome-card welcome-card-congviec" id="welcome-opt-congviec" data-page="cong-viec">
-                <div class="welcome-card-icon-wrap icon-congviec">
-                    <i data-lucide="list-checks"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Công việc</span>
-                    </div>
-                    <p class="welcome-card-desc">Lên danh sách việc cần làm, đặt thời hạn và quản lý tiến độ công việc</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-congviec" id="welcome-opt-congviec" data-page="cong-viec">
+                        <div class="welcome-card-icon-wrap icon-congviec">
+                            <i data-lucide="list-checks"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Công việc</span>
+                        </div>
+                    </button>
 
-            <!-- 6. Ghi Chú -->
-            <button type="button" class="welcome-card welcome-card-ghichu" id="welcome-opt-ghichu" data-page="ghi-chu">
-                <div class="welcome-card-icon-wrap icon-ghichu">
-                    <i data-lucide="sticky-note"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Ghi chú</span>
-                    </div>
-                    <p class="welcome-card-desc">Lưu trữ tên ghi chú và mô tả thông tin quan trọng, đồng bộ Supabase</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-ghichu" id="welcome-opt-ghichu" data-page="ghi-chu">
+                        <div class="welcome-card-icon-wrap icon-ghichu">
+                            <i data-lucide="sticky-note"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Ghi chú</span>
+                        </div>
+                    </button>
 
-            <!-- 7. Hỗ trợ -->
-            <button type="button" class="welcome-card welcome-card-hotro" id="welcome-opt-hotro" data-page="ho-tro">
-                <div class="welcome-card-icon-wrap icon-hotro">
-                    <i data-lucide="life-buoy"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Hỗ trợ</span>
-                    </div>
-                    <p class="welcome-card-desc">Xem thông tin hướng dẫn và nội dung hỗ trợ khi cần</p>
-                </div>
-                <div class="welcome-card-arrow">
-                    <i data-lucide="chevron-right"></i>
-                </div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-hotro" id="welcome-opt-hotro" data-page="ho-tro">
+                        <div class="welcome-card-icon-wrap icon-hotro">
+                            <i data-lucide="life-buoy"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Hỗ trợ</span>
+                        </div>
+                    </button>
 
-            <!-- 8. Wishlist -->
-            <button type="button" class="welcome-card welcome-card-wishlist" id="welcome-opt-wishlist" data-page="wishlist">
-                <div class="welcome-card-icon-wrap icon-wishlist">
-                    <i data-lucide="heart"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Wishlist</span>
-                    </div>
-                    <p class="welcome-card-desc">Sắp xếp những điều bạn muốn theo thứ tự ưu tiên</p>
-                </div>
-                <div class="welcome-card-arrow"><i data-lucide="chevron-right"></i></div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-wishlist" id="welcome-opt-wishlist" data-page="wishlist">
+                        <div class="welcome-card-icon-wrap icon-wishlist">
+                            <i data-lucide="heart"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Wishlist</span>
+                        </div>
+                    </button>
 
-            <!-- 9. Danh sách -->
-            <button type="button" class="welcome-card welcome-card-list" id="welcome-opt-list" data-page="danh-sach">
-                <div class="welcome-card-icon-wrap icon-list">
-                    <i data-lucide="layers-3"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Danh sách</span>
-                    </div>
-                    <p class="welcome-card-desc">Gom các mục con theo từng chủ đề riêng</p>
-                </div>
-                <div class="welcome-card-arrow"><i data-lucide="chevron-right"></i></div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-list" id="welcome-opt-list" data-page="danh-sach">
+                        <div class="welcome-card-icon-wrap icon-list">
+                            <i data-lucide="layers-3"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Danh sách</span>
+                        </div>
+                    </button>
 
-            <!-- 10. Trích dẫn -->
-            <button type="button" class="welcome-card welcome-card-quote" id="welcome-opt-quote" data-page="trich-dan">
-                <div class="welcome-card-icon-wrap icon-quote">
-                    <i data-lucide="quote"></i>
-                </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Trích dẫn</span>
-                    </div>
-                    <p class="welcome-card-desc">Lưu lại những câu danh ngôn, trích dẫn truyền cảm hứng</p>
-                </div>
-                <div class="welcome-card-arrow"><i data-lucide="chevron-right"></i></div>
-            </button>
+                    <button type="button" class="welcome-card welcome-card-quote" id="welcome-opt-quote" data-page="trich-dan">
+                        <div class="welcome-card-icon-wrap icon-quote">
+                            <i data-lucide="quote"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Trích dẫn</span>
+                        </div>
+                    </button>
 
-            <!-- 11. Sổ tay -->
-            <button type="button" class="welcome-card welcome-card-handbook" id="welcome-opt-handbook" data-page="so-tay">
-                <div class="welcome-card-icon-wrap icon-handbook">
-                    <i data-lucide="book-open"></i>
+                    <button type="button" class="welcome-card welcome-card-handbook" id="welcome-opt-handbook" data-page="so-tay">
+                        <div class="welcome-card-icon-wrap icon-handbook">
+                            <i data-lucide="book-open"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Sổ tay</span>
+                        </div>
+                    </button>
                 </div>
-                <div class="welcome-card-body">
-                    <div class="welcome-card-title-row">
-                        <span class="welcome-card-name">Sổ tay</span>
-                    </div>
-                    <p class="welcome-card-desc">Lưu bài thuốc dân gian, công dụng, nguyên liệu và mẹo hay gia đình</p>
-                </div>
-                <div class="welcome-card-arrow"><i data-lucide="chevron-right"></i></div>
-            </button>
-        </div>
-    </section>
-
-    </div> <!-- End app-container -->
+            </div>
+        </section>
+    </div>
 
     <!-- LOGIN SCREEN OVERLAY -->
     <div id="login-screen" class="login-screen-overlay">
@@ -260,46 +200,46 @@
                     <h2 class="login-brand-title">Đăng nhập</h2>
                 </div>
 
-            <!-- Login Form -->
-            <form id="login-form" class="login-form" autocomplete="on">
-                <div class="login-input-group">
-                    <label for="login-email">Email</label>
-                    <input 
-                        type="email" 
-                        id="login-email" 
-                        class="meta-input" 
-                        placeholder="Nhập email của bạn" 
-                        required 
-                        autocomplete="username"
-                        spellcheck="false"
-                    >
-                </div>
-                
-                <div class="login-input-group">
-                    <label for="login-password">Mật khẩu</label>
-                    <input 
-                        type="password" 
-                        id="login-password" 
-                        class="meta-input" 
-                        placeholder="Nhập mật khẩu" 
-                        required 
-                        autocomplete="current-password"
-                    >
-                </div>
+                <form id="login-form" class="login-form" autocomplete="on">
+                    <div class="login-input-group">
+                        <label for="login-email">Email</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            class="meta-input" 
+                            placeholder="Nhập email của bạn" 
+                            required 
+                            autocomplete="username"
+                            spellcheck="false"
+                        >
+                    </div>
+                    
+                    <div class="login-input-group">
+                        <label for="login-password">Mật khẩu</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            class="meta-input" 
+                            placeholder="Nhập mật khẩu" 
+                            required 
+                            autocomplete="current-password"
+                        >
+                    </div>
 
-                <!-- Error Banner -->
-                <div id="login-error-msg" class="login-error-msg" style="display: none;"></div>
+                    <div id="login-error-msg" class="login-error-msg" style="display: none;"></div>
 
-                <button type="submit" id="btn-login-submit" class="meta-btn-primary">
-                    <span id="btn-login-text">Vào Trang chủ</span>
-                    <i data-lucide="arrow-right"></i>
-                </button>
-            </form>
+                    <button type="submit" id="btn-login-submit" class="meta-btn-primary">
+                        <span id="btn-login-text">Vào Trang chủ</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </form>
                 <p class="login-footer">Dữ liệu của bạn được đồng bộ an toàn và riêng tư.</p>
             </main>
         </div>
     </div>
+
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="js/home.js"></script>
-</body></html>
+    <script type="module" src="js/home.js"></script>
+</body>
+</html>
