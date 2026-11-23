@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
+    <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="../manifest.json">
+    <title>ho-tro - Làm chủ mọi thứ</title>
+    <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
+    <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
+    <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/shell.css">
+<style>html[data-loading] body{visibility:hidden}</style>
+</head><body data-feature="ho-tro"><div class="app-container">    <div class="modal-overlay support-page-modal" id="support-modal" aria-hidden="true">
+        <div class="modal-sheet support-page-sheet" role="dialog" aria-modal="true" aria-label="Hỗ trợ">
+            <template data-header class="ckkn-page-header support-page-header">
+                <div class="support-header-left">
+                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn" id="btn-close-support-modal" aria-label="Quay lại tổng quan" title="Quay lại">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <div class="support-brand-badge">
+                        <i data-lucide="life-buoy"></i>
+                    </div>
+                    <div class="support-page-title">
+                        <span>HƯỚNG DẪN &amp; TRA CỨU</span>
+                        <h2>Hỗ trợ</h2>
+                    </div>
+                </div>
+                <div class="support-header-actions" aria-label="Thao tác hỗ trợ">
+                    <button type="button" class="support-action-btn support-delete-btn" id="btn-delete-support-entry" aria-label="Chọn mục để xóa" title="Chế độ xóa">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                    <button type="button" class="support-action-btn support-add-btn" id="btn-add-support-entry" aria-label="Thêm mới" title="Thêm mới">
+                        <i data-lucide="plus"></i>
+                        <span class="support-add-btn-text">Thêm mới</span>
+                    </button>
+                </div>
+            </template>
+
+            <!-- Thanh tìm kiếm + số lượng -->
+            <div class="support-toolbar">
+                <div class="support-search-wrapper">
+                    <i data-lucide="search" class="support-search-icon"></i>
+                    <input type="search" id="support-search-input" placeholder="Tìm kiếm theo 'Cần này' hoặc 'Đi đây'..." autocomplete="off" enterkeyhint="search">
+                    <button type="button" class="support-search-clear" id="btn-clear-support-search" aria-label="Xóa tìm kiếm" hidden>
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <div class="support-count" id="support-count-pill" title="Số lượng mục hỗ trợ">
+                    <strong id="support-entry-count">0</strong>
+                    <span>mục</span>
+                </div>
+            </div>
+            <p class="support-storage-notice" id="support-storage-notice" role="status" aria-live="polite" hidden></p>
+
+            <!-- Bảng view -->
+            <div class="support-table-card">
+                <table class="support-table" aria-label="Danh sách hỗ trợ">
+                    <thead>
+                        <tr>
+                            <th class="support-col-index">STT</th>
+                            <th class="support-col-need">
+                                <span class="support-th-label support-th-need">
+                                    <i data-lucide="help-circle"></i> Cần này
+                                </span>
+                            </th>
+                            <th class="support-col-go">
+                                <span class="support-th-label support-th-go">
+                                    <i data-lucide="compass"></i> Đi đây / Liên hệ
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="support-table-body" aria-live="polite"></tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- End #support-modal -->
+
+    <!-- FORM THÊM THÔNG TIN CHO MODAL HỖ TRỢ -->
+    <div class="modal-overlay support-entry-form-overlay" id="support-entry-modal" aria-hidden="true">
+        <div class="support-entry-form-sheet" role="dialog" aria-modal="true" aria-labelledby="support-entry-form-title">
+            <div class="support-modal-header">
+                <div class="support-modal-title-wrap">
+                    <span class="support-modal-eyebrow">NỘI DUNG HỖ TRỢ</span>
+                    <h2 id="support-entry-form-title">Thêm mới</h2>
+                    <p>Nhập “Cần này” và “Đi đây” để thêm vào bảng.</p>
+                </div>
+                <button class="modal-close-btn" id="btn-close-support-entry-modal" aria-label="Đóng form thêm thông tin" title="Đóng">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <form id="support-entry-form" class="support-entry-form">
+                <div class="support-form-grid">
+                    <div class="support-form-field support-field-need">
+                        <label for="support-entry-need">
+                            <span class="support-field-icon"><i data-lucide="help-circle"></i></span>
+                            Cần này
+                        </label>
+                        <textarea id="support-entry-need" rows="4" maxlength="1000" placeholder="Bạn cần gì?" required></textarea>
+                    </div>
+                    <div class="support-form-field support-field-go">
+                        <label for="support-entry-go">
+                            <span class="support-field-icon"><i data-lucide="compass"></i></span>
+                            Đi đây
+                        </label>
+                        <textarea id="support-entry-go" rows="4" maxlength="3000" placeholder="Đi đâu / liên hệ ai?" required></textarea>
+                    </div>
+                </div>
+                <p class="support-entry-form-error" id="support-entry-form-error" role="alert" hidden></p>
+                <div class="support-entry-form-actions">
+                    <button type="button" class="support-cancel-btn" id="btn-cancel-support-entry">Hủy</button>
+                    <button type="submit" class="support-save-btn">
+                        <i data-lucide="check"></i>
+                        <span>Lưu</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div><!-- End #support-entry-modal -->
+</div>    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script type="module" src="../js/boot.js"></script>
+</body></html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="../manifest.json">
+    <title>Money - Quản Lý Thu Chi</title>
+    <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
+    <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
+    <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Google Fonts: Be Vietnam Pro & Nunito (Rounded numbers like MONii) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/thuchi.css">
+    
+<style>html[data-loading] body{visibility:hidden}</style>
+</head>
+<body data-feature="thuchi">
+    <div class="app-container" style="max-width: 100%; border: none; border-radius: 0; min-height: 100vh;">
+        <!-- iOS Status Bar Background Spacer for viewport-fit=cover -->
+        <div class="ios-status-bar-spacer"></div>
+
+        <!-- HEADER -->
+        <template data-header class="app-header header-overview">
+            <div class="header-left">
+                <div class="header-eyebrow">
+                    <span class="header-status-badge">
+                        <span class="status-pulse-dot"></span>
+                        <span>Hôm nay</span>
+                    </span>
+                    <span class="header-clock-wrap">
+                        <i data-lucide="clock"></i>
+                        <span id="header-live-clock">--:--:--</span>
+                    </span>
+                </div>
+                <h1 class="header-main-date" id="current-date">Thứ Bảy, ngày 17 tháng 10 năm 2026</h1>
+                <div class="header-date-sub">
+                    <span class="header-sub-tag"><i data-lucide="wallet"></i> Sổ Thu Chi</span>
+                    <span class="header-sub-sep">·</span>
+                    <span class="header-sub-desc">Quản lý dòng tiền & ngân sách chi tiêu</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-calendar-badge" title="Lịch hôm nay">
+                    <div class="calendar-badge-top" id="header-calendar-month">Thg 10</div>
+                    <div class="calendar-badge-day" id="header-calendar-day">17</div>
+                    <div class="calendar-badge-bottom" id="header-calendar-weekday">Thứ 7</div>
+                </div>
+            </div>
+        </template>
+
+        <!-- MAIN CONTENT PANELS (Tabs) -->
+        <main class="app-main">
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="tab-panel active">
+                <!-- Summary Cards Row -->
+                <div class="summary-cards">
+                    <div class="card card-today">
+                        <div class="card-top-row">
+                            <div class="card-icon-pill">
+                                <i data-lucide="zap"></i>
+                            </div>
+                            <span class="card-label">Hôm nay</span>
+                        </div>
+                        <h2 class="card-amount" id="sum-today">0 VNĐ</h2>
+                        <span class="card-trend-caption">Chi trong ngày</span>
+                    </div>
+                    <div class="card card-week">
+                        <div class="card-top-row">
+                            <div class="card-icon-pill">
+                                <i data-lucide="trending-up"></i>
+                            </div>
+                            <span class="card-label">Tuần này</span>
+                        </div>
+                        <h2 class="card-amount" id="sum-week">0 VNĐ</h2>
+                        <span class="card-trend-caption">7 ngày qua</span>
+                    </div>
+                    <div class="card card-month">
+                        <div class="card-top-row">
+                            <div class="card-icon-pill">
+                                <i data-lucide="wallet"></i>
+                            </div>
+                            <span class="card-label">Tháng này</span>
+                        </div>
+                        <h2 class="card-amount" id="sum-month">0 VNĐ</h2>
+                        <span class="card-trend-caption">Toàn tháng</span>
+                    </div>
+                </div>
+
+                <!-- Quick Utility Shortcuts -->
+                <div class="section-card dashboard-shortcuts-card">
+                    <div class="dashboard-shortcuts-grid">
+                        <button type="button" class="shortcut-pill shortcut-pill-add" onclick="openAddModal()">
+                            <div class="shortcut-icon-bubble">
+                                <i data-lucide="plus-circle"></i>
+                            </div>
+                            <span class="shortcut-label">Ghi khoản chi mới</span>
+                        </button>
+                        <button type="button" class="shortcut-pill shortcut-pill-analysis" onclick="openSpendingAnalysisPage()">
+                            <div class="shortcut-icon-bubble">
+                                <i data-lucide="bar-chart-3"></i>
+                            </div>
+                            <span class="shortcut-label">Toàn cảnh tài chính</span>
+                        </button>
+                        <button type="button" class="shortcut-pill shortcut-pill-history" onclick="switchTab('history')">
+                            <div class="shortcut-icon-bubble">
+                                <i data-lucide="receipt"></i>
+                            </div>
+                            <span class="shortcut-label">Xem lịch sử chi</span>
+                        </button>
+                        <button type="button" class="shortcut-pill shortcut-pill-home" onclick="goBackToHome()">
+                            <div class="shortcut-icon-bubble">
+                                <i data-lucide="layout-grid"></i>
+                            </div>
+                            <span class="shortcut-label">Trung tâm chức năng</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Monthly Spending Calendar -->
+                <div class="section-card spending-calendar-card">
+                    <div class="dashboard-calendar-header">
+                        <div class="calendar-title-block">
+                            <span class="calendar-year-label" id="dashboard-calendar-year-label">2026</span>
+                            <span class="calendar-month-label" id="dashboard-calendar-month-title">Tháng 7</span>
+                        </div>
+                        <div class="calendar-nav-controls">
+                            <button class="calendar-nav-btn" id="btn-dashboard-prev-month" aria-label="Tháng trước"><i data-lucide="chevron-left"></i></button>
+                            <button class="calendar-nav-btn" id="btn-dashboard-next-month" aria-label="Tháng sau"><i data-lucide="chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-month-summary dashboard-calendar-summary">
+                        <span>Tổng chi trong tháng</span>
+                        <strong id="dashboard-calendar-month-total">0 VNĐ</strong>
+                    </div>
+
+                    <div class="calendar-weekdays">
+                        <div>T2</div><div>T3</div><div>T4</div>
+                        <div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                    </div>
+                    <div class="calendar-days-grid dashboard-calendar-grid" id="dashboard-calendar-days-grid">
+                        <!-- Dynamic monthly calendar -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: HISTORY (TRANSACTIONS) -->
+            <section id="tab-history" class="tab-panel">
+                <div class="history-top-actions" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="history-back-btn" onclick="switchTab('dashboard')" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid rgba(52, 66, 55, 0.12); border-radius: 12px; background: #ffffff; color: var(--accent-olive); font-size: 0.82rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                        <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+                        <span>Quay lại Tổng quan</span>
+                    </button>
+                    <div class="history-month-selector" style="display: inline-flex; align-items: center; gap: 2px; padding: 3px 6px; border: 1px solid rgba(52, 66, 55, 0.14); border-radius: 12px; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.03); position: relative;">
+                        <button type="button" id="btn-history-prev-month" class="history-month-nav-btn" aria-label="Tháng trước" title="Tháng trước" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: rgba(52, 66, 55, 0.05); border: none; border-radius: 8px; color: var(--accent-olive); cursor: pointer;">
+                            <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
+                        </button>
+                        <button type="button" id="btn-open-history-month-modal" class="history-month-display-btn" title="Bấm để chọn nhanh tháng năm hoặc Tất cả thời gian" style="background: none; border: none; padding: 3px 8px; font-size: 0.82rem; font-weight: 700; color: var(--accent-olive); min-width: 96px; text-align: center; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; border-radius: 8px; transition: background 0.15s ease;">
+                            <span id="history-month-label">Tháng 10/2026</span>
+                            <i data-lucide="chevron-down" style="width: 13px; height: 13px; opacity: 0.65; pointer-events: none;"></i>
+                        </button>
+                        <button type="button" id="btn-history-next-month" class="history-month-nav-btn" aria-label="Tháng sau" title="Tháng sau" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: rgba(52, 66, 55, 0.05); border: none; border-radius: 8px; color: var(--accent-olive); cursor: pointer;">
+                            <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="history-controls">
+                    <div class="search-bar">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Tìm nội dung, số tiền hoặc ngày/tháng/năm..." autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="spending-list" id="history-spendings-list">
+                    <!-- Dynamic history content -->
+                </div>
+            </section>
+        </main>
+
+        <!-- SPENDING ANALYSIS PAGE -->
+        <div class="analysis-page" id="spending-analysis-page" aria-hidden="true">
+            <header class="analysis-page-header">
+                <button class="analysis-back-btn" id="btn-close-spending-analysis" aria-label="Quay lại tổng quan">
+                    <i data-lucide="arrow-left"></i>
+                </button>
+                <div class="analysis-page-title">
+                    <h2>Toàn cảnh tài chính</h2>
+                </div>
+            </header>
+
+            <div class="analysis-page-scroll">
+                <div class="analysis-period-card">
+                    <div>
+                        <span class="analysis-overline">KHOẢNG THỜI GIAN</span>
+                        <strong id="analysis-period-label">Tháng 9, 2026</strong>
+                    </div>
+                    <div class="analysis-period-actions">
+                        <button id="btn-analysis-prev-month" aria-label="Tháng phân tích trước"><i data-lucide="chevron-left"></i></button>
+                        <button id="btn-analysis-next-month" aria-label="Tháng phân tích sau"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="analysis-kpi-grid">
+                    <div class="analysis-kpi-card analysis-kpi-total">
+                        <span>TỔNG CHI</span>
+                        <strong id="analysis-total-amount">0 VNĐ</strong>
+                        <small>trong tháng</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>TRUNG BÌNH / NGÀY</span>
+                        <strong id="analysis-daily-average">0 VNĐ</strong>
+                        <small>ngày có chi tiêu</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>NGÀY CAO NHẤT</span>
+                        <strong id="analysis-top-day">--</strong>
+                        <small id="analysis-top-day-amount">0 VNĐ</small>
+                    </div>
+                    <div class="analysis-kpi-card">
+                        <span>SỐ KHOẢN CHI</span>
+                        <strong id="analysis-transaction-count">0</strong>
+                        <small>giao dịch</small>
+                    </div>
+                </div>
+
+                <section class="analysis-section-card analysis-comparison-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">SO SÁNH THEO THÁNG</span>
+                            <h3>Các tháng trong năm <span id="analysis-month-comparison-year">2026</span></h3>
+                        </div>
+                        <i data-lucide="bar-chart-3"></i>
+                    </div>
+                    <div class="analysis-comparison-summary">
+                        <div class="analysis-comparison-stat">
+                            <span>THÁNG ĐANG XEM</span>
+                            <strong id="analysis-selected-month-total">0 VNĐ</strong>
+                        </div>
+                        <div class="analysis-comparison-stat">
+                            <span>SO VỚI THÁNG TRƯỚC</span>
+                            <strong id="analysis-month-change">--</strong>
+                            <small id="analysis-month-change-detail">Chưa có dữ liệu</small>
+                        </div>
+                    </div>
+                    <div id="analysis-month-comparison" class="analysis-comparison-bars"></div>
+                </section>
+
+                <section class="analysis-section-card analysis-comparison-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">SO SÁNH THEO NĂM</span>
+                            <h3>Các năm đã ghi nhận</h3>
+                        </div>
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <div class="analysis-comparison-summary">
+                        <div class="analysis-comparison-stat">
+                            <span>NĂM ĐANG XEM</span>
+                            <strong id="analysis-selected-year-total">0 VNĐ</strong>
+                        </div>
+                        <div class="analysis-comparison-stat">
+                            <span>SO VỚI NĂM TRƯỚC</span>
+                            <strong id="analysis-year-change">--</strong>
+                            <small id="analysis-year-change-detail">Chưa có dữ liệu</small>
+                        </div>
+                    </div>
+                    <div id="analysis-year-comparison" class="analysis-comparison-bars"></div>
+                </section>
+
+                <section class="analysis-section-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">CƠ CẤU CHI TIÊU</span>
+                            <h3>Tiền đang đi đâu?</h3>
+                        </div>
+                        <i data-lucide="pie-chart"></i>
+                    </div>
+                    <div class="analysis-chart-container">
+                        <canvas id="analysisCategoryChart"></canvas>
+                    </div>
+                    <div id="analysis-category-breakdown-legend" class="analysis-legend"></div>
+                </section>
+
+                <section class="analysis-section-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">NHỊP CHI TIÊU</span>
+                            <h3>Những ngày chi nhiều nhất</h3>
+                        </div>
+                        <i data-lucide="calendar-range"></i>
+                    </div>
+                    <div id="analysis-daily-insights" class="analysis-daily-insights"></div>
+                </section>
+
+                <section class="analysis-insight-card">
+                    <div class="analysis-insight-icon"><i data-lucide="sparkles"></i></div>
+                    <div>
+                        <span class="analysis-overline">NHẬN XÉT TỰ ĐỘNG</span>
+                        <h3>Điểm đáng chú ý</h3>
+                        <div id="analysis-insights-list" class="analysis-insights-list"></div>
+                    </div>
+                </section>
+
+                <section class="analysis-section-card analysis-top-expenses-card">
+                    <div class="analysis-section-heading">
+                        <div>
+                            <span class="analysis-overline">CHI TIÊU NỔI BẬT</span>
+                            <h3>Các khoản lớn nhất</h3>
+                        </div>
+                        <i data-lucide="arrow-up-right"></i>
+                    </div>
+                    <div id="analysis-top-expenses" class="analysis-top-expenses"></div>
+                </section>
+            </div>
+        </div>
+
+
+        <!-- BOTTOM SHEET MODAL (ADD EXPENSE) -->
+        <div class="modal-overlay" id="add-expense-modal">
+            <div class="modal-sheet expense-entry-sheet">
+                <div class="modal-drag-indicator"></div>
+                <div class="modal-header expense-entry-header">
+                    <div class="modal-title-group">
+                        <span class="modal-eyebrow">GIAO DỊCH MỚI</span>
+                        <h2>Thêm khoản chi</h2>
+                        <p>Ghi lại khoản chi để theo dõi dễ dàng hơn</p>
+                    </div>
+                    <button class="modal-close-btn" id="btn-close-modal"><i data-lucide="x"></i></button>
+                </div>
+                
+                <form id="add-expense-form" class="modal-form expense-entry-form">
+                    <div class="amount-card">
+                        <div class="amount-card-top">
+                            <span class="amount-card-label">Số tiền chi</span>
+                            <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
+                        </div>
+                        <div class="amount-input-container">
+                            <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                            <span class="currency-suffix">VNĐ</span>
+                        </div>
+                        <span class="amount-helper"><i data-lucide="info"></i> Nhập số tiền bạn đã chi</span>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-heading">
+                            <span>Thông tin khoản chi</span>
+                            <small>3 mục</small>
+                        </div>
+                        <div class="form-fields">
+                            <div class="form-group">
+                                <label for="expense-title">Nội dung chi tiêu</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="tag" class="field-icon"></i>
+                                    <input type="text" id="expense-title" placeholder="Ăn sáng, mua đồ, xăng xe..." required>
+                                </div>
+                            </div>
+
+                            <!-- Category / Classification -->
+                            <div class="form-group">
+                                <label for="expense-category">Phân loại</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="layout-grid" class="field-icon"></i>
+                                    <select id="expense-category">
+                                        <option value="Ăn uống">🍔 Ăn uống</option>
+                                        <option value="Mua sắm">🛒 Mua sắm</option>
+                                        <option value="Di chuyển">🚗 Di chuyển</option>
+                                        <option value="Giải trí">🍿 Giải trí</option>
+                                        <option value="Sinh hoạt">💡 Sinh hoạt</option>
+                                        <option value="Chi phí hàng tháng">📌 Chi phí hàng tháng</option>
+                                        <option value="Y tế & Sức khỏe">🏥 Y tế & Sức khỏe</option>
+                                        <option value="Quà tặng & Hiếu hỷ">🎁 Quà tặng & Hiếu hỷ</option>
+                                        <option value="Viễn thông">📱 Viễn thông</option>
+                                        <option value="Sửa chữa & Bảo trì">🔧 Sửa chữa & Bảo trì</option>
+                                        <option value="Cá nhân">👤 Cá nhân</option>
+                                <option value="Cô ấy">❤️ Cô ấy</option>
+                                        <option value="Khác" selected>📝 Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Date -->
+                            <div class="form-group">
+                                <label for="expense-date-display">Ngày chi tiêu</label>
+                                <div class="input-wrapper date-picker-wrapper" style="position: relative; display: flex; align-items: center;">
+                                    <i data-lucide="calendar" class="field-icon" style="pointer-events: none;"></i>
+                                    <input type="text" 
+                                           id="expense-date-display" 
+                                           class="form-input" 
+                                           placeholder="dd/mm/yyyy" 
+                                           maxlength="10" 
+                                           autocomplete="off" 
+                                           required 
+                                           style="cursor: text; padding-right: 48px;">
+                                    <div class="date-picker-trigger-wrap" 
+                                         id="btn-trigger-date-picker-wrap" 
+                                         title="Bấm để mở lịch chọn ngày" 
+                                         style="position: absolute; right: 6px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 8px;">
+                                        <i data-lucide="calendar-days" style="width: 18px; height: 18px; color: var(--accent-olive); pointer-events: none;"></i>
+                                        <input type="date" 
+                                               id="expense-date" 
+                                               tabindex="-1" 
+                                               aria-label="Chọn ngày từ lịch" 
+                                               style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 3; border: none; padding: 0; margin: 0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions-row">
+                        <button type="button" class="btn btn-secondary btn-cancel" id="btn-cancel-add">Hủy</button>
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i data-lucide="check"></i> Lưu
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- DETAIL / EDIT VIEW MODAL -->
+        <div class="modal-overlay" id="detail-expense-modal" style="z-index: 100020;">
+            <div class="modal-sheet expense-entry-sheet">
+                <div class="modal-drag-indicator"></div>
+                <div class="modal-header expense-entry-header">
+                    <div class="modal-title-group">
+                        <span class="modal-eyebrow">CHI TIẾT GIAO DỊCH</span>
+                        <h2>Chỉnh sửa khoản chi</h2>
+                        <p>Cập nhật lại thông tin nếu khoản chi thay đổi</p>
+                    </div>
+                    <button class="modal-close-btn" id="btn-close-detail"><i data-lucide="x"></i></button>
+                </div>
+                <div class="detail-body expense-entry-form">
+                    <div class="amount-card">
+                        <div class="amount-card-top">
+                            <span class="amount-card-label">Số tiền chi</span>
+                            <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
+                        </div>
+                        <div class="amount-input-container">
+                            <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
+                            <span class="currency-suffix">VNĐ</span>
+                        </div>
+                        <span class="amount-helper"><i data-lucide="edit-3"></i> Chạm vào số tiền để cập nhật</span>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-heading">
+                            <span>Thông tin khoản chi</span>
+                            <small>2 mục</small>
+                        </div>
+                        <div class="detail-info-list">
+                            <div class="form-group">
+                                <label for="detail-title-input">Nội dung</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="tag" class="field-icon"></i>
+                                    <input type="text" id="detail-title-input" placeholder="Nội dung chi tiêu" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="detail-category-select">Phân loại</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="layout-grid" class="field-icon"></i>
+                                    <select id="detail-category-select">
+                                        <option value="Ăn uống">🍔 Ăn uống</option>
+                                        <option value="Mua sắm">🛒 Mua sắm</option>
+                                        <option value="Di chuyển">🚗 Di chuyển</option>
+                                        <option value="Giải trí">🍿 Giải trí</option>
+                                        <option value="Sinh hoạt">💡 Sinh hoạt</option>
+                                        <option value="Chi phí hàng tháng">📌 Chi phí hàng tháng</option>
+                                        <option value="Y tế & Sức khỏe">🏥 Y tế & Sức khỏe</option>
+                                        <option value="Quà tặng & Hiếu hỷ">🎁 Quà tặng & Hiếu hỷ</option>
+                                        <option value="Viễn thông">📱 Viễn thông</option>
+                                        <option value="Sửa chữa & Bảo trì">🔧 Sửa chữa & Bảo trì</option>
+                                        <option value="Cá nhân">👤 Cá nhân</option>
+                                <option value="Cô ấy">❤️ Cô ấy</option>
+                                        <option value="Khác">📝 Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="detail-info-item">
+                                <span class="info-label"><i data-lucide="calendar-days"></i> Thời gian</span>
+                                <span class="info-value" id="detail-date"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-actions">
+                        <button class="btn btn-primary" id="btn-save-edit-expense">
+                            <i data-lucide="check"></i> Lưu thay đổi
+                        </button>
+                        <button class="btn btn-danger" id="btn-delete-expense">
+                            <i data-lucide="trash-2"></i> Xóa khoản chi này
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CALENDAR VIEW MODAL -->
+        <div class="modal-overlay" id="calendar-expense-modal">
+            <div class="modal-sheet calendar-modal-sheet">
+                <!-- VIEW 1: LƯỚI LỊCH -->
+                <div id="calendar-grid-view">
+                    <div class="calendar-header-row">
+                        <div class="calendar-title-block">
+                            <span class="calendar-year-label" id="calendar-year-label">2026</span>
+                            <span class="calendar-month-label" id="calendar-month-title">Tháng 7</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div class="calendar-nav-controls">
+                                <button class="calendar-nav-btn" id="btn-prev-month"><i data-lucide="chevron-left"></i></button>
+                                <button class="calendar-nav-btn" id="btn-next-month"><i data-lucide="chevron-right"></i></button>
+                            </div>
+                            <button class="modal-close-btn" id="btn-close-calendar" style="margin-left: 4px;"><i data-lucide="x"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-month-summary">
+                        <span>Tổng chi tháng này</span>
+                        <strong id="calendar-month-total">0 VNĐ</strong>
+                    </div>
+
+                    <div class="calendar-weekdays">
+                        <div>T2</div><div>T3</div><div>T4</div>
+                        <div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                    </div>
+
+                    <div class="calendar-days-grid" id="calendar-days-grid">
+                        <!-- Dynamic Days -->
+                    </div>
+                </div>
+
+                <!-- VIEW 2: CHI TIẾT NGÀY -->
+                <div id="calendar-day-detail" style="display: none;">
+                    <div class="calendar-header-row">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="calendar-title-block">
+                                <span class="calendar-year-label">Chi tiêu trong ngày</span>
+                                <span class="calendar-month-label" id="cal-day-detail-title">22/07/26</span>
+                            </div>
+                        </div>
+                        <button class="modal-close-btn" onclick="closeCalendarModal()"><i data-lucide="x"></i></button>
+                    </div>
+
+                    <div class="calendar-month-summary" style="margin-top: 14px;">
+                        <span>Tổng chi trong ngày</span>
+                        <strong id="cal-day-detail-total" style="color: #ff9f0a;">0 VNĐ</strong>
+                    </div>
+
+                    <div id="cal-day-expense-list" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px; max-height: 340px; overflow-y: auto;">
+                        <!-- Dynamic -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CHỌN NHANH THÁNG NĂM & ALL TIME CHO LỊCH SỬ THU CHI -->
+    <div class="modal-overlay history-month-modal-overlay" id="history-month-modal" aria-hidden="true">
+        <div class="modal-sheet history-month-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="history-modal-title">
+            <!-- Header -->
+            <div class="history-modal-header">
+                <div class="history-modal-header-left">
+                    <div class="history-modal-icon-badge">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <div>
+                        <h3 id="history-modal-title" class="history-modal-title">Chọn thời gian</h3>
+                        <p class="history-modal-subtitle">Lọc giao dịch theo tháng hoặc toàn bộ</p>
+                    </div>
+                </div>
+                <button type="button" id="btn-close-history-month-modal" class="history-modal-close-btn" aria-label="Đóng">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <!-- Option All Time (Tất cả thời gian) -->
+            <div class="history-all-time-wrap">
+                <button type="button" id="btn-history-select-all-time" class="history-all-time-btn">
+                    <div class="history-all-time-left">
+                        <div class="history-all-time-icon-wrap">
+                            <i data-lucide="infinity"></i>
+                        </div>
+                        <div class="history-all-time-info">
+                            <div class="history-all-time-title">
+                                <span>Tất cả thời gian</span>
+                                <span class="history-all-time-tag">All Time</span>
+                            </div>
+                            <div class="history-all-time-desc">Xem &amp; tìm kiếm toàn bộ giao dịch</div>
+                        </div>
+                    </div>
+                    <div class="history-all-time-status">
+                        <div class="history-all-time-check-bubble">
+                            <i data-lucide="check" class="history-all-time-check"></i>
+                        </div>
+                        <i data-lucide="chevron-right" class="history-all-time-arrow"></i>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Năm selector -->
+            <div class="history-year-selector-bar">
+                <button type="button" id="btn-history-modal-prev-year" class="history-year-nav-btn" aria-label="Năm trước" title="Năm trước">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <div class="history-year-center">
+                    <i data-lucide="calendar-days" class="history-year-center-icon"></i>
+                    <span class="history-year-prefix">Năm</span>
+                    <span id="history-modal-year-label" class="history-year-val">2026</span>
+                </div>
+                <button type="button" id="btn-history-modal-next-year" class="history-year-nav-btn" aria-label="Năm sau" title="Năm sau">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- 12 Tháng Grid -->
+            <div id="history-modal-months-grid" class="history-modal-months-grid">
+                <!-- Dynamically generated -->
+            </div>
+
+            <!-- Footer: Về tháng hiện tại -->
+            <div class="history-modal-footer">
+                <button type="button" id="btn-history-jump-current-month" class="history-jump-current-btn">
+                    <i data-lucide="rotate-ccw"></i>
+                    <span>Về tháng hiện tại</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <!-- Hiện số tiền đã lưu trước khi chờ thư viện CDN và kết nối Supabase. -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js', { scope: '../' })
+                    .catch(() => {});
+            });
+        }
+    </script>
+<script type="module" src="../js/boot.js"></script>
+</body>
+</html>

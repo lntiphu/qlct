@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
+    <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="../manifest.json">
+    <title>so-tay - Làm chủ mọi thứ</title>
+    <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
+    <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
+    <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/shell.css">
+<style>html[data-loading] body{visibility:hidden}</style>
+</head><body data-feature="so-tay"><div class="app-container">    <div class="modal-overlay support-page-modal handbook-page-modal" id="handbook-modal" aria-hidden="true">
+        <div class="modal-sheet support-page-sheet handbook-page-sheet" role="dialog" aria-modal="true" aria-label="Sổ tay">
+            <!-- Header chuẩn Florenté Luxury -->
+            <template data-header class="ckkn-page-header support-page-header handbook-page-header">
+                <div class="support-header-left handbook-header-left">
+                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn handbook-header-back-btn" id="btn-close-handbook-modal" aria-label="Quay lại trang chức năng" title="Quay lại">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <div class="handbook-page-title">
+                        <h2>Sổ tay</h2>
+                    </div>
+                </div>
+                <div class="support-header-actions handbook-header-actions" aria-label="Thao tác Sổ tay">
+                    <div class="support-count handbook-count-pill" id="handbook-header-count-pill" title="Tổng số bài trong Sổ tay">
+                        <strong id="handbook-header-count">0</strong>
+                        <span>bài</span>
+                    </div>
+                    <button type="button" class="support-action-btn handbook-action-btn handbook-add-btn" id="btn-add-handbook-entry" aria-label="Thêm bài mới" title="Thêm mới">
+                        <i data-lucide="plus"></i>
+                        <span class="handbook-add-btn-text">Thêm bài</span>
+                    </button>
+                </div>
+            </template>
+
+            <div class="handbook-page-scroll" id="handbook-page-scroll">
+                <!-- Hero Banner: CẢM HỨNG & SỨC KHỎE GIA ĐÌNH -->
+                <div class="handbook-intro-card" id="handbook-intro-card">
+                    <div class="handbook-intro-top-row">
+                        <div class="handbook-intro-badge">
+                            <i data-lucide="sparkles"></i>
+                            <span>MẸO HAY &amp; SỨC KHỎE GIA ĐÌNH</span>
+                        </div>
+                        <span class="handbook-sync-status" id="handbook-sync-status">Đang kiểm tra lưu trữ...</span>
+                    </div>
+                    <div class="handbook-intro-body">
+                        <h3 class="handbook-intro-title">Ghi lại điều hữu ích cho cả nhà</h3>
+                        <p class="handbook-intro-desc">Tra cứu nhanh công dụng, nguyên liệu &amp; bài thuốc dân gian chăm sóc sức khỏe.</p>
+                    </div>
+                </div>
+
+                <!-- Thanh tìm kiếm & bộ lọc phân loại -->
+                <div class="handbook-toolbar">
+                    <div class="handbook-search-bar">
+                        <i data-lucide="search" class="handbook-search-icon"></i>
+                        <input type="search" id="handbook-search-input" placeholder="Tìm theo tên bài, công dụng, nguyên liệu..." autocomplete="off">
+                        <button type="button" class="handbook-search-clear-btn" id="btn-clear-handbook-search" aria-label="Xóa tìm kiếm" title="Xóa tìm kiếm" hidden>
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <div class="handbook-filter-row">
+                        <div class="handbook-category-wrap">
+                            <i data-lucide="layers-3" class="handbook-filter-icon"></i>
+                            <select id="handbook-category-filter" aria-label="Lọc theo danh mục">
+                                <option value="all">Tất cả danh mục</option>
+                                <option value="Ho/cảm cúm">Ho/cảm cúm</option>
+                                <option value="Tiêu hóa">Tiêu hóa</option>
+                                <option value="Da liễu">Da liễu</option>
+                                <option value="Xương khớp">Xương khớp</option>
+                                <option value="Mẹo vặt gia đình">Mẹo vặt gia đình</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                        <label class="handbook-favorite-filter" title="Lọc các bài đánh dấu sao yêu thích">
+                            <input type="checkbox" id="handbook-favorite-filter">
+                            <i data-lucide="star"></i>
+                            <span>Yêu thích</span>
+                        </label>
+                        <span class="handbook-count" id="handbook-entry-count">0 bài</span>
+                    </div>
+                </div>
+
+                <!-- Danh sách bài viết Sổ tay -->
+                <div class="handbook-cards-grid" id="handbook-cards-container" aria-live="polite"></div>
+            </div>
+
+            <div class="handbook-disclaimer">
+                <i data-lucide="info"></i>
+                <span>Thông tin chỉ mang tính tham khảo, không thay thế tư vấn y tế. Hãy hỏi ý kiến bác sĩ nếu triệu chứng kéo dài hoặc nặng.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 10B: TRANG CHI TIẾT BÀI VIẾT SỔ TAY (Full Page View) -->
+    <div class="modal-overlay support-page-modal handbook-page-modal handbook-detail-page-modal" id="handbook-detail-modal" aria-hidden="true">
+        <div class="modal-sheet support-page-sheet handbook-page-sheet handbook-detail-page-sheet" role="dialog" aria-modal="true" aria-labelledby="handbook-detail-title">
+            <!-- Header chi tiết chuẩn Florenté Luxury -->
+            <div class="ckkn-page-header support-page-header handbook-page-header handbook-detail-page-header">
+                <div class="support-header-left handbook-header-left">
+                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn handbook-header-back-btn" id="btn-close-handbook-detail" aria-label="Quay lại danh sách" title="Quay lại">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <div class="handbook-page-title handbook-detail-page-heading">
+                        <span class="handbook-detail-eyebrow" id="handbook-detail-category">Danh mục</span>
+                        <h2>Chi tiết bài viết</h2>
+                    </div>
+                </div>
+                <div class="support-header-actions handbook-header-actions handbook-detail-header-actions" aria-label="Thao tác bài viết">
+                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-print-btn" id="btn-print-handbook-detail" aria-label="In hoặc lưu bài" title="In / Lưu PDF">
+                        <i data-lucide="printer"></i>
+                    </button>
+                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-edit-btn" id="btn-edit-handbook-detail" aria-label="Chỉnh sửa bài viết" title="Chỉnh sửa">
+                        <i data-lucide="pencil"></i>
+                    </button>
+                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-delete-btn" id="btn-delete-handbook-detail" aria-label="Xóa bài viết" title="Xóa bài">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vùng cuộn đọc chi tiết bài viết -->
+            <div class="handbook-page-scroll handbook-detail-page-scroll" id="handbook-detail-page-scroll">
+                <div class="handbook-detail-hero">
+                    <h1 id="handbook-detail-title" class="handbook-detail-title">Tên bài</h1>
+                </div>
+                <div class="handbook-detail-body" id="handbook-detail-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form thêm / sửa bài trong Sổ tay -->
+    <div class="modal-overlay support-entry-form-overlay handbook-entry-modal" id="handbook-entry-modal" aria-hidden="true">
+        <div class="support-entry-form-sheet handbook-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="handbook-entry-form-title">
+            <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
+            <div class="support-modal-header handbook-entry-header">
+                <div class="support-modal-title-wrap">
+                    <span class="support-modal-eyebrow handbook-form-eyebrow">SỔ TAY GIA ĐÌNH</span>
+                    <h2 id="handbook-entry-form-title">Thêm bài mới</h2>
+                    <p id="handbook-entry-form-description">Ghi lại kinh nghiệm &amp; mẹo hay để dễ tìm và dùng lại sau này.</p>
+                </div>
+                <button class="modal-close-btn support-modal-close" id="btn-close-handbook-entry" aria-label="Đóng form" title="Đóng"><i data-lucide="x"></i></button>
+            </div>
+            <form id="handbook-entry-form" class="handbook-entry-form">
+                <input type="hidden" id="handbook-entry-id" value="">
+                <div class="handbook-form-grid">
+                    <div class="handbook-form-field handbook-field-wide">
+                        <label for="handbook-entry-title"><i data-lucide="bookmark"></i>Tên bài <span>*</span></label>
+                        <input id="handbook-entry-title" type="text" maxlength="180" required placeholder="Ví dụ: Nước gừng ấm giảm ho">
+                    </div>
+                    <div class="handbook-form-field">
+                        <label for="handbook-entry-category"><i data-lucide="tag"></i>Danh mục <span>*</span></label>
+                        <select id="handbook-entry-category" required>
+                            <option value="Ho/cảm cúm">Ho/cảm cúm</option>
+                            <option value="Tiêu hóa">Tiêu hóa</option>
+                            <option value="Da liễu">Da liễu</option>
+                            <option value="Xương khớp">Xương khớp</option>
+                            <option value="Mẹo vặt gia đình">Mẹo vặt gia đình</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <div class="handbook-form-field">
+                        <label for="handbook-entry-use"><i data-lucide="sparkles"></i>Công dụng</label>
+                        <textarea id="handbook-entry-use" rows="3" maxlength="1200" placeholder="Bài này dùng để làm gì?"></textarea>
+                    </div>
+                    <div class="handbook-form-field">
+                        <label for="handbook-entry-ingredients"><i data-lucide="leaf"></i>Nguyên liệu</label>
+                        <textarea id="handbook-entry-ingredients" rows="3" maxlength="1200" placeholder="Ví dụ: gừng tươi, mật ong..."></textarea>
+                    </div>
+                    <div class="handbook-form-field handbook-field-wide">
+                        <label for="handbook-entry-method"><i data-lucide="list-ordered"></i>Cách làm / cách dùng</label>
+                        <textarea id="handbook-entry-method" rows="4" maxlength="3000" placeholder="Viết từng bước, liều lượng hoặc cách sử dụng..."></textarea>
+                    </div>
+                    <div class="handbook-form-field">
+                        <label for="handbook-entry-warning"><i data-lucide="triangle-alert"></i>Lưu ý / chống chỉ định</label>
+                        <textarea id="handbook-entry-warning" rows="3" maxlength="1600" placeholder="Ai không nên dùng? Khi nào cần dừng?"></textarea>
+                    </div>
+                    <div class="handbook-form-field">
+                        <label for="handbook-entry-source"><i data-lucide="link"></i>Nguồn</label>
+                        <input id="handbook-entry-source" type="text" maxlength="300" placeholder="Sách, người thân, website...">
+                    </div>
+                    <div class="handbook-form-field handbook-field-wide">
+                        <label for="handbook-entry-personal"><i data-lucide="heart"></i>Ghi chú cá nhân</label>
+                        <textarea id="handbook-entry-personal" rows="3" maxlength="1600" placeholder="Kinh nghiệm hoặc điều cần nhớ của riêng bạn..."></textarea>
+                    </div>
+                </div>
+                <p class="handbook-form-error" id="handbook-form-error" role="alert" hidden></p>
+                <div class="support-form-actions handbook-entry-actions">
+                    <button type="button" class="support-cancel-btn" id="btn-cancel-handbook-entry">Hủy</button>
+                    <button type="submit" class="support-save-btn handbook-save-btn"><i data-lucide="check"></i><span id="handbook-save-text">Lưu bài</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script type="module" src="../js/boot.js"></script>
+</body></html>

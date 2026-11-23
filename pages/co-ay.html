@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
+    <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="../manifest.json">
+    <title>co-ay - Làm chủ mọi thứ</title>
+    <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
+    <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
+    <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/shell.css">
+<style>html[data-loading] body{visibility:hidden}</style>
+</head><body data-feature="co-ay"><div class="app-container">    <div class="modal-overlay support-page-modal her-page-modal" id="her-modal" aria-hidden="true">
+        <div class="modal-sheet support-page-sheet her-page-sheet" role="dialog" aria-modal="true" aria-label="Két bí mật về cô ấy">
+            
+            <!-- Header chuẩn Két Bí Mật (coral/mint dynamic theme) -->
+            <template data-header class="her-page-header theme-coral" id="her-page-header">
+                <div class="her-header-left">
+                    <button type="button" class="modal-close-btn ckkn-back-btn her-header-back-btn" id="btn-close-her-modal" aria-label="Quay lại" title="Quay lại">
+                        <i data-lucide="arrow-left"></i>
+                    </button>
+                    <div class="her-header-vault-badge" id="her-vault-shield-badge">
+                        <svg class="her-shield-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L4 5V11C4 16.55 7.4 21.74 12 23C16.6 21.74 20 16.55 20 11V5L12 2Z" fill="currentColor"/>
+                            <path d="M12 8C10.9 8 10 8.9 10 10V11H9.5C9.22 11 9 11.22 9 11.5V15.5C9 15.78 9.22 16 9.5 16H14.5C14.78 16 15 15.78 15 15.5V11.5C15 11.22 14.78 11 14.5 11H14V10C14 8.9 13.1 8 12 8ZM13 11H11V10C11 9.45 11.45 9 12 9C12.55 9 13 9.45 13 10V11Z" fill="#FFFFFF"/>
+                        </svg>
+                    </div>
+                    <div class="her-header-title-block">
+                        <h2 class="her-header-title" id="her-header-title-text">Két Bí Mật</h2>
+                        <span class="her-header-subtitle" id="her-header-subtitle-text">Bí mật về cô ấy</span>
+                    </div>
+                </div>
+                <div class="her-header-right"></div>
+            </template>
+
+            <!-- 5 Navigation Tabs -->
+            <div class="her-nav-tabs-wrapper">
+                <div class="her-nav-tabs" role="tablist">
+                    <button type="button" class="her-tab-btn active" id="her-tab-btn-info" data-tab="info" role="tab" aria-selected="true">
+                        <div class="her-tab-bubble">
+                            <span class="her-tab-emoji">🎀</span>
+                        </div>
+                        <span class="her-tab-label">Thông tin</span>
+                        <div class="her-tab-indicator"></div>
+                    </button>
+                    <button type="button" class="her-tab-btn" id="her-tab-btn-food" data-tab="food" role="tab" aria-selected="false">
+                        <div class="her-tab-bubble">
+                            <span class="her-tab-emoji">🍽️</span>
+                            <span class="her-tab-count-badge" id="her-tab-count-food" style="display:none;">0</span>
+                        </div>
+                        <span class="her-tab-label">Đồ ăn</span>
+                        <div class="her-tab-indicator"></div>
+                    </button>
+                    <button type="button" class="her-tab-btn" id="her-tab-btn-notes" data-tab="notes" role="tab" aria-selected="false">
+                        <div class="her-tab-bubble">
+                            <span class="her-tab-emoji">📝</span>
+                            <span class="her-tab-count-badge" id="her-tab-count-notes" style="display:none;">0</span>
+                        </div>
+                        <span class="her-tab-label">Ghi chú</span>
+                        <div class="her-tab-indicator"></div>
+                    </button>
+                    <button type="button" class="her-tab-btn" id="her-tab-btn-dates" data-tab="dates" role="tab" aria-selected="false">
+                        <div class="her-tab-bubble">
+                            <span class="her-tab-emoji">💝</span>
+                            <span class="her-tab-count-badge" id="her-tab-count-dates" style="display:none;">0</span>
+                        </div>
+                        <span class="her-tab-label">Kỷ niệm</span>
+                        <div class="her-tab-indicator"></div>
+                    </button>
+                    <button type="button" class="her-tab-btn" id="her-tab-btn-mood" data-tab="mood" role="tab" aria-selected="false">
+                        <div class="her-tab-bubble">
+                            <span class="her-tab-emoji">🌸</span>
+                            <span class="her-tab-count-badge" id="her-tab-count-mood" style="display:none;">0</span>
+                        </div>
+                        <span class="her-tab-label">Tâm trạng</span>
+                        <div class="her-tab-indicator"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable Page Body -->
+            <div class="her-page-scroll" id="her-page-scroll">
+
+                <!-- Profile Hero Card (Thẻ Hồ Sơ Ngọt Ngào) -->
+                <div class="her-hero-profile-card" id="her-hero-profile-card">
+                    <div class="her-hero-avatar-wrap" id="btn-edit-avatar-trigger" title="Đổi avatar cô ấy">
+                        <div class="her-hero-avatar" id="her-hero-avatar">🌸</div>
+                        <div class="her-hero-avatar-badge"><i data-lucide="heart"></i></div>
+                    </div>
+                    <div class="her-hero-info">
+                        <div class="her-hero-top-row">
+                            <h3 class="her-hero-name" id="her-hero-name">Cô ấy</h3>
+                            <button type="button" class="her-hero-edit-btn" id="btn-edit-her-hero-profile" title="Chỉnh sửa hồ sơ cô ấy">
+                                <i data-lucide="edit-3"></i> <span>Chỉnh sửa</span>
+                            </button>
+                        </div>
+                        <div class="her-hero-meta-row">
+                            <span class="her-hero-chip" id="her-hero-days-chip">
+                                <i data-lucide="heart"></i> <span id="her-hero-days-text">Bên nhau mỗi ngày</span>
+                            </span>
+                            <span class="her-hero-chip her-hero-bday-chip" id="her-hero-bday-chip" style="display:none;">
+                                <i data-lucide="cake"></i> <span id="her-hero-bday-text">Sinh nhật</span>
+                            </span>
+                        </div>
+                        <p class="her-hero-quote" id="her-hero-quote">Lưu lại những điều nhỏ bé để yêu thương cô ấy nhiều hơn ✨</p>
+                    </div>
+                </div>
+
+                <!-- 1. TAB THÔNG TIN (SIZE, SỐ ĐO & SỞ THÍCH) -->
+                <div class="her-tab-panel active" id="her-tab-content-info" role="tabpanel">
+                    
+                    <!-- 1.1 Size của cô ấy -->
+                    <div class="her-section-heading">
+                        <span class="her-section-icon">📐</span>
+                        <h3 class="her-section-title">Size của cô ấy</h3>
+                    </div>
+
+                    <div class="her-tiles-grid">
+                        <!-- Áo -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">👕</span>
+                                <span class="her-tile-name">Áo</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-pink">
+                                <input type="text" class="her-capsule-input" id="her-size-shirt" placeholder="Nhập size...">
+                            </div>
+                            <div class="her-quick-suggesters" data-target="her-size-shirt">
+                                <button type="button" class="her-quick-chip" data-val="XS">XS</button>
+                                <button type="button" class="her-quick-chip" data-val="S">S</button>
+                                <button type="button" class="her-quick-chip" data-val="M">M</button>
+                                <button type="button" class="her-quick-chip" data-val="L">L</button>
+                                <button type="button" class="her-quick-chip" data-val="Freesize">Free</button>
+                            </div>
+                        </div>
+
+                        <!-- Quần -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">👖</span>
+                                <span class="her-tile-name">Quần</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-mint">
+                                <input type="text" class="her-capsule-input" id="her-size-pants" placeholder="Nhập size...">
+                            </div>
+                            <div class="her-quick-suggesters" data-target="her-size-pants">
+                                <button type="button" class="her-quick-chip" data-val="26">26</button>
+                                <button type="button" class="her-quick-chip" data-val="27">27</button>
+                                <button type="button" class="her-quick-chip" data-val="28">28</button>
+                                <button type="button" class="her-quick-chip" data-val="29">29</button>
+                                <button type="button" class="her-quick-chip" data-val="S">S</button>
+                                <button type="button" class="her-quick-chip" data-val="M">M</button>
+                            </div>
+                        </div>
+
+                        <!-- Giày -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">👟</span>
+                                <span class="her-tile-name">Giày</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-pink">
+                                <input type="text" class="her-capsule-input" id="her-size-shoes" placeholder="Nhập size...">
+                            </div>
+                            <div class="her-quick-suggesters" data-target="her-size-shoes">
+                                <button type="button" class="her-quick-chip" data-val="35">35</button>
+                                <button type="button" class="her-quick-chip" data-val="36">36</button>
+                                <button type="button" class="her-quick-chip" data-val="37">37</button>
+                                <button type="button" class="her-quick-chip" data-val="38">38</button>
+                                <button type="button" class="her-quick-chip" data-val="39">39</button>
+                            </div>
+                        </div>
+
+                        <!-- Bra -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">👙</span>
+                                <span class="her-tile-name">Bra</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-pink">
+                                <input type="text" class="her-capsule-input" id="her-size-bra" placeholder="Nhập size...">
+                            </div>
+                            <div class="her-quick-suggesters" data-target="her-size-bra">
+                                <button type="button" class="her-quick-chip" data-val="70A">70A</button>
+                                <button type="button" class="her-quick-chip" data-val="70B">70B</button>
+                                <button type="button" class="her-quick-chip" data-val="75A">75A</button>
+                                <button type="button" class="her-quick-chip" data-val="75B">75B</button>
+                                <button type="button" class="her-quick-chip" data-val="80A">80A</button>
+                            </div>
+                        </div>
+
+                        <!-- Nhẫn (Wide Bento Tile: Size chung & Chi tiết từng ngón) -->
+                        <div class="her-tile-card her-tile-card-wide her-ring-card">
+                            <div class="her-ring-card-header">
+                                <div class="her-ring-header-left">
+                                    <div class="her-ring-icon-badge">
+                                        <span class="her-tile-emoji">💍</span>
+                                    </div>
+                                    <div class="her-ring-header-text">
+                                        <h4 class="her-tile-name">Size Nhẫn của cô ấy</h4>
+                                        <span class="her-ring-subtitle">Size nhẫn thường đeo &amp; chi tiết từng ngón tay</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="her-btn-add-ring" id="btn-add-her-ring" title="Thêm ghi chú size từng ngón">
+                                    <i data-lucide="plus"></i> <span>Thêm ngón tay</span>
+                                </button>
+                            </div>
+
+                            <div class="her-ring-card-body">
+                                <!-- Cột 1: Size thường đeo / Chung -->
+                                <div class="her-ring-general-col">
+                                    <label class="her-ring-col-label" for="her-size-ring-general">
+                                        <i data-lucide="sparkles"></i> <span>Size thường đeo / Chung:</span>
+                                    </label>
+                                    <div class="her-capsule-box her-capsule-pink">
+                                        <input type="text" class="her-capsule-input" id="her-size-ring-general" placeholder="Ví dụ: Size 10 (đường kính 16mm)...">
+                                    </div>
+                                    <div class="her-quick-suggesters" data-target="her-size-ring-general">
+                                        <button type="button" class="her-quick-chip" data-val="Size 9">Size 9</button>
+                                        <button type="button" class="her-quick-chip" data-val="Size 10">Size 10</button>
+                                        <button type="button" class="her-quick-chip" data-val="Size 11">Size 11</button>
+                                        <button type="button" class="her-quick-chip" data-val="Size 12">Size 12</button>
+                                        <button type="button" class="her-quick-chip" data-val="Size 14">Size 14</button>
+                                    </div>
+                                </div>
+
+                                <!-- Cột 2: Chi tiết theo từng ngón tay -->
+                                <div class="her-ring-detail-col">
+                                    <div class="her-ring-col-label">
+                                        <i data-lucide="gem"></i> <span>Chi tiết theo từng ngón:</span>
+                                    </div>
+                                    <div class="her-ring-list" id="her-ring-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1.2 Số đo cơ thể -->
+                    <div class="her-section-heading her-mt-heading">
+                        <span class="her-section-icon">📐</span>
+                        <h3 class="her-section-title">Số đo cơ thể</h3>
+                    </div>
+
+                    <!-- Dynamic Body Ratio & BMI Box -->
+                    <div class="her-bmi-summary-box" id="her-bmi-summary-box" style="display:none;">
+                        <div class="her-bmi-icon"><i data-lucide="sparkles"></i></div>
+                        <div class="her-bmi-content">
+                            <span class="her-bmi-title" id="her-bmi-title">Đánh giá vóc dáng</span>
+                            <span class="her-bmi-desc" id="her-bmi-desc">Nhập chiều cao và cân nặng để xem tỉ lệ</span>
+                        </div>
+                    </div>
+
+                    <div class="her-tiles-grid">
+                        <!-- Chiều cao -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">✏️</span>
+                                <span class="her-tile-name">Chiều cao</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-mint her-flex-capsule">
+                                    <input type="number" step="0.5" class="her-capsule-input" id="her-body-height" placeholder="Ví dụ: 162">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+
+                        <!-- Cân nặng -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">⚖️</span>
+                                <span class="her-tile-name">Cân nặng</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-pink her-flex-capsule">
+                                    <input type="number" step="0.5" class="her-capsule-input" id="her-body-weight" placeholder="Ví dụ: 48">
+                                </div>
+                                <span class="her-measure-unit">kg</span>
+                            </div>
+                        </div>
+
+                        <!-- Vòng ngực -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">👗</span>
+                                <span class="her-tile-name">Vòng ngực</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-mint her-flex-capsule">
+                                    <input type="number" class="her-capsule-input" id="her-body-bust" placeholder="Ví dụ: 84">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+
+                        <!-- Vòng eo -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">🎀</span>
+                                <span class="her-tile-name">Vòng eo</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-pink her-flex-capsule">
+                                    <input type="number" class="her-capsule-input" id="her-body-waist" placeholder="Ví dụ: 60">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+
+                        <!-- Vòng mông -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">🍑</span>
+                                <span class="her-tile-name">Vòng mông</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-pink her-flex-capsule">
+                                    <input type="number" class="her-capsule-input" id="her-body-hips" placeholder="Ví dụ: 90">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+
+                        <!-- Vai -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">📐</span>
+                                <span class="her-tile-name">Vai</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-mint her-flex-capsule">
+                                    <input type="number" class="her-capsule-input" id="her-body-shoulder" placeholder="Ví dụ: 37">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+
+                        <!-- Bắp tay -->
+                        <div class="her-tile-card her-tile-card-wide">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">💪</span>
+                                <span class="her-tile-name">Bắp tay</span>
+                            </div>
+                            <div class="her-measure-row">
+                                <div class="her-capsule-box her-capsule-mint her-flex-capsule">
+                                    <input type="number" class="her-capsule-input" id="her-body-bicep" placeholder="Ví dụ: 24">
+                                </div>
+                                <span class="her-measure-unit">cm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1.3 Sở thích & Phong cách cá nhân -->
+                    <div class="her-section-heading her-mt-heading">
+                        <span class="her-section-icon">💄</span>
+                        <h3 class="her-section-title">Sở thích &amp; Gu của cô ấy</h3>
+                    </div>
+
+                    <div class="her-tiles-grid">
+                        <!-- Màu sắc yêu thích -->
+                        <div class="her-tile-card her-tile-card-wide">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">🎨</span>
+                                <span class="her-tile-name">Màu sắc yêu thích</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-pink">
+                                <input type="text" class="her-capsule-input" id="her-fav-colors" placeholder="Ví dụ: Hồng pastel, Be, Trắng kem, Xanh bơ...">
+                            </div>
+                            <div class="her-quick-suggesters" data-target="her-fav-colors">
+                                <button type="button" class="her-quick-chip" data-val="Hồng pastel">🌸 Hồng</button>
+                                <button type="button" class="her-quick-chip" data-val="Trắng kem">🤍 Trắng</button>
+                                <button type="button" class="her-quick-chip" data-val="Xanh bơ">🥑 Xanh bơ</button>
+                                <button type="button" class="her-quick-chip" data-val="Màu Be">🤎 Be</button>
+                                <button type="button" class="her-quick-chip" data-val="Đen basic">🖤 Đen</button>
+                            </div>
+                        </div>
+
+                        <!-- Mùi hương / Nước hoa -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">🌸</span>
+                                <span class="her-tile-name">Mùi hương</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-mint">
+                                <input type="text" class="her-capsule-input" id="her-fav-scent" placeholder="Ví dụ: Vani, Hoa hồng...">
+                            </div>
+                        </div>
+
+                        <!-- Loại da / Mỹ phẩm -->
+                        <div class="her-tile-card">
+                            <div class="her-tile-top">
+                                <span class="her-tile-emoji">✨</span>
+                                <span class="her-tile-name">Loại da / Tone</span>
+                            </div>
+                            <div class="her-capsule-box her-capsule-pink">
+                                <input type="text" class="her-capsule-input" id="her-skin-type" placeholder="Ví dụ: Da khô, Da dầu, Tone ấm...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút lưu thông tin -->
+                    <div class="her-save-row">
+                        <button type="button" class="her-btn-save-info" id="btn-save-her-info">
+                            <i data-lucide="check"></i> <span>Lưu thông tin</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- 2. TAB ĐỒ ĂN (PHẢI MUA & KHÔNG NÊN MUA) -->
+                <div class="her-tab-panel" id="her-tab-content-food" role="tabpanel">
+                    
+                    <!-- Segmented Control Phải mua / Không mua -->
+                    <div class="her-segmented-control">
+                        <button type="button" class="her-segment-btn active" id="btn-food-subtab-must" data-subtab="must_buy">
+                            <span class="her-segment-check">✅</span>
+                            <span class="her-segment-text">Phải mua</span>
+                        </button>
+                        <button type="button" class="her-segment-btn" id="btn-food-subtab-avoid" data-subtab="should_not_buy">
+                            <span class="her-segment-cross">❌</span>
+                            <span class="her-segment-text">Không mua</span>
+                        </button>
+                    </div>
+
+                    <!-- Action Bar Row (Thêm món + Quay ngẫu nhiên) -->
+                    <div class="her-food-action-row">
+                        <button type="button" class="her-action-bar-btn her-action-mint" id="btn-add-her-food">
+                            <svg class="her-plus-circle-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                            </svg>
+                            <span id="her-add-food-btn-text">Thêm món nên mua</span>
+                        </button>
+                        <button type="button" class="her-random-food-btn" id="btn-random-her-food" title="Hôm nay mua gì cho cô ấy? Gợi ý ngẫu nhiên!">
+                            <i data-lucide="dices"></i> <span>Hôm nay ăn gì?</span>
+                        </button>
+                    </div>
+
+                    <!-- Search & Filter bar -->
+                    <div class="her-filter-wrapper">
+                        <div class="her-search-box">
+                            <i data-lucide="search" class="her-search-icon"></i>
+                            <input type="text" class="her-search-input" id="her-food-search" placeholder="Tìm kiếm món ăn, thức uống, quán quen...">
+                            <button type="button" class="her-search-clear" id="btn-clear-food-search" style="display:none;"><i data-lucide="x"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Food Items List -->
+                    <div class="her-items-list" id="her-food-list"></div>
+
+                </div>
+
+                <!-- 3. TAB GHI CHÚ -->
+                <div class="her-tab-panel" id="her-tab-content-notes" role="tabpanel">
+                    
+                    <!-- Flat Pill Action Button -->
+                    <button type="button" class="her-action-bar-btn her-action-coral" id="btn-add-her-note">
+                        <svg class="her-plus-circle-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                        </svg>
+                        <span>Thêm ghi chú mới</span>
+                    </button>
+
+                    <!-- Search & Filter bar -->
+                    <div class="her-filter-wrapper">
+                        <div class="her-search-box">
+                            <i data-lucide="search" class="her-search-icon"></i>
+                            <input type="text" class="her-search-input" id="her-notes-search" placeholder="Tìm kiếm trong ghi chú...">
+                            <button type="button" class="her-search-clear" id="btn-clear-notes-search" style="display:none;"><i data-lucide="x"></i></button>
+                        </div>
+                        <div class="her-filter-chips" id="her-notes-filter-chips">
+                            <button type="button" class="her-filter-chip active" data-cat="all">Tất cả</button>
+                            <button type="button" class="her-filter-chip" data-cat="Sở thích">🎀 Sở thích</button>
+                            <button type="button" class="her-filter-chip" data-cat="Thói quen">☕ Thói quen</button>
+                            <button type="button" class="her-filter-chip" data-cat="Bí kíp">💡 Bí kíp</button>
+                            <button type="button" class="her-filter-chip" data-cat="Dặn dò">📌 Dặn dò</button>
+                        </div>
+                    </div>
+
+                    <div class="her-items-list" id="her-notes-list"></div>
+
+                </div>
+
+                <!-- 4. TAB KỶ NIỆM (KỶ NIỆM, WISHLIST & MEMORY) -->
+                <div class="her-tab-panel" id="her-tab-content-dates" role="tabpanel">
+                    
+                    <!-- Segmented Control Kỷ niệm / Wishlist / Memory -->
+                    <div class="her-segmented-control">
+                        <button type="button" class="her-segment-btn active" id="btn-dates-subtab-anniversary" data-subtab="anniversary">
+                            <span class="her-segment-icon">📅</span>
+                            <span class="her-segment-text">Kỷ niệm</span>
+                        </button>
+                        <button type="button" class="her-segment-btn" id="btn-dates-subtab-wishlist" data-subtab="wishlist">
+                            <span class="her-segment-icon">🎁</span>
+                            <span class="her-segment-text">Wishlist</span>
+                        </button>
+                        <button type="button" class="her-segment-btn" id="btn-dates-subtab-memory" data-subtab="memory">
+                            <span class="her-segment-icon">📸</span>
+                            <span class="her-segment-text">Memory</span>
+                        </button>
+                    </div>
+
+                    <!-- Countdown Hero Banner cho Kỷ niệm gần nhất -->
+                    <div class="her-anniversary-hero-card" id="her-anniversary-hero-card" style="display:none;">
+                        <div class="her-anni-icon-wrap"><i data-lucide="calendar-heart"></i></div>
+                        <div class="her-anni-body">
+                            <span class="her-anni-eyebrow">Dịp kỷ niệm sắp tới</span>
+                            <h4 class="her-anni-title" id="her-anni-hero-title">Sinh nhật cô ấy</h4>
+                            <span class="her-anni-badge" id="her-anni-hero-badge">Còn 12 ngày nữa</span>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Summary Box (Khi ở subtab Wishlist) -->
+                    <div class="her-wishlist-summary-card" id="her-wishlist-summary-card" style="display:none;">
+                        <div class="her-wish-summary-left">
+                            <span class="her-wish-summary-label">Món quà đang mong muốn</span>
+                            <strong class="her-wish-summary-count" id="her-wish-count-text">0 món</strong>
+                        </div>
+                        <div class="her-wish-filter-tabs">
+                            <button type="button" class="her-wish-filter-btn active" data-wish-filter="all">Tất cả</button>
+                            <button type="button" class="her-wish-filter-btn" data-wish-filter="pending">Chưa tặng 🎁</button>
+                            <button type="button" class="her-wish-filter-btn" data-wish-filter="gifted">Đã tặng ✨</button>
+                        </div>
+                    </div>
+
+                    <!-- Memory Summary Box (Khi ở subtab Memory) -->
+                    <div class="her-memory-summary-card" id="her-memory-summary-card" style="display:none;">
+                        <div class="her-mem-summary-left">
+                            <span class="her-mem-summary-eyebrow">DẤU MỐC YÊU THƯƠNG 💕</span>
+                            <h4 class="her-mem-summary-title">Kỷ niệm đáng nhớ của hai đứa</h4>
+                        </div>
+                        <div class="her-mem-summary-badge" id="her-mem-count-badge">0 kỷ niệm</div>
+                    </div>
+
+                    <!-- Dynamic Flat Pill Action Button -->
+                    <button type="button" class="her-action-bar-btn her-action-coral" id="btn-add-her-date-wish">
+                        <svg class="her-plus-circle-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                        </svg>
+                        <span id="her-add-date-wish-btn-text">Thêm ngày kỷ niệm</span>
+                    </button>
+
+                    <div class="her-items-list" id="her-dates-list"></div>
+
+                </div>
+
+                <!-- 5. TAB TÂM TRẠNG (NHẬT KÝ & SOS DỖ DÀNH) -->
+                <div class="her-tab-panel" id="her-tab-content-mood" role="tabpanel">
+                    
+                    <!-- SOS Dỗ Dành Drawer Toggle -->
+                    <div class="her-sos-card" id="her-sos-card">
+                        <div class="her-sos-header" id="btn-toggle-her-sos">
+                            <div class="her-sos-header-left">
+                                <span class="her-sos-pulse-dot"></span>
+                                <span class="her-sos-title">🌸 Bí kíp cấp cứu: Khi cô ấy giận / đến ngày "dâu"</span>
+                            </div>
+                            <button type="button" class="her-sos-toggle-btn" aria-label="Mở/đóng cẩm nang cấp cứu">
+                                <i data-lucide="chevron-down" id="her-sos-chevron"></i>
+                            </button>
+                        </div>
+                        <div class="her-sos-body" id="her-sos-body" style="display:none;">
+                            <div class="her-sos-item">
+                                <div class="her-sos-item-title">🌸 Ngày "dâu rụng":</div>
+                                <p class="her-sos-item-text">Pha nước ấm hoặc trà gừng đường nâu. Đặt túi chườm bụng, massage nhẹ vùng lưng dưới. Chuẩn bị socola hoặc đồ ngọt cô ấy thích. Tuyệt đối không cáu gắt, nhường nhịn và chăm sóc tối đa!</p>
+                            </div>
+                            <div class="her-sos-item">
+                                <div class="her-sos-item-title">😤 Khi cô ấy giận dỗi:</div>
+                                <p class="her-sos-item-text">Lắng nghe hết câu, không cướp lời giải thích lý lẽ. Ôm cô ấy thật chặt và nói: "Anh xin lỗi vì đã làm em buồn". Mua món ăn cô ấy thích hoặc trà sữa. Đừng bao giờ im lặng bỏ đi!</p>
+                            </div>
+                            <div class="her-sos-item">
+                                <div class="her-sos-item-title">😴 Khi cô ấy mệt mỏi / áp lực:</div>
+                                <p class="her-sos-item-text">Chủ động lấy nước ấm, gội đầu hoặc sấy tóc cho cô ấy. Bật nhạc nhẹ, tắt đèn chói, xoa bóp vai gáy. Không hỏi dồn dập, chỉ cần ở bên cạnh để cô ấy tựa vào.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flat Pill Action Button -->
+                    <button type="button" class="her-action-bar-btn her-action-coral" id="btn-add-her-mood">
+                        <svg class="her-plus-circle-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+                        </svg>
+                        <span>Ghi lại tâm trạng cô ấy</span>
+                    </button>
+
+                    <!-- Filter by Mood Type -->
+                    <div class="her-filter-wrapper">
+                        <div class="her-filter-chips" id="her-mood-filter-chips">
+                            <button type="button" class="her-filter-chip active" data-mood="all">Tất cả</button>
+                            <button type="button" class="her-filter-chip" data-mood="happy">😊 Vui vẻ</button>
+                            <button type="button" class="her-filter-chip" data-mood="love">🥰 Ngọt ngào</button>
+                            <button type="button" class="her-filter-chip" data-mood="period">🌸 Ngày dâu</button>
+                            <button type="button" class="her-filter-chip" data-mood="sad">🥺 Buồn bã</button>
+                            <button type="button" class="her-filter-chip" data-mood="angry">😤 Giận dỗi</button>
+                            <button type="button" class="her-filter-chip" data-mood="tired">😴 Mệt mỏi</button>
+                        </div>
+                    </div>
+
+                    <div class="her-items-list" id="her-mood-list"></div>
+
+                </div>
+
+            </div> <!-- End her-page-scroll -->
+
+            <!-- Toast thông báo nhỏ xinh bên trong Her Vault -->
+            <div class="her-inline-toast" id="her-toast" role="status" aria-live="polite"></div>
+
+        </div>
+    </div> <!-- End #her-modal -->
+
+    <!-- POPUP / SHEET THÊM & SỬA ITEM TRONG KÉT BÍ MẬT -->
+    <div class="modal-overlay support-entry-form-overlay her-entry-modal" id="her-entry-modal" aria-hidden="true">
+        <div class="support-entry-form-sheet her-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="her-entry-title">
+            <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
+            <div class="support-modal-header her-entry-header">
+                <div class="support-modal-title-wrap">
+                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> KÉT BÍ MẬT VỀ CÔ ẤY</span>
+                    <h2 id="her-entry-title">Thêm thông tin</h2>
+                </div>
+                <button type="button" class="modal-close-btn support-modal-close" id="btn-close-her-entry" aria-label="Đóng form" title="Đóng">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="her-entry-form" class="her-entry-form">
+                <div id="her-entry-fields-container" class="her-entry-fields-container">
+                    <!-- Form fields dynamically rendered based on type -->
+                </div>
+                <div class="support-form-actions her-form-actions">
+                    <button type="button" class="support-cancel-btn her-cancel-btn" id="btn-cancel-her-entry">
+                        <i data-lucide="x"></i> <span>Hủy</span>
+                    </button>
+                    <button type="submit" class="support-save-btn her-save-btn">
+                        <i data-lucide="check"></i> <span>Lưu dữ liệu</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- POPUP CHỈNH SỬA HỒ SƠ CÔ ẤY (NICKNAME, AVATAR, SINH NHẬT, NGÀY YÊU) -->
+    <div class="modal-overlay support-entry-form-overlay her-entry-modal" id="her-profile-modal" aria-hidden="true">
+        <div class="support-entry-form-sheet her-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="her-profile-modal-title">
+            <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
+            <div class="support-modal-header her-entry-header">
+                <div class="support-modal-title-wrap">
+                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> HỒ SƠ CÔ ẤY</span>
+                    <h2 id="her-profile-modal-title">Cá nhân hóa Két Bí Mật</h2>
+                </div>
+                <button type="button" class="modal-close-btn support-modal-close" id="btn-close-her-profile" aria-label="Đóng form" title="Đóng">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <form id="her-profile-form" class="her-entry-form">
+                <div class="her-entry-fields-container">
+                    <div class="her-form-group">
+                        <label><i data-lucide="smile" class="her-field-icon"></i> Chọn biểu tượng đại diện</label>
+                        <div class="her-avatar-picker-grid" id="her-avatar-picker-grid">
+                            <button type="button" class="her-avatar-option active" data-avatar="🌸" title="Hoa đào">🌸</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🐰" title="Thỏ con">🐰</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🎀" title="Nơ hồng">🎀</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🐱" title="Mèo con">🐱</button>
+                            <button type="button" class="her-avatar-option" data-avatar="👑" title="Công chúa">👑</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🧸" title="Gấu bông">🧸</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🍓" title="Dâu tây">🍓</button>
+                            <button type="button" class="her-avatar-option" data-avatar="✨" title="Ngôi sao lấp lánh">✨</button>
+                            <button type="button" class="her-avatar-option" data-avatar="💖" title="Trái tim">💖</button>
+                            <button type="button" class="her-avatar-option" data-avatar="🌷" title="Hoa tulip">🌷</button>
+                        </div>
+                    </div>
+                    <div class="her-form-group">
+                        <label for="her-profile-nickname-input"><i data-lucide="heart" class="her-field-icon"></i> Biệt danh / Tên bạn gọi cô ấy <span>*</span></label>
+                        <input type="text" id="her-profile-nickname-input" class="her-form-input" required placeholder="Ví dụ: Bé iu, Em Bé, Công Chúa, Vợ Yêu...">
+                        <div class="her-quick-suggesters" data-target="her-profile-nickname-input">
+                            <button type="button" class="her-quick-chip" data-val="Bé iu">💕 Bé iu</button>
+                            <button type="button" class="her-quick-chip" data-val="Bé Yêu">🌸 Bé Yêu</button>
+                            <button type="button" class="her-quick-chip" data-val="Em Bé">🐰 Em Bé</button>
+                            <button type="button" class="her-quick-chip" data-val="Công Chúa">👑 Công Chúa</button>
+                            <button type="button" class="her-quick-chip" data-val="Vợ Yêu">💍 Vợ Yêu</button>
+                        </div>
+                    </div>
+                    <div class="her-form-group">
+                        <label for="her-profile-bday-input_display"><i data-lucide="cake" class="her-field-icon"></i> Sinh nhật cô ấy (dd/mm/yyyy)</label>
+                        <div class="her-date-picker-wrap">
+                            <input type="text"
+                                   id="her-profile-bday-input_display"
+                                   class="her-form-input her-date-display-input"
+                                   placeholder="dd/mm/yyyy"
+                                   maxlength="10"
+                                   autocomplete="off">
+                            <div class="her-date-picker-trigger" title="Mở lịch chọn ngày">
+                                <i data-lucide="calendar"></i>
+                                <input type="date"
+                                       id="her-profile-bday-input"
+                                       class="her-native-date-input"
+                                       tabindex="-1"
+                                       aria-label="Sinh nhật cô ấy">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="her-form-group">
+                        <label for="her-profile-anni-input_display"><i data-lucide="calendar-heart" class="her-field-icon"></i> Ngày bắt đầu yêu / Kỷ niệm (dd/mm/yyyy)</label>
+                        <div class="her-date-picker-wrap">
+                            <input type="text"
+                                   id="her-profile-anni-input_display"
+                                   class="her-form-input her-date-display-input"
+                                   placeholder="dd/mm/yyyy"
+                                   maxlength="10"
+                                   autocomplete="off">
+                            <div class="her-date-picker-trigger" title="Mở lịch chọn ngày">
+                                <i data-lucide="calendar"></i>
+                                <input type="date"
+                                       id="her-profile-anni-input"
+                                       class="her-native-date-input"
+                                       tabindex="-1"
+                                       aria-label="Ngày bắt đầu yêu / Kỷ niệm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="her-form-group">
+                        <label for="her-profile-quote-input"><i data-lucide="message-square-heart" class="her-field-icon"></i> Lời nhắn gửi / Châm ngôn tình yêu</label>
+                        <textarea id="her-profile-quote-input" class="her-form-textarea" rows="2" placeholder="Ví dụ: Người con gái quan trọng nhất của anh ✨"></textarea>
+                    </div>
+                </div>
+                <div class="support-form-actions her-form-actions">
+                    <button type="button" class="support-cancel-btn her-cancel-btn" id="btn-cancel-her-profile">
+                        <i data-lucide="x"></i> <span>Hủy</span>
+                    </button>
+                    <button type="submit" class="support-save-btn her-save-btn">
+                        <i data-lucide="check"></i> <span>Lưu hồ sơ</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- POPUP RANDOM FOOD PICKER: HÔM NAY ĂN GÌ? 🎲 -->
+    <div class="modal-overlay support-entry-form-overlay her-entry-modal" id="her-random-food-modal" aria-hidden="true">
+        <div class="support-entry-form-sheet her-entry-sheet her-random-food-sheet" role="dialog" aria-modal="true">
+            <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
+            <div class="support-modal-header her-entry-header">
+                <div class="support-modal-title-wrap">
+                    <span class="support-modal-eyebrow her-form-eyebrow">HÔM NAY MUA GÌ CHO CÔ ẤY? 🎲</span>
+                    <h2>Gợi ý ngẫu nhiên</h2>
+                </div>
+                <button type="button" class="modal-close-btn support-modal-close" id="btn-close-her-random-food" aria-label="Đóng" title="Đóng">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="her-random-food-content">
+                <div class="her-random-card-display" id="her-random-card-display">
+                    <div class="her-random-icon-ring">🍽️</div>
+                    <h3 class="her-random-dish-name" id="her-random-dish-name">Đang chọn món...</h3>
+                    <p class="her-random-dish-note" id="her-random-dish-note">Bấm nút bên dưới để quay ngẫu nhiên từ danh sách món cô ấy thích!</p>
+                    <div class="her-random-dish-place" id="her-random-dish-place" style="display:none;"></div>
+                </div>
+                <div class="her-random-actions">
+                    <button type="button" class="her-btn-spin-dish" id="btn-spin-dish">
+                        <i data-lucide="sparkles"></i> <span>Quay món khác 🎲</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script type="module" src="../js/boot.js"></script>
+</body></html>

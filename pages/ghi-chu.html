@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Ghi Chú Cá Nhân</title>
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/ghi-chu.css">
+    
+<style>html[data-loading] body{visibility:hidden}</style>
+</head>
+<body data-feature="ghi-chu">
+    <div class="notes-container">
+        <!-- Top Header Bar -->
+        <template data-header class="notes-header-bar">
+            <div class="notes-header-left">
+                <button type="button" class="notes-header-back-btn" onclick="goBackToHome()" title="Quay lại Trang chủ" aria-label="Quay lại">
+                    <i data-lucide="arrow-left"></i>
+                </button>
+                <div class="notes-brand-badge">
+                    <i data-lucide="notebook-pen"></i>
+                </div>
+                <div class="notes-header-title-wrap">
+                    <span class="notes-header-eyebrow">SỔ TAY &amp; LƯU TRỮ</span>
+                    <h1 class="notes-header-heading">Ghi chú cá nhân</h1>
+                </div>
+            </div>
+            <button type="button" class="notes-header-add-btn" id="btn-header-add-note" title="Thêm ghi chú mới" aria-label="Thêm mới">
+                <i data-lucide="plus"></i>
+                <span class="notes-btn-text">Thêm ghi chú</span>
+            </button>
+        </template>
+
+        <!-- Controls & Search -->
+        <div class="notes-search-section">
+            <div class="notes-search-box">
+                <i data-lucide="search" class="notes-search-icon"></i>
+                <input type="text" id="notes-search-input" placeholder="Tìm kiếm ghi chú theo tên, nội dung..." autocomplete="off">
+                <button type="button" class="notes-search-clear-btn" id="notes-clear-search-btn" title="Xóa tìm kiếm" aria-label="Xóa">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="notes-stats-row">
+                <div class="notes-stats-label">
+                    <i data-lucide="sticky-note"></i>
+                    <span>Danh sách ghi chú</span>
+                </div>
+                <span class="notes-counter-badge" id="notes-counter-badge">0 ghi chú</span>
+            </div>
+        </div>
+
+        <!-- Danh sách thẻ ghi chú -->
+        <div class="notes-cards-container" id="notes-cards-container">
+            <!-- Dynamic Note Cards -->
+        </div>
+    </div>
+
+    <!-- POPUP MODAL THÊM / CHỈNH SỬA GHI CHÚ -->
+    <div class="notes-modal-overlay" id="notes-modal-overlay">
+        <div class="notes-modal-sheet" id="notes-modal-sheet">
+            <div class="notes-drag-handle"></div>
+            <div class="notes-modal-header">
+                <div class="notes-modal-heading-wrap">
+                    <span class="notes-modal-kicker">GHI CHÚ</span>
+                    <h3 id="notes-form-heading">Ghi chú mới</h3>
+                </div>
+                <div class="notes-modal-header-actions">
+                    <button type="button" class="notes-pin-btn" id="btn-toggle-note-pin" title="Ghim ghi chú" aria-label="Ghim ghi chú" aria-pressed="false">
+                        <i data-lucide="pin"></i>
+                    </button>
+                    <button type="button" class="notes-modal-close-btn" id="btn-close-note-modal" title="Đóng" aria-label="Đóng">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="notes-form" class="notes-form">
+                <input type="hidden" id="note-id" value="">
+                <div class="notes-keep-editor">
+                    <input type="text" id="note-title-input" placeholder="Tiêu đề" required autocomplete="off" aria-label="Tiêu đề ghi chú">
+                    <textarea id="note-content-input" placeholder="Ghi chú..." rows="7" aria-label="Nội dung ghi chú"></textarea>
+                </div>
+
+                <div class="notes-form-actions">
+                    <span class="notes-save-status" id="notes-save-status"><i data-lucide="cloud"></i> Lưu trên thiết bị</span>
+                    <span class="notes-char-count" id="notes-char-count">0 ký tự</span>
+                    <button type="button" class="notes-modal-cancel" id="btn-cancel-note-form">Hủy</button>
+                    <button type="submit" class="notes-modal-save" id="btn-save-note"><span id="btn-save-note-text">Lưu</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+<script type="module" src="../js/boot.js"></script>
+</body>
+</html>
