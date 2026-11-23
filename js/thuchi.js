@@ -118,14 +118,6 @@ function scaleAmountFont(inputEl) {
 }
 
 // KHỞI CHẠY ỨNG DỤNG
-onReady(() => {
-    loadData();
-    initUI();
-    registerEventListeners();
-    switchTab('dashboard'); // Mặc định hiển thị tab dashboard
-    updateUI();
-});
-
 // Hiển thị bản đồng bộ gần nhất ngay, Supabase cập nhật dữ liệu mới ở nền.
 function loadData() {
     registerSharedExpenseListener();
@@ -3901,13 +3893,16 @@ window.closeAdjustAmountModal = closeAdjustAmountModal;
 window.quickAdjustAmount = quickAdjustAmount;
 window.applyCustomAdjust = applyCustomAdjust;
 
-// Script chạy cuối HTML, trước các thư viện CDN: số tiền có ngay từ bản đã lưu.
-restoreExpensePreview();
-calculateAndRenderSummaries();
-
-if(location.hash==="#add")openAddModal();else if(location.hash==="#analysis")openSpendingAnalysisPage();
-
 // Inline controls on this page and dynamically rendered rows.
 Object.assign(window,{closeCalendarModal,deleteSaverItem,openAddModal,openAdjustAmountModal,openEditSaverModal,openSpendingAnalysisPage,switchTab});
 
-export default function start() {}
+export default async function start(user) {
+    state.currentUserId = user;
+    loadData();
+    initUI();
+    registerEventListeners();
+    switchTab('dashboard');
+    updateUI();
+    if (location.hash === '#add') openAddModal();
+    else if (location.hash === '#analysis') openSpendingAnalysisPage();
+}
