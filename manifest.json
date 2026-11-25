@@ -6,9 +6,9 @@
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
-  "orientation": "any",
-  "background_color": "#F6F7F9",
-  "theme_color": "#0F172A",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
   "categories": ["finance", "lifestyle", "productivity"],
   "icons": [
     {
@@ -38,24 +38,31 @@
   ],
   "shortcuts": [
     {
-      "name": "Thêm khoản chi",
-      "short_name": "Thêm chi",
-      "description": "Ghi nhận nhanh khoản chi tiêu mới",
-      "url": "./index.html#add",
+      "name": "Ghi nhận thu chi",
+      "short_name": "Thu chi",
+      "description": "Mở sổ thu chi hàng ngày",
+      "url": "./pages/thuchi.html",
       "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Phân tích tài chính",
-      "short_name": "Phân tích",
-      "description": "Xem biểu đồ và toàn cảnh chi tiêu",
-      "url": "./index.html#analysis",
+      "name": "Quản lý tiết kiệm",
+      "short_name": "Tiết kiệm",
+      "description": "Theo dõi mục tiêu và số dư tiết kiệm",
+      "url": "./pages/tietkiem.html",
       "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Trang chủ chức năng",
-      "short_name": "Chức năng",
-      "description": "Mở trung tâm quản lý mọi thứ",
-      "url": "./index.html#hub",
+      "name": "Công việc hàng ngày",
+      "short_name": "Công việc",
+      "description": "Xem danh sách việc cần làm",
+      "url": "./pages/cong-viec.html",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ghi chú cá nhân",
+      "short_name": "Ghi chú",
+      "description": "Mở nhanh sổ tay và ghi chú",
+      "url": "./pages/ghi-chu.html",
       "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
     }
   ]

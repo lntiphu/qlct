@@ -2,11 +2,11 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0F172A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
     <link rel="icon" type="image/png" href="assets/icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" sizes="180x180">
@@ -21,11 +21,12 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/shell.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/home-modern.css?v=20261124_01">
 </head>
 <body>
     <div class="app-container">
@@ -76,8 +77,8 @@
                     </button>
 
                     <button type="button" class="welcome-card welcome-card-her" id="welcome-opt-her" data-page="co-ay">
-                        <span class="welcome-card-badge-pink">Két bí mật</span>
-                        <div class="welcome-card-icon-wrap icon-her" title="Cô ấy - Két bí mật">
+                        <span class="welcome-card-badge-pink">Bé iu</span>
+                        <div class="welcome-card-icon-wrap icon-her" title="Cô ấy - Bé iu">
                             <svg class="icon-her-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
                                     <linearGradient id="herShieldGradWelcome" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
@@ -174,7 +175,16 @@
                             <i data-lucide="book-open"></i>
                         </div>
                         <div class="welcome-card-body">
-                            <span class="welcome-card-name">Sổ tay</span>
+                            <span class="welcome-card-name">Sổ tay sức khỏe</span>
+                        </div>
+                    </button>
+
+                    <button type="button" class="welcome-card welcome-card-baotri" id="welcome-opt-baotri" data-page="bao-tri">
+                        <div class="welcome-card-icon-wrap icon-baotri">
+                            <i data-lucide="wrench"></i>
+                        </div>
+                        <div class="welcome-card-body">
+                            <span class="welcome-card-name">Bảo trì</span>
                         </div>
                     </button>
                 </div>
@@ -188,7 +198,12 @@
             <aside class="login-showcase" aria-label="Giới thiệu Trang chủ">
                 <div class="showcase-glow showcase-glow-one"></div>
                 <div class="showcase-glow showcase-glow-two"></div>
+                <div class="showcase-glow showcase-glow-three"></div>
                 <div class="showcase-copy">
+                    <div class="showcase-badge">
+                        <span class="showcase-badge-dot"></span>
+                        <span>QUẢN LÝ TOÀN DIỆN</span>
+                    </div>
                     <h1>Chủ động với<br><em>mọi thứ.</em></h1>
                     <p>Theo dõi, sắp xếp và hiểu rõ thói quen trong một không gian thật gọn gàng.</p>
                 </div>
@@ -240,6 +255,6 @@
 
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type="module" src="js/home.js"></script>
+    <script type="module" src="js/home.js?v=20261124_01"></script>
 </body>
 </html>
