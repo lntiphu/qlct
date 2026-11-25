@@ -1211,15 +1211,20 @@ header.maintenance-header-row {
 
 /* ── 10. RESPONSIVE MOBILE (< 640px) ── */
 @media (max-width: 640px) {
+    body[data-feature="bao-tri"] .maintenance-container {
+        padding: max(12px, env(safe-area-inset-top, 0px)) 12px max(24px, env(safe-area-inset-bottom, 0px)) !important;
+        gap: 12px !important;
+    }
+
     .maintenance-header-row,
     header.maintenance-header-row {
-        padding: 12px 14px !important;
+        padding: 11px 14px !important;
         border-radius: 16px !important;
         gap: 10px !important;
     }
 
     .maintenance-title-info h2 {
-        font-size: 19px !important;
+        font-size: 18.5px !important;
     }
 
     .btn-add-device {
@@ -1245,9 +1250,21 @@ header.maintenance-header-row {
         height: 18px !important;
     }
 
+    /* 3 thẻ tổng quan gọn 2 hàng: Tổng thiết bị + Lượt sửa chữa ở hàng 1, Tổng chi phí đủ rộng ở hàng 2 */
     .maintenance-summary-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 8px !important;
+    }
+
+    .maintenance-summary-grid .maint-sum-card {
+        padding: 11px 12px !important;
+        border-radius: 15px !important;
+        gap: 10px !important;
+    }
+
+    .maintenance-summary-grid .maint-sum-card:nth-child(2) {
+        order: 3 !important;
+        grid-column: 1 / -1 !important;
     }
 
     .form-row-2col {
@@ -1255,24 +1272,63 @@ header.maintenance-header-row {
         gap: 0 !important;
     }
 
+    /* Header thẻ thiết bị: không dùng margin-top âm gây đè lên mã/ngày bắt đầu dùng */
     .device-card-header {
         flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 14px 14px 12px !important;
         gap: 10px !important;
     }
 
-    .device-header-actions {
-        align-self: flex-end !important;
-        margin-top: -34px !important;
+    .device-header-left {
+        width: 100% !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
     }
 
+    .device-icon-bubble {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        border-radius: 12px !important;
+    }
+
+    .device-icon-bubble svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .device-name {
+        font-size: 16px !important;
+    }
+
+    .device-header-actions {
+        width: 100% !important;
+        justify-content: flex-end !important;
+        margin-top: 0 !important;
+        padding-top: 8px !important;
+        border-top: 1px dashed rgba(15, 23, 42, 0.08) !important;
+    }
+
+    .device-card-body {
+        padding: 12px 14px !important;
+    }
+
+    /* Thống kê trong thẻ thiết bị: Tổng chi đủ rộng hàng trên, Số lượt + Gần nhất hàng dưới */
     .device-stats-bar {
-        grid-template-columns: 1fr !important;
-        gap: 6px !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px 12px !important;
+        padding: 11px 12px !important;
+    }
+
+    .device-stats-bar > :first-child {
+        grid-column: 1 / -1 !important;
     }
 
     .device-card-bottom {
         flex-direction: column !important;
         gap: 8px !important;
+        padding: 0 14px 14px !important;
     }
 
     .btn-add-log,

@@ -89,10 +89,20 @@ body[data-feature="cong-viec"] main.view-panel {
 body[data-feature="cong-viec"] #timeline-container,
 body[data-feature="cong-viec"] .timeline-group,
 body[data-feature="cong-viec"] .timeline-section-header,
+body[data-feature="cong-viec"] #view-history,
+body[data-feature="cong-viec"] #view-history .history-list,
 body[data-feature="cong-viec"] .history-list {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
+}
+
+body[data-feature="cong-viec"] #view-history .history-list,
+body[data-feature="cong-viec"] .history-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
 }
 
 /* ── 2. HEADER CÔNG VIỆC: TINH GIẢN, CÂN BẰNG TỶ LỆ VỚI NỘI DUNG DƯỚI ── */
@@ -626,5 +636,36 @@ header.todo-header-wrap {
         font-size: 12.5px !important;
         border-radius: 10px !important;
         gap: 5px !important;
+    }
+
+    /* Tab Hoàn thành (.history-card): không tràn mép phải trên mobile */
+    .history-card {
+        padding: 12px 12px !important;
+        border-radius: 16px !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .history-card-main {
+        padding: 0 !important;
+        gap: 8px !important;
+        min-width: 0 !important;
+    }
+
+    .history-card-title-row {
+        align-items: flex-start !important;
+        gap: 6px !important;
+    }
+
+    .history-card-title {
+        font-size: 14px !important;
+        line-height: 1.35 !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .history-status-badge {
+        font-size: 10px !important;
+        padding: 2px 7px !important;
     }
 }
