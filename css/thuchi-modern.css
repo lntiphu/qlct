@@ -830,12 +830,9 @@ body[data-feature="thuchi"] {
     box-shadow: 0 2px 5px rgba(225, 29, 72, 0.1) !important;
 }
 
-/* Riêng trong ô Hôm nay (.today): Badge nổi bật trên nền be ấm */
+/* Riêng trong ô Hôm nay (.today): giữ nguyên màu phân cấp xanh/vàng/đỏ, chỉ thêm đổ bóng nhẹ */
 .calendar-day-cell.today .calendar-day-amount {
-    background: #FFFFFF !important;
-    color: #C2410C !important;
-    border: 1.5px solid rgba(194, 65, 12, 0.35) !important;
-    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.15) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
 }
 
 /* ====================================================================
