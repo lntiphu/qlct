@@ -2024,7 +2024,7 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     }
 
     .header-main-date {
-        font-size: 16px !important;
+        font-size: clamp(14px, 4vw, 16px) !important;
     }
 
     .header-sub-tag {
@@ -2071,29 +2071,37 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
 
     .summary-cards {
         gap: 8px !important;
-        margin-bottom: 14px !important;
+        margin-bottom: 12px !important;
     }
 
     .summary-cards .card {
-        padding: 12px 8px 10px !important;
-        min-height: 108px !important;
+        padding: 12px 10px !important;
+        min-height: 92px !important;
+        height: auto !important;
+        gap: 12px !important;
         border-radius: 16px !important;
     }
 
-    .card-icon-pill {
-        width: 26px !important;
-        height: 26px !important;
-        border-radius: 8px !important;
+    .card-top-row {
+        gap: 6px !important;
     }
 
-    .card-icon-pill i {
-        width: 14px !important;
-        height: 14px !important;
+    .card-icon-pill {
+        width: 24px !important;
+        height: 24px !important;
+        border-radius: 7px !important;
+    }
+
+    .card-icon-pill i,
+    .card-icon-pill svg {
+        width: 13px !important;
+        height: 13px !important;
     }
 
     .card-label {
-        font-size: 11px !important;
-        margin-left: 4px !important;
+        font-size: 11.5px !important;
+        margin-left: 0 !important;
+        white-space: nowrap !important;
     }
 
     .card-badge-live,
@@ -2102,7 +2110,7 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     }
 
     .card-amount {
-        font-size: 20px !important;
+        font-size: clamp(16px, 4.8vw, 20px) !important;
         font-weight: 900 !important;
         margin: 0 !important;
     }
@@ -2146,8 +2154,42 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     }
 
     .spending-calendar-card {
-        padding: 16px 14px 20px !important;
+        padding: 14px 10px 16px !important;
         border-radius: 18px !important;
+    }
+
+    .dashboard-calendar-header {
+        margin-bottom: 12px !important;
+        padding: 0 4px !important;
+    }
+
+    .calendar-month-label {
+        font-size: 20px !important;
+    }
+
+    .calendar-nav-btn {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 10px !important;
+    }
+
+    .dashboard-calendar-summary {
+        padding: 10px 14px !important;
+        border-radius: 14px !important;
+        margin-bottom: 14px !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .dashboard-calendar-summary span {
+        font-size: 12.5px !important;
+        white-space: nowrap !important;
+    }
+
+    .dashboard-calendar-summary strong {
+        font-size: clamp(15px, 4.4vw, 18px) !important;
+        white-space: nowrap !important;
+        margin-left: auto !important;
     }
 
     .calendar-weekdays,
@@ -2157,20 +2199,23 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     .dashboard-calendar-grid,
     .spending-calendar-card .dashboard-calendar-grid,
     #calendar-expense-modal .calendar-days-grid {
-        gap: 5px !important;
+        gap: 4px !important;
     }
 
     .calendar-weekdays > div {
-        font-size: 11.5px !important;
+        font-size: 11px !important;
     }
 
     .spending-calendar-card .dashboard-calendar-grid .calendar-day-cell,
     .calendar-days-grid .calendar-day-cell,
-    .calendar-day-cell {
-        min-height: 60px !important;
-        height: 60px !important;
-        border-radius: 12px !important;
-        padding: 5px 2px 5px !important;
+    .calendar-day-cell,
+    .spending-calendar-card .dashboard-calendar-grid .calendar-day-cell.empty,
+    .calendar-days-grid .calendar-day-cell.empty,
+    .calendar-day-cell.empty {
+        min-height: 54px !important;
+        height: 54px !important;
+        border-radius: 11px !important;
+        padding: 5px 2px !important;
         justify-content: space-between !important;
     }
 
@@ -2186,8 +2231,11 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     .dashboard-calendar-grid .calendar-day-amount,
     .calendar-days-grid .calendar-day-amount,
     .calendar-day-amount {
-        font-size: 11px !important;
-        padding: 2.5px 6px !important;
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+        min-width: 0 !important;
+        max-width: calc(100% - 4px) !important;
+        letter-spacing: -0.03em !important;
         border-radius: 999px !important;
         font-weight: 900 !important;
     }

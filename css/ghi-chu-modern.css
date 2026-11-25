@@ -453,14 +453,19 @@ header.notes-header-bar {
 
 /* ── 5. MOBILE RESPONSIVENESS ── */
 @media (max-width: 640px) {
+    body[data-feature="ghi-chu"] .notes-container {
+        padding: max(10px, env(safe-area-inset-top, 0px)) 12px max(24px, env(safe-area-inset-bottom, 0px)) !important;
+    }
+
     .notes-header-bar {
-        padding: 12px 14px !important;
+        padding: 11px 14px !important;
         border-radius: 16px !important;
         gap: 10px !important;
+        margin-bottom: 12px !important;
     }
 
     .notes-header-heading {
-        font-size: 19px !important;
+        font-size: 18.5px !important;
     }
 
     .notes-header-add-btn {
@@ -482,6 +487,36 @@ header.notes-header-bar {
     .notes-exit-btn svg {
         width: 18px !important;
         height: 18px !important;
+    }
+
+    .notes-search-box input {
+        font-size: 13px !important;
+    }
+
+    .note-card,
+    .notes-card-item {
+        padding: 11px 12px !important;
+        border-radius: 15px !important;
+    }
+
+    .note-card-header {
+        gap: 8px !important;
+    }
+
+    .note-card-title {
+        font-size: 14.5px !important;
+        line-height: 1.35 !important;
+    }
+
+    .note-card-actions {
+        gap: 5px !important;
+    }
+
+    .note-action-btn {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        border-radius: 10px !important;
     }
 }
 

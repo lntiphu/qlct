@@ -70,8 +70,10 @@ body[data-feature="cong-viec"] .todo-main-container {
     max-width: 860px !important;
     width: 100% !important;
     margin: 0 auto !important;
+    padding-top: max(12px, env(safe-area-inset-top, 0px)) !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 0px)) !important;
     box-sizing: border-box !important;
 }
 
@@ -584,4 +586,45 @@ header.todo-header-wrap {
     border: 1px solid rgba(194, 65, 12, 0.16) !important;
     border-radius: 24px !important;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+}
+
+/* ── 8. MOBILE PWA RESPONSIVENESS (< 640px) ── */
+@media (max-width: 640px) {
+    body[data-feature="cong-viec"] .max-w-md,
+    body[data-feature="cong-viec"] .todo-main-container {
+        padding-top: max(12px, env(safe-area-inset-top, 0px)) !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .todo-header-top {
+        padding: 9px 12px !important;
+        border-radius: 15px !important;
+        gap: 8px !important;
+    }
+
+    .todo-title-wrap h1 {
+        font-size: 17.5px !important;
+        white-space: nowrap !important;
+    }
+
+    .todo-header-actions {
+        gap: 6px !important;
+    }
+
+    .todo-action-icon-btn,
+    .header-close-btn.todo-exit-btn {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        border-radius: 10px !important;
+    }
+
+    .todo-header-add-btn {
+        height: 34px !important;
+        padding: 0 11px !important;
+        font-size: 12.5px !important;
+        border-radius: 10px !important;
+        gap: 5px !important;
+    }
 }
