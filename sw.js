@@ -1,6 +1,6 @@
 // Service Worker for "Làm chủ mọi thứ" PWA
 const PREFIX='qlct-pages:'+self.registration.scope+':';
-const CACHE_NAME=PREFIX+'59';
+const CACHE_NAME=PREFIX+'60';
 const STATIC_ASSETS=["./", "./js/wishlist.js", "./js/boot.js", "./js/config.js", "./js/navigation.js", "./js/ghi-chu.js", "./js/danh-sach.js", "./js/co-ay.js", "./js/thuchi-chart.js", "./js/utils.js", "./js/home.js", "./js/suc-khoe.js", "./js/cong-viec.js", "./js/ho-tro.js", "./js/so-tay.js", "./js/bao-tri.js", "./js/api.js", "./js/tietkiem.js", "./js/trich-dan.js", "./js/thuchi.js", "./pages/cong-viec.html", "./pages/tietkiem.html", "./pages/ho-tro.html", "./pages/so-tay.html", "./pages/co-ay.html", "./pages/wishlist.html", "./pages/suc-khoe.html", "./pages/trich-dan.html", "./pages/ghi-chu.html", "./pages/danh-sach.html", "./pages/thuchi.html", "./pages/bao-tri.html", "./css/thuchi.css", "./css/thuchi-modern.css", "./css/shell.css", "./css/suc-khoe.css", "./css/suc-khoe-modern.css", "./css/cong-viec.css", "./css/cong-viec-modern.css", "./css/tietkiem.css", "./css/tietkiem-modern.css", "./css/global.css", "./css/ghi-chu.css", "./css/ghi-chu-modern.css", "./css/support-pages-modern.css", "./css/so-tay-modern.css", "./css/bao-tri.css", "./css/bao-tri-modern.css", "./css/home.css", "./css/home-modern.css", "./components/page-header.html", "./assets/logo.png", "./assets/icon-192.png", "./assets/pwa-icon-512.png", "./assets/web-avatar.png", "./assets/logo-chu-dong.svg", "./index.html", "./manifest.json", "./apple-touch-icon.png", "./favicon.png"];
 
 // Install: Cache static shell assets
