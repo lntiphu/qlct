@@ -616,7 +616,13 @@ async function handleWishlistEntrySubmit(event) {
         return;
     }
     const title = document.getElementById('wishlist-entry-title')?.value.trim();
-    const isBought = Boolean(document.getElementById('wishlist-entry-bought')?.checked);
+    const editingEntry = state.wishlistEditingEntryId
+        ? state.wishlistEntries.find(item => item.id === state.wishlistEditingEntryId)
+        : null;
+    const boughtCheckbox = document.getElementById('wishlist-entry-bought');
+    const isBought = boughtCheckbox
+        ? Boolean(boughtCheckbox.checked)
+        : (editingEntry ? isWishlistEntryBought(editingEntry) : false);
     const submitButton = document.querySelector('#wishlist-entry-form button[type="submit"]');
     if (!title) return;
     const duplicateWishlist = state.wishlistEntries.some(entry =>

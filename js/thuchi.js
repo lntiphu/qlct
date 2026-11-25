@@ -70,12 +70,77 @@ const clientOwner = window.parent && window.parent !== window ? window.parent : 
 
 
 
-// Sắp xếp chi tiêu: Ngày mới nhất lên đầu, nếu cùng ngày thì ID lớn nhất (mới nhất) lên đầu
+const EXPENSES_ORDER_KEY_PREFIX = 'money_expenses_order_v2_';
+
+function getExpenseOrderStorageKey() {
+    return state.currentUserId ? `${EXPENSES_ORDER_KEY_PREFIX}${state.currentUserId}` : 'money_expenses_order_v2';
+}
+
+function loadExpenseOrderMap() {
+    try {
+        const key = getExpenseOrderStorageKey();
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveExpenseOrderMap(orderMap) {
+    try {
+        const key = getExpenseOrderStorageKey();
+        localStorage.setItem(key, JSON.stringify(orderMap || {}));
+    } catch (e) {
+        console.warn('Không thể lưu thứ tự chi tiêu:', e);
+    }
+}
+
+function getExpenseTimestampMs(exp) {
+    if (!exp) return 0;
+    const match = /^exp-(\d{13})-/.exec(String(exp.id || ''));
+    if (match) return Number(match[1]);
+    if (exp.created_at) {
+        const ms = new Date(exp.created_at).getTime();
+        if (!Number.isNaN(ms)) return ms;
+    }
+    const numId = Number(exp.id);
+    return Number.isFinite(numId) ? numId : 0;
+}
+
+function compareExpensesNewestFirst(a, b) {
+    const dateA = String(a?.date || '').split('T')[0];
+    const dateB = String(b?.date || '').split('T')[0];
+    const dateCompare = dateB.localeCompare(dateA);
+    if (dateCompare !== 0) return dateCompare;
+
+    const timeDiff = getExpenseTimestampMs(b) - getExpenseTimestampMs(a);
+    if (timeDiff !== 0) return timeDiff;
+
+    return String(b?.id || '').localeCompare(String(a?.id || ''));
+}
+
+// Sắp xếp chi tiêu: Ngày mới nhất lên đầu.
+// Trong cùng 1 ngày: ưu tiên giao dịch mới nhất lên trên; nếu có thứ tự kéo thả tùy chỉnh, các giao dịch mới thêm vẫn nằm trên cùng.
 function sortExpenses() {
+    const orderMap = loadExpenseOrderMap();
     state.expenses.sort((a, b) => {
-        const dateCompare = String(b.date || '').localeCompare(String(a.date || ''));
+        const dateA = String(a?.date || '').split('T')[0];
+        const dateB = String(b?.date || '').split('T')[0];
+        const dateCompare = dateB.localeCompare(dateA);
         if (dateCompare !== 0) return dateCompare;
-        return String(b.id || '').localeCompare(String(a.id || ''));
+
+        const dateOrders = orderMap[dateA];
+        if (Array.isArray(dateOrders) && dateOrders.length > 0) {
+            const indexA = dateOrders.indexOf(String(a.id));
+            const indexB = dateOrders.indexOf(String(b.id));
+            if (indexA !== -1 && indexB !== -1) {
+                return indexA - indexB;
+            }
+            if (indexA === -1 && indexB !== -1) return -1;
+            if (indexB === -1 && indexA !== -1) return 1;
+        }
+
+        return compareExpensesNewestFirst(a, b);
     });
 }
 
@@ -681,7 +746,7 @@ function expenseMatchesHistorySearch(expense, rawQuery) {
     return false;
 }
 
-// Định dạng Giờ & Ngày chi tiết: Vd 10:12 AM 22/07/26
+// Định dạng Giờ & Ngày chi tiết (chuẩn 24h): Vd 14:35 24/11/26
 function formatDateTimeVietnamese(exp) {
     if (!exp) return '';
     let d;
@@ -704,18 +769,14 @@ function formatDateTimeVietnamese(exp) {
         return exp.date || '';
     }
 
-    let hours = vn.hours;
+    const hoursStr = vn.hours.toString().padStart(2, '0');
     const minutes = vn.minutes.toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const hoursStr = hours.toString().padStart(2, '0');
 
     const day = vn.day.toString().padStart(2, '0');
     const month = (vn.month + 1).toString().padStart(2, '0');
     const year = vn.year.toString().slice(-2);
 
-    return `${hoursStr}:${minutes} ${ampm} ${day}/${month}/${year}`;
+    return `${hoursStr}:${minutes} ${day}/${month}/${year}`;
 }
 
 // KHỞI TẠO CÁC PHẦN TỬ UI BAN ĐẦU
@@ -1102,6 +1163,9 @@ function registerEventListeners() {
 function switchTab(tabId) {
     state.currentTab = tabId;
     
+    // Đồng bộ class trạng thái trên body để CSS ẩn/hiện Header toàn trang tránh đè giao diện
+    document.body.classList.toggle('tab-history-active', tabId === 'history');
+
     // Cập nhật trạng thái Active trên Navigation
     const navItems = document.querySelectorAll('.app-nav .nav-item[data-tab]');
     navItems.forEach(item => {
@@ -1502,6 +1566,7 @@ function openSpendingAnalysisPage() {
         pageEl.classList.add('active');
         pageEl.setAttribute('aria-hidden', 'false');
     }
+    document.body.classList.add('analysis-active');
     renderDashboardCharts();
     createLucideIcons();
 }
@@ -1513,6 +1578,7 @@ function closeSpendingAnalysisPage() {
         pageEl.classList.remove('active');
         pageEl.setAttribute('aria-hidden', 'true');
     }
+    document.body.classList.remove('analysis-active');
 }
 
 function renderDashboardCalendar() {
@@ -1573,8 +1639,8 @@ function renderDashboardCalendar() {
             showDayExpensesDetail(dateStr);
         };
         cell.innerHTML = `
-            ${amount > 0 ? `<span class="calendar-day-amount ${tierClass}">${formatShortAmount(amount)}</span>` : ''}
             <span class="calendar-day-number">${day}</span>
+            ${amount > 0 ? `<span class="calendar-day-amount ${tierClass}">${formatShortAmount(amount)}</span>` : ''}
         `;
         grid.appendChild(cell);
     }
@@ -1649,17 +1715,23 @@ window.getExpenseTierClass = getExpenseTierClass;
 function showDayExpensesDetail(dayStr) {
     calendarSelectedDay = dayStr;
 
-    // Lọc chi tiêu của ngày được chọn
+    // Lọc chi tiêu của ngày được chọn và sắp xếp mới nhất lên trên
     const dayExpenses = state.expenses.filter(exp => {
         if (!exp || !exp.date) return false;
         let dStr = exp.date;
         if (typeof dStr === 'string' && dStr.includes('T')) dStr = dStr.split('T')[0];
         return dStr === dayStr;
-    });
+    }).sort(compareExpensesNewestFirst);
 
-    // Cập nhật tiêu đề ngày (dạng DD/MM/YY)
+    // Cập nhật tiêu đề ngày (Thứ..., ngày DD/MM/YYYY)
     const parts = dayStr.split('-');
-    const displayDate = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0].slice(-2)}` : dayStr;
+    let displayDate = dayStr;
+    if (parts.length === 3) {
+        const dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        const dayNames = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        const dayName = dayNames[dObj.getDay()] || '';
+        displayDate = `${dayName}, ngày ${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
     const dayDetailTitle = document.getElementById('cal-day-detail-title');
     if (dayDetailTitle) dayDetailTitle.innerText = displayDate;
 
@@ -1673,9 +1745,10 @@ function showDayExpensesDetail(dayStr) {
     if (listEl) {
         if (dayExpenses.length === 0) {
             listEl.innerHTML = `
-                <div style="text-align: center; padding: 30px 0; color: var(--text-secondary); font-size: 0.88rem;">
-                    <div style="font-size: 2rem; margin-bottom: 8px;">📭</div>
-                    <p>Không có chi tiêu nào trong ngày này</p>
+                <div class="calendar-day-empty-state">
+                    <div class="calendar-day-empty-icon">☕</div>
+                    <div class="calendar-day-empty-title">Không có chi tiêu nào</div>
+                    <div class="calendar-day-empty-desc">Bạn chưa ghi nhận khoản chi nào trong ngày này.</div>
                 </div>`;
         } else {
             listEl.innerHTML = dayExpenses.map(exp => {
@@ -1683,23 +1756,22 @@ function showDayExpensesDetail(dayStr) {
                 const amountStr = formatCurrency(exp.amount || 0);
                 const timeStr = formatDateTimeVietnamese(exp);
                 return `
-                <div class="calendar-day-expense-item" data-expense-id="${exp.id}" role="button" tabindex="0" aria-label="Chỉnh sửa ${exp.title || 'khoản chi'}" style="
-                    display: flex; align-items: center; gap: 12px;
-                    background: rgba(255,255,255,0.04);
-                    border-radius: 14px; padding: 12px 14px;
-                    border: 1px solid rgba(255,255,255,0.07);
-                    cursor: pointer;
-                ">
-                    <div style="
-                        width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
-                        background: ${style.bg}; display: flex; align-items: center; justify-content: center;
-                        font-size: 1.3rem; font-family: 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;
-                    ">${style.emoji}</div>
-                    <div style="flex: 1; min-width: 0;">
-                        <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exp.title || 'Không có tên'}</div>
-                        <div style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;">${exp.category || 'Khác'} · ${timeStr}</div>
+                <div class="calendar-day-expense-item" data-expense-id="${exp.id}" role="button" tabindex="0" aria-label="Chỉnh sửa ${exp.title || 'khoản chi'}">
+                    <div class="calendar-day-item-icon" style="background: ${style.bg};">
+                        <span>${style.emoji}</span>
                     </div>
-                    <div style="font-size: 0.95rem; font-weight: 800; color: ${style.color}; white-space: nowrap; flex-shrink: 0;">-${amountStr}</div>
+                    <div class="calendar-day-item-info">
+                        <div class="calendar-day-item-title">${exp.title || 'Không có tên'}</div>
+                        <div class="calendar-day-item-meta">
+                            <span class="calendar-day-item-cat">${exp.category || 'Khác'}</span>
+                            <span class="calendar-day-item-dot">·</span>
+                            <span class="calendar-day-item-time">${timeStr}</span>
+                        </div>
+                    </div>
+                    <div class="calendar-day-item-amount-wrap">
+                        <span class="calendar-day-item-amount">-${amountStr}</span>
+                        <i data-lucide="chevron-right" class="calendar-day-item-arrow"></i>
+                    </div>
                 </div>`;
             }).join('');
 
@@ -1817,8 +1889,8 @@ function renderCalendar() {
         const shortAmtStr = formatShortAmount(amount);
 
         cell.innerHTML = `
-            ${shortAmtStr ? `<span class="calendar-day-amount ${tierClass}">${shortAmtStr}</span>` : ''}
             <span class="calendar-day-number">${day}</span>
+            ${shortAmtStr ? `<span class="calendar-day-amount ${tierClass}">${shortAmtStr}</span>` : ''}
         `;
 
         daysGridContainer.appendChild(cell);
@@ -2008,12 +2080,8 @@ function renderRecentExpensesDashboard() {
         return;
     }
 
-    // Lấy 6 giao dịch mới nhất (sắp xếp theo ngày giảm dần, rồi id giảm dần)
-    const sorted = [...state.expenses].sort((a, b) => {
-        const dateDiff = String(b.date || '').localeCompare(String(a.date || ''));
-        if (dateDiff !== 0) return dateDiff;
-        return (Number(b.id) || 0) - (Number(a.id) || 0);
-    });
+    // Lấy 6 giao dịch mới nhất (sắp xếp theo ngày giảm dần, rồi mốc thời gian tạo mới nhất lên trên)
+    const sorted = [...state.expenses].sort(compareExpensesNewestFirst);
 
     const recentItems = sorted.slice(0, 6);
     recentItems.forEach(exp => {
@@ -2086,7 +2154,11 @@ function calculateAndRenderSummaries() {
 function createTransactionDOMItem(exp) {
     const itemEl = document.createElement('div');
     itemEl.className = 'transaction-item';
-    itemEl.onclick = () => openDetailModal(exp.id);
+    itemEl.dataset.id = String(exp.id);
+    itemEl.onclick = () => {
+        if (itemEl._preventClick || window._preventExpenseDetailClick) return;
+        openDetailModal(exp.id);
+    };
     
     const style = CATEGORY_STYLES[exp.category] || CATEGORY_STYLES["Khác"];
     
@@ -2096,14 +2168,24 @@ function createTransactionDOMItem(exp) {
                 ${style.emoji}
             </div>
             <div class="item-details">
-                <div class="item-title">${exp.title}</div>
+                <div class="item-title">${escapeHtml(exp.title || '')}</div>
                 <div class="item-meta">
-                    <span style="color: ${style.color}; font-weight: 600;">${exp.category || 'Khác'}</span> · <span>${formatDateTimeVietnamese(exp)}</span>
+                    <span style="color: ${style.color}; font-weight: 600;">${escapeHtml(exp.category || 'Khác')}</span> · <span>${formatDateTimeVietnamese(exp)}</span>
                 </div>
             </div>
         </div>
         <div class="item-right">
             <div class="item-amount" style="color: ${style.color} !important; font-weight: 800;">-${formatCurrency(exp.amount)}</div>
+            <div class="item-drag-handle" title="Bấm đè hoặc kéo để sắp xếp" aria-label="Kéo để sắp xếp">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="9" cy="5" r="1.75"/>
+                    <circle cx="9" cy="12" r="1.75"/>
+                    <circle cx="9" cy="19" r="1.75"/>
+                    <circle cx="15" cy="5" r="1.75"/>
+                    <circle cx="15" cy="12" r="1.75"/>
+                    <circle cx="15" cy="19" r="1.75"/>
+                </svg>
+            </div>
         </div>
     `;
     return itemEl;
@@ -2377,7 +2459,7 @@ function renderAnalysisTopExpenses(monthExpenses) {
 function showCategoryExpenses(categoryName, monthExpenses) {
     const catExpenses = (monthExpenses || state.expenses)
         .filter(e => (e.category || 'Khác') === categoryName)
-        .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(b.id || '').localeCompare(String(a.id || '')));
+        .sort(compareExpensesNewestFirst);
     const style = CATEGORY_STYLES[categoryName] || CATEGORY_STYLES['Khác'];
     const total = catExpenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
 
@@ -2639,6 +2721,188 @@ window.closeHistoryMonthModal = closeHistoryMonthModal;
 window.selectHistoryMonth = selectHistoryMonth;
 window.selectHistoryAllTime = selectHistoryAllTime;
 
+// THÔNG BÁO TOAST CHO PHÂN HỆ THU CHI
+function showHistoryToast(message) {
+    let toast = document.getElementById('thuchi-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'thuchi-toast';
+        toast.className = 'thuchi-toast';
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FB923C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span>${escapeHtml(message)}</span>`;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+}
+
+// BẤM ĐÈ & KÉO THẢ SẮP XẾP CÁC KHOẢN CHI TIÊU TRONG 1 NGÀY (DRAG & DROP REORDERING)
+function setupDayGroupReordering(groupContainer, dateStr) {
+    if (!groupContainer) return;
+    const items = groupContainer.querySelectorAll('.transaction-item');
+    if (items.length <= 1) return; // Nếu chỉ có 1 mục trong ngày thì không cần sắp xếp
+
+    let activeDragItem = null;
+    let pressTimer = null;
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+    let initialOrderIds = [];
+
+    const cleanup = () => {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        if (activeDragItem) {
+            activeDragItem.classList.remove('is-pressing', 'is-dragging');
+        }
+        groupContainer.classList.remove('day-reordering');
+        window.removeEventListener('pointermove', onPointerMove, { capture: true });
+        window.removeEventListener('pointerup', onPointerUp, { capture: true });
+        window.removeEventListener('pointercancel', onPointerCancel, { capture: true });
+    };
+
+    const startDragMode = (item) => {
+        isDragging = true;
+        activeDragItem = item;
+        initialOrderIds = Array.from(groupContainer.querySelectorAll('.transaction-item'))
+            .map(el => el.dataset.id)
+            .filter(Boolean);
+
+        item.classList.remove('is-pressing');
+        item.classList.add('is-dragging');
+        groupContainer.classList.add('day-reordering');
+
+        if (navigator.vibrate) {
+            try { navigator.vibrate(35); } catch {}
+        }
+
+        window._preventExpenseDetailClick = true;
+    };
+
+    const onPointerDown = (e) => {
+        // Chỉ nhận chuột trái hoặc cảm ứng
+        if (e.button !== undefined && e.button !== 0) return;
+
+        const target = e.target;
+        const item = target.closest('.transaction-item');
+        if (!item || item.parentElement !== groupContainer) return;
+
+        const isGripHandle = Boolean(target.closest('.item-drag-handle'));
+        startX = e.clientX;
+        startY = e.clientY;
+        activeDragItem = item;
+        isDragging = false;
+
+        window.addEventListener('pointermove', onPointerMove, { capture: true, passive: false });
+        window.addEventListener('pointerup', onPointerUp, { capture: true });
+        window.addEventListener('pointercancel', onPointerCancel, { capture: true });
+
+        if (isGripHandle) {
+            // Nắm trực tiếp vào tay cầm: kéo được ngay
+            startDragMode(item);
+            if (e.cancelable) e.preventDefault();
+        } else {
+            // Bấm đè lên thân thẻ: bấm giữ 220ms mới kích hoạt kéo để không ảnh hưởng vuốt cuộn hoặc chạm mở modal
+            item.classList.add('is-pressing');
+            pressTimer = setTimeout(() => {
+                pressTimer = null;
+                startDragMode(item);
+            }, 220);
+        }
+    };
+
+    const onPointerMove = (e) => {
+        if (!activeDragItem) return;
+
+        const moveDistX = Math.abs(e.clientX - startX);
+        const moveDistY = Math.abs(e.clientY - startY);
+
+        if (!isDragging) {
+            // Nếu người dùng cuộn ngón tay trước khi hết 220ms: hủy chế độ đè kéo để trang cuộn bình thường
+            if (moveDistX > 8 || moveDistY > 8) {
+                cleanup();
+            }
+            return;
+        }
+
+        // Đang kéo mục: chặn cuộn trang
+        if (e.cancelable) {
+            e.preventDefault();
+        }
+
+        // Tìm vị trí chèn trong cùng nhóm ngày
+        const siblings = Array.from(groupContainer.querySelectorAll('.transaction-item:not(.is-dragging)'));
+        let insertBeforeSibling = null;
+
+        for (const sibling of siblings) {
+            const rect = sibling.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+            if (e.clientY < midY) {
+                insertBeforeSibling = sibling;
+                break;
+            }
+        }
+
+        if (insertBeforeSibling) {
+            if (activeDragItem.nextElementSibling !== insertBeforeSibling) {
+                groupContainer.insertBefore(activeDragItem, insertBeforeSibling);
+            }
+        } else {
+            if (groupContainer.lastElementChild !== activeDragItem) {
+                groupContainer.appendChild(activeDragItem);
+            }
+        }
+    };
+
+    const onPointerUp = (e) => {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+
+        if (isDragging && activeDragItem) {
+            // Chặn kích hoạt click mở modal chi tiết sau khi thả
+            window._preventExpenseDetailClick = true;
+            setTimeout(() => {
+                window._preventExpenseDetailClick = false;
+            }, 300);
+
+            // Đọc thứ tự ID mới sau khi người dùng sắp xếp
+            const newOrderIds = Array.from(groupContainer.querySelectorAll('.transaction-item'))
+                .map(el => el.dataset.id)
+                .filter(Boolean);
+
+            const isChanged = newOrderIds.length !== initialOrderIds.length ||
+                newOrderIds.some((id, idx) => id !== initialOrderIds[idx]);
+
+            if (isChanged) {
+                const orderMap = loadExpenseOrderMap();
+                orderMap[dateStr] = newOrderIds;
+                saveExpenseOrderMap(orderMap);
+                sortExpenses();
+                saveData();
+
+                if (navigator.vibrate) {
+                    try { navigator.vibrate([25, 45, 25]); } catch {}
+                }
+                showHistoryToast('Đã sắp xếp lại thứ tự chi tiêu');
+            }
+        }
+
+        cleanup();
+    };
+
+    const onPointerCancel = () => {
+        cleanup();
+    };
+
+    groupContainer.addEventListener('pointerdown', onPointerDown);
+}
+
 // HIỂN THỊ DANH SÁCH LỊCH SỬ (HISTORY TAB - THEO TỪNG THÁNG HOẶC ALL TIME)
 function renderHistoryList() {
     const historyListContainer = document.getElementById('history-spendings-list');
@@ -2646,6 +2910,9 @@ function renderHistoryList() {
     historyListContainer.innerHTML = '';
 
     ensureHistoryMonthInitialized();
+    if (Array.isArray(state.expenses)) {
+        sortExpenses();
+    }
 
     // Cập nhật nhãn tháng trên thanh điều hướng lịch sử
     const monthLabel = document.getElementById('history-month-label');
@@ -2707,10 +2974,11 @@ function renderHistoryList() {
     // Nhóm giao dịch theo ngày chi tiêu
     const groups = {};
     filtered.forEach(exp => {
-        if (!groups[exp.date]) {
-            groups[exp.date] = [];
+        const dateKey = String(exp.date || '').split('T')[0];
+        if (!groups[dateKey]) {
+            groups[dateKey] = [];
         }
-        groups[exp.date].push(exp);
+        groups[dateKey].push(exp);
     });
 
     // Sắp xếp ngày mới nhất lên trên
@@ -2723,11 +2991,23 @@ function renderHistoryList() {
         headerEl.innerText = formatDateStringVietnamese(dateStr);
         historyListContainer.appendChild(headerEl);
 
+        // Khung bọc danh sách giao dịch trong ngày
+        const dayGroupEl = document.createElement('div');
+        dayGroupEl.className = 'transaction-day-group';
+        dayGroupEl.dataset.date = dateStr;
+
         // Vẽ các giao dịch trong ngày
         groups[dateStr].forEach(exp => {
             const itemEl = createTransactionDOMItem(exp);
-            historyListContainer.appendChild(itemEl);
+            itemEl.dataset.id = String(exp.id);
+            itemEl.dataset.date = dateStr;
+            dayGroupEl.appendChild(itemEl);
         });
+
+        // Kích hoạt tính năng bấm đè để kéo sắp xếp vị trí trong ngày
+        setupDayGroupReordering(dayGroupEl, dateStr);
+
+        historyListContainer.appendChild(dayGroupEl);
     });
 
     createLucideIcons();
@@ -3894,7 +4174,7 @@ window.quickAdjustAmount = quickAdjustAmount;
 window.applyCustomAdjust = applyCustomAdjust;
 
 // Inline controls on this page and dynamically rendered rows.
-Object.assign(window,{closeCalendarModal,deleteSaverItem,openAddModal,openAdjustAmountModal,openEditSaverModal,openSpendingAnalysisPage,switchTab});
+Object.assign(window,{closeCalendarModal,closeSpendingAnalysisPage,deleteSaverItem,openAddModal,openAdjustAmountModal,openEditSaverModal,openSpendingAnalysisPage,switchTab});
 
 export default async function start(user) {
     state.currentUserId = user;

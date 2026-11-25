@@ -523,6 +523,7 @@ async function copyQuoteToClipboard(quoteText, authorText, buttonEl) {
 }
 
 function openQuoteEntryModal(entryId = null) {
+    const parentModal = document.getElementById('quote-modal');
     const modal = document.getElementById('quote-entry-modal');
     const titleEl = document.getElementById('quote-entry-form-title');
     const quoteInput = document.getElementById('quote-entry-text');
@@ -534,31 +535,35 @@ function openQuoteEntryModal(entryId = null) {
 
     if (entryId) {
         const entry = (state.quoteEntries || []).find(q => q.id === entryId);
-        if (titleEl) titleEl.textContent = 'Chỉnh sửa câu quote';
+        if (titleEl) titleEl.textContent = 'Chỉnh sửa trích dẫn';
         if (quoteInput) quoteInput.value = (entry?.quote || '').normalize('NFC');
         if (authorInput) authorInput.value = entry?.author && entry.author !== 'Khuyết danh' ? entry.author.normalize('NFC') : '';
     } else {
-        if (titleEl) titleEl.textContent = 'Thêm câu quote';
+        if (titleEl) titleEl.textContent = 'Thêm trích dẫn mới';
         if (quoteInput) quoteInput.value = '';
         if (authorInput) authorInput.value = '';
     }
 
+    if (parentModal) parentModal.classList.add('is-subpage-hidden');
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
+    window.scrollTo({ top: 0, behavior: 'instant' });
     pushAppView('quote-entry-modal');
     setTimeout(() => quoteInput?.focus(), 80);
     createLucideIcons();
 }
 
 function closeQuoteEntryModal(closeParent = false, fromHistory = false) {
+    const parentModal = document.getElementById('quote-modal');
     const modal = document.getElementById('quote-entry-modal');
     if (!modal) return;
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
+    if (parentModal) parentModal.classList.remove('is-subpage-hidden');
     state.quoteEditingEntryId = null;
     setQuoteFormError('');
     if (!fromHistory) leaveAppView();
-    if (closeParent) closeQuoteModal(true, fromHistory);
+    if (closeParent === true) closeQuoteModal(true, fromHistory);
 }
 
 function saveLocalQuoteEntryDirect(quote, author, editingId) {
@@ -784,9 +789,9 @@ export default function start(user){
     const btnDeleteQuote = document.getElementById('btn-delete-quote-entry');
     if (btnDeleteQuote) btnDeleteQuote.addEventListener('click', () => setQuoteSelectionMode('delete'));
     const btnCloseQuoteEntry = document.getElementById('btn-close-quote-entry-modal');
-    if (btnCloseQuoteEntry) btnCloseQuoteEntry.addEventListener('click', closeQuoteEntryModal);
+    if (btnCloseQuoteEntry) btnCloseQuoteEntry.addEventListener('click', () => closeQuoteEntryModal(false, false));
     const btnCancelQuoteEntry = document.getElementById('btn-cancel-quote-entry');
-    if (btnCancelQuoteEntry) btnCancelQuoteEntry.addEventListener('click', closeQuoteEntryModal);
+    if (btnCancelQuoteEntry) btnCancelQuoteEntry.addEventListener('click', () => closeQuoteEntryModal(false, false));
     const quoteEntryForm = document.getElementById('quote-entry-form');
     if (quoteEntryForm) quoteEntryForm.addEventListener('submit', handleQuoteEntrySubmit);
     const quoteSearchInput = document.getElementById('quote-search-input');

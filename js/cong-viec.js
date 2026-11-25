@@ -1063,29 +1063,29 @@ function renderTimelineTasks() {
             const urgency = getTaskUrgency(task.dueDate);
             return `
               <div class="task-item ${urgency.cardClass} flex flex-col gap-2.5 p-3.5 sm:p-4" data-task-id="${task.id}">
-                <div class="flex items-start gap-3 w-full">
+                <div class="task-item-inner flex items-start gap-3 w-full">
                   
                   <!-- Checkbox Hoàn thành -->
-                  <button onclick="event.stopPropagation(); toggleCompleteTask('${task.id}')" class="custom-checkbox mt-1 shrink-0" title="Đánh dấu hoàn thành">
+                  <button type="button" onclick="event.stopPropagation(); toggleCompleteTask('${task.id}')" class="custom-checkbox mt-1 shrink-0" title="Đánh dấu hoàn thành" aria-label="Đánh dấu hoàn thành">
                     <i data-lucide="check" class="check-icon"></i>
                   </button>
 
                   <!-- Left Side: Image Thumbnail (Nếu có hình ảnh) -->
                   ${task.image ? `
-                    <div class="relative shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shadow-xs border border-black/10 dark:border-white/10 group cursor-pointer" onclick="event.stopPropagation(); openImageViewer('${task.image}')" title="Chạm để xem ảnh phóng to">
+                    <div class="task-thumb-wrap relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shadow-xs border border-black/10 dark:border-white/10 group cursor-pointer" onclick="event.stopPropagation(); openImageViewer('${task.image}')" title="Chạm để xem ảnh phóng to">
                       <img src="${task.image}" alt="Hình ảnh" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
                       <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
                         <span class="p-1 rounded-lg bg-black/60 text-white">
                           <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                         </span>
                       </div>
-                      <div class="absolute bottom-1 right-1 bg-black/60 backdrop-blur-xs text-[9px] font-bold text-white px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+                      <div class="absolute bottom-1 right-1 bg-black/65 backdrop-blur-xs text-[9px] font-bold text-white px-1.5 py-0.5 rounded-md flex items-center gap-0.5 shadow-xs">
                         <i data-lucide="image" class="w-2.5 h-2.5"></i>
                         <span>Ảnh</span>
                       </div>
                     </div>
                   ` : `
-                    <div class="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/40 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-center text-slate-400 dark:text-slate-500 cursor-pointer" onclick="openEditTaskModal('${task.id}')" title="Thêm hình ảnh cho việc này">
+                    <div class="task-thumb-empty shrink-0 w-11 h-11 rounded-2xl bg-orange-50/70 dark:bg-white/5 border border-orange-200/50 dark:border-white/10 flex items-center justify-center text-orange-400 dark:text-slate-500 cursor-pointer hover:bg-orange-100/70 transition-colors" onclick="openEditTaskModal('${task.id}')" title="Thêm hình ảnh cho việc này">
                       <i data-lucide="image-plus" class="w-5 h-5 stroke-[1.8]"></i>
                     </div>
                   `}
@@ -1094,35 +1094,36 @@ function renderTimelineTasks() {
                   <div class="flex-1 min-w-0 flex flex-col justify-between self-stretch cursor-pointer" onclick="openEditTaskModal('${task.id}')">
                     <div>
                       <!-- Tiêu đề -->
-                      <span class="task-title text-[15px] font-extrabold block leading-tight text-slate-900 dark:text-white">
+                      <span class="task-title text-[15px] font-extrabold block leading-snug text-slate-900 dark:text-white">
                         ${escapeHtml(task.title)}
                       </span>
 
                       <!-- Thời gian hạn chót -->
                       <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                        <span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.8 rounded-lg ${urgency.badgeClass}">
+                        <span class="task-urgency-pill inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-0.8 rounded-lg ${urgency.badgeClass}">
                           <i data-lucide="${urgency.badgeIcon}" class="w-3 h-3"></i>
                           <span>${urgency.badgeText}</span>
                         </span>
                       </div>
 
-                      <!-- Ghi chú thêm (giữ nguyên chính xác từng dòng, dấu xuống hàng và khoảng trắng) -->
+                      <!-- Ghi chú thêm -->
                       ${task.description ? `
-                        <div class="task-desc-wrap mt-2 text-xs font-medium leading-relaxed flex items-start gap-1.5 opacity-90">
-                          <i data-lucide="file-text" class="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-70"></i>
-                          <div class="task-desc-text flex-1 whitespace-pre-wrap break-words select-text">${formatDescriptionText(task.description)}</div>
+                        <div class="task-desc-wrap mt-2 p-2.5 rounded-xl bg-[#FFFDFB] dark:bg-slate-900/40 border border-amber-900/8 dark:border-white/5 text-[12px] font-medium leading-relaxed flex items-start gap-2 shadow-2xs">
+                          <i data-lucide="file-text" class="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-700/60 dark:text-amber-400/60"></i>
+                          <div class="task-desc-text flex-1 whitespace-pre-wrap break-words select-text text-slate-700 dark:text-slate-300">${formatDescriptionText(task.description)}</div>
                         </div>
                       ` : ''}
                     </div>
 
                     <!-- Action buttons góc dưới bên phải -->
-                    <div class="flex items-center justify-end gap-1.5 mt-2 pt-1 border-t border-black/5 dark:border-white/5">
-                      <button onclick="event.stopPropagation(); openEditTaskModal('${task.id}')" class="px-2.5 py-1 rounded-xl text-[11px] font-bold ${urgency.actionColor} bg-white/50 dark:bg-black/30 hover:bg-white/90 active:scale-95 transition-all flex items-center gap-1" title="Sửa chi tiết">
-                        <i data-lucide="edit-3" class="w-3 h-3"></i>
+                    <div class="task-card-footer flex items-center justify-end gap-1.5 mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                      <button type="button" onclick="event.stopPropagation(); openEditTaskModal('${task.id}')" class="task-btn-edit" title="Chỉnh sửa công việc">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                         <span>Sửa</span>
                       </button>
-                      <button onclick="event.stopPropagation(); promptDeleteTask('${task.id}')" class="p-1.5 rounded-xl opacity-60 hover:opacity-100 hover:text-rose-600 bg-white/50 dark:bg-black/30 hover:bg-white/90 active:scale-95 transition-all" title="Xóa">
+                      <button type="button" onclick="event.stopPropagation(); promptDeleteTask('${task.id}')" class="task-btn-delete" title="Xóa công việc" aria-label="Xóa">
                         <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        <span>Xóa</span>
                       </button>
                     </div>
                   </div>
@@ -1182,43 +1183,53 @@ function renderHistory() {
 
     return `
       <article class="history-card" data-task-id="${task.id}">
-        <div class="history-card-main">
-          <div class="history-check" aria-hidden="true">
-            <i data-lucide="check"></i>
+        <div class="history-card-main flex items-start gap-3 w-full">
+          <div class="history-check-wrap shrink-0 mt-1 w-6 h-6 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-xs" aria-hidden="true">
+            <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
           </div>
 
           ${task.image ? `
-            <button class="history-thumbnail" onclick="openImageViewer('${task.image}')" title="Xem ảnh đính kèm" aria-label="Xem ảnh đính kèm">
-              <img src="${task.image}" alt="Ảnh đính kèm của ${escapeHtml(task.title)}">
-              <span class="history-thumbnail-overlay"><i data-lucide="expand"></i></span>
+            <button type="button" class="history-thumbnail shrink-0 w-16 h-16 rounded-xl overflow-hidden border border-black/10 relative group" onclick="event.stopPropagation(); openImageViewer('${task.image}')" title="Xem ảnh đính kèm" aria-label="Xem ảnh đính kèm">
+              <img src="${task.image}" alt="Ảnh đính kèm của ${escapeHtml(task.title)}" class="w-full h-full object-cover">
+              <span class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                <i data-lucide="expand" class="w-3.5 h-3.5"></i>
+              </span>
             </button>
           ` : `
-            <div class="history-thumbnail history-thumbnail-empty" aria-hidden="true">
-              <i data-lucide="check-circle-2"></i>
+            <div class="history-thumbnail history-thumbnail-empty shrink-0 w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400" aria-hidden="true">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
             </div>
           `}
 
-          <div class="history-card-content cursor-pointer" onclick="openEditTaskModal('${task.id}')" title="Chạm để chỉnh sửa toàn bộ thông tin">
-            <div class="history-card-title-row">
-              <h3 class="history-card-title">${escapeHtml(task.title)}</h3>
-              <span class="history-status">Đã xong</span>
+          <div class="history-card-content flex-1 min-w-0 cursor-pointer" onclick="openEditTaskModal('${task.id}')" title="Chạm để chỉnh sửa toàn bộ thông tin">
+            <div class="history-card-title-row flex items-center justify-between gap-2">
+              <h3 class="history-card-title text-[14.5px] font-extrabold text-slate-500 dark:text-slate-400 line-through">
+                ${escapeHtml(task.title)}
+              </h3>
+              <span class="history-status-badge text-[10.5px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 shrink-0">
+                Đã xong
+              </span>
             </div>
-            ${task.description ? `<div class="history-card-description whitespace-pre-wrap break-words select-text">${formatDescriptionText(task.description)}</div>` : ''}
-            <button type="button" onclick="event.stopPropagation(); openEditTaskModal('${task.id}')" class="history-time-btn" title="Chỉnh sửa toàn bộ thông tin">
-              <i data-lucide="clock-3"></i>
+            ${task.description ? `
+              <div class="history-card-description mt-1.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-[11.5px] text-slate-500 whitespace-pre-wrap break-words">
+                ${formatDescriptionText(task.description)}
+              </div>
+            ` : ''}
+            <div class="history-time-badge mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-slate-400">
+              <i data-lucide="clock-3" class="w-3 h-3"></i>
               <span>${doneTime}</span>
-              <i data-lucide="pencil"></i>
-            </button>
+            </div>
           </div>
         </div>
 
-        <div class="history-card-actions">
-          <button onclick="restoreTaskFromHistory('${task.id}')" class="history-restore-btn">
-            <i data-lucide="rotate-ccw"></i>
+        <div class="history-card-actions flex items-center justify-end gap-1.5 mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
+          <button type="button" onclick="event.stopPropagation(); restoreTaskFromHistory('${task.id}')" class="task-btn-restore" title="Khôi phục việc này">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
             <span>Khôi phục</span>
           </button>
-          <button onclick="promptDeleteTask('${task.id}')" class="history-delete-btn" title="Xóa công việc này" aria-label="Xóa công việc này">
-            <i data-lucide="trash-2"></i>
+          <button type="button" onclick="event.stopPropagation(); promptDeleteTask('${task.id}')" class="task-btn-delete" title="Xóa công việc này" aria-label="Xóa công việc này">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span>Xóa</span>
           </button>
         </div>
       </article>

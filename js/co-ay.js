@@ -721,18 +721,21 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
         const headerSub = document.getElementById('her-header-subtitle-text');
         const avatarEl = document.getElementById('her-hero-avatar');
         const quoteEl = document.getElementById('her-hero-quote');
+        const daysChip = document.getElementById('her-hero-days-chip');
         const daysText = document.getElementById('her-hero-days-text');
+        const anniChip = document.getElementById('her-hero-anni-chip');
+        const anniText = document.getElementById('her-hero-anni-text');
         const bdayChip = document.getElementById('her-hero-bday-chip');
         const bdayText = document.getElementById('her-hero-bday-text');
 
-        const nick = profile.nickname || 'Cô ấy';
+        const nick = profile.nickname || 'Bé iu';
         if (nameEl) nameEl.textContent = nick;
-        if (headerTitle) headerTitle.textContent = 'Két Bí Mật';
-        if (headerSub) headerSub.textContent = `Bí mật về ${nick}`;
+        if (headerTitle) headerTitle.textContent = 'Bé iu';
+        if (headerSub) headerSub.textContent = '';
         if (avatarEl) avatarEl.textContent = profile.avatar || '🌸';
-        if (quoteEl) quoteEl.textContent = profile.quote || 'Lưu lại những điều nhỏ bé để yêu thương cô ấy nhiều hơn ✨';
+        if (quoteEl) quoteEl.textContent = profile.quote || 'Người con gái ta thương';
 
-        // Relationship Days
+        // 1. Relationship Days & 2. Upcoming Anniversary Countdown
         if (daysText) {
             if (profile.anniversary_date) {
                 try {
@@ -742,20 +745,54 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
                     const startMs = Date.UTC(y, m - 1, d);
                     const diff = Math.floor((todayVn.midnightUtcMs - startMs) / (1000 * 60 * 60 * 24));
                     const formattedDate = formatDateVN(profile.anniversary_date);
+
                     if (diff >= 0) {
-                        daysText.textContent = `Bên nhau ${diff} ngày 💕 (${formattedDate})`;
+                        const formattedCount = Number(diff).toLocaleString('vi-VN');
+                        daysText.textContent = `Bên nhau ${formattedCount} ngày (${formattedDate})`;
+                        if (daysChip) daysChip.style.display = 'inline-flex';
+
+                        let nextAnniYear = todayVn.year;
+                        let nextAnniMs = Date.UTC(nextAnniYear, m - 1, d);
+                        if (nextAnniMs < todayVn.midnightUtcMs) {
+                            nextAnniYear = todayVn.year + 1;
+                            nextAnniMs = Date.UTC(nextAnniYear, m - 1, d);
+                        }
+                        const diffAnniDays = Math.round((nextAnniMs - todayVn.midnightUtcMs) / (1000 * 60 * 60 * 24));
+                        const anniYears = nextAnniYear - y;
+
+                        if (anniChip && anniText) {
+                            anniChip.style.display = 'inline-flex';
+                            if (diffAnniDays === 0) {
+                                anniText.textContent = `Hôm nay kỷ niệm ${anniYears} năm! 🎉`;
+                                anniChip.classList.add('is-today');
+                            } else if (diffAnniDays === 1) {
+                                anniText.textContent = `Ngày mai kỷ niệm ${anniYears} năm! 🎉`;
+                                anniChip.classList.remove('is-today');
+                            } else {
+                                anniText.textContent = `Kỷ niệm ${anniYears} năm: còn ${diffAnniDays} ngày`;
+                                anniChip.classList.remove('is-today');
+                            }
+                        }
                     } else {
+                        const daysUntilStart = Math.abs(diff);
                         daysText.textContent = `Kỷ niệm: ${formattedDate}`;
+                        if (anniChip && anniText) {
+                            anniChip.style.display = 'inline-flex';
+                            anniText.textContent = `Còn ${daysUntilStart} ngày`;
+                            anniChip.classList.remove('is-today');
+                        }
                     }
                 } catch {
                     daysText.textContent = 'Bên nhau mỗi ngày';
+                    if (anniChip) anniChip.style.display = 'none';
                 }
             } else {
                 daysText.textContent = 'Bên nhau mỗi ngày';
+                if (anniChip) anniChip.style.display = 'none';
             }
         }
 
-        // Birthday chip
+        // 3. Birthday countdown chip
         if (bdayChip && bdayText) {
             if (profile.birthday) {
                 bdayChip.style.display = 'inline-flex';
@@ -768,18 +805,27 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
                         nextBdayMs = Date.UTC(todayVn.year + 1, bm - 1, bd);
                     }
                     const diffDays = Math.round((nextBdayMs - todayVn.midnightUtcMs) / (1000 * 60 * 60 * 24));
-                    const formattedBday = formatDateVN(profile.birthday);
+                    const bdayShort = `${String(bd).padStart(2, '0')}/${String(bm).padStart(2, '0')}`;
                     if (diffDays === 0) {
-                        bdayText.textContent = `Hôm nay sinh nhật cô ấy! (${formattedBday}) 🎂`;
+                        bdayText.textContent = `Hôm nay sinh nhật cô ấy! 🎂`;
+                        bdayChip.classList.add('is-today');
+                    } else if (diffDays === 1) {
+                        bdayText.textContent = `Ngày mai sinh nhật cô ấy! (${bdayShort})`;
+                        bdayChip.classList.remove('is-today');
                     } else {
-                        bdayText.textContent = `Sinh nhật: ${formattedBday} (còn ${diffDays} ngày) 🎂`;
+                        bdayText.textContent = `Sinh nhật: còn ${diffDays} ngày (${bdayShort})`;
+                        bdayChip.classList.remove('is-today');
                     }
                 } catch {
-                    bdayText.textContent = `Sinh nhật: ${formatDateVN(profile.birthday)}`;
+                    bdayText.textContent = `Sinh nhật cô ấy`;
                 }
             } else {
                 bdayChip.style.display = 'none';
             }
+        }
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.lucide.createIcons();
         }
     }
 

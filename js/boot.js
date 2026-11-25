@@ -8,7 +8,8 @@ try {
      for(const attr of slot.attributes)if(attr.name!=='data-header')el.setAttribute(attr.name,attr.value);
      el.append(slot.content);slot.replaceWith(el);}
    window.goBackToHome=goBackToHome;
-   const {default:start}=await import(`./${document.body.dataset.feature}.js`);
+   if('serviceWorker' in navigator)navigator.serviceWorker.register('../sw.js').catch(()=>{});
+   const {default:start}=await import(`./${document.body.dataset.feature}.js?v=${Date.now()}`);
    if(start)await start(user);
    document.documentElement.removeAttribute('data-loading');
  }

@@ -307,14 +307,10 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
                                 <h4 class="note-card-title">${escapeHtml(note.title)}</h4>
                                 ${isPinned ? '<span class="note-pinned-tag"><i data-lucide="pin"></i> Đã ghim</span>' : ''}
                             </div>
-                            <span class="note-card-date"><i data-lucide="clock"></i> ${dateText}</span>
                         </div>
                         <div class="note-card-actions" onclick="event.stopPropagation()">
                             <button type="button" class="note-action-btn btn-pin-note${isPinned ? ' is-active' : ''}" data-id="${escapeHtml(note.id)}" title="${isPinned ? 'Bỏ ghim ghi chú' : 'Ghim ghi chú'}" aria-label="${isPinned ? 'Bỏ ghim' : 'Ghim'}" aria-pressed="${isPinned}">
                                 <i data-lucide="pin"></i>
-                            </button>
-                            <button type="button" class="note-action-btn btn-copy-note" data-id="${escapeHtml(note.id)}" title="Sao chép nội dung" aria-label="Sao chép">
-                                <i data-lucide="copy"></i>
                             </button>
                             <button type="button" class="note-action-btn btn-edit-note" data-id="${escapeHtml(note.id)}" title="Chỉnh sửa ghi chú" aria-label="Chỉnh sửa">
                                 <i data-lucide="pen-line"></i>
@@ -324,7 +320,6 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
                             </button>
                         </div>
                     </div>
-                    <div class="note-card-content">${contentHtml}</div>
                 </div>
             `;
         });

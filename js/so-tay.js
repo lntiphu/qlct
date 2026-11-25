@@ -1,4 +1,4 @@
-import {onReady} from './utils.js';
+import {onReady, createLucideIcons} from './utils.js';
 import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
 import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
 /**
@@ -9,7 +9,9 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     'use strict';
 
     const STORAGE_KEY = 'qlct_handbook_entries_v1';
-    const CATEGORIES = ['Ho/cảm cúm', 'Tiêu hóa', 'Da liễu', 'Xương khớp', 'Mẹo vặt gia đình', 'Khác'];
+    const CUSTOM_CAT_KEY = 'qlct_handbook_custom_categories_v1';
+    const DEFAULT_CATEGORIES = ['Ho/cảm cúm', 'Tiêu hóa', 'Da liễu', 'Xương khớp', 'Mẹo vặt gia đình', 'Khác'];
+    let customCategories = [];
     let entries = [];
     let currentDetailId = null;
     let editingId = null;
@@ -18,6 +20,50 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     let storageMode = 'local';
     let loadedUserKey = null;
     let loadingPromise = null;
+
+    function loadCustomCategories() {
+        try {
+            const raw = localStorage.getItem(CUSTOM_CAT_KEY);
+            customCategories = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(customCategories)) customCategories = [];
+        } catch {
+            customCategories = [];
+        }
+    }
+
+    function saveCustomCategories() {
+        try {
+            localStorage.setItem(CUSTOM_CAT_KEY, JSON.stringify(customCategories));
+        } catch (e) {
+            console.warn('[Sổ tay sức khỏe] Không thể lưu danh mục tùy ý:', e);
+        }
+    }
+
+    function getAllCategories() {
+        const set = new Set([...DEFAULT_CATEGORIES, ...customCategories]);
+        entries.forEach(e => {
+            if (e.category && typeof e.category === 'string') {
+                const trimmed = e.category.trim();
+                if (trimmed) set.add(trimmed);
+            }
+        });
+        return Array.from(set);
+    }
+
+    function populateCategorySelect(selectedCategory = '') {
+        const select = document.getElementById('handbook-entry-category');
+        if (!select) return;
+        const allCats = getAllCategories();
+        select.innerHTML = allCats.map(cat => 
+            `<option value="${escapeHtml(cat)}"${cat === selectedCategory ? ' selected' : ''}>${escapeHtml(cat)}</option>`
+        ).join('') + `<option value="__custom__">➕ Thêm danh mục mới...</option>`;
+
+        if (selectedCategory && allCats.includes(selectedCategory)) {
+            select.value = selectedCategory;
+        } else if (allCats.length) {
+            select.value = allCats[0];
+        }
+    }
 
     // Ba bài mẫu để người dùng có thể xem thử ngay lần đầu.
     const SAMPLE_ENTRIES = [
@@ -140,10 +186,11 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
 
     // Đổi tên cột Supabase về tên dùng trong giao diện.
     function rowToEntry(row) {
+        const rawCat = String(row.category || '').trim();
         return {
             id: row.id,
             title: String(row.title || '').normalize('NFC'),
-            category: CATEGORIES.includes(row.category) ? row.category : 'Khác',
+            category: rawCat || 'Khác',
             use: String(row.benefits || '').normalize('NFC'),
             ingredients: String(row.ingredients || '').normalize('NFC'),
             method: String(row.method || '').normalize('NFC'),
@@ -268,36 +315,43 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
 
     function getFilteredEntries() {
         const query = normalize(document.getElementById('handbook-search-input')?.value);
-        const category = document.getElementById('handbook-category-filter')?.value || 'all';
-        const onlyFavorite = Boolean(document.getElementById('handbook-favorite-filter')?.checked);
+        const favBtn = document.getElementById('btn-toggle-handbook-fav');
+        const onlyFavorite = Boolean(favBtn && favBtn.classList.contains('is-active'));
 
         return entries
-            .filter(entry => category === 'all' || entry.category === category)
             .filter(entry => !onlyFavorite || Boolean(entry.favorite))
             .filter(entry => {
                 if (!query) return true;
-                return [entry.title, entry.use, entry.ingredients].some(field => normalize(field).includes(query));
+                return [entry.title, entry.use, entry.ingredients, entry.category, entry.method, entry.warning]
+                    .some(field => normalize(field).includes(query));
             })
             .sort((a, b) => Number(Boolean(b.favorite)) - Number(Boolean(a.favorite)) || new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
     }
 
     function renderEntries() {
         const container = document.getElementById('handbook-cards-container');
-        const count = document.getElementById('handbook-entry-count');
-        const headerCount = document.getElementById('handbook-header-count');
         if (!container) return;
 
         const filtered = getFilteredEntries();
-        if (count) count.textContent = `${filtered.length} / ${entries.length} bài`;
-        if (headerCount) headerCount.textContent = `${entries.length}`;
         const query = normalize(document.getElementById('handbook-search-input')?.value);
+        const favBtn = document.getElementById('btn-toggle-handbook-fav');
+        const isFavFilter = Boolean(favBtn && favBtn.classList.contains('is-active'));
 
         if (!filtered.length) {
+            let emptyTitle = 'Chưa có bài viết nào';
+            let emptyMsg = 'Bấm “+ Thêm bài” để lưu các mẹo hay và bài thuốc gia đình.';
+            if (query) {
+                emptyTitle = 'Không tìm thấy bài phù hợp';
+                emptyMsg = `Không có kết quả nào khớp với từ khóa “${escapeHtml(query)}”.`;
+            } else if (isFavFilter) {
+                emptyTitle = 'Chưa có bài viết yêu thích';
+                emptyMsg = 'Bấm vào biểu tượng ngôi sao trên bài viết để ghim vào danh sách yêu thích!';
+            }
             container.innerHTML = `
                 <div class="handbook-empty-state">
                     <div class="handbook-empty-icon-wrap"><i data-lucide="book-open"></i></div>
-                    <h3>${query ? 'Không tìm thấy bài phù hợp' : 'Chưa có bài viết nào'}</h3>
-                    <p>${query ? `Không có kết quả nào khớp với từ khóa “${escapeHtml(query)}”.` : 'Bấm “+ Thêm bài” để lưu các mẹo hay và bài thuốc gia đình.'}</p>
+                    <h3>${emptyTitle}</h3>
+                    <p>${emptyMsg}</p>
                 </div>
             `;
             refreshIcons();
@@ -308,20 +362,24 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
             const excerpt = entry.use || entry.ingredients || entry.method || 'Chưa có mô tả ngắn.';
             const cleanTitle = String(entry.title || '').normalize('NFC');
             const cleanExcerpt = String(excerpt).normalize('NFC');
+            const starSvg = entry.favorite
+                ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="#F59E0B" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`
+                : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
             return `
                 <article class="handbook-card ${entry.favorite ? 'is-favorite' : ''}" data-handbook-id="${escapeHtml(entry.id)}" tabindex="0" role="button" aria-label="Mở bài ${escapeHtml(cleanTitle)}">
-                    <div class="handbook-card-topline">
-                        <span class="handbook-card-index">#${String(index + 1).padStart(2, '0')}</span>
-                        <span class="handbook-card-category">${escapeHtml(entry.category)}</span>
-                        <button type="button" class="handbook-star-btn ${entry.favorite ? 'is-active' : ''}" data-action="favorite" data-id="${escapeHtml(entry.id)}" aria-label="${entry.favorite ? 'Bỏ yêu thích' : 'Đánh dấu yêu thích'}" title="${entry.favorite ? 'Bỏ yêu thích' : 'Đánh dấu yêu thích'}">
-                            <i data-lucide="star"></i>
-                        </button>
-                    </div>
-                    <h3>${escapeHtml(cleanTitle)}</h3>
-                    <p>${escapeHtml(cleanExcerpt)}</p>
-                    <div class="handbook-card-footer">
-                        <span><i data-lucide="calendar-days"></i>${formatDate(entry.updatedAt || entry.createdAt)}</span>
-                        <span class="handbook-card-open">Xem chi tiết <i data-lucide="arrow-up-right"></i></span>
+                    <div class="handbook-card-compact-row">
+                        <h3 class="handbook-card-title">${escapeHtml(cleanTitle)}</h3>
+                        <div class="handbook-card-actions">
+                            <button type="button" class="handbook-star-btn ${entry.favorite ? 'is-active' : ''}" data-action="favorite" data-id="${escapeHtml(entry.id)}" aria-label="${entry.favorite ? 'Bỏ yêu thích' : 'Đánh dấu yêu thích'}" title="${entry.favorite ? 'Bỏ yêu thích' : 'Đánh dấu yêu thích'}">
+                                ${starSvg}
+                            </button>
+                            <button type="button" class="handbook-card-quick-btn quick-edit" data-action="quick-edit" data-id="${escapeHtml(entry.id)}" title="Sửa bài" aria-label="Sửa bài">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                            </button>
+                            <button type="button" class="handbook-card-quick-btn quick-del" data-action="quick-delete" data-id="${escapeHtml(entry.id)}" title="Xóa bài" aria-label="Xóa bài">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
                     </div>
                 </article>
             `;
@@ -333,13 +391,28 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
                 toggleFavorite(button.dataset.id);
             });
         });
+        container.querySelectorAll('[data-action="quick-edit"]').forEach(button => {
+            button.addEventListener('click', event => {
+                event.stopPropagation();
+                openEntryModal(button.dataset.id);
+            });
+        });
+        container.querySelectorAll('[data-action="quick-delete"]').forEach(button => {
+            button.addEventListener('click', event => {
+                event.stopPropagation();
+                deleteEntry(button.dataset.id);
+            });
+        });
         container.querySelectorAll('.handbook-card').forEach(card => {
-            const open = () => openDetail(card.dataset.handbookId);
+            const open = (e) => {
+                if (e && e.target.closest('button')) return;
+                openDetail(card.dataset.handbookId);
+            };
             card.addEventListener('click', open);
             card.addEventListener('keydown', event => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
-                    open();
+                    openDetail(card.dataset.handbookId);
                 }
             });
         });
@@ -347,7 +420,12 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     }
 
     function refreshIcons() {
-        if (typeof createLucideIcons === 'function') createLucideIcons();
+        try {
+            if (typeof createLucideIcons === 'function') createLucideIcons();
+            else if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons();
+        } catch (e) {
+            console.warn('[Sổ tay] refreshIcons:', e);
+        }
     }
 
     function updateStorageStatus(message, type = 'remote') {
@@ -386,19 +464,35 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
         const title = document.getElementById('handbook-detail-title');
         const body = document.getElementById('handbook-detail-body');
         if (category) {
-            category.innerHTML = entry.favorite ? `<i data-lucide="star" style="width:13px;height:13px;fill:currentColor;margin-right:4px;"></i>${escapeHtml(entry.category)}` : escapeHtml(entry.category);
+            category.innerHTML = entry.favorite 
+                ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="#F59E0B" stroke="#D97706" stroke-width="2" style="vertical-align:-1px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>${escapeHtml(entry.category)}`
+                : escapeHtml(entry.category);
         }
         if (title) title.textContent = String(entry.title || '').normalize('NFC');
         if (body) {
             const fields = [
-                ['Công dụng', entry.use, 'sparkles'],
-                ['Nguyên liệu', entry.ingredients, 'leaf'],
-                ['Cách làm / cách dùng', entry.method, 'list-ordered'],
-                ['Lưu ý / chống chỉ định', entry.warning, 'triangle-alert'],
-                ['Nguồn', entry.source, 'link'],
-                ['Ghi chú cá nhân', entry.personal, 'heart']
+                ['Công dụng', entry.use, 'sec-use', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>`],
+                ['Nguyên liệu', entry.ingredients, 'sec-ingredients', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>`],
+                ['Cách làm / cách dùng', entry.method, 'sec-method', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>`],
+                ['Lưu ý / chống chỉ định', entry.warning, 'sec-warning', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`],
+                ['Nguồn', entry.source, 'sec-source', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`],
+                ['Ghi chú cá nhân', entry.personal, 'sec-personal', `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>`]
             ];
-            body.innerHTML = fields.map(([label, value, icon]) => `<section class="handbook-detail-section"><h3><i data-lucide="${icon}"></i>${label}</h3><p>${value ? escapeHtml(String(value).normalize('NFC')).replace(/\r?\n/g, '<br>') : '<em>Chưa cập nhật</em>'}</p></section>`).join('');
+            const filledSections = fields.filter(([label, value]) => Boolean(value && String(value).trim()));
+            if (!filledSections.length) {
+                body.innerHTML = `
+                    <section class="handbook-detail-section">
+                        <p style="color:#94A3B8;font-style:italic;margin:0;">Chưa có nội dung chi tiết cho bài viết này.</p>
+                    </section>
+                `;
+            } else {
+                body.innerHTML = filledSections.map(([label, value, secClass, svgIcon]) => `
+                    <section class="handbook-detail-section ${secClass}">
+                        <h3>${svgIcon}<span>${label}</span></h3>
+                        <p>${escapeHtml(String(value).normalize('NFC'))}</p>
+                    </section>
+                `).join('');
+            }
         }
         refreshIcons();
     }
@@ -426,10 +520,15 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     }
 
     function fillEntryForm(entry) {
+        populateCategorySelect(entry?.category || DEFAULT_CATEGORIES[0]);
+        const customBox = document.getElementById('handbook-custom-cat-box');
+        if (customBox) customBox.setAttribute('hidden', '');
+        const customInput = document.getElementById('handbook-entry-custom-category');
+        if (customInput) customInput.value = '';
+
         const values = {
             'handbook-entry-id': entry?.id || '',
             'handbook-entry-title': String(entry?.title || '').normalize('NFC'),
-            'handbook-entry-category': entry?.category || CATEGORIES[0],
             'handbook-entry-use': String(entry?.use || '').normalize('NFC'),
             'handbook-entry-ingredients': String(entry?.ingredients || '').normalize('NFC'),
             'handbook-entry-method': String(entry?.method || '').normalize('NFC'),
@@ -443,16 +542,73 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
         });
     }
 
+    function setupCustomCategoryEvents() {
+        const select = document.getElementById('handbook-entry-category');
+        const customBox = document.getElementById('handbook-custom-cat-box');
+        const customInput = document.getElementById('handbook-entry-custom-category');
+        const btnToggle = document.getElementById('btn-toggle-custom-cat');
+        const btnConfirm = document.getElementById('btn-confirm-custom-cat');
+
+        if (btnToggle && customBox) {
+            btnToggle.onclick = () => {
+                const isHidden = customBox.hasAttribute('hidden');
+                if (isHidden) {
+                    customBox.removeAttribute('hidden');
+                    customInput?.focus();
+                } else {
+                    customBox.setAttribute('hidden', '');
+                }
+            };
+        }
+
+        if (select && customBox) {
+            select.onchange = () => {
+                if (select.value === '__custom__') {
+                    customBox.removeAttribute('hidden');
+                    customInput?.focus();
+                } else {
+                    customBox.setAttribute('hidden', '');
+                }
+            };
+        }
+
+        const applyCustom = () => {
+            const val = (customInput?.value || '').trim();
+            if (!val) return;
+            if (!customCategories.includes(val) && !DEFAULT_CATEGORIES.includes(val)) {
+                customCategories.push(val);
+                saveCustomCategories();
+            }
+            populateCategorySelect(val);
+            if (customInput) customInput.value = '';
+            customBox?.setAttribute('hidden', '');
+        };
+
+        if (btnConfirm) btnConfirm.onclick = applyCustom;
+        if (customInput) {
+            customInput.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    applyCustom();
+                }
+            };
+        }
+    }
+
     function openEntryModal(id = null) {
         editingId = id;
         const entry = id ? entries.find(item => item.id === id) : null;
         fillEntryForm(entry);
+        setupCustomCategoryEvents();
         const title = document.getElementById('handbook-entry-form-title');
         const saveText = document.getElementById('handbook-save-text');
         if (title) title.textContent = entry ? 'Chỉnh sửa bài' : 'Thêm bài mới';
         if (saveText) saveText.textContent = entry ? 'Cập nhật bài' : 'Lưu bài';
         document.getElementById('handbook-form-error')?.setAttribute('hidden', '');
+        document.getElementById('handbook-modal')?.classList.add('is-subpage-hidden');
+        document.getElementById('handbook-detail-modal')?.classList.add('is-subpage-hidden');
         setModalState('handbook-entry-modal', true);
+        window.scrollTo({ top: 0, behavior: 'instant' });
         if (typeof pushAppView === 'function') pushAppView('handbook-entry-modal');
         refreshIcons();
         setTimeout(() => document.getElementById('handbook-entry-title')?.focus(), 120);
@@ -461,7 +617,10 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     function closeEntryModal(fromHistory = false) {
         editingId = null;
         setModalState('handbook-entry-modal', false);
+        document.getElementById('handbook-modal')?.classList.remove('is-subpage-hidden');
+        document.getElementById('handbook-detail-modal')?.classList.remove('is-subpage-hidden');
         document.getElementById('handbook-entry-form')?.reset();
+        document.getElementById('handbook-custom-cat-box')?.setAttribute('hidden', '');
         if (fromHistory !== true && typeof leaveAppView === 'function') leaveAppView();
     }
 
@@ -475,8 +634,24 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
     function handleSubmit(event) {
         event.preventDefault();
         const title = valueOf('handbook-entry-title');
-        const category = valueOf('handbook-entry-category');
-        if (!title || !CATEGORIES.includes(category)) {
+        let category = valueOf('handbook-entry-category');
+        const customCatVal = valueOf('handbook-entry-custom-category');
+
+        if (category === '__custom__' || customCatVal) {
+            if (customCatVal) {
+                category = customCatVal;
+                if (!customCategories.includes(category) && !DEFAULT_CATEGORIES.includes(category)) {
+                    customCategories.push(category);
+                    saveCustomCategories();
+                }
+            } else {
+                showFormError('Vui lòng nhập tên danh mục mới của bạn.');
+                document.getElementById('handbook-entry-custom-category')?.focus();
+                return;
+            }
+        }
+
+        if (!title || !category) {
             showFormError('Vui lòng nhập Tên bài và chọn Danh mục.');
             return;
         }
@@ -554,13 +729,14 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
             ['Cách làm / cách dùng', entry.method], ['Lưu ý / chống chỉ định', entry.warning],
             ['Nguồn', entry.source], ['Ghi chú cá nhân', entry.personal]
         ];
-        printable.document.write(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>${escapeHtml(entry.title)}</title><style>body{font-family:Arial,sans-serif;color:#243126;max-width:760px;margin:40px auto;padding:0 24px;line-height:1.6}h1{color:#276b3b}h2{font-size:16px;color:#276b3b;border-bottom:1px solid #d9e5da;padding-bottom:4px;margin-top:22px}p{white-space:pre-wrap;margin:6px 0}small{color:#68766b}@media print{body{margin:0}}</style></head><body><small>SỔ TAY · ${escapeHtml(entry.category)}</small><h1>${escapeHtml(entry.title)}</h1>${sections.map(([label, value]) => `<h2>${label}</h2><p>${value ? escapeHtml(value) : 'Chưa cập nhật'}</p>`).join('')}<small>Thông tin chỉ mang tính tham khảo, không thay thế tư vấn y tế.</small></body></html>`);
+        printable.document.write(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>${escapeHtml(entry.title)}</title><style>body{font-family:Arial,sans-serif;color:#243126;max-width:760px;margin:40px auto;padding:0 24px;line-height:1.6}h1{color:#276b3b}h2{font-size:16px;color:#276b3b;border-bottom:1px solid #d9e5da;padding-bottom:4px;margin-top:22px}p{white-space:pre-wrap;margin:6px 0}small{color:#68766b}@media print{body{margin:0}}</style></head><body><small>SỔ TAY SỨC KHỎE · ${escapeHtml(entry.category)}</small><h1>${escapeHtml(entry.title)}</h1>${sections.filter(([, v]) => Boolean(v && v.trim())).map(([label, value]) => `<h2>${label}</h2><p>${escapeHtml(value)}</p>`).join('')}<small>Thông tin chỉ mang tính tham khảo, không thay thế tư vấn y tế.</small></body></html>`);
         printable.document.close();
         printable.focus();
         setTimeout(() => printable.print(), 250);
     }
 
     function bindEvents() {
+        loadCustomCategories();
         // Dùng chung phiên đăng nhập và Supabase client của ứng dụng chính.
         initSupabase();
         if (handbookClient) {
@@ -577,6 +753,13 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
         document.getElementById('welcome-opt-handbook')?.addEventListener('click', openHandbookModal);
         document.getElementById('btn-close-handbook-modal')?.addEventListener('click', () => closeHandbookModal());
         document.getElementById('btn-add-handbook-entry')?.addEventListener('click', () => openEntryModal());
+        document.getElementById('btn-toggle-handbook-fav')?.addEventListener('click', () => {
+            const btn = document.getElementById('btn-toggle-handbook-fav');
+            if (btn) {
+                btn.classList.toggle('is-active');
+                renderEntries();
+            }
+        });
         document.getElementById('btn-close-handbook-detail')?.addEventListener('click', () => closeDetail());
         document.getElementById('btn-edit-handbook-detail')?.addEventListener('click', () => {
             if (currentDetailId) openEntryModal(currentDetailId);
@@ -595,8 +778,6 @@ import {initNavigation,pushAppView,leaveAppView} from './navigation.js';
             if (clear) clear.hidden = !event.target.value;
             renderEntries();
         });
-        document.getElementById('handbook-category-filter')?.addEventListener('change', renderEntries);
-        document.getElementById('handbook-favorite-filter')?.addEventListener('change', renderEntries);
         document.getElementById('btn-clear-handbook-search')?.addEventListener('click', () => {
             const input = document.getElementById('handbook-search-input');
             if (input) input.value = '';

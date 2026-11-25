@@ -1,4 +1,4 @@
-import {onReady} from './utils.js';
+import {onReady, escapeHtml} from './utils.js';
 import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
 /*
  * Đồng bộ CKKN với Supabase.
@@ -415,11 +415,31 @@ function initCycleChips() {
    CRUD – LƯU
 ══════════════════════════════════════ */
 function saveCycle() {
-  const start = document.getElementById('c-start').value;
-  const end   = document.getElementById('c-end').value;
-  const note  = document.getElementById('c-note').value.trim();
+  let start = document.getElementById('c-start')?.value;
+  const startDisplay = document.getElementById('c-start-display')?.value?.trim();
+  if (!start && startDisplay) {
+    const parsed = parseDMYToISODate(startDisplay);
+    if (parsed) {
+      start = parsed;
+      const el = document.getElementById('c-start');
+      if (el) el.value = parsed;
+    }
+  }
 
-  if (!start) { toast('⚠️ Vui lòng chọn ngày bắt đầu!'); return; }
+  let end = document.getElementById('c-end')?.value;
+  const endDisplay = document.getElementById('c-end-display')?.value?.trim();
+  if (!end && endDisplay) {
+    const parsed = parseDMYToISODate(endDisplay);
+    if (parsed) {
+      end = parsed;
+      const el = document.getElementById('c-end');
+      if (el) el.value = parsed;
+    }
+  }
+
+  const note = (document.getElementById('c-note')?.value || '').trim();
+
+  if (!start) { toast('⚠️ Vui lòng chọn hoặc nhập ngày bắt đầu (dd/mm/yyyy)!'); return; }
   if (end && end < start) { toast('⚠️ Ngày kết thúc phải sau ngày bắt đầu!'); return; }
 
   const obj = {
@@ -459,8 +479,12 @@ function saveCycle() {
 ══════════════════════════════════════ */
 function resetCycleForm() {
   cEditId = null;
-  ['c-start', 'c-end', 'c-note'].forEach(id => (document.getElementById(id).value = ''));
-  document.getElementById('c-form-title').textContent = 'Thêm Chu Kỳ Mới';
+  ['c-start', 'c-end', 'c-note'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const titleEl = document.getElementById('c-form-title');
+  if (titleEl) titleEl.textContent = 'CHU KỲ KINH NGUYỆT';
 
   cSelectedSymptoms.clear();
   cSelectedPain = '';
@@ -469,6 +493,7 @@ function resetCycleForm() {
   ['c-symptoms', 'c-pain', 'c-mood'].forEach(id =>
     document.querySelectorAll(`#${id} .chip`).forEach(c => c.classList.remove('active'))
   );
+  syncCycleDateDisplay();
 }
 
 /* ══════════════════════════════════════
@@ -479,10 +504,17 @@ function editCycle(id) {
   if (!c) return;
 
   cEditId = id;
-  document.getElementById('c-start').value = c.start;
-  document.getElementById('c-end').value   = c.end || '';
-  document.getElementById('c-note').value  = c.note || '';
-  document.getElementById('c-form-title').textContent = 'Chỉnh Sửa Chu Kỳ';
+  const startEl = document.getElementById('c-start');
+  if (startEl) startEl.value = c.start || '';
+  const endEl = document.getElementById('c-end');
+  if (endEl) endEl.value = c.end || '';
+  const noteEl = document.getElementById('c-note');
+  if (noteEl) noteEl.value = c.note || '';
+
+  const titleEl = document.getElementById('c-form-title');
+  if (titleEl) titleEl.textContent = 'CHỈNH SỬA CHU KỲ';
+
+  syncCycleDateDisplay();
 
   cSelectedSymptoms = new Set(c.symptoms || []);
   syncMultiChip('c-symptoms', cSelectedSymptoms);
@@ -500,6 +532,16 @@ function editCycle(id) {
 /* ══════════════════════════════════════
    RENDER DANH SÁCH
 ══════════════════════════════════════ */
+function getFlowBadgeClass(pain) {
+  if (!pain) return 'flow-default';
+  const p = String(pain).toLowerCase();
+  if (p.includes('nặng') || p.includes('đỏ') || p.includes('heavy') || p.includes('🔴')) return 'flow-heavy';
+  if (p.includes('vừa') || p.includes('medium') || p.includes('🟡')) return 'flow-medium';
+  if (p.includes('nhẹ') || p.includes('light') || p.includes('🟢')) return 'flow-light';
+  if (p.includes('đốm') || p.includes('spot') || p.includes('⚪')) return 'flow-spot';
+  return 'flow-default';
+}
+
 function renderCycles() {
   const qEl = document.getElementById('c-search');
   const el   = document.getElementById('c-list');
@@ -545,14 +587,10 @@ function renderCycles() {
           const expanded = cExpandedHistory.has(c.id);
           const moods = Array.isArray(c.mood) ? c.mood : (c.mood ? [c.mood] : []);
           const symptoms = c.symptoms || [];
-          const badges = [
-            ...symptoms.map(s => `<span class="badge badge-pink">${s}</span>`),
-            c.pain ? `<span class="badge badge-purple">${c.pain}</span>` : '',
-            ...moods.map(m => `<span class="badge badge-blue">${m}</span>`)
-          ].filter(Boolean).join('');
+          const painText = c.pain ? (c.pain.startsWith('Không') ? c.pain : `Mức độ đau: ${c.pain}`) : '';
           const subtitle = [
             symptoms.length ? `${symptoms.length} triệu chứng` : 'Chưa ghi triệu chứng',
-            c.pain || ''
+            painText
           ].filter(Boolean).join(' · ');
 
           return `
@@ -568,14 +606,106 @@ function renderCycles() {
                   </span>
                   <span class="history-item-subtitle">${subtitle}</span>
                 </span>
-                <span class="history-chevron" aria-hidden="true">⌄</span>
+                <span class="history-chevron-btn" aria-hidden="true" title="${expanded ? 'Thu gọn' : 'Xem chi tiết'}">
+                  <svg class="chevron-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
               </button>
               <div class="history-item-details">
-                <div class="item-meta">${badges || '<span class="history-muted">Chưa có thông tin chi tiết</span>'}</div>
-                ${c.note ? `<div class="item-note">💬 ${c.note}</div>` : ''}
-                <div class="history-item-actions">
-                  <button class="icon-btn edit" onclick="editCycle('${c.id}')" title="Sửa">✏️</button>
-                  <button class="icon-btn del" onclick="askDelete('cycle','${c.id}')" title="Xóa">🗑️</button>
+                <div class="cycle-details-grid">
+                  ${c.pain ? `
+                    <div class="cycle-detail-card cycle-pain-card">
+                      <div class="cycle-detail-head">
+                        <span class="detail-icon-wrap pain-icon">💢</span>
+                        <span class="detail-head-title">Mức độ đau</span>
+                      </div>
+                      <div class="cycle-detail-body">
+                        <span class="cycle-flow-pill ${getFlowBadgeClass(c.pain)}">
+                          <span class="flow-dot-indicator"></span>
+                          <span class="flow-name">${c.pain}</span>
+                        </span>
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${symptoms.length ? `
+                    <div class="cycle-detail-card cycle-symptoms-card">
+                      <div class="cycle-detail-head">
+                        <span class="detail-icon-wrap symptom-icon">🩺</span>
+                        <span class="detail-head-title">Triệu chứng cơ thể <span class="detail-count-badge">${symptoms.length}</span></span>
+                      </div>
+                      <div class="cycle-detail-body detail-chips-wrap">
+                        ${symptoms.map(s => `
+                          <span class="cycle-chip chip-symptom">
+                            <span class="chip-dot"></span>
+                            <span class="chip-text">${s}</span>
+                          </span>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${moods.length ? `
+                    <div class="cycle-detail-card cycle-moods-card">
+                      <div class="cycle-detail-head">
+                        <span class="detail-icon-wrap mood-icon">✨</span>
+                        <span class="detail-head-title">Cảm xúc & Tâm trạng <span class="detail-count-badge">${moods.length}</span></span>
+                      </div>
+                      <div class="cycle-detail-body detail-chips-wrap">
+                        ${moods.map(m => `
+                          <span class="cycle-chip chip-mood">
+                            <span class="chip-text">${m}</span>
+                          </span>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${c.note ? `
+                    <div class="cycle-detail-card cycle-note-card">
+                      <div class="cycle-detail-head">
+                        <span class="detail-icon-wrap note-icon">💬</span>
+                        <span class="detail-head-title">Ghi chú riêng</span>
+                      </div>
+                      <div class="cycle-detail-body">
+                        <p class="cycle-note-content">${escapeHtml(c.note)}</p>
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${(!c.pain && !symptoms.length && !moods.length && !c.note) ? `
+                    <div class="cycle-detail-empty">
+                      <span class="empty-icon">🌱</span>
+                      <span>Chưa có thông tin chi tiết được ghi lại cho chu kỳ này</span>
+                    </div>
+                  ` : ''}
+                </div>
+
+                <div class="cycle-item-actions-bar">
+                  <div class="actions-bar-info">
+                    <span class="info-label">Thời gian:</span>
+                    <strong class="info-val">${dur} ngày</strong>
+                    ${c.end ? `<span class="info-dates">(${fmtDate(c.start)} → ${fmtDate(c.end)})</span>` : ''}
+                  </div>
+                  <div class="actions-bar-buttons">
+                    <button type="button" class="cycle-action-btn action-edit" onclick="editCycle('${c.id}')" title="Chỉnh sửa chu kỳ">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                      <span>Chỉnh sửa</span>
+                    </button>
+                    <button type="button" class="cycle-action-btn action-del" onclick="askDelete('cycle','${c.id}')" title="Xóa chu kỳ">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                      <span>Xóa</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>`;
@@ -585,14 +715,46 @@ function renderCycles() {
 
   if (paginationEl) {
     paginationEl.innerHTML = totalPages > 1 ? `
-      <button class="history-page-btn" type="button" onclick="changeCycleHistoryPage(-1)" ${cHistoryPage === 0 ? 'disabled' : ''}>← Mới hơn</button>
-      <span>Trang ${cHistoryPage + 1} / ${totalPages}</span>
-      <button class="history-page-btn" type="button" onclick="changeCycleHistoryPage(1)" ${cHistoryPage >= totalPages - 1 ? 'disabled' : ''}>Cũ hơn →</button>
-    ` : `<span>Đang hiển thị ${list.length} bản ghi gần nhất</span>`;
+      <div class="modern-pagination-container">
+        <button class="modern-pagi-btn prev-btn" type="button" onclick="changeCycleHistoryPage(-1)" ${cHistoryPage === 0 ? 'disabled' : ''} aria-label="Trang mới hơn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Mới hơn</span>
+        </button>
+
+        <div class="modern-pagi-status">
+          <span class="pagi-page-current">${cHistoryPage + 1}</span>
+          <span class="pagi-page-divider">/</span>
+          <span class="pagi-page-total">${totalPages}</span>
+        </div>
+
+        <button class="modern-pagi-btn next-btn" type="button" onclick="changeCycleHistoryPage(1)" ${cHistoryPage >= totalPages - 1 ? 'disabled' : ''} aria-label="Trang cũ hơn">
+          <span>Cũ hơn</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    ` : `<div class="modern-pagi-single"><span>Hiển thị tất cả ${list.length} chu kỳ</span></div>`;
   }
 }
 
 function handleCycleHistorySearch() {
+  const input = document.getElementById('c-search');
+  const clearBtn = document.getElementById('c-search-clear');
+  if (clearBtn && input) {
+    clearBtn.style.display = input.value.trim() ? 'inline-flex' : 'none';
+  }
+  cHistoryPage = 0;
+  renderCycles();
+}
+
+function clearCycleSearch() {
+  const input = document.getElementById('c-search');
+  const clearBtn = document.getElementById('c-search-clear');
+  if (input) input.value = '';
+  if (clearBtn) clearBtn.style.display = 'none';
   cHistoryPage = 0;
   renderCycles();
 }
@@ -831,12 +993,203 @@ function initRelationChips() {
 }
 
 /* ══════════════════════════════════════
+   HỖ TRỢ ĐỊNH DẠNG NGÀY DD/MM/YYYY
+══════════════════════════════════════ */
+function formatISODateToDMY(iso) {
+  if (!iso) return '';
+  const parts = String(iso).split('T')[0].split('-');
+  if (parts.length === 3) {
+    const [y, m, d] = parts;
+    if (y && m && d) {
+      return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}`;
+    }
+  }
+  return '';
+}
+
+function parseDMYToISODate(dmy) {
+  if (!dmy) return '';
+  const match = String(dmy).trim().match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if (match) {
+    const [, d, m, y] = match;
+    const day = Number(d);
+    const month = Number(m);
+    const year = Number(y);
+    if (month >= 1 && month <= 12 && day >= 1 && day <= 31 && year >= 1900 && year <= 2100) {
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
+  }
+  return '';
+}
+
+function bindCustomDMYPicker(nativeId, displayId, triggerBtnId) {
+  const nativeInput = document.getElementById(nativeId);
+  const displayInput = document.getElementById(displayId);
+  const triggerBtn = document.getElementById(triggerBtnId);
+
+  if (!nativeInput || !displayInput) return;
+
+  if (nativeInput.value) {
+    displayInput.value = formatISODateToDMY(nativeInput.value);
+  }
+
+  nativeInput.addEventListener('change', () => {
+    displayInput.value = formatISODateToDMY(nativeInput.value);
+  });
+  nativeInput.addEventListener('input', () => {
+    displayInput.value = formatISODateToDMY(nativeInput.value);
+  });
+
+  if (triggerBtn) {
+    triggerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof nativeInput.showPicker === 'function') {
+        try {
+          nativeInput.showPicker();
+          return;
+        } catch (err) {}
+      }
+      nativeInput.focus();
+      nativeInput.click();
+    });
+  }
+
+  displayInput.addEventListener('input', (e) => {
+    if (e.inputType !== 'deleteContentBackward' && e.inputType !== 'deleteContentForward') {
+      let v = displayInput.value.replace(/\D/g, '');
+      if (v.length > 8) v = v.slice(0, 8);
+      if (v.length >= 5) {
+        displayInput.value = `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
+      } else if (v.length >= 3) {
+        displayInput.value = `${v.slice(0, 2)}/${v.slice(2)}`;
+      }
+    }
+    const val = displayInput.value.trim();
+    const iso = parseDMYToISODate(val);
+    if (iso) {
+      nativeInput.value = iso;
+    }
+  });
+
+  displayInput.addEventListener('blur', () => {
+    if (nativeInput.value) {
+      displayInput.value = formatISODateToDMY(nativeInput.value);
+    } else {
+      const val = displayInput.value.trim();
+      if (!val) {
+        nativeInput.value = '';
+        return;
+      }
+      const iso = parseDMYToISODate(val);
+      if (iso) {
+        nativeInput.value = iso;
+        displayInput.value = formatISODateToDMY(iso);
+      }
+    }
+  });
+}
+
+function syncCycleDateDisplay() {
+  const startNative = document.getElementById('c-start');
+  const startDisplay = document.getElementById('c-start-display');
+  if (startNative && startDisplay) {
+    startDisplay.value = formatISODateToDMY(startNative.value);
+  }
+  const endNative = document.getElementById('c-end');
+  const endDisplay = document.getElementById('c-end-display');
+  if (endNative && endDisplay) {
+    endDisplay.value = formatISODateToDMY(endNative.value);
+  }
+}
+
+function syncRelationDateDisplay() {
+  const nativeInput = document.getElementById('r-date');
+  const displayInput = document.getElementById('r-date-display');
+  if (nativeInput && displayInput) {
+    displayInput.value = formatISODateToDMY(nativeInput.value);
+  }
+}
+
+function bindCycleDatePicker() {
+  bindCustomDMYPicker('c-start', 'c-start-display', 'btn-trigger-c-start');
+  bindCustomDMYPicker('c-end', 'c-end-display', 'btn-trigger-c-end');
+}
+
+function setQuickRelationTime(val) {
+  const timeInput = document.getElementById('r-time');
+  if (!timeInput) return;
+  if (val === 'now') {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    timeInput.value = `${hh}:${mm}`;
+  } else {
+    timeInput.value = val;
+  }
+}
+
+function bindRelationTimeInput() {
+  const el = document.getElementById('r-time');
+  if (!el) return;
+
+  el.addEventListener('input', (e) => {
+    if (e.inputType !== 'deleteContentBackward' && e.inputType !== 'deleteContentForward') {
+      let v = el.value.replace(/\D/g, '');
+      if (v.length > 4) v = v.slice(0, 4);
+      if (v.length >= 3) {
+        el.value = `${v.slice(0, 2)}:${v.slice(2)}`;
+      }
+    }
+  });
+
+  el.addEventListener('blur', () => {
+    let val = el.value.trim();
+    if (!val) return;
+    const digits = val.replace(/\D/g, '');
+    if (digits.length === 1 || digits.length === 2) {
+      let h = Math.min(23, Number(digits));
+      el.value = `${String(h).padStart(2, '0')}:00`;
+    } else if (digits.length === 3) {
+      let h = Math.min(23, Number(digits.slice(0, 1)));
+      let m = Math.min(59, Number(digits.slice(1)));
+      el.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    } else if (digits.length >= 4) {
+      let h = Math.min(23, Number(digits.slice(0, 2)));
+      let m = Math.min(59, Number(digits.slice(2, 4)));
+      el.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    } else {
+      const match = val.match(/^(\d{1,2}):(\d{1,2})$/);
+      if (match) {
+        let h = Math.min(23, Number(match[1]));
+        let m = Math.min(59, Number(match[2]));
+        el.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+      }
+    }
+  });
+}
+
+function bindRelationDatePicker() {
+  bindCustomDMYPicker('r-date', 'r-date-display', 'btn-trigger-r-date');
+  bindRelationTimeInput();
+}
+
+/* ══════════════════════════════════════
    CRUD – LƯU
 ══════════════════════════════════════ */
 function saveRelation() {
-  const date = document.getElementById('r-date').value;
-  const time = document.getElementById('r-time').value;
-  const note = document.getElementById('r-note').value.trim();
+  let date = document.getElementById('r-date')?.value;
+  const displayVal = document.getElementById('r-date-display')?.value?.trim();
+  if (!date && displayVal) {
+    const parsed = parseDMYToISODate(displayVal);
+    if (parsed) {
+      date = parsed;
+      const dateEl = document.getElementById('r-date');
+      if (dateEl) dateEl.value = parsed;
+    }
+  }
+  const time = document.getElementById('r-time')?.value || '';
+  const note = (document.getElementById('r-note')?.value || '').trim();
 
   if (!date) { toast('⚠️ Vui lòng chọn ngày!'); return; }
 
@@ -867,6 +1220,27 @@ function saveRelation() {
    if (typeof closeRelationModal === 'function') closeRelationModal();
    renderRelations();
    updateRelationStats();
+   renderRelationCalendar();
+   if (relationSelectedDay) {
+     showRelationDayDetail(relationSelectedDay);
+   }
+}
+
+function handleRelationSearch() {
+  const input = document.getElementById('r-search');
+  const clearBtn = document.getElementById('r-search-clear');
+  if (clearBtn && input) {
+    clearBtn.style.display = input.value.trim() ? 'inline-flex' : 'none';
+  }
+  renderRelations();
+}
+
+function clearRelationSearch() {
+  const input = document.getElementById('r-search');
+  const clearBtn = document.getElementById('r-search-clear');
+  if (input) input.value = '';
+  if (clearBtn) clearBtn.style.display = 'none';
+  renderRelations();
 }
 
 /* ══════════════════════════════════════
@@ -874,8 +1248,13 @@ function saveRelation() {
 ══════════════════════════════════════ */
 function resetRelationForm() {
   rEditId = null;
-  ['r-date', 'r-time', 'r-note'].forEach(id => (document.getElementById(id).value = ''));
-  document.getElementById('r-form-title').textContent = 'Thêm Lần Quan Hệ';
+  ['r-date', 'r-time', 'r-note'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const titleEl = document.getElementById('r-form-title');
+  if (titleEl) titleEl.textContent = 'LẦN QUAN HỆ';
+  syncRelationDateDisplay();
 
   rSelectedProt = '';
   rSelectedMethod.clear();
@@ -894,10 +1273,15 @@ function editRelation(id) {
   if (!r) return;
 
   rEditId = id;
-  document.getElementById('r-date').value = r.date;
-  document.getElementById('r-time').value = r.time || '';
-  document.getElementById('r-note').value = r.note || '';
-  document.getElementById('r-form-title').textContent = 'Chỉnh Sửa';
+  const dateInput = document.getElementById('r-date');
+  if (dateInput) dateInput.value = r.date;
+  const timeInput = document.getElementById('r-time');
+  if (timeInput) timeInput.value = r.time || '';
+  const noteInput = document.getElementById('r-note');
+  if (noteInput) noteInput.value = r.note || '';
+  const titleEl = document.getElementById('r-form-title');
+  if (titleEl) titleEl.textContent = 'CHỈNH SỬA';
+  syncRelationDateDisplay();
 
   rSelectedProt = r.protection || '';
   syncSingleChip('r-protection', rSelectedProt);
@@ -946,7 +1330,7 @@ function renderRelations() {
   list.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   if (!list.length) {
-    el.innerHTML = `<div class="empty"><div class="ei">💞</div><p>Chưa có dữ liệu quan hệ</p></div>`;
+    el.innerHTML = `<div class="empty"><div class="ei">💕</div><p>Chưa có dữ liệu quan hệ</p></div>`;
     return;
   }
 
@@ -979,19 +1363,43 @@ function renderRelations() {
               <button class="history-item-toggle" type="button"
                       onclick="toggleHistoryItem('relation','${r.id}')"
                       aria-expanded="${expanded}">
-                <span class="item-icon rose">💞</span>
+                <span class="item-icon rose">💕</span>
                 <span class="history-item-main">
                   <span class="history-item-title">${fmtDate(r.date)}${r.time ? ' lúc ' + r.time : ''}</span>
                   <span class="history-item-subtitle">${subtitle}</span>
                 </span>
-                <span class="history-chevron" aria-hidden="true">⌄</span>
+                <span class="history-chevron-btn" aria-hidden="true" title="${expanded ? 'Thu gọn' : 'Xem chi tiết'}">
+                  <svg class="chevron-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
               </button>
               <div class="history-item-details">
                 <div class="item-meta">${badges || '<span class="history-muted">Chưa có thông tin chi tiết</span>'}</div>
-                ${r.note ? `<div class="item-note">💬 ${r.note}</div>` : ''}
-                <div class="history-item-actions">
-                  <button class="icon-btn edit" onclick="editRelation('${r.id}')" title="Sửa">✏️</button>
-                  <button class="icon-btn del" onclick="askDelete('relation','${r.id}')" title="Xóa">🗑️</button>
+                ${r.note ? `<div class="item-note">💬 ${escapeHtml(r.note)}</div>` : ''}
+                <div class="cycle-item-actions-bar" style="margin-top:10px;padding-top:10px;">
+                  <div class="actions-bar-info">
+                    <span class="info-label">Ghi nhận:</span>
+                    <strong class="info-val">${fmtDate(r.date)}</strong>
+                  </div>
+                  <div class="actions-bar-buttons">
+                    <button type="button" class="cycle-action-btn action-edit" onclick="editRelation('${r.id}')" title="Sửa">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                      <span>Sửa</span>
+                    </button>
+                    <button type="button" class="cycle-action-btn action-del" onclick="askDelete('relation','${r.id}')" title="Xóa">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                      <span>Xóa</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>`;
@@ -1038,6 +1446,283 @@ function deleteRelationById(id) {
   deleteHealthRecord('relation', id);
   renderRelations();
   updateRelationStats();
+  renderRelationCalendar();
+}
+
+/* ══════════════════════════════════════════════════════
+   LỊCH QUAN HỆ THEO THÁNG (CHUẨN GIAO DIỆN THU CHI)
+   - Điều kiện hiển thị: Có quan hệ thì hiện số lần trong ngày
+   - An toàn (có dùng biện pháp): Hiện màu chuẩn cam đất ấm (#FFF7ED, #C2410C)
+   - Không an toàn (không dùng biện pháp): Hiện màu đỏ (#FEF2F2, #DC2626)
+   - Bấm vào ngày để xem chi tiết giờ, biện pháp, cảm xúc, ghi chú, sửa, xóa
+══════════════════════════════════════════════════════ */
+let relationCalendarYear = new Date().getFullYear();
+let relationCalendarMonth = new Date().getMonth();
+let relationSelectedDay = null;
+
+function _syncInitialRelationCalendarMonth() {
+  if (Array.isArray(relations) && relations.length > 0) {
+    const sorted = [...relations].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+    const latest = sorted[0]?.date;
+    if (latest) {
+      const parts = latest.split('-');
+      if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+        relationCalendarYear = parseInt(parts[0], 10);
+        relationCalendarMonth = parseInt(parts[1], 10) - 1;
+      }
+    }
+  }
+}
+
+function getRelationDateParts(dateStr) {
+  if (!dateStr) return null;
+  const parts = String(dateStr).split('T')[0].split('-').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return { year: parts[0], month: parts[1] - 1, day: parts[2] };
+}
+
+function isRelationSafe(r) {
+  if (!r) return false;
+  const p = String(r.protection || '');
+  return p.includes('Có') || p.includes('✅') || p.toLowerCase().includes('co');
+}
+
+function renderRelationCalendar() {
+  const grid = document.getElementById('r-calendar-days-grid');
+  if (!grid) return;
+
+  const yearLabel = document.getElementById('r-calendar-year-label');
+  const monthLabel = document.getElementById('r-calendar-month-title');
+  const monthTotalEl = document.getElementById('r-calendar-month-total');
+
+  if (yearLabel) yearLabel.textContent = String(relationCalendarYear);
+  if (monthLabel) monthLabel.textContent = `Tháng ${relationCalendarMonth + 1}`;
+
+  const daysInMonth = new Date(relationCalendarYear, relationCalendarMonth + 1, 0).getDate();
+  const firstDay = new Date(relationCalendarYear, relationCalendarMonth, 1).getDay();
+  const firstDayOffset = firstDay === 0 ? 6 : firstDay - 1;
+
+  const dayRelationsMap = {};
+  let totalInMonth = 0;
+
+  relations.forEach(r => {
+    if (!r || !r.date) return;
+    const parts = getRelationDateParts(r.date);
+    if (!parts) return;
+    if (parts.year === relationCalendarYear && parts.month === relationCalendarMonth) {
+      if (!dayRelationsMap[parts.day]) dayRelationsMap[parts.day] = [];
+      dayRelationsMap[parts.day].push(r);
+      totalInMonth++;
+    }
+  });
+
+  if (monthTotalEl) {
+    monthTotalEl.textContent = `${totalInMonth} lần`;
+  }
+
+  grid.innerHTML = '';
+
+  for (let i = 0; i < firstDayOffset; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'calendar-day-cell empty';
+    grid.appendChild(empty);
+  }
+
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayDate = today.getDate();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dayRels = dayRelationsMap[day] || [];
+    const count = dayRels.length;
+    const dayOfWeek = new Date(Date.UTC(relationCalendarYear, relationCalendarMonth, day)).getUTCDay();
+    const isToday = todayYear === relationCalendarYear && todayMonth === relationCalendarMonth && todayDate === day;
+
+    // Phân loại an toàn theo yêu cầu người dùng:
+    // 1. Toàn bộ an toàn -> Xanh lá (relation-safe)
+    // 2. Toàn bộ không an toàn -> Đỏ (relation-unsafe)
+    // 3. Có cả an toàn và không an toàn (vd 2 lần: 1 an toàn, 1 không an toàn) -> Nửa xanh nửa đỏ (relation-mixed)
+    let tierClass = '';
+    let badgeClass = '';
+    if (count > 0) {
+      const safeCount = dayRels.filter(r => isRelationSafe(r)).length;
+      const unsafeCount = dayRels.filter(r => !isRelationSafe(r)).length;
+
+      if (safeCount > 0 && unsafeCount > 0) {
+        tierClass = 'relation-mixed';
+        badgeClass = 'badge-mixed';
+      } else if (unsafeCount > 0) {
+        tierClass = 'relation-unsafe';
+        badgeClass = 'badge-unsafe';
+      } else {
+        tierClass = 'relation-safe';
+        badgeClass = 'badge-safe';
+      }
+    }
+
+    const cell = document.createElement('div');
+    cell.className = `calendar-day-cell${isToday ? ' today' : ''}${count > 0 ? ' has-relation ' + tierClass : ''}${dayOfWeek === 0 ? ' sunday' : ''}`;
+
+    const monthStr = String(relationCalendarMonth + 1).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
+    const fullDateStr = `${relationCalendarYear}-${monthStr}-${dayStr}`;
+
+    cell.setAttribute('data-date', fullDateStr);
+    cell.onclick = () => showRelationDayDetail(fullDateStr);
+
+    cell.innerHTML = `
+      <span class="calendar-day-number">${day}</span>
+      ${count > 0 ? `<span class="calendar-day-badge ${badgeClass}">${count} lần</span>` : ''}
+    `;
+
+    grid.appendChild(cell);
+  }
+}
+
+function prevRelationMonth() {
+  relationCalendarMonth--;
+  if (relationCalendarMonth < 0) {
+    relationCalendarMonth = 11;
+    relationCalendarYear--;
+  }
+  renderRelationCalendar();
+}
+
+function nextRelationMonth() {
+  relationCalendarMonth++;
+  if (relationCalendarMonth > 11) {
+    relationCalendarMonth = 0;
+    relationCalendarYear++;
+  }
+  renderRelationCalendar();
+}
+
+function showRelationDayDetail(dateStr) {
+  relationSelectedDay = dateStr;
+  const modal = document.getElementById('relation-day-modal');
+  if (!modal) return;
+
+  const parts = String(dateStr).split('-');
+  let displayTitle = dateStr;
+  if (parts.length === 3) {
+    const dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    const dayNames = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+    const dayName = dayNames[dObj.getDay()] || '';
+    displayTitle = `${dayName}, ngày ${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+
+  const titleEl = document.getElementById('r-day-detail-title');
+  if (titleEl) titleEl.textContent = displayTitle;
+
+  const dayRels = relations.filter(r => r && r.date === dateStr);
+  const count = dayRels.length;
+
+  const countEl = document.getElementById('r-day-summary-count');
+  if (countEl) countEl.textContent = `${count} lần`;
+
+  const statusWrap = document.getElementById('r-day-summary-status');
+  if (statusWrap) {
+    if (count === 0) {
+      statusWrap.innerHTML = `<span class="badge-neutral">Chưa có ghi nhận</span>`;
+    } else {
+      const hasUnsafe = dayRels.some(r => !isRelationSafe(r));
+      if (hasUnsafe) {
+        statusWrap.innerHTML = `<span class="badge-unsafe-pill">⚠️ Có lần không an toàn</span>`;
+      } else {
+        statusWrap.innerHTML = `<span class="badge-safe-pill">✅ An toàn</span>`;
+      }
+    }
+  }
+
+  const listEl = document.getElementById('r-day-records-list');
+  if (listEl) {
+    if (count === 0) {
+      listEl.innerHTML = `
+        <div class="calendar-day-empty-state">
+          <div class="calendar-day-empty-icon">☕</div>
+          <div class="calendar-day-empty-title">Không có lần quan hệ nào</div>
+          <div class="calendar-day-empty-desc">Chưa ghi nhận hoạt động nào vào ngày này.</div>
+        </div>
+      `;
+    } else {
+      listEl.innerHTML = dayRels.map((r, idx) => {
+        const isSafe = isRelationSafe(r);
+        const protText = r.protection || 'Chưa ghi bảo vệ';
+        const methodsText = (r.methods && r.methods.length) ? r.methods.join(', ') : 'Không dùng';
+        const feelingText = r.feeling || 'Bình thường';
+        const timeText = r.time ? `lúc ${r.time}` : 'Chưa ghi giờ';
+
+        return `
+          <div class="relation-day-record-card">
+            <div class="record-card-top">
+              <div class="record-time-badge">
+                <span class="record-num">#${idx + 1}</span>
+                <span class="record-time">⏰ ${timeText}</span>
+              </div>
+              <span class="record-safety-pill ${isSafe ? 'safe' : 'unsafe'}">
+                ${isSafe ? '✅ An toàn' : '⚠️ Không an toàn'}
+              </span>
+            </div>
+
+            <div class="record-detail-grid">
+              <div class="record-detail-item">
+                <span class="dt-lbl">🛡️ Biện pháp:</span>
+                <span class="dt-val">${protText} · ${methodsText}</span>
+              </div>
+              <div class="record-detail-item">
+                <span class="dt-lbl">😊 Cảm xúc:</span>
+                <span class="dt-val">${feelingText}</span>
+              </div>
+              ${r.note ? `
+              <div class="record-detail-item full">
+                <span class="dt-lbl">📝 Ghi chú:</span>
+                <span class="dt-val note-val">${r.note}</span>
+              </div>` : ''}
+            </div>
+
+            <div class="record-card-actions">
+              <button type="button" class="btn-action-edit" onclick="editRelationFromDayModal('${r.id}')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span>Chỉnh sửa</span>
+              </button>
+              <button type="button" class="btn-action-delete" onclick="deleteRelationFromDayModal('${r.id}')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span>Xóa</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  modal.classList.add('open');
+}
+
+function closeRelationDayModal() {
+  const modal = document.getElementById('relation-day-modal');
+  if (modal) modal.classList.remove('open');
+}
+
+function addRelationForSelectedDate() {
+  closeRelationDayModal();
+  resetRelationForm();
+  if (relationSelectedDay) {
+    const dateInput = document.getElementById('r-date');
+    if (dateInput) dateInput.value = relationSelectedDay;
+  }
+  syncRelationDateDisplay();
+  openRelationModal(false);
+}
+
+function editRelationFromDayModal(id) {
+  closeRelationDayModal();
+  editRelation(id);
+}
+
+function deleteRelationFromDayModal(id) {
+  askDelete('relation', id);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1056,9 +1741,15 @@ async function init() {
   initCycleChips();
   // Xây chip cho tab Quan Hệ
   initRelationChips();
+  // Khởi tạo datepicker định dạng dd/mm/yyyy
+  bindCycleDatePicker();
+  bindRelationDatePicker();
 
   // Tải dữ liệu Supabase trước khi vẽ danh sách lần đầu.
   await initHealthDatabase();
+
+  // Đồng bộ tháng lịch quan hệ ban đầu với dữ liệu gần nhất
+  _syncInitialRelationCalendarMonth();
 
   // Render danh sách + thống kê ban đầu
   renderCycles(); // Chu kỳ - Timeline only
@@ -1068,6 +1759,7 @@ async function init() {
   renderRelations();
   updateRelationStats();
   updateRelationSafety();
+  renderRelationCalendar();
 }
 
 /* ── Mở/đóng chi tiết một bản ghi trong lịch sử ── */
@@ -1116,6 +1808,9 @@ function confirmDelete() {
     deleteCycleById(deleteTarget.id);
   } else {
     deleteRelationById(deleteTarget.id);
+    if (relationSelectedDay) {
+      showRelationDayDetail(relationSelectedDay);
+    }
   }
 
   toast('🗑️ Đã xóa!');
@@ -1166,7 +1861,13 @@ function openCycleModal(isEdit = false) {
           : new Date(Date.now() + 7 * 3600 * 1000).toISOString().split('T')[0];
         startEl.value = today;
       }
+      const titleEl = document.getElementById('c-form-title');
+      if (titleEl) titleEl.textContent = 'CHU KỲ KINH NGUYỆT';
+    } else {
+      const titleEl = document.getElementById('c-form-title');
+      if (titleEl) titleEl.textContent = 'CHỈNH SỬA CHU KỲ';
     }
+    syncCycleDateDisplay();
   }
 }
 
@@ -1187,7 +1888,13 @@ function openRelationModal(isEdit = false) {
           : new Date(Date.now() + 7 * 3600 * 1000).toISOString().split('T')[0];
         dateEl.value = today;
       }
+      const titleEl = document.getElementById('r-form-title');
+      if (titleEl) titleEl.textContent = 'LẦN QUAN HỆ';
+    } else {
+      const titleEl = document.getElementById('r-form-title');
+      if (titleEl) titleEl.textContent = 'CHỈNH SỬA';
     }
+    syncRelationDateDisplay();
   }
 }
 
@@ -1210,6 +1917,36 @@ window.closeRelationModal = closeRelationModal;
 onReady(init);
 
 // Inline controls on this page and dynamically rendered rows.
-Object.assign(window,{askDelete,changeCycleHistoryPage,closeAddPickerModal,closeCycleModal,closeModal,closeRelationModal,confirmDelete,editCycle,editRelation,handleCycleHistorySearch,openAddPickerModal,renderRelations,saveCycle,saveRelation,selectAddOption,switchTab,toggleHistoryItem});
+Object.assign(window,{
+  addRelationForSelectedDate,
+  askDelete,
+  changeCycleHistoryPage,
+  clearCycleSearch,
+  clearRelationSearch,
+  closeAddPickerModal,
+  closeCycleModal,
+  closeModal,
+  closeRelationDayModal,
+  closeRelationModal,
+  confirmDelete,
+  deleteRelationFromDayModal,
+  editCycle,
+  editRelation,
+  editRelationFromDayModal,
+  handleCycleHistorySearch,
+  handleRelationSearch,
+  nextRelationMonth,
+  openAddPickerModal,
+  prevRelationMonth,
+  renderRelationCalendar,
+  renderRelations,
+  saveCycle,
+  saveRelation,
+  selectAddOption,
+  setQuickRelationTime,
+  showRelationDayDetail,
+  switchTab,
+  toggleHistoryItem
+});
 
 export default function start() {}
