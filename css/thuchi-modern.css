@@ -2012,8 +2012,25 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
 
 /* 8. RESPONSIVE MOBILE CHO THU CHI (< 640px) */
 @media (max-width: 640px) {
+    body[data-feature="thuchi"] .ios-status-bar-spacer {
+        display: none !important;
+        height: 0 !important;
+    }
+
     body[data-feature="thuchi"] .app-container {
-        padding: max(10px, env(safe-area-inset-top)) 10px max(18px, env(safe-area-inset-bottom)) !important;
+        position: relative !important;
+        inset: auto !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        overflow: visible !important;
+        padding: max(10px, env(safe-area-inset-top)) 10px max(20px, env(safe-area-inset-bottom)) !important;
+    }
+
+    body[data-feature="thuchi"] .app-main {
+        padding: 0 !important;
+        overflow: visible !important;
+        flex: none !important;
     }
 
     .app-header.header-overview {
@@ -2156,6 +2173,7 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
     .spending-calendar-card {
         padding: 14px 10px 16px !important;
         border-radius: 18px !important;
+        margin-bottom: 0 !important;
     }
 
     .dashboard-calendar-header {
