@@ -1,0 +1,1646 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   SUPPORT-PAGES-MODERN.CSS
+   Thiết kế hiện đại chuẩn Fintech / Warm Terracotta cho 5 trang:
+   - Hỗ trợ (ho-tro)
+   - Wishlist (wishlist)
+   - Danh sách (danh-sach)
+   - Trích dẫn (trich-dan)
+   - Sổ tay (so-tay)
+   Đồng bộ 100% với Thu Chi, Tiết Kiệm và Sức Khỏe
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. GLOBAL BACKGROUND, VIEW WIDTH & NATURAL DOCUMENT SCROLL (GIỐNG TIẾT KIỆM) ── */
+html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: clip !important;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body[data-feature="ho-tro"],
+body[data-feature="wishlist"],
+body[data-feature="danh-sach"],
+body[data-feature="trich-dan"],
+body[data-feature="so-tay"] {
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 10% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 90% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: scroll !important;
+    color: #0F172A !important;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    height: auto !important;
+    min-height: 100% !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow-y: visible !important;
+    overflow-x: clip !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body[data-feature="ho-tro"] .app-container,
+body[data-feature="wishlist"] .app-container,
+body[data-feature="danh-sach"] .app-container,
+body[data-feature="trich-dan"] .app-container,
+body[data-feature="so-tay"] .app-container {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    background: transparent !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+#support-modal.support-page-modal,
+#wishlist-modal.support-page-modal,
+#list-modal.support-page-modal,
+#quote-modal.support-page-modal,
+#handbook-modal.support-page-modal {
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    display: block !important;
+}
+
+/* Khung hiển thị sheet chuẩn 860px đồng nhất */
+#support-modal .support-page-sheet,
+#wishlist-modal .wishlist-page-sheet,
+#list-modal .list-page-sheet,
+#quote-modal .quote-page-sheet,
+#handbook-modal .handbook-page-sheet {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    transform: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(32px, env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+}
+
+#support-modal .support-table-card,
+#wishlist-modal .wishlist-table-card,
+#list-modal .list-topics-list,
+#quote-modal .quote-page-scroll,
+#quote-modal .quote-cards-container,
+#handbook-modal .handbook-page-scroll,
+.list-topic-card,
+.list-item-row,
+.quote-card,
+.support-table,
+.support-table-card table,
+.support-table-card tbody,
+.support-table tr,
+.support-table td {
+    flex: none !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+#quote-modal.is-subpage-hidden {
+    display: none !important;
+}
+
+/* ── 2. FLOATING WHITE CARD HEADER ── */
+.ckkn-page-header.support-page-header,
+.ckkn-page-header.wishlist-page-header,
+.ckkn-page-header.list-page-header,
+.ckkn-page-header.quote-page-header,
+.ckkn-page-header.handbook-page-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 14px !important;
+    position: relative !important;
+    top: auto !important;
+    z-index: 100 !important;
+}
+
+.support-header-left,
+.wishlist-header-left,
+.list-header-left,
+.quote-header-left,
+.handbook-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+/* Header Headings */
+.support-page-title h2,
+.wishlist-page-title h2,
+.list-page-title h2,
+.quote-page-title h2,
+.handbook-page-title h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* Actions in Header */
+.support-header-actions,
+.wishlist-header-actions,
+.list-header-actions,
+.quote-header-actions,
+.handbook-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút Thêm mới */
+.support-add-btn,
+.wishlist-add-btn,
+.list-add-btn,
+.quote-add-btn,
+.handbook-add-btn {
+    height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.support-add-btn:hover,
+.wishlist-add-btn:hover,
+.list-add-btn:hover,
+.quote-add-btn:hover,
+.handbook-add-btn:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.support-add-btn:active,
+.wishlist-add-btn:active,
+.list-add-btn:active,
+.quote-add-btn:active,
+.handbook-add-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* Nút Sửa / Xóa trong header */
+.support-delete-btn,
+.wishlist-delete-btn,
+.list-delete-btn,
+.list-edit-btn,
+.quote-delete-btn {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    transition: all 0.2s ease !important;
+}
+
+.support-delete-btn:hover,
+.wishlist-delete-btn:hover,
+.list-delete-btn:hover,
+.quote-delete-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.list-edit-btn:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Nút Thoát ✕ đồng bộ */
+.header-close-btn,
+.support-exit-btn,
+.wishlist-exit-btn,
+.list-exit-btn,
+.quote-exit-btn,
+.handbook-exit-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.header-close-btn svg,
+.support-exit-btn svg,
+.wishlist-exit-btn svg,
+.list-exit-btn svg,
+.quote-exit-btn svg,
+.handbook-exit-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+.header-close-btn:hover,
+.support-exit-btn:hover,
+.wishlist-exit-btn:hover,
+.list-exit-btn:hover,
+.quote-exit-btn:hover,
+.handbook-exit-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.header-close-btn:active,
+.support-exit-btn:active,
+.wishlist-exit-btn:active,
+.list-exit-btn:active,
+.quote-exit-btn:active,
+.handbook-exit-btn:active {
+    transform: scale(0.95) !important;
+}
+
+/* ── THIẾT KẾ HUY HIỆU ĐẾM SỐ LƯỢNG CHỦ ĐỀ TRỰC QUAN & SANG TRỌNG ── */
+.list-title-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+.list-title-wrap h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.list-count-badge,
+#list-count-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    height: 30px !important;
+    padding: 0 12px 0 10px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.08) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: default !important;
+    user-select: none !important;
+}
+
+.list-count-badge:hover,
+#list-count-pill:hover {
+    border-color: rgba(194, 65, 12, 0.45) !important;
+    transform: translateY(-1px) scale(1.03) !important;
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.16) !important;
+}
+
+.list-count-badge .list-count-icon,
+.list-count-badge svg,
+.list-count-badge i {
+    width: 14px !important;
+    height: 14px !important;
+    stroke-width: 2.4 !important;
+    color: #C2410C !important;
+    flex-shrink: 0 !important;
+}
+
+.list-count-badge strong,
+#list-topic-count {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    line-height: 1 !important;
+}
+
+.list-count-badge span:not(.list-count-icon) {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #9A3412 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.01em !important;
+}
+
+/* Badge số lượng mục con bên trong từng chủ đề */
+.list-topic-count {
+    margin-left: auto !important;
+    padding: 3px 10px !important;
+    border-radius: 999px !important;
+    background: #F1F5F9 !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    flex-shrink: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.list-topic-count.has-done {
+    background: #ECFDF5 !important;
+    border: 1px solid rgba(16, 185, 129, 0.25) !important;
+    color: #047857 !important;
+}
+
+.list-topic-count.is-all-done {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important;
+    color: #065F46 !important;
+    border: 1px solid rgba(16, 185, 129, 0.35) !important;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.12) !important;
+}
+
+/* Huy hiệu đếm số lượng chung cho các trang khác */
+.quote-count-pill,
+.handbook-count-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.25) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+/* ── 3. SEGMENTED FILTER TABS (WISHLIST, SỔ TAY...) ── */
+.wishlist-filter-tabs,
+.handbook-filter-tabs {
+    display: flex !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 16px !important;
+    padding: 4px !important;
+    gap: 6px !important;
+    margin-bottom: 14px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+}
+
+.wishlist-filter-tab,
+.handbook-filter-tab {
+    flex: 1 !important;
+    height: 42px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.wishlist-filter-tab:hover:not(.active),
+.handbook-filter-tab:hover:not(.active) {
+    background: #FFEDD5 !important;
+    color: #C2410C !important;
+}
+
+.wishlist-filter-tab.active,
+.handbook-filter-tab.active {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+    font-weight: 900 !important;
+    box-shadow: 0 3px 12px rgba(194, 65, 12, 0.12) !important;
+    transform: scale(1.01) !important;
+}
+
+.wishlist-tab-badge {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.3) !important;
+    border-radius: 999px !important;
+    padding: 2px 8px !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+}
+
+/* ── 4. TOOLBAR & SEARCH BAR (HỖ TRỢ & SỔ TAY) ── */
+.support-toolbar {
+    margin: 0 0 12px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.handbook-search-row {
+    margin-bottom: 14px !important;
+}
+
+.support-search-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    padding: 0 36px 0 38px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 13px !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.03) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-sizing: border-box !important;
+}
+
+.support-search-wrapper:hover {
+    border-color: rgba(194, 65, 12, 0.35) !important;
+}
+
+.support-search-wrapper:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12), 0 3px 10px rgba(194, 65, 12, 0.06) !important;
+    background: #FFFFFF !important;
+}
+
+.support-search-wrapper .support-search-icon,
+.support-search-icon {
+    position: absolute !important;
+    left: 13px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 16px !important;
+    height: 16px !important;
+    color: #94A3B8 !important;
+    stroke-width: 2.2 !important;
+    pointer-events: none !important;
+    transition: color 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.support-search-wrapper:focus-within .support-search-icon {
+    color: #C2410C !important;
+}
+
+#support-search-input,
+.support-search-wrapper input {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: #0F172A !important;
+    box-sizing: border-box !important;
+}
+
+#support-search-input::-webkit-search-decoration,
+#support-search-input::-webkit-search-cancel-button,
+#support-search-input::-webkit-search-results-button,
+#support-search-input::-webkit-search-results-decoration {
+    -webkit-appearance: none !important;
+    display: none !important;
+}
+
+#support-search-input::placeholder,
+.support-search-wrapper input::placeholder {
+    color: #94A3B8 !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+}
+
+.support-search-clear {
+    position: absolute !important;
+    right: 9px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 24px !important;
+    height: 24px !important;
+    border: none !important;
+    border-radius: 50% !important;
+    background: #F1F5F9 !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+.support-search-clear:hover {
+    background: #FFEDD5 !important;
+    color: #C2410C !important;
+}
+
+.support-search-clear svg,
+.support-search-clear i {
+    width: 13px !important;
+    height: 13px !important;
+    stroke-width: 2.4 !important;
+}
+
+.support-search-clear[hidden] {
+    display: none !important;
+}
+
+.handbook-search-box {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 16px !important;
+    padding: 10px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+    transition: all 0.2s ease !important;
+}
+
+.handbook-search-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15) !important;
+}
+
+.handbook-search-box input {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px !important;
+    color: #0F172A !important;
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    width: 100% !important;
+}
+
+/* Ẩn badge đếm số lượng mục Hỗ trợ, Wishlist, Sổ tay theo yêu cầu */
+.support-count,
+#support-count-pill,
+.wishlist-count-pill,
+#wishlist-count-pill,
+.handbook-count-pill,
+#handbook-header-count-pill,
+.handbook-count,
+#handbook-entry-count,
+.handbook-intro-card,
+#handbook-intro-card,
+.handbook-filter-row {
+    display: none !important;
+}
+
+/* Modal Thêm / Sửa Wishlist: Gọn gàng, thanh thoát, chỉ giữ nội dung cần thiết */
+#wishlist-entry-modal .wishlist-entry-sheet {
+    width: min(92vw, 440px) !important;
+    max-width: 440px !important;
+    padding: 22px 24px 20px !important;
+    border-radius: 22px !important;
+    box-sizing: border-box !important;
+}
+
+#wishlist-entry-modal .wishlist-modal-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+#wishlist-entry-modal .wishlist-modal-title-wrap h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+#wishlist-entry-modal .wishlist-modal-eyebrow,
+#wishlist-entry-modal .wishlist-modal-title-wrap p,
+#wishlist-entry-modal .wishlist-status-field,
+#wishlist-entry-modal label[for="wishlist-entry-title"] {
+    display: none !important;
+}
+
+#wishlist-entry-modal .wishlist-form-field {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 18px 0 !important;
+}
+
+#wishlist-entry-modal #wishlist-entry-title {
+    width: 100% !important;
+    height: 48px !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 14px !important;
+    padding: 0 16px !important;
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    color: #0F172A !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    outline: none !important;
+}
+
+#wishlist-entry-modal #wishlist-entry-title:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12), 0 2px 8px rgba(194, 65, 12, 0.06) !important;
+}
+
+#wishlist-entry-modal #wishlist-entry-title::placeholder {
+    color: #94A3B8 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+#wishlist-entry-modal .support-entry-form-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1.6fr !important;
+    gap: 12px !important;
+    margin-top: 4px !important;
+}
+
+#wishlist-entry-modal .support-cancel-btn {
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+#wishlist-entry-modal .support-cancel-btn:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+#wishlist-entry-modal .wishlist-save-btn {
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.28) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+#wishlist-entry-modal .wishlist-save-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.35) !important;
+}
+
+/* ── 5. HERO BANNERS (TRÍCH DẪN & SỔ TAY) ── */
+.handbook-intro-card {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 20px !important;
+    padding: 18px 20px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 4px 16px rgba(194, 65, 12, 0.06) !important;
+}
+
+.handbook-intro-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 10px !important;
+    border-radius: 999px !important;
+    background: rgba(194, 65, 12, 0.1) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   NÂNG CẤP TOÀN DIỆN TRANG TRÍCH DẪN (LOẠI BỎ MÀU TÍM, NÂNG CẤP BANNER & NÚT)
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Huy hiệu đếm số câu trích dẫn trên Header */
+.quote-count-badge,
+#quote-count-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    height: 30px !important;
+    padding: 0 12px 0 10px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.08) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: default !important;
+    user-select: none !important;
+}
+
+.quote-count-badge .quote-count-icon,
+.quote-count-badge svg,
+.quote-count-badge i {
+    width: 14px !important;
+    height: 14px !important;
+    stroke-width: 2.4 !important;
+    color: #C2410C !important;
+    flex-shrink: 0 !important;
+}
+
+.quote-count-badge strong,
+#quote-entry-count {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    line-height: 1 !important;
+}
+
+.quote-count-badge span:not(.quote-count-icon) {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #9A3412 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.01em !important;
+}
+
+/* Ẩn nút xóa tổng trên header theo yêu cầu */
+.quote-delete-btn,
+#btn-delete-quote-entry {
+    display: none !important;
+}
+
+/* 2. CẢM HỨNG HÔM NAY (HERO BANNER) — Sang trọng, nghệ thuật, siêu rõ nét */
+.quote-hero-banner {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 45%, #FEF3C7 100%) !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.24) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px 20px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.08), 0 2px 6px rgba(15, 23, 42, 0.02) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.quote-hero-banner::before {
+    content: "“" !important;
+    position: absolute !important;
+    right: 20px !important;
+    bottom: -15px !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 110px !important;
+    font-weight: 900 !important;
+    color: rgba(194, 65, 12, 0.08) !important;
+    line-height: 1 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+.quote-hero-top-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 12px !important;
+}
+
+.quote-hero-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(194, 65, 12, 0.12) !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    padding: 3.5px 11px !important;
+    border-radius: 999px !important;
+}
+
+.quote-hero-badge svg,
+.quote-hero-badge i {
+    width: 12px !important;
+    height: 12px !important;
+    stroke-width: 2.4 !important;
+}
+
+/* Chữ câu trích dẫn nổi bật 100% rõ nét, hỗ trợ xuống dòng */
+.quote-hero-banner .quote-hero-text,
+.quote-hero-text,
+#quote-hero-text {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    line-height: 1.65 !important;
+    margin: 0 0 10px 0 !important;
+    white-space: pre-line !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.quote-hero-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.quote-hero-banner .quote-hero-author,
+.quote-hero-author,
+#quote-hero-author {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    font-style: italic !important;
+}
+
+/* 3. SHOW CÁC CÂU TRÍCH DẪN — LOẠI BỎ TOÀN BỘ MÀU TÍM, THIẾT KẾ ĐẲNG CẤP */
+.quote-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 18px 20px 16px !important;
+    box-shadow: 0 3px 14px rgba(194, 65, 12, 0.04) !important;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease !important;
+    position: relative !important;
+    overflow: clip !important;
+    margin-bottom: 12px !important;
+}
+
+.quote-card:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.09) !important;
+}
+
+.quote-card-header-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 10px !important;
+}
+
+/* Badge số thứ tự (#01, #02...): Màu cam đất thay thế màu tím */
+.quote-card-index {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.24) !important;
+    padding: 2.5px 8px !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.02em !important;
+}
+
+.quote-card-watermark {
+    position: absolute !important;
+    right: 14px !important;
+    top: 6px !important;
+    font-family: Georgia, serif !important;
+    font-size: 64px !important;
+    font-weight: 900 !important;
+    color: rgba(194, 65, 12, 0.06) !important;
+    line-height: 1 !important;
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+/* Nội dung trích dẫn: Giữ nguyên các dòng đã xuống hàng (Shift+Enter) */
+.quote-card-text {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+    color: #0F172A !important;
+    font-weight: 600 !important;
+    white-space: pre-line !important;
+    margin: 8px 0 14px 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.quote-card-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid rgba(194, 65, 12, 0.08) !important;
+}
+
+.quote-author-chip {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* Avatar tròn tác giả: Gradient cam đất thay thế màu tím */
+.quote-author-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.25) !important;
+}
+
+.quote-author-name {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+}
+
+/* 4. NÂNG CẤP BỘ NÚT THAO TÁC COPY, SỬA, XÓA DẠNG SQUIRCLE */
+.quote-card-action-btns {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.quote-card-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 11px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+}
+
+.quote-card-btn svg,
+.quote-card-btn i {
+    width: 15px !important;
+    height: 15px !important;
+    stroke-width: 2.2 !important;
+}
+
+.quote-card-btn:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) scale(1.06) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.16) !important;
+}
+
+.quote-card-btn[title*="Xóa"]:hover,
+.quote-card-btn[aria-label*="Xóa"]:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.35) !important;
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.16) !important;
+}
+
+.quote-card-btn:active {
+    transform: scale(0.92) !important;
+}
+
+/* 5. TRANG THÊM / SỬA TRÍCH DẪN (FULL PAGE VIEW) */
+#quote-entry-modal {
+    display: none !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+#quote-entry-modal.active {
+    display: block !important;
+}
+
+#quote-entry-modal .quote-entry-sheet {
+    width: 100% !important;
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(32px, env(safe-area-inset-bottom, 0px)) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+#quote-entry-modal .quote-entry-page-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 14px !important;
+}
+
+#quote-entry-modal .quote-entry-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+#quote-entry-modal #quote-entry-form-title {
+    display: block !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 21px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+#quote-entry-modal .support-entry-form {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+}
+
+#quote-entry-modal #quote-entry-form-description,
+#quote-entry-modal .quote-author-chips,
+#quote-entry-modal #quote-author-chips {
+    display: none !important;
+}
+
+/* Khung nhập trích dẫn to rộng, thoải mái nhập nhiều dòng */
+#quote-entry-modal #quote-entry-text {
+    width: 100% !important;
+    min-height: 140px !important;
+    padding: 13px 15px !important;
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+    color: #0F172A !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    resize: vertical !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#quote-entry-modal #quote-entry-text:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12), 0 2px 8px rgba(194, 65, 12, 0.06) !important;
+}
+
+#quote-entry-modal #quote-entry-author {
+    width: 100% !important;
+    height: 46px !important;
+    padding: 0 15px !important;
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px !important;
+    color: #0F172A !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#quote-entry-modal #quote-entry-author:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12), 0 2px 8px rgba(194, 65, 12, 0.06) !important;
+}
+
+/* Nút Lưu trong modal: Màu cam đất thay thế màu tím */
+#quote-entry-modal .support-save-btn {
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.28) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+#quote-entry-modal .support-save-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.35) !important;
+}
+
+#quote-entry-modal .support-cancel-btn {
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+#quote-entry-modal .support-cancel-btn:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+/* ── 6. LIST CARDS & ITEMS (CARDS NHƯ DANH SÁCH, SỔ TAY, WISHLIST, HỖ TRỢ) ── */
+.support-entry-card,
+.wishlist-card,
+.list-topic-card,
+.quote-card,
+.handbook-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease !important;
+    overflow: clip !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    margin-bottom: 12px !important;
+}
+
+.support-entry-card:hover,
+.wishlist-card:hover,
+.list-topic-card:hover,
+.quote-card:hover,
+.handbook-card:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(194, 65, 12, 0.09) !important;
+}
+
+/* Squircle Nút chức năng trong từng item */
+.item-action-btn,
+.entry-action-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 11px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+}
+
+.item-action-btn.edit {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+}
+
+.item-action-btn.del {
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.22) !important;
+    color: #E11D48 !important;
+}
+
+/* ── 7. POPUP / MODAL FORM ── */
+.support-entry-form-sheet,
+.list-entry-sheet,
+.wishlist-entry-sheet,
+.quote-entry-sheet,
+.handbook-entry-sheet {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15) !important;
+}
+
+.support-form-submit-btn,
+.wishlist-form-submit-btn,
+.list-form-submit-btn,
+.quote-form-submit-btn,
+.handbook-form-submit-btn {
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.3) !important;
+}
+
+/* ── 8. MOBILE RESPONSIVENESS ── */
+@media (max-width: 640px) {
+    .ckkn-page-header.support-page-header,
+    .ckkn-page-header.wishlist-page-header,
+    .ckkn-page-header.list-page-header,
+    .ckkn-page-header.quote-page-header,
+    .ckkn-page-header.handbook-page-header {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+    }
+
+    .support-page-title h2,
+    .wishlist-page-title h2,
+    .list-page-title h2,
+    .quote-page-title h2,
+    .handbook-page-title h2 {
+        font-size: 19px !important;
+    }
+
+    .support-add-btn,
+    .wishlist-add-btn,
+    .list-add-btn,
+    .quote-add-btn,
+    .handbook-add-btn {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 13px !important;
+        border-radius: 11px !important;
+    }
+
+    .header-close-btn,
+    .support-exit-btn,
+    .wishlist-exit-btn,
+    .list-exit-btn,
+    .quote-exit-btn,
+    .handbook-exit-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .header-close-btn svg,
+    .support-exit-btn svg,
+    .wishlist-exit-btn svg,
+    .list-exit-btn svg,
+    .quote-exit-btn svg,
+    .handbook-exit-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* ── 9. MODAL THÊM / CHỈNH SỬA CHO CÁC TRANG SUPPORT (WISHLIST, DANH SÁCH, HỖ TRỢ, TRÍCH DẪN, SỔ TAY) ── */
+.support-entry-form-overlay {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    background: rgba(15, 23, 42, 0.52) !important;
+    z-index: 10000 !important;
+}
+
+.support-entry-form-sheet {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+    font-family: 'Nunito', 'Be Vietnam Pro', sans-serif !important;
+    padding: 24px 26px !important;
+    max-width: 520px !important;
+}
+
+@media (max-width: 640px) {
+    .support-entry-form-sheet {
+        border-radius: 24px 24px 0 0 !important;
+        padding: 18px 20px max(24px, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+.support-modal-header {
+    border-bottom: 1px solid rgba(194, 65, 12, 0.1) !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 18px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.support-modal-eyebrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    padding: 3px 10px !important;
+    border-radius: 999px !important;
+    margin-bottom: 6px !important;
+}
+
+.support-modal-title-wrap h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 0 3px 0 !important;
+    line-height: 1.25 !important;
+}
+
+.support-modal-title-wrap p {
+    font-size: 12px !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* Nút đóng modal ✕ */
+.support-entry-form-sheet .modal-close-btn,
+.support-entry-form-sheet .support-modal-close {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 11px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.support-entry-form-sheet .modal-close-btn:hover,
+.support-entry-form-sheet .support-modal-close:hover {
+    background: #FFF1F2 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    color: #E11D48 !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+/* Form inputs & fields */
+.support-form-field label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+.support-form-field input,
+.support-form-field select,
+.support-form-field textarea {
+    width: 100% !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 10px 14px !important;
+    font-family: 'Nunito', 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    transition: all 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+
+.support-form-field input:focus,
+.support-form-field select:focus,
+.support-form-field textarea:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.16) !important;
+    outline: none !important;
+}
+
+/* Action buttons */
+.support-entry-form-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    padding-top: 18px !important;
+    margin-top: 18px !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.support-save-btn,
+.wishlist-save-btn,
+.list-save-btn,
+.quote-save-btn,
+.handbook-save-btn {
+    min-height: 42px !important;
+    padding: 0 22px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    transition: all 0.2s ease !important;
+}
+
+.support-save-btn:hover,
+.wishlist-save-btn:hover,
+.list-save-btn:hover,
+.quote-save-btn:hover,
+.handbook-save-btn:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.support-cancel-btn,
+.wishlist-cancel-btn,
+.list-cancel-btn,
+.quote-cancel-btn,
+.handbook-cancel-btn {
+    min-height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+}
+
+.support-cancel-btn:hover,
+.wishlist-cancel-btn:hover,
+.list-cancel-btn:hover,
+.quote-cancel-btn:hover,
+.handbook-cancel-btn:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+.support-field-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #C2410C !important;
+    margin-right: 4px !important;
+}
+
+.support-field-icon svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+.wishlist-status-checkbox-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin-top: 6px !important;
+}
+
+.wishlist-status-checkbox:checked + .wishlist-checkbox-custom {
+    background: #059669 !important;
+    border-color: #059669 !important;
+    color: #FFFFFF !important;
+}
+
+

@@ -1,0 +1,628 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   GHI-CHU-MODERN.CSS
+   Thiết kế hiện đại chuẩn Fintech / Warm Terracotta cho GHI CHÚ
+   Tông màu: Cam Đất (#C2410C / #EA580C)
+   Khung view: max-width 860px đồng bộ Thu Chi & Tiết Kiệm
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. NỀN & CONTAINER (DOCUMENT SCROLL DUY NHẤT) ── */
+html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body[data-feature="ghi-chu"] {
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 10% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 90% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: fixed !important;
+    color: #0F172A !important;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    height: auto !important;
+    min-height: 100% !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body[data-feature="ghi-chu"] .notes-container {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    background: transparent !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(32px, env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+}
+
+/* ── 2. HEADER GHI CHÚ ── */
+.notes-header-bar,
+header.notes-header-bar {
+    position: relative !important;
+    top: auto !important;
+    z-index: 100 !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+}
+
+.notes-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.notes-header-title-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+}
+
+.notes-header-heading {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.notes-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút Thêm ghi chú */
+.notes-header-add-btn {
+    height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.notes-header-add-btn:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.notes-header-add-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* Nút Thoát ✕ */
+.header-close-btn,
+.notes-exit-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.header-close-btn svg,
+.notes-exit-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+.header-close-btn:hover,
+.notes-exit-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.header-close-btn:active,
+.notes-exit-btn:active {
+    transform: scale(0.95) !important;
+}
+
+/* ── 3. SEARCH & COUNTER ── */
+.notes-search-box {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+}
+
+.notes-search-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15) !important;
+}
+
+.notes-stats-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    padding: 0 4px !important;
+    margin: 8px 0 12px 0 !important;
+}
+
+/* Ẩn nhãn "Danh sách ghi chú" theo yêu cầu */
+.notes-stats-label {
+    display: none !important;
+}
+
+.notes-counter-badge {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.25) !important;
+    border-radius: 999px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    padding: 3px 12px !important;
+    font-size: 12.5px !important;
+}
+
+/* ── 4. NÂNG CẤP GIAO DIỆN KHU VỰC THẺ GHI CHÚ ── */
+.notes-cards-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 9px !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+.note-card,
+.notes-card-item {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 16px !important;
+    padding: 11px 16px !important;
+    box-shadow: 0 2px 10px rgba(194, 65, 12, 0.04) !important;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: visible !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+.note-card:hover,
+.notes-card-item:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.09) !important;
+}
+
+/* Thẻ đã ghim: Điểm nhấn viền cam đất sang trọng, tinh tế */
+.note-card.is-pinned {
+    border-left: 4px solid #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.28) !important;
+    background: linear-gradient(180deg, #FFFDFB 0%, #FFFFFF 100%) !important;
+    box-shadow: 0 4px 18px rgba(194, 65, 12, 0.07) !important;
+}
+
+.note-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+.note-card-content {
+    display: none !important;
+}
+
+.note-card-title-group {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.note-card-title-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.note-card-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    letter-spacing: -0.015em !important;
+}
+
+/* Tag Đã ghim */
+.note-pinned-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 2.5px 9px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+}
+
+.note-pinned-tag svg,
+.note-pinned-tag i {
+    width: 11px !important;
+    height: 11px !important;
+    stroke-width: 2.4 !important;
+}
+
+/* Ẩn ngày tháng trên thẻ ghi chú theo yêu cầu */
+.note-card-date {
+    display: none !important;
+}
+
+/* Nội dung ghi chú */
+.note-card-content {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+    color: #334155 !important;
+    word-break: break-word !important;
+}
+
+/* ── NÂNG CẤP BỘ NÚT THAO TÁC (GHIM, SỬA, XÓA) ── */
+.note-card-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút dạng squircle hiện đại */
+.note-action-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+}
+
+.note-action-btn svg,
+.note-action-btn i {
+    width: 16px !important;
+    height: 16px !important;
+    stroke-width: 2.2 !important;
+}
+
+/* Ẩn nút sao chép (copy) theo yêu cầu */
+.btn-copy-note {
+    display: none !important;
+}
+
+/* Nút Ghim */
+.note-action-btn.btn-pin-note:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) scale(1.06) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.16) !important;
+}
+
+.note-action-btn.btn-pin-note.is-active {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: #EA580C !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.18) !important;
+}
+
+.note-action-btn.btn-pin-note.is-active svg,
+.note-action-btn.btn-pin-note.is-active i {
+    fill: #C2410C !important;
+}
+
+/* Nút Sửa */
+.note-action-btn.btn-edit-note:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) scale(1.06) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.16) !important;
+}
+
+/* Nút Xóa */
+.note-action-btn.btn-delete-note:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.35) !important;
+    transform: translateY(-1.5px) scale(1.06) !important;
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.16) !important;
+}
+
+.note-action-btn:active {
+    transform: scale(0.92) !important;
+}
+
+/* Ẩn nút ghim trong header modal và trạng thái lưu trong footer modal theo yêu cầu */
+.notes-pin-btn,
+#btn-toggle-note-pin,
+.notes-save-status,
+#notes-save-status {
+    display: none !important;
+}
+
+/* ── 5. MOBILE RESPONSIVENESS ── */
+@media (max-width: 640px) {
+    .notes-header-bar {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+    }
+
+    .notes-header-heading {
+        font-size: 19px !important;
+    }
+
+    .notes-header-add-btn {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 13px !important;
+        border-radius: 11px !important;
+    }
+
+    .header-close-btn,
+    .notes-exit-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .header-close-btn svg,
+    .notes-exit-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+/* ── 6. MODAL THÊM / CHỈNH SỬA GHI CHÚ HIỆN ĐẠI ── */
+.notes-modal-overlay {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    background: rgba(15, 23, 42, 0.52) !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+.notes-modal-sheet {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+    font-family: 'Nunito', 'Be Vietnam Pro', sans-serif !important;
+    padding: 22px 24px !important;
+    max-height: 88vh !important;
+    max-height: 88dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+}
+
+@media (max-width: 640px) {
+    .notes-modal-sheet {
+        border-radius: 24px 24px 0 0 !important;
+        padding: 16px 18px max(24px, env(safe-area-inset-bottom)) !important;
+    }
+}
+
+.notes-modal-header {
+    border-bottom: 1px solid rgba(194, 65, 12, 0.1) !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 16px !important;
+}
+
+.notes-modal-kicker {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    padding: 2.5px 8px !important;
+    border-radius: 999px !important;
+    margin-bottom: 4px !important;
+}
+
+#notes-form-heading {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+}
+
+.notes-pin-btn,
+.notes-modal-close-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 11px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    transition: all 0.18s ease !important;
+}
+
+.notes-pin-btn:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+}
+
+.notes-modal-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+#note-title-input {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 11px 14px !important;
+    transition: all 0.18s ease !important;
+}
+
+#note-title-input:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.15) !important;
+    outline: none !important;
+}
+
+#note-content-input {
+    font-family: 'Be Vietnam Pro', 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+    color: #334155 !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    min-height: 120px !important;
+    transition: all 0.18s ease !important;
+}
+
+#note-content-input:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.15) !important;
+    outline: none !important;
+}
+
+.notes-form-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    padding-top: 16px !important;
+    margin-top: 14px !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.notes-modal-save {
+    min-height: 40px !important;
+    padding: 0 20px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+}
+
+.notes-modal-save:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.notes-modal-cancel {
+    min-height: 40px !important;
+    padding: 0 16px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+}
+
+.notes-modal-cancel:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+

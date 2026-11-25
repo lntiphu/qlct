@@ -1,0 +1,577 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   CONG-VIEC-MODERN.CSS
+   Thiết kế hiện đại chuẩn Warm Terracotta cho CÔNG VIỆC
+   Tông màu: Cam Đất (#C2410C / #EA580C)
+   Khung view: max-width 860px đồng bộ Thu Chi & Tiết Kiệm
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. NỀN & CƠ CHẾ CUỘN MƯỢT (FIX LỖI KHÔNG CUỘN ĐƯỢC) ── */
+html {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: smooth !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(194, 65, 12, 0.35) transparent !important;
+    height: auto !important;
+    min-height: 100% !important;
+}
+
+body[data-feature="cong-viec"] {
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 10% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 90% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: fixed !important;
+    color: #0F172A !important;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    touch-action: pan-y !important;
+    padding-bottom: 120px !important;
+}
+
+/* Thanh cuộn Desktop cam đất mỏng, thanh lịch */
+html::-webkit-scrollbar {
+    width: 6px !important;
+    display: block !important;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: rgba(194, 65, 12, 0.3) !important;
+    border-radius: 9999px !important;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background: rgba(194, 65, 12, 0.55) !important;
+}
+
+/* Đồng bộ kích thước khung 860px cho cả Header và Danh sách việc ở dưới */
+body[data-feature="cong-viec"] .max-w-md,
+body[data-feature="cong-viec"] .todo-main-container {
+    max-width: 860px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+}
+
+body[data-feature="cong-viec"] .view-panel,
+body[data-feature="cong-viec"] main.view-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+body[data-feature="cong-viec"] #timeline-container,
+body[data-feature="cong-viec"] .timeline-group,
+body[data-feature="cong-viec"] .timeline-section-header,
+body[data-feature="cong-viec"] .history-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ── 2. HEADER CÔNG VIỆC: TINH GIẢN, CÂN BẰNG TỶ LỆ VỚI NỘI DUNG DƯỚI ── */
+.todo-header-wrap,
+header.todo-header-wrap {
+    position: relative !important;
+    top: auto !important;
+    z-index: 30 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 8px 0 !important;
+    margin-bottom: 6px !important;
+}
+
+.todo-header-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 16px !important;
+    padding: 9px 14px !important;
+    box-shadow: 0 3px 14px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 8px !important;
+}
+
+.todo-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+}
+
+.todo-title-wrap h1 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18.5px !important;
+    font-weight: 850 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.todo-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút Thêm việc */
+.todo-header-add-btn {
+    height: 36px !important;
+    padding: 0 14px !important;
+    border-radius: 11px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    box-shadow: 0 3px 10px rgba(194, 65, 12, 0.28) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.todo-header-add-btn:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 5px 14px rgba(194, 65, 12, 0.38) !important;
+}
+
+.todo-header-add-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* Nút tìm kiếm */
+.todo-action-icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
+    transition: all 0.2s ease !important;
+}
+
+.todo-action-icon-btn:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+}
+
+/* Nút Thoát ✕ */
+.header-close-btn,
+.todo-exit-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 11px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.header-close-btn svg,
+.todo-exit-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2px !important;
+}
+
+.header-close-btn:hover,
+.todo-exit-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+/* ── 3. SEGMENTED TABS (ĐANG LÀM / HOÀN THÀNH): CÂN ĐỐI, GỌN NHẸ ── */
+.todo-segmented-tabs {
+    display: flex !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 13px !important;
+    padding: 3px !important;
+    gap: 4px !important;
+    box-shadow: 0 1px 4px rgba(194, 65, 12, 0.04) !important;
+    margin-bottom: 10px !important;
+}
+
+.todo-tab-btn {
+    flex: 1 !important;
+    height: 32px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.todo-tab-btn:hover:not(.active) {
+    background: #FFEDD5 !important;
+    color: #C2410C !important;
+}
+
+.todo-tab-btn.active {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+    font-weight: 900 !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.12) !important;
+}
+
+.todo-tab-badge {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.3) !important;
+    border-radius: 999px !important;
+    padding: 1px 6.5px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+}
+
+/* ── 4. TIMELINE SECTION HEADER: GỌN GÀNG, KHÔNG ÁP ĐẢO NỘI DUNG ── */
+.timeline-section-header {
+    min-height: 34px !important;
+    padding: 5px 12px 5px 8px !important;
+    border-radius: 11px !important;
+    margin-bottom: 10px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    box-shadow: 0 1px 4px rgba(194, 65, 12, 0.03) !important;
+}
+
+.timeline-header-icon-box {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 7px !important;
+}
+
+.timeline-header-icon-box svg,
+.timeline-header-icon-box i {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+.timeline-header-title {
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+}
+
+.timeline-header-badge {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 1px 7px !important;
+    border-radius: 999px !important;
+}
+
+/* ── 5. THẺ CÔNG VIỆC (.task-item & .history-card) HIỆN ĐẠI, TINH TẾ ── */
+.task-item,
+.history-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 18px !important;
+    padding: 13px 15px !important;
+    box-shadow: 0 2px 10px rgba(194, 65, 12, 0.04), 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    margin-bottom: 10px !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    touch-action: pan-y !important;
+    overscroll-behavior: auto !important;
+}
+
+.task-item:hover,
+.history-card:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.32) !important;
+    box-shadow: 0 6px 20px rgba(194, 65, 12, 0.08) !important;
+    transform: translateY(-1.5px) !important;
+}
+
+/* Checkbox tròn cao cấp */
+.custom-checkbox {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(194, 65, 12, 0.32) !important;
+    background: #FFFFFF !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(194, 65, 12, 0.08) !important;
+}
+
+.custom-checkbox:hover {
+    border-color: #C2410C !important;
+    background: #FFF7ED !important;
+    transform: scale(1.08) !important;
+}
+
+.custom-checkbox .check-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke-width: 3px !important;
+    color: #C2410C !important;
+    opacity: 0 !important;
+    transform: scale(0.6) !important;
+    transition: all 0.16s ease !important;
+}
+
+.custom-checkbox:hover .check-icon {
+    opacity: 0.5 !important;
+    transform: scale(0.85) !important;
+}
+
+/* Thumbnail ảnh công việc */
+.task-thumb-wrap {
+    border-radius: 14px !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+}
+
+.task-thumb-empty {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 13px !important;
+    background: #FFF7ED !important;
+    border: 1px dashed rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    transition: all 0.2s ease !important;
+}
+
+.task-thumb-empty:hover {
+    background: #FFEDD5 !important;
+    border-color: #C2410C !important;
+    transform: scale(1.05) !important;
+}
+
+/* Tiêu đề công việc */
+.task-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15.5px !important;
+    font-weight: 850 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.015em !important;
+}
+
+/* Tag thời hạn */
+.task-urgency-pill {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 2.5px 8.5px !important;
+    border-radius: 7px !important;
+}
+
+/* Hộp ghi chú chi tiết */
+.task-desc-wrap {
+    margin-top: 6px !important;
+    padding: 7px 11px !important;
+    border-radius: 10px !important;
+    background: #FFFDFB !important;
+    border: 1px solid rgba(194, 65, 12, 0.1) !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+    color: #334155 !important;
+}
+
+/* ── 6. NÂNG CẤP NÚT SỬA & XÓA CÔNG VIỆC ── */
+.task-btn-edit {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    height: 30px !important;
+    padding: 0 11px !important;
+    border-radius: 9px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(194, 65, 12, 0.06) !important;
+}
+
+.task-btn-edit:hover {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.45) !important;
+    color: #9A3412 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.14) !important;
+}
+
+.task-btn-edit:active {
+    transform: scale(0.96) !important;
+}
+
+.task-btn-delete {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    height: 30px !important;
+    padding: 0 10px !important;
+    border-radius: 9px !important;
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.2) !important;
+    color: #E11D48 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(225, 29, 72, 0.05) !important;
+}
+
+.task-btn-delete:hover {
+    background: #FFE4E6 !important;
+    border-color: rgba(225, 29, 72, 0.45) !important;
+    color: #BE123C !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.14) !important;
+}
+
+.task-btn-delete:active {
+    transform: scale(0.96) !important;
+}
+
+.task-btn-restore {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    height: 30px !important;
+    padding: 0 11px !important;
+    border-radius: 9px !important;
+    background: #ECFDF5 !important;
+    border: 1px solid rgba(5, 150, 105, 0.22) !important;
+    color: #059669 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(5, 150, 105, 0.06) !important;
+}
+
+.task-btn-restore:hover {
+    background: #D1FAE5 !important;
+    border-color: rgba(5, 150, 105, 0.45) !important;
+    color: #047857 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px rgba(5, 150, 105, 0.14) !important;
+}
+
+.task-btn-restore:active {
+    transform: scale(0.96) !important;
+}
+
+/* ── 7. MODAL THÊM / CHỈNH SỬA CÔNG VIỆC HIỆN ĐẠI (ĐÈ LÊN TOÀN BỘ HEADER VÀ TABS) ── */
+#task-modal,
+#history-modal,
+#reminder-modal,
+#confirm-modal,
+#image-viewer-modal {
+    z-index: 9999 !important;
+    backdrop-filter: blur(10px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+    background: rgba(15, 23, 42, 0.55) !important;
+}
+
+#task-modal .task-modal-content,
+.task-modal-content {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+    font-family: 'Nunito', 'Be Vietnam Pro', sans-serif !important;
+}
+
+#task-modal #modal-task-title:focus,
+#task-modal #modal-task-desc:focus,
+#task-modal .todo-date-display-input:focus,
+#task-modal #modal-task-due-time:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.15) !important;
+    outline: none !important;
+}
+
+#task-modal .quick-preset-btn {
+    border-color: rgba(15, 23, 42, 0.08) !important;
+    background: #F8FAFC !important;
+    color: #334155 !important;
+    transition: all 0.16s ease !important;
+}
+
+#task-modal .quick-preset-btn:hover {
+    background: #FFF7ED !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    color: #C2410C !important;
+    transform: translateY(-1px) !important;
+}
+
+#history-modal {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgba(15, 23, 42, 0.52) !important;
+}
+
+#history-modal .history-modal-content {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+}

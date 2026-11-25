@@ -1,5 +1,10 @@
 :root {
-  --al-canvas: #F6F7F9;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+
+  --al-canvas: #FAF7F2;
   --al-surface: #FFFFFF;
   --al-subtle: #F1F4F8;
   --al-elevated: #F8FAFC;
@@ -8,17 +13,128 @@
   --al-ink-3: #94A3B8;
   --al-border: rgba(15, 23, 42, 0.08);
   --al-border-strong: rgba(15, 23, 42, 0.14);
-  --al-primary: #111827;
-  --al-primary-hover: #1E293B;
-  --al-accent: #4F46E5;
-  --al-accent-soft: rgba(79, 70, 229, 0.1);
-  --al-accent-ring: rgba(79, 70, 229, 0.16);
+  --al-primary: #C2410C;
+  --al-primary-hover: #EA580C;
+  --al-accent: #EA580C;
+  --al-accent-soft: rgba(234, 88, 12, 0.1);
+  --al-accent-ring: rgba(234, 88, 12, 0.2);
   --al-danger: #E11D48;
   --al-danger-soft: rgba(225, 29, 72, 0.1);
   --al-success: #059669;
-  --al-font: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --al-font: 'Be Vietnam Pro', 'Nunito', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   --al-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
   --al-shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
   --al-shadow-dialog: 0 24px 64px -12px rgba(15, 23, 42, 0.24), 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.06);
   --al-shadow-sheet: 0 -16px 48px rgba(15, 23, 42, 0.18), 0 -1px 0 rgba(15, 23, 42, 0.06);
 }
+
+/* ── MOBILE PWA & TOUCH ERGONOMICS ── */
+html {
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -webkit-tap-highlight-color: transparent !important;
+  scroll-behavior: smooth !important;
+}
+
+body {
+  touch-action: manipulation;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  min-height: -webkit-fill-available !important;
+  overflow-x: hidden !important;
+  overscroll-behavior-y: contain !important;
+}
+
+/* Vô hiệu hoá phóng to tự động khi chạm vào ô nhập liệu trên iOS */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Tối ưu cảm giác chạm ứng dụng Native cho nút và phím chức năng */
+button,
+a,
+[role="button"],
+[role="tab"],
+.welcome-card,
+.header-close-btn,
+.icon-btn {
+  touch-action: manipulation !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  cursor: pointer;
+}
+
+/* Thao tác độc lập khi mở ứng dụng ở chế độ PWA Standalone */
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Đảm bảo text trong các bài viết, ghi chú vẫn copy được */
+  p, span, h1, h2, h3, h4, h5, h6, article, .quote-hero-text, .notes-card-item {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+}
+
+/* ── IPHONE / IOS PWA PROPORTIONAL ERGONOMICS & SAFE AREAS ── */
+/* 1. Giữ cố định Header tại đầu trang (không bám theo khi cuộn xuống ở mọi chức năng) */
+.welcome-hub-header,
+.app-header.header-overview,
+.ckkn-page-header,
+.ckkn-header-wrap,
+.todo-header-wrap,
+.notes-header-bar,
+.notes-header-row,
+.maintenance-header-row,
+.saver-header-row,
+.her-page-header,
+header[data-page-header] {
+  position: relative !important;
+  top: auto !important;
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  /* 2. Bảo vệ vùng cuộn và nút thao tác dưới đáy màn hình trước Home Indicator */
+  @media (max-width: 768px) {
+    .modal-overlay .modal-sheet,
+    .support-entry-form-overlay .support-entry-form-sheet,
+    .ckkn-modal-overlay .ckkn-modal-sheet,
+    .bottom-sheet {
+      padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 14px)) !important;
+    }
+
+    .form-actions-row,
+    .modal-actions,
+    .detail-actions,
+    .delete-actions-row {
+      padding-bottom: max(6px, env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+}
+
+/* 3. Ngăn ngừa tràn viền ngang và tối ưu cảm giác cuộn mượt mà trên iOS */
+@media (max-width: 768px) {
+  html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Chống co giật hoặc vỡ tỉ lệ nút khi bấm trên iPhone */
+  button:active,
+  a:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+}
+
+

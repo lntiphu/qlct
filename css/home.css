@@ -201,10 +201,10 @@
     line-height: 1.4 !important;
 }
 
-/* 3. LƯỚI Ô 4x4 (GRID 4 CỘT) CHO CÁC CHỨC NĂNG MODAL */
+/* 3. LƯỚI Ô 3x4 (GRID 3 CỘT 4 HÀNG) CHO CÁC CHỨC NĂNG MODAL */
 .welcome-hub-cards {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 16px !important;
     width: 100% !important;
     margin: 0 auto !important;

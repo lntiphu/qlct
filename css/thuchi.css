@@ -5473,13 +5473,13 @@ html, body {
     border-color: rgba(99, 102, 241, 0.2);
 }
 .shortcut-pill-history .shortcut-icon-bubble {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(79, 70, 229, 0.12) 100%);
-    color: #4F46E5;
+    background: #ECFDF5;
+    color: #059669;
 }
 .shortcut-pill-history:hover {
-    border-color: #4F46E5;
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.14);
-    background: linear-gradient(135deg, #FFFFFF 0%, rgba(240, 240, 255, 0.95) 100%);
+    border-color: #059669;
+    box-shadow: 0 8px 24px rgba(5, 150, 105, 0.14);
+    background: #FFFFFF;
 }
 
 .shortcut-pill-home {
@@ -6934,7 +6934,7 @@ html, body {
     --bg-card: #FFFFFF;
     --accent-olive: #0F172A;
     --accent-olive-dark: #090D16;
-    --accent-coral: #4F46E5;
+    --accent-coral: #C2410C;
     --text-primary: #0F172A;
     --text-secondary: #64748B;
     --text-tertiary: #94A3B8;
@@ -7037,9 +7037,9 @@ html, body, .app-container {
 }
 
 .card.card-week .card-icon-pill {
-    background: #EEF2FF !important;
-    border: 1px solid rgba(79, 70, 229, 0.14) !important;
-    color: #4F46E5 !important;
+    background: #ECFDF5 !important;
+    border: 1px solid rgba(5, 150, 105, 0.18) !important;
+    color: #059669 !important;
     border-radius: 8px !important;
 }
 

@@ -1,0 +1,2695 @@
+/* ==========================================================================
+   THU CHI - SMART & MODERN FINTECH UI SYSTEM
+   ========================================================================== */
+
+/* Nền sang trọng, ấm cúng Cam Đất (Terracotta) */
+body[data-feature="thuchi"] {
+    background: radial-gradient(120% 80% at 50% 0%, #FFF7ED 0%, #FAF6F0 45%, #F5EFEB 100%) !important;
+    min-height: 100vh;
+}
+
+/* 1. APP HEADER THÔNG MINH CÓ NÚT QUAY LẠI TRANG CHỦ */
+.app-header.header-overview {
+    position: relative !important;
+    top: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    padding: 11px 18px !important;
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+    margin-bottom: 16px !important;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px !important;
+    flex: 1;
+    min-width: 0;
+}
+
+.header-nav-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.header-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.header-status-badge {
+    background: #ECFDF5 !important;
+    border: 1px solid rgba(5, 150, 105, 0.22) !important;
+    color: #047857 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 9px !important;
+    border-radius: 999px !important;
+    letter-spacing: 0.02em !important;
+}
+
+.status-pulse-dot {
+    width: 6px !important;
+    height: 6px !important;
+    background: #10B981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3) !important;
+    animation: statusPulse 2s infinite ease-in-out !important;
+}
+
+.header-clock-wrap {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF7ED 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    border-radius: 999px !important;
+    padding: 4px 11px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0.03em !important;
+    color: #0F172A !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+.clock-live-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #10B981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.24) !important;
+    animation: statusPulse 2s infinite ease-in-out !important;
+    flex-shrink: 0 !important;
+}
+
+.header-clock-wrap i,
+.header-clock-wrap svg {
+    width: 13px !important;
+    height: 13px !important;
+    color: #EA580C !important;
+    stroke: #EA580C !important;
+    stroke-width: 2.3 !important;
+    flex-shrink: 0 !important;
+}
+
+.header-main-date {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+}
+
+.header-date-sub {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #64748B !important;
+    font-weight: 500;
+}
+
+.header-sub-desc {
+    color: #64748B !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+}
+
+.header-sub-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 4px 11px !important;
+    border-radius: 999px !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 1px 4px rgba(194, 65, 12, 0.05) !important;
+}
+
+.header-sub-tag i,
+.header-sub-tag svg {
+    width: 13px !important;
+    height: 13px !important;
+    color: #C2410C !important;
+    stroke: #C2410C !important;
+    flex-shrink: 0 !important;
+}
+
+.header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.header-close-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.header-close-btn svg,
+.header-close-btn i {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+.header-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.header-close-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.header-calendar-badge {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+    overflow: hidden !important;
+    width: 58px !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease !important;
+}
+
+.header-calendar-badge:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1) !important;
+}
+
+.calendar-badge-top {
+    background: linear-gradient(135deg, #9A3412 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 3px 0 !important;
+    text-transform: uppercase !important;
+}
+
+.calendar-badge-day {
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    font-family: 'Nunito', sans-serif !important;
+    line-height: 1.15 !important;
+    padding: 2px 0 !important;
+}
+
+.calendar-badge-bottom {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    background: #F8FAFC !important;
+    padding: 2px 0 !important;
+}
+
+/* 3. BA THẺ TỔNG QUAN TÀI CHÍNH (TODAY, WEEK, MONTH) */
+.summary-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    margin-bottom: 20px !important;
+}
+
+.summary-cards .card {
+    border-radius: 20px !important;
+    padding: 20px 22px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    min-height: 136px !important;
+    height: 136px !important;
+    box-sizing: border-box !important;
+    transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, border-color 0.22s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.summary-cards .card:hover {
+    transform: translateY(-3px) !important;
+}
+
+.card-top-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+}
+
+.card-icon-pill {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.card-icon-pill i,
+.card-icon-pill svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.card-label {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 !important;
+}
+
+.card-amount {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 34px !important;
+    font-weight: 900 !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+    padding-bottom: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 3.1 Card Hôm nay (Phong cách Cam Đất Roasted Slate) */
+.card.card-today {
+    background: linear-gradient(145deg, #1C130E 0%, #2E1B12 50%, #431E12 100%) !important;
+    border: 1px solid rgba(251, 146, 60, 0.22) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 10px 24px -4px rgba(67, 30, 18, 0.35) !important;
+}
+
+.card.card-today .card-icon-pill {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #FB923C !important;
+}
+
+.card.card-today .card-label {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.card.card-today .card-amount {
+    color: #FFFFFF !important;
+}
+
+/* 3.2 Card Tuần này (Clean Emerald) */
+.card.card-week {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+}
+
+.card.card-week .card-icon-pill {
+    background: #ECFDF5 !important;
+    border: 1px solid rgba(5, 150, 105, 0.18) !important;
+    color: #059669 !important;
+}
+
+.card.card-week .card-label {
+    color: #475569 !important;
+}
+
+.card.card-week .card-amount {
+    color: #0F172A !important;
+}
+
+/* 3.3 Card Tháng này (Modern Cam Đất Terracotta) */
+.card.card-month {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+}
+
+.card.card-month .card-icon-pill {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+}
+
+.card.card-month .card-label {
+    color: #475569 !important;
+}
+
+.card.card-month .card-amount {
+    color: #C2410C !important;
+}
+
+/* 4. PHÍM TẮT TIỆN ÍCH HIỆN ĐẠI (SHORTCUT CAPSULES) */
+.dashboard-shortcuts-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 22px !important;
+}
+
+.dashboard-shortcuts-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 14px !important;
+}
+
+.shortcut-pill {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease !important;
+    position: relative !important;
+    min-height: 60px !important;
+    box-sizing: border-box !important;
+}
+
+.shortcut-icon-bubble {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.22s ease !important;
+}
+
+.shortcut-icon-bubble i,
+.shortcut-icon-bubble svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2px !important;
+}
+
+.shortcut-pill:hover .shortcut-icon-bubble {
+    transform: scale(1.08) !important;
+}
+
+.shortcut-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+}
+
+.shortcut-label {
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    line-height: 1.25 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortcut-sub {
+    font-size: 11px !important;
+    color: #64748B !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortcut-arrow {
+    width: 14px !important;
+    height: 14px !important;
+    color: #94A3B8 !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease, color 0.2s ease !important;
+}
+
+.shortcut-pill:hover .shortcut-arrow {
+    transform: translateX(3px) !important;
+    color: #C2410C !important;
+}
+
+/* 4.1 Nút chính: Ghi khoản chi mới (Primary Hero Action - Màu Cam Đất) */
+.shortcut-pill-add {
+    background: linear-gradient(135deg, #9A3412 0%, #C2410C 50%, #EA580C 100%) !important;
+    border: 1px solid rgba(234, 88, 12, 0.4) !important;
+    box-shadow: 0 4px 18px rgba(194, 65, 12, 0.28) !important;
+}
+
+.shortcut-pill-add .shortcut-icon-bubble {
+    background: rgba(255, 255, 255, 0.18) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+
+.shortcut-pill-add .shortcut-label {
+    color: #FFFFFF !important;
+}
+
+.shortcut-pill-add .shortcut-sub {
+    color: #FED7AA !important;
+}
+
+.shortcut-pill-add .shortcut-arrow {
+    color: #FFEDD5 !important;
+}
+
+.shortcut-pill-add:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.42) !important;
+    border-color: rgba(234, 88, 12, 0.7) !important;
+}
+
+/* 4.2 Nút Toàn cảnh tài chính */
+.shortcut-pill-analysis .shortcut-icon-bubble {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+}
+
+.shortcut-pill-analysis:hover {
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(194, 65, 12, 0.14) !important;
+}
+
+/* 4.3 Nút Lịch sử chi */
+.shortcut-pill-history .shortcut-icon-bubble {
+    background: #ECFDF5 !important;
+    color: #047857 !important;
+    border: 1px solid rgba(4, 120, 87, 0.15) !important;
+}
+
+.shortcut-pill-history:hover {
+    border-color: rgba(5, 150, 105, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.12) !important;
+}
+
+/* 4.4 Nút Về Trang chủ */
+.shortcut-pill-home .shortcut-icon-bubble {
+    background: #F1F5F9 !important;
+    color: #334155 !important;
+    border: 1px solid rgba(51, 65, 85, 0.15) !important;
+}
+
+.shortcut-pill-home:hover {
+    border-color: rgba(51, 65, 85, 0.35) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(51, 65, 85, 0.12) !important;
+}
+
+/* 5. LỊCH THU CHI HÀNG THÁNG THÔNG MINH (SPENDING CALENDAR) */
+.spending-calendar-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 24px !important;
+    padding: 24px 28px 28px !important;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04) !important;
+    margin-bottom: 28px !important;
+}
+
+.dashboard-calendar-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+}
+
+.calendar-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.calendar-year-label {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.calendar-month-label {
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.2 !important;
+}
+
+.calendar-nav-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.calendar-nav-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #334155 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+}
+
+.calendar-nav-btn:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    transform: scale(1.05) !important;
+}
+
+.dashboard-calendar-summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 14px 22px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    border-radius: 16px !important;
+    margin-bottom: 18px !important;
+}
+
+.dashboard-calendar-summary span {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+}
+
+.dashboard-calendar-summary strong {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #7C2D12 !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* ====================================================================
+   5. LỊCH CHI TIÊU HÀNG THÁNG (MONTHLY SPENDING CALENDAR)
+   - Căn chỉnh thứ (T2-CN) và ô ngày chuẩn xác 100% (cùng gap, cùng column)
+   - Thiết kế ô số tiền & ngày chuẩn Fintech hiện đại, hài hòa Cam Đất
+   ==================================================================== */
+
+.calendar-weekdays,
+.spending-calendar-card .calendar-weekdays,
+#calendar-expense-modal .calendar-weekdays {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 0 10px 0 !important;
+    padding: 6px 0 !important;
+    align-items: center !important;
+}
+
+.calendar-weekdays > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+}
+
+.calendar-weekdays > div:last-child {
+    color: #C2410C !important; /* Chủ nhật nổi bật màu cam đất đồng bộ */
+}
+
+.calendar-days-grid,
+.dashboard-calendar-grid,
+.spending-calendar-card .dashboard-calendar-grid,
+#calendar-expense-modal .calendar-days-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* DAY CELL - THIẾT KẾ HIỆN ĐẠI, TINH TẾ (PREMIUM FINTECH) */
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell,
+.calendar-days-grid .calendar-day-cell,
+.calendar-day-cell {
+    position: relative !important;
+    min-height: 72px !important;
+    height: 72px !important;
+    border-radius: 15px !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.07) !important;
+    background: #FFFFFF !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important; /* Cân đối đều đầu và cuối ô */
+    padding: 8px 4px 8px !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+}
+
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell:not(.empty):hover,
+.calendar-day-cell:not(.empty):hover {
+    background: #FFFFFF !important;
+    border-color: rgba(194, 65, 12, 0.45) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.12) !important;
+    z-index: 2 !important;
+}
+
+/* Ô trống của tháng trước / tháng sau: ẩn hoàn toàn không để lộ khung thô */
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell.empty,
+.calendar-days-grid .calendar-day-cell.empty,
+.calendar-day-cell.empty {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 72px !important;
+    height: 72px !important;
+    cursor: default !important;
+}
+
+/* SỐ NGÀY - LUÔN Ở ĐẦU Ô, THỐNG NHẤT VÀ DỄ DÀNG QUAN SÁT */
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell .calendar-day-number,
+.dashboard-calendar-grid .calendar-day-number,
+.calendar-days-grid .calendar-day-number,
+.calendar-day-number {
+    position: static !important;
+    inset: auto !important;
+    order: 1 !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.02em !important;
+}
+
+/* Tất cả các ngày Chủ nhật: màu cam đất nổi bật */
+.calendar-day-cell.sunday .calendar-day-number {
+    color: #C2410C !important;
+}
+
+/* Ngày hôm nay */
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell.today,
+.calendar-day-cell.today {
+    border: 2px solid #C2410C !important;
+    background: #FFF7ED !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.16), 0 4px 12px rgba(194, 65, 12, 0.12) !important;
+}
+
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell.today .calendar-day-number,
+.calendar-day-cell.today .calendar-day-number {
+    color: #C2410C !important;
+    font-weight: 900 !important;
+}
+
+/* Ngày không có chi tiêu */
+.calendar-day-cell:not(.has-expense):not(.today) {
+    background: #FAFAFA !important;
+    border-color: rgba(15, 23, 42, 0.05) !important;
+}
+.calendar-day-cell:not(.has-expense) .calendar-day-number {
+    color: #94A3B8 !important;
+}
+.calendar-day-cell.sunday:not(.has-expense) .calendar-day-number {
+    color: #EA580C !important;
+}
+
+/* Ô CÓ CHI TIÊU */
+.calendar-day-cell.has-expense {
+    background: #FFFFFF !important;
+    border-color: rgba(194, 65, 12, 0.16) !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03) !important;
+}
+
+/* SỐ TIỀN CHI TIÊU TRONG NGÀY (NÂNG CẤP DẠNG CAPSULE CHIP SANG TRỌNG, BẮT MẮT) */
+.spending-calendar-card .dashboard-calendar-grid .calendar-day-cell .calendar-day-amount,
+.dashboard-calendar-grid .calendar-day-amount,
+.calendar-days-grid .calendar-day-amount,
+.calendar-day-amount {
+    position: static !important;
+    inset: auto !important;
+    order: 2 !important;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 900 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+    padding: 4px 10px !important;
+    border-radius: 999px !important; /* Bo tròn capsule mượt mà chuẩn Apple/Fintech */
+    text-align: center !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    max-width: 94% !important;
+    width: auto !important;
+    min-width: 44px !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+}
+
+/* PHÂN CẤP MÀU SẮC ĐẬM ĐÀ, SANG TRỌNG VỚI GRADIENT & ĐỔ BÓNG MỊN:
+   - Green (< 120k): Xanh ngọc bích tươi tắn, dịu mắt
+   - Yellow (120k - 500k): Cam đất ấm áp, match tông màu chủ đạo
+   - Red (> 500k): Đỏ san hô đậm chất thượng lưu
+*/
+.calendar-day-amount.expense-green {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%) !important;
+    color: #065F46 !important;
+    border: 1px solid rgba(16, 185, 129, 0.28) !important;
+    box-shadow: 0 2px 5px rgba(16, 185, 129, 0.1) !important;
+}
+
+.calendar-day-amount.expense-yellow {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    color: #9A3412 !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    box-shadow: 0 2px 5px rgba(194, 65, 12, 0.1) !important;
+}
+
+.calendar-day-amount.expense-red {
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%) !important;
+    color: #BE123C !important;
+    border: 1px solid rgba(225, 29, 72, 0.28) !important;
+    box-shadow: 0 2px 5px rgba(225, 29, 72, 0.1) !important;
+}
+
+/* Riêng trong ô Hôm nay (.today): Badge nổi bật trên nền be ấm */
+.calendar-day-cell.today .calendar-day-amount {
+    background: #FFFFFF !important;
+    color: #C2410C !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.35) !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.15) !important;
+}
+
+/* ====================================================================
+   5.1 MODAL CHI TIẾT CHI TIÊU TRONG NGÀY (DAILY EXPENSE DETAIL MODAL)
+   - Kích thước mở rộng ngang bằng với khung view tháng (.spending-calendar-card: 634px)
+   - Thiết kế cao cấp đồng bộ tone màu Cam Đất (Warm Terracotta)
+   - Thẻ giao dịch phân tầng thị giác rõ ràng, font Nunito & icon bo squircle
+   ==================================================================== */
+
+#calendar-expense-modal {
+    background: rgba(15, 23, 42, 0.5) !important;
+    backdrop-filter: blur(10px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    z-index: 9999 !important;
+}
+
+#calendar-expense-modal .calendar-modal-sheet,
+#calendar-expense-modal > .modal-sheet,
+.calendar-modal-sheet {
+    width: min(calc(100vw - 32px), 634px) !important;
+    max-width: 634px !important;
+    max-height: min(86vh, 760px) !important;
+    background: #FFFFFF !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    padding: 24px 28px !important;
+    box-shadow: 0 24px 64px rgba(15, 23, 42, 0.18), 0 4px 18px rgba(194, 65, 12, 0.08) !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+}
+
+/* Ẩn thanh kéo giả nếu có */
+#calendar-expense-modal .calendar-modal-sheet::before {
+    display: none !important;
+}
+
+/* Header Chi tiết ngày */
+.calendar-day-detail-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 16px !important;
+    border-bottom: none !important;
+}
+
+.calendar-day-detail-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.calendar-day-detail-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    color: #C2410C !important;
+}
+
+.calendar-day-detail-badge svg {
+    width: 13px !important;
+    height: 13px !important;
+    stroke: #C2410C !important;
+}
+
+.calendar-day-detail-title {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Nút đóng X của modal ngày */
+.calendar-day-close-btn,
+#calendar-day-detail .modal-close-btn {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: #64748B !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    padding: 0 !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.calendar-day-close-btn:hover,
+#calendar-day-detail .modal-close-btn:hover {
+    background: #FFF7ED !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    color: #C2410C !important;
+    transform: scale(1.05) !important;
+}
+
+.calendar-day-close-btn svg,
+#calendar-day-detail .modal-close-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2 !important;
+}
+
+/* Banner Tổng chi trong ngày: Phong cách Warm Terracotta sang trọng */
+.calendar-day-summary,
+#calendar-day-detail .calendar-month-summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 14px 22px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 3px 12px rgba(194, 65, 12, 0.08) !important;
+    margin: 0 0 16px 0 !important;
+}
+
+.calendar-day-summary-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+}
+
+.calendar-day-summary-label svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: #C2410C !important;
+}
+
+#cal-day-detail-total {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #7C2D12 !important;
+    letter-spacing: -0.025em !important;
+    text-shadow: none !important;
+}
+
+/* Danh sách chi tiêu trong ngày */
+.calendar-day-expense-list,
+#cal-day-expense-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    max-height: 440px !important;
+    overflow-y: auto !important;
+    padding-right: 4px !important;
+    margin: 0 !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(194, 65, 12, 0.25) transparent !important;
+}
+
+.calendar-day-expense-list::-webkit-scrollbar,
+#cal-day-expense-list::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+.calendar-day-expense-list::-webkit-scrollbar-thumb,
+#cal-day-expense-list::-webkit-scrollbar-thumb {
+    background: rgba(194, 65, 12, 0.25) !important;
+    border-radius: 999px !important;
+}
+
+/* Thẻ từng khoản chi tiêu trong ngày */
+.calendar-day-expense-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 16px !important;
+    padding: 13px 18px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative !important;
+}
+
+.calendar-day-expense-item:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.09) !important;
+}
+
+.calendar-day-expense-item:active {
+    transform: scale(0.99) !important;
+}
+
+/* Icon bong bóng squircle */
+.calendar-day-item-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.35rem !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* Thông tin tên & phân loại */
+.calendar-day-item-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+
+.calendar-day-item-title {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.015em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.calendar-day-item-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #64748B !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.calendar-day-item-cat {
+    color: #475569 !important;
+}
+
+.calendar-day-item-dot {
+    color: #CBD5E1 !important;
+    font-weight: 900 !important;
+}
+
+.calendar-day-item-time {
+    color: #94A3B8 !important;
+}
+
+/* Số tiền & mũi tên */
+.calendar-day-item-amount-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+.calendar-day-item-amount {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    letter-spacing: -0.01em !important;
+    white-space: nowrap !important;
+}
+
+.calendar-day-item-arrow {
+    width: 16px !important;
+    height: 16px !important;
+    color: #CBD5E1 !important;
+    transition: all 0.2s ease !important;
+}
+
+.calendar-day-expense-item:hover .calendar-day-item-arrow {
+    color: #C2410C !important;
+    transform: translateX(2px) !important;
+}
+
+/* Empty state khi ngày chưa có khoản chi */
+.calendar-day-empty-state {
+    text-align: center !important;
+    padding: 38px 20px !important;
+    background: #FFFDFB !important;
+    border: 1.5px dashed rgba(194, 65, 12, 0.2) !important;
+    border-radius: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+}
+
+.calendar-day-empty-icon {
+    font-size: 2.4rem !important;
+    margin-bottom: 4px !important;
+}
+
+.calendar-day-empty-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #1E293B !important;
+}
+
+.calendar-day-empty-desc {
+    font-size: 13px !important;
+    color: #64748B !important;
+    font-weight: 500 !important;
+    max-width: 280px !important;
+    margin: 0 !important;
+}
+
+/* Responsive mobile: Co giãn vừa vặn màn hình điện thoại (< 640px) */
+@media (max-width: 640px) {
+    #calendar-expense-modal {
+        padding: 12px !important;
+        align-items: flex-end !important;
+    }
+
+    #calendar-expense-modal .calendar-modal-sheet,
+    #calendar-expense-modal > .modal-sheet,
+    .calendar-modal-sheet {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 88vh !important;
+        padding: 20px 16px !important;
+        border-radius: 24px 24px 0 0 !important;
+    }
+
+    .calendar-day-detail-title {
+        font-size: 19px !important;
+    }
+
+    #cal-day-detail-total {
+        font-size: 19px !important;
+    }
+
+    .calendar-day-expense-item {
+        padding: 12px 14px !important;
+        gap: 12px !important;
+    }
+
+    .calendar-day-item-amount {
+        font-size: 15px !important;
+    }
+}
+
+/* 6. TAB LỊCH SỬ GIAO DỊCH TOÀN TRANG (FULL-PAGE TRANSACTION HISTORY) */
+
+/* Ẩn hoàn toàn App Header và spacer khi mở Lịch sử toàn trang để tuyệt đối không bị đè */
+body.tab-history-active .app-header,
+body:has(#tab-history.active) .app-header,
+body.tab-history-active .ios-status-bar-spacer,
+body:has(#tab-history.active) .ios-status-bar-spacer {
+    display: none !important;
+}
+
+body.tab-history-active .app-container,
+body:has(#tab-history.active) .app-container {
+    padding: 0 !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+}
+
+body.tab-history-active .app-main,
+body:has(#tab-history.active) .app-main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100vw !important;
+    overflow: visible !important;
+    transform: none !important;
+}
+
+#tab-history.history-full-page:not(.active) {
+    display: none !important;
+}
+
+#tab-history.history-full-page.active {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: radial-gradient(120% 80% at 50% 0%, #FFF7ED 0%, #FAF6F0 45%, #F5EFEB 100%) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    transform: none !important;
+    animation: historyFadeOnly 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes historyFadeOnly {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* History Top Bar / Header */
+.history-fullpage-header {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding: max(16px, env(safe-area-inset-top)) 28px 16px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03) !important;
+    z-index: 10 !important;
+}
+
+.history-header-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+}
+
+.history-header-eyebrow {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.history-header-title {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+}
+
+/* Month Selector Pill */
+.history-month-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    padding: 4px 6px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+}
+
+.history-month-nav-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: #F8FAFC !important;
+    color: #334155 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+    padding: 0 !important;
+}
+
+.history-month-nav-btn:hover {
+    background: #C2410C !important;
+    color: #FFFFFF !important;
+    border-color: #C2410C !important;
+    transform: translateY(-1px) !important;
+}
+
+.history-month-display-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 6px 12px !important;
+    border-radius: 10px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+    white-space: nowrap !important;
+}
+
+.history-month-display-btn:hover {
+    background: rgba(194, 65, 12, 0.08) !important;
+    color: #C2410C !important;
+}
+
+.history-cal-icon {
+    width: 14px !important;
+    height: 14px !important;
+    color: #C2410C !important;
+}
+
+.history-chevron-icon {
+    width: 13px !important;
+    height: 13px !important;
+    opacity: 0.65 !important;
+}
+
+/* Close Button (X) */
+.history-close-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    background: #FFFFFF !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+    transition: all 0.18s ease !important;
+    padding: 0 !important;
+}
+
+.history-month-nav-btn svg,
+.history-month-nav-btn i {
+    width: 16px !important;
+    height: 16px !important;
+    pointer-events: none !important;
+}
+
+.history-close-btn svg,
+.history-close-btn i {
+    width: 20px !important;
+    height: 20px !important;
+    pointer-events: none !important;
+}
+
+.history-close-btn:hover {
+    background: #FEE2E2 !important;
+    color: #DC2626 !important;
+    border-color: rgba(220, 38, 38, 0.25) !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+/* History Body Scroll */
+.history-page-scroll {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 24px 20px max(40px, env(safe-area-inset-bottom)) !important;
+}
+
+.history-page-inner {
+    max-width: 720px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+/* Search Box */
+.history-search-card {
+    margin-bottom: 20px !important;
+}
+
+.history-search-box {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.09) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.2s ease !important;
+}
+
+.history-search-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 4px rgba(194, 65, 12, 0.15), 0 4px 16px rgba(15, 23, 42, 0.05) !important;
+}
+
+.history-search-icon,
+.history-search-icon svg {
+    position: absolute !important;
+    left: 14px !important;
+    width: 18px !important;
+    height: 18px !important;
+    color: #94A3B8 !important;
+    pointer-events: none !important;
+}
+
+.history-search-box input {
+    width: 100% !important;
+    height: 48px !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    padding: 0 16px 0 44px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #0F172A !important;
+    font-family: inherit !important;
+}
+
+.history-search-box input::placeholder {
+    color: #94A3B8 !important;
+    font-weight: 400 !important;
+}
+
+/* Spending List & Timeline Dividers */
+#history-spendings-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+}
+
+.transaction-group-date {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    margin: 24px 4px 10px !important;
+}
+
+.transaction-group-date:first-child {
+    margin-top: 4px !important;
+}
+
+.transaction-group-date::after {
+    content: '' !important;
+    flex: 1 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.01) 100%) !important;
+}
+
+/* Transaction Card in History */
+.history-page-inner .transaction-item {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 18px !important;
+    padding: 14px 18px !important;
+    margin-bottom: 9px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+}
+
+.history-page-inner .transaction-item:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06) !important;
+    background: #FFFFFF !important;
+}
+
+.history-page-inner .transaction-item:active {
+    transform: scale(0.985) !important;
+}
+
+.history-page-inner .transaction-item .item-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.history-page-inner .transaction-item .item-icon-wrapper {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.2s ease !important;
+}
+
+.history-page-inner .transaction-item:hover .item-icon-wrapper {
+    transform: scale(1.08) rotate(-4deg) !important;
+}
+
+.history-page-inner .transaction-item .item-details {
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.history-page-inner .transaction-item .item-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.01em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.history-page-inner .transaction-item .item-meta {
+    font-size: 12px !important;
+    color: #64748B !important;
+    font-weight: 500 !important;
+    margin-top: 3px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.history-page-inner .transaction-item .item-right {
+    flex-shrink: 0 !important;
+    text-align: right !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.history-page-inner .transaction-item .item-amount {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.02em !important;
+    white-space: nowrap !important;
+}
+
+.history-page-inner .transaction-item .item-drag-handle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+    color: #94A3B8 !important;
+    cursor: grab !important;
+    flex-shrink: 0 !important;
+    transition: all 0.18s ease !important;
+    touch-action: none !important;
+    background: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+.history-page-inner .transaction-item:hover .item-drag-handle {
+    color: #C2410C !important;
+    background: #FFF7ED !important;
+}
+
+.history-page-inner .transaction-item.is-dragging .item-drag-handle {
+    cursor: grabbing !important;
+    color: #C2410C !important;
+}
+
+/* KHI MỤC ĐANG ĐƯỢC BẤM ĐÈ & KÉO LÊN XUỐNG */
+.transaction-item.is-dragging {
+    opacity: 0.95 !important;
+    transform: scale(1.025) !important;
+    background: #FFF7ED !important;
+    border: 2px dashed #C2410C !important;
+    box-shadow: 0 14px 34px rgba(194, 65, 12, 0.22), 0 4px 14px rgba(15, 23, 42, 0.08) !important;
+    z-index: 100 !important;
+    cursor: grabbing !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    touch-action: none !important;
+}
+
+/* Hiệu ứng khi bấm đè (chuẩn bị kéo) */
+.transaction-item.is-pressing {
+    transform: scale(0.985) !important;
+    border-color: #EA580C !important;
+    background: #FFFDF9 !important;
+    transition: transform 0.15s ease, border-color 0.15s ease !important;
+}
+
+/* Khung nhóm theo ngày khi đang sắp xếp */
+.transaction-day-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+}
+
+.transaction-day-group.day-reordering {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+.transaction-day-group.day-reordering .transaction-item:not(.is-dragging) {
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease !important;
+}
+
+/* Toast thông báo sắp xếp thành công */
+.thuchi-toast {
+    position: fixed !important;
+    bottom: 28px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(30px) !important;
+    background: #1C130E !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(251, 146, 60, 0.3) !important;
+    padding: 10px 18px !important;
+    border-radius: 999px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    z-index: 9999999 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.thuchi-toast.show {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+.thuchi-toast i,
+.thuchi-toast svg {
+    width: 17px !important;
+    height: 17px !important;
+    color: #FB923C !important;
+}
+
+/* Empty State */
+.history-page-inner .empty-state {
+    padding: 60px 20px !important;
+    text-align: center !important;
+    background: #FFFFFF !important;
+    border-radius: 20px !important;
+    border: 1px dashed rgba(15, 23, 42, 0.12) !important;
+    margin-top: 10px !important;
+}
+
+.history-page-inner .empty-state i {
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 auto 12px !important;
+    color: #94A3B8 !important;
+    display: block !important;
+}
+
+.history-page-inner .empty-state p {
+    margin: 0 !important;
+    font-size: 14px !important;
+    color: #64748B !important;
+    font-weight: 500 !important;
+}
+
+/* Mobile responsive for History Full Page */
+@media (max-width: 640px) {
+    .history-fullpage-header {
+        padding: max(12px, env(safe-area-inset-top)) 14px 12px !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+
+    .history-header-brand {
+        flex: 1 !important;
+    }
+
+    .history-header-title {
+        font-size: 18px !important;
+    }
+
+    .history-month-selector {
+        order: 3 !important;
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+
+    .history-month-display-btn {
+        flex: 1 !important;
+        justify-content: center !important;
+    }
+
+    .history-page-scroll {
+        padding: 14px 12px max(28px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .history-page-inner .transaction-item {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+    }
+
+    .history-page-inner .transaction-item .item-icon-wrapper {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        font-size: 1.15rem !important;
+    }
+
+    .history-page-inner .transaction-item .item-title {
+        font-size: 14px !important;
+    }
+
+    .history-page-inner .transaction-item .item-amount {
+        font-size: 15px !important;
+    }
+}
+
+/* 7. TRANG PHÂN TÍCH TÀI CHÍNH TOÀN CẢNH (SPENDING ANALYSIS) */
+body.analysis-active .app-header,
+body:has(#spending-analysis-page.active) .app-header,
+body.analysis-active .ios-status-bar-spacer,
+body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
+    display: none !important;
+}
+
+.analysis-page:not(.active) {
+    display: none !important;
+}
+
+.analysis-page.active {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: #FAF6F0 !important;
+    background: radial-gradient(120% 80% at 50% 0%, #FFF7ED 0%, #FAF6F0 45%, #F5EFEB 100%) !important;
+    z-index: 999999 !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    animation: historyFadeOnly 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.analysis-page.active .analysis-page-scroll {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-width: 960px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    padding: max(20px, env(safe-area-inset-top)) 20px max(36px, env(safe-area-inset-bottom)) !important;
+}
+
+.analysis-period-card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 16px 20px !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+    margin-bottom: 18px !important;
+}
+
+.analysis-period-left {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+.analysis-period-left .analysis-overline {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.analysis-period-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+.analysis-period-row strong {
+    font-size: 21px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    display: inline-block !important;
+}
+
+.analysis-period-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.analysis-period-actions button {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #334155 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+}
+
+.analysis-period-actions button i {
+    width: 16px !important;
+    height: 16px !important;
+    stroke-width: 2.2px !important;
+}
+
+.analysis-period-actions button:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    transform: scale(1.05) !important;
+}
+
+.analysis-close-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.analysis-close-btn i {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2px !important;
+}
+
+.analysis-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.25) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+}
+
+.analysis-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+    margin-bottom: 20px !important;
+}
+
+.analysis-kpi-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 18px 20px !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03) !important;
+}
+
+.analysis-kpi-card.analysis-kpi-total {
+    background: linear-gradient(145deg, #1C130E 0%, #2E1B12 50%, #431E12 100%) !important;
+    border: 1px solid rgba(251, 146, 60, 0.22) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 10px 24px -4px rgba(67, 30, 18, 0.35) !important;
+}
+
+.analysis-kpi-card.analysis-kpi-total strong {
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 26px !important;
+}
+
+.analysis-kpi-card.analysis-kpi-total small {
+    color: #CBD5E1 !important;
+}
+
+.analysis-kpi-card strong {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+}
+
+.analysis-section-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+    margin-bottom: 20px !important;
+}
+
+/* Thẻ Nhận xét thông minh tự động (Màu Cam Đất) */
+.analysis-insight-card {
+    background: linear-gradient(145deg, #1C130E 0%, #2E1B12 50%, #431E12 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.35) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 10px 26px -4px rgba(67, 30, 18, 0.35) !important;
+    margin-bottom: 20px !important;
+}
+
+.analysis-insight-card h3 {
+    color: #FFFFFF !important;
+}
+
+.analysis-insight-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #FBBF24 !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 8. RESPONSIVE MOBILE CHO THU CHI (< 640px) */
+@media (max-width: 640px) {
+    body[data-feature="thuchi"] .app-container {
+        padding: max(10px, env(safe-area-inset-top)) 10px max(18px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .app-header.header-overview {
+        padding: 10px 14px !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .header-main-date {
+        font-size: 16px !important;
+    }
+
+    .header-sub-tag {
+        font-size: 11px !important;
+        padding: 3px 9px !important;
+    }
+
+    .header-clock-wrap {
+        font-size: 11.5px !important;
+        padding: 3px 9px !important;
+    }
+
+    .header-sub-desc {
+        font-size: 11.5px !important;
+        color: #64748B !important;
+        white-space: normal !important;
+    }
+
+    .header-right {
+        gap: 8px !important;
+    }
+
+    .header-close-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .header-close-btn svg,
+    .header-close-btn i {
+        width: 17px !important;
+        height: 17px !important;
+    }
+
+    .header-calendar-badge {
+        width: 48px !important;
+        border-radius: 13px !important;
+    }
+
+    .calendar-badge-day {
+        font-size: 18px !important;
+    }
+
+    .summary-cards {
+        gap: 8px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .summary-cards .card {
+        padding: 12px 8px 10px !important;
+        min-height: 108px !important;
+        border-radius: 16px !important;
+    }
+
+    .card-icon-pill {
+        width: 26px !important;
+        height: 26px !important;
+        border-radius: 8px !important;
+    }
+
+    .card-icon-pill i {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    .card-label {
+        font-size: 11px !important;
+        margin-left: 4px !important;
+    }
+
+    .card-badge-live,
+    .card-badge-sub {
+        display: none !important;
+    }
+
+    .card-amount {
+        font-size: 20px !important;
+        font-weight: 900 !important;
+        margin: 0 !important;
+    }
+
+    .card-footer-row {
+        display: none !important;
+    }
+
+    .dashboard-shortcuts-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .shortcut-pill {
+        padding: 10px 12px !important;
+        border-radius: 14px !important;
+        gap: 9px !important;
+    }
+
+    .shortcut-icon-bubble {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .shortcut-icon-bubble i {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .shortcut-label {
+        font-size: 12px !important;
+    }
+
+    .shortcut-sub {
+        display: none;
+    }
+
+    .shortcut-arrow {
+        display: none;
+    }
+
+    .spending-calendar-card {
+        padding: 16px 14px 20px !important;
+        border-radius: 18px !important;
+    }
+
+    .calendar-weekdays,
+    .spending-calendar-card .calendar-weekdays,
+    #calendar-expense-modal .calendar-weekdays,
+    .calendar-days-grid,
+    .dashboard-calendar-grid,
+    .spending-calendar-card .dashboard-calendar-grid,
+    #calendar-expense-modal .calendar-days-grid {
+        gap: 5px !important;
+    }
+
+    .calendar-weekdays > div {
+        font-size: 11.5px !important;
+    }
+
+    .spending-calendar-card .dashboard-calendar-grid .calendar-day-cell,
+    .calendar-days-grid .calendar-day-cell,
+    .calendar-day-cell {
+        min-height: 60px !important;
+        height: 60px !important;
+        border-radius: 12px !important;
+        padding: 5px 2px 5px !important;
+        justify-content: space-between !important;
+    }
+
+    .spending-calendar-card .dashboard-calendar-grid .calendar-day-cell .calendar-day-number,
+    .dashboard-calendar-grid .calendar-day-number,
+    .calendar-days-grid .calendar-day-number,
+    .calendar-day-number {
+        font-size: 11.5px !important;
+        font-weight: 800 !important;
+    }
+
+    .spending-calendar-card .dashboard-calendar-grid .calendar-day-cell .calendar-day-amount,
+    .dashboard-calendar-grid .calendar-day-amount,
+    .calendar-days-grid .calendar-day-amount,
+    .calendar-day-amount {
+        font-size: 11px !important;
+        padding: 2.5px 6px !important;
+        border-radius: 999px !important;
+        font-weight: 900 !important;
+    }
+
+    .analysis-kpi-grid {
+        gap: 8px !important;
+    }
+
+    .analysis-kpi-card {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+    }
+}
+
+/* ==========================================================================
+   9. KHUNG THÊM & CHỈNH SỬA KHOẢN CHI FULL PAGE (FULL MÀN HÌNH TOÀN TRANG)
+   ========================================================================== */
+#add-expense-modal,
+#detail-expense-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    z-index: 100050 !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#add-expense-modal.active,
+#detail-expense-modal.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+#add-expense-modal > .modal-sheet.expense-entry-sheet,
+#detail-expense-modal > .modal-sheet.expense-entry-sheet {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: radial-gradient(120% 80% at 50% 0%, #EEF2F6 0%, #FAF8F5 45%, #F4F6F9 100%) !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+    transform: translateY(20px) scale(0.99) !important;
+    opacity: 0 !important;
+    transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+}
+
+#add-expense-modal.active > .modal-sheet.expense-entry-sheet,
+#detail-expense-modal.active > .modal-sheet.expense-entry-sheet {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+}
+
+/* Thanh Drag indicator không dùng khi full page */
+.expense-entry-sheet .modal-drag-indicator {
+    display: none !important;
+}
+
+/* Header Full Page cao cấp */
+.expense-entry-sheet .modal-header.expense-entry-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: max(16px, env(safe-area-inset-top)) 24px 16px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
+}
+
+.expense-entry-sheet .modal-title-group h2 {
+    font-size: 21px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 2px 0 0 !important;
+}
+
+.expense-entry-sheet .modal-eyebrow {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    color: #C2410C !important;
+    text-transform: uppercase !important;
+}
+
+.expense-entry-sheet .modal-title-group p {
+    font-size: 13px !important;
+    color: #64748B !important;
+    margin: 2px 0 0 !important;
+}
+
+.expense-entry-sheet .modal-close-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.expense-entry-sheet .modal-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.25) !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+/* Thân form cuộn mượt mà ở giữa (Centered content container) */
+.expense-entry-sheet .modal-form,
+.expense-entry-sheet .detail-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 24px 20px max(36px, env(safe-area-inset-bottom)) !important;
+    max-width: 680px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+}
+
+/* Amount Hero Card đẳng cấp Fintech với tông Cam Đất Roasted Slate */
+.expense-entry-sheet .amount-card {
+    background: linear-gradient(145deg, #1C130E 0%, #2E1B12 50%, #431E12 100%) !important;
+    border: 1px solid rgba(251, 146, 60, 0.22) !important;
+    border-radius: 22px !important;
+    padding: 24px 24px 20px !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 12px 28px -4px rgba(67, 30, 18, 0.35) !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.expense-entry-sheet .amount-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(234, 88, 12, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.expense-entry-sheet .amount-card-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 12px !important;
+}
+
+.expense-entry-sheet .amount-card-label {
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    color: #CBD5E1 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+}
+
+.expense-entry-sheet .amount-card-chip {
+    display: none !important;
+}
+
+.expense-entry-sheet .amount-input-container {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 18px !important;
+    padding: 10px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: all 0.22s ease !important;
+}
+
+.expense-entry-sheet .amount-input-container:focus-within {
+    border-color: #C2410C !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 0 0 4px rgba(194, 65, 12, 0.35) !important;
+}
+
+.expense-entry-sheet #expense-amount,
+.expense-entry-sheet #detail-amount-input {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 40px !important;
+    font-weight: 900 !important;
+    color: #FFFFFF !important;
+    letter-spacing: -0.02em !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    line-height: 1.15 !important;
+    caret-color: #EA580C !important;
+}
+
+.expense-entry-sheet .currency-suffix {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #FFEDD5 !important;
+    margin-left: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+.expense-entry-sheet .amount-helper {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 12px !important;
+    color: #FED7AA !important;
+    margin-top: 10px !important;
+    font-weight: 500 !important;
+}
+
+.expense-entry-sheet .amount-helper i {
+    width: 14px !important;
+    height: 14px !important;
+    color: #FB923C !important;
+}
+
+/* Phần Form Section thông tin */
+.expense-entry-sheet .form-section {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+    margin-bottom: 0 !important;
+}
+
+.expense-entry-sheet .form-section-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 18px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.01em !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+    padding-bottom: 12px !important;
+}
+
+.expense-entry-sheet .form-section-heading small {
+    background: #F1F5F9 !important;
+    color: #64748B !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 2px 8px !important;
+    border-radius: 999px !important;
+}
+
+.expense-entry-sheet .form-group {
+    margin-bottom: 16px !important;
+}
+
+.expense-entry-sheet .form-group:last-child {
+    margin-bottom: 0 !important;
+}
+
+.expense-entry-sheet .form-group label {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #475569 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+.expense-entry-sheet .input-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.expense-entry-sheet .input-wrapper .field-icon {
+    position: absolute !important;
+    left: 14px !important;
+    width: 18px !important;
+    height: 18px !important;
+    color: #94A3B8 !important;
+    pointer-events: none !important;
+    transition: color 0.2s ease !important;
+}
+
+.expense-entry-sheet .input-wrapper:focus-within .field-icon {
+    color: #C2410C !important;
+}
+
+.expense-entry-sheet .input-wrapper input,
+.expense-entry-sheet .input-wrapper select {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.1) !important;
+    background: #F8FAFC !important;
+    font-size: 14.5px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    padding-left: 44px !important;
+    padding-right: 14px !important;
+    transition: all 0.2s ease !important;
+    font-family: inherit !important;
+}
+
+.expense-entry-sheet .input-wrapper input:focus,
+.expense-entry-sheet .input-wrapper select:focus {
+    background: #FFFFFF !important;
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.18) !important;
+    outline: none !important;
+}
+
+/* Nút bấm hành động (Hủy / Lưu) to rõ, không bị che khuất */
+.expense-entry-sheet .form-actions-row,
+.expense-entry-sheet .detail-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-top: 10px !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+}
+
+.expense-entry-sheet .btn-cancel,
+.expense-entry-sheet .btn-secondary {
+    flex: 1 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.expense-entry-sheet .btn-cancel:hover,
+.expense-entry-sheet .btn-secondary:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-color: rgba(15, 23, 42, 0.2) !important;
+}
+
+.expense-entry-sheet .btn-submit,
+.expense-entry-sheet .btn-primary {
+    flex: 2 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #9A3412 0%, #C2410C 50%, #EA580C 100%) !important;
+    border: 1px solid rgba(234, 88, 12, 0.4) !important;
+    color: #FFFFFF !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 16px rgba(194, 65, 12, 0.28) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.expense-entry-sheet .btn-submit:hover,
+.expense-entry-sheet .btn-primary:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.38) !important;
+    border-color: rgba(234, 88, 12, 0.7) !important;
+}
+
+.expense-entry-sheet .btn-danger {
+    flex: 1 !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    border-radius: 14px !important;
+    background: #FFF1F2 !important;
+    border: 1.5px solid rgba(225, 29, 72, 0.22) !important;
+    color: #E11D48 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.expense-entry-sheet .btn-danger:hover {
+    background: #E11D48 !important;
+    color: #FFFFFF !important;
+    border-color: #E11D48 !important;
+}
+
+/* Thao tác nút bấm trên điện thoại */
+@media (max-width: 640px) {
+    .expense-entry-sheet .modal-header.expense-entry-header {
+        padding: max(12px, env(safe-area-inset-top)) 16px 12px !important;
+    }
+
+    .expense-entry-sheet .modal-form,
+    .expense-entry-sheet .detail-body {
+        padding: 16px 14px max(24px, env(safe-area-inset-bottom)) !important;
+        gap: 16px !important;
+    }
+
+    .expense-entry-sheet .amount-card {
+        padding: 18px 16px 16px !important;
+        border-radius: 18px !important;
+    }
+
+    .expense-entry-sheet #expense-amount,
+    .expense-entry-sheet #detail-amount-input {
+        font-size: 32px !important;
+    }
+
+    .expense-entry-sheet .form-section {
+        padding: 16px 16px !important;
+        border-radius: 18px !important;
+    }
+
+    .expense-entry-sheet .input-wrapper input,
+    .expense-entry-sheet .input-wrapper select {
+        height: 44px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* ==========================================================================
+   THEME MÀU CHỦ ĐẠO: CAM ĐẤT (TERRACOTTA THEME SYSTEM)
+   ========================================================================== */
+:root {
+    --accent-coral: #C2410C !important;
+    --accent-rose: #EA580C !important;
+    --primary-color: #C2410C !important;
+}
+
+/* Biểu đồ so sánh tháng & năm (Toàn cảnh tài chính) */
+.analysis-comparison-fill {
+    height: 100% !important;
+    border-radius: inherit !important;
+    background: linear-gradient(90deg, #9A3412 0%, #C2410C 60%, #EA580C 100%) !important;
+    box-shadow: 0 1px 4px rgba(194, 65, 12, 0.25) !important;
+}
+
+.analysis-comparison-row.active .analysis-comparison-fill {
+    background: linear-gradient(90deg, #C2410C 0%, #EA580C 50%, #F97316 100%) !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.4) !important;
+}
+
+.analysis-comparison-row.active .analysis-comparison-label {
+    color: #C2410C !important;
+    font-weight: 800 !important;
+}
+
+.analysis-comparison-row.active .analysis-comparison-value {
+    color: #C2410C !important;
+    font-weight: 800 !important;
+}
+
+.analysis-comparison-stat span {
+    color: #C2410C !important;
+    font-weight: 800 !important;
+}
+

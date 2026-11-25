@@ -1,0 +1,1352 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   BAO-TRI-MODERN.CSS
+   Thiết kế chuẩn Fintech / Warm Terracotta cho BẢO TRÌ THIẾT BỊ
+   Tông màu: Cam Đất (#C2410C / #EA580C)
+   Khung view: max-width 860px đồng bộ Thu Chi, Tiết Kiệm, Sức Khỏe
+   ========================================================================== */
+
+/* ── 1. NỀN & CONTAINER ── */
+body[data-feature="bao-tri"] {
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 12% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 88% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: fixed !important;
+    color: #0F172A !important;
+    font-family: 'Be Vietnam Pro', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+body[data-feature="bao-tri"] .maintenance-container {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(36px, env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ── 2. HEADER BẢO TRÌ ── */
+.maintenance-header-row,
+header.maintenance-header-row {
+    position: relative !important;
+    top: auto !important;
+    z-index: 100 !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+}
+
+.maintenance-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.maintenance-title-info h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.maintenance-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút icon tìm kiếm */
+.maintenance-action-icon-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    color: #C2410C !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+}
+
+.maintenance-action-icon-btn:hover {
+    background: #FFF7ED !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+.maintenance-action-icon-btn svg,
+.maintenance-action-icon-btn i {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+/* Nút Thêm thiết bị */
+.btn-add-device {
+    height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.btn-add-device:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.btn-add-device:active {
+    transform: scale(0.96) !important;
+}
+
+/* Nút Thoát ✕ */
+.header-close-btn,
+.maintenance-exit-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.header-close-btn:hover,
+.maintenance-exit-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.header-close-btn:active,
+.maintenance-exit-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.header-close-btn svg,
+.maintenance-exit-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+/* ── 3. THỐNG KÊ TỔNG QUAN (3 STAT CARDS) ── */
+.maintenance-summary-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+}
+
+.maintenance-stat-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.22s ease !important;
+}
+
+.maintenance-stat-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.08) !important;
+}
+
+.stat-card-icon-wrap {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 14px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.24) !important;
+    color: #C2410C !important;
+}
+
+.stat-card-icon-wrap svg {
+    width: 22px !important;
+    height: 22px !important;
+    stroke-width: 2.2px !important;
+}
+
+.stat-card-content {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+}
+
+.stat-card-label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 2px !important;
+}
+
+.stat-card-val {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.stat-card-val.text-terracotta {
+    color: #C2410C !important;
+}
+
+/* ── 4. BỘ LỌC & TÌM KIẾM ── */
+.maintenance-filter-bar {
+    margin-bottom: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.maintenance-search-box {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 16px !important;
+    padding: 0 14px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+    transition: all 0.2s ease !important;
+}
+
+.maintenance-search-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.16) !important;
+}
+
+.search-input-icon {
+    width: 18px !important;
+    height: 18px !important;
+    color: #EA580C !important;
+    flex-shrink: 0 !important;
+}
+
+.maintenance-search-box input {
+    width: 100% !important;
+    height: 44px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 10px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    outline: none !important;
+}
+
+.maintenance-search-box input::placeholder {
+    color: #94A3B8 !important;
+    font-weight: 500 !important;
+}
+
+.search-clear-btn {
+    background: #F1F5F9 !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    color: #64748B !important;
+}
+
+.search-clear-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+/* Category Tabs */
+.maintenance-category-tabs {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding-bottom: 2px !important;
+    scrollbar-width: none !important;
+}
+
+.maintenance-category-tabs::-webkit-scrollbar {
+    display: none !important;
+}
+
+.category-tab {
+    height: 38px !important;
+    padding: 0 14px !important;
+    border-radius: 999px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    transition: all 0.18s ease !important;
+}
+
+.category-tab:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+}
+
+.category-tab.active {
+    background: #FFF7ED !important;
+    border-color: #C2410C !important;
+    color: #C2410C !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.14) !important;
+}
+
+.cat-count-badge {
+    background: #F1F5F9 !important;
+    color: #64748B !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 1px 6px !important;
+    border-radius: 999px !important;
+}
+
+.category-tab.active .cat-count-badge {
+    background: #FFEDD5 !important;
+    color: #9A3412 !important;
+}
+
+/* ── 5. DANH SÁCH THIẾT BỊ (DEVICE CARDS) ── */
+.devices-list-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+.device-card-item {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04) !important;
+    overflow: hidden !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.device-card-item:hover {
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.08) !important;
+}
+
+.device-card-header {
+    padding: 16px 18px 14px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+}
+
+.device-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.device-icon-bubble {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.24) !important;
+    color: #C2410C !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.device-icon-bubble svg {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.device-title-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+}
+
+.device-title-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.device-name {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    letter-spacing: -0.015em !important;
+}
+
+.device-cat-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 2px 8px !important;
+    border-radius: 999px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+}
+
+.device-code-sub {
+    font-size: 12px !important;
+    color: #64748B !important;
+    margin-top: 3px !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* Device Actions (Edit & Delete) */
+.device-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+}
+
+.btn-card-action {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.btn-card-action.btn-edit {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+}
+
+.btn-card-action.btn-edit:hover {
+    background: #FFEDD5 !important;
+    transform: translateY(-1px) scale(1.05) !important;
+}
+
+.btn-card-action.btn-delete {
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.22) !important;
+    color: #E11D48 !important;
+}
+
+.btn-card-action.btn-delete:hover {
+    background: #FFE4E6 !important;
+    transform: translateY(-1px) scale(1.05) !important;
+}
+
+.btn-card-action svg {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+/* Device Body & Summary Bar */
+.device-card-body {
+    padding: 14px 18px !important;
+}
+
+.device-stats-bar {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.06) !important;
+    border-radius: 14px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 12px !important;
+}
+
+.device-stat-col {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.dev-stat-lbl {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+}
+
+.dev-stat-val {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin-top: 2px !important;
+}
+
+.dev-stat-val.val-highlight {
+    color: #C2410C !important;
+    font-weight: 900 !important;
+}
+
+/* Device Card Bottom Controls */
+.device-card-bottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding-top: 6px !important;
+}
+
+.btn-add-log {
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-add-log:hover {
+    background: #FFEDD5 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(194, 65, 12, 0.15) !important;
+}
+
+.btn-toggle-history {
+    height: 38px !important;
+    padding: 0 14px !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.16s ease !important;
+}
+
+.btn-toggle-history:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+.btn-toggle-history svg {
+    transition: transform 0.25s ease !important;
+}
+
+.btn-toggle-history.expanded svg {
+    transform: rotate(180deg) !important;
+}
+
+/* ── 6. TIMELINE LƯỢT BẢO TRÌ SỬA CHỮA ── */
+.device-history-section {
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: #FAF7F2 !important;
+    padding: 14px 18px !important;
+    display: none;
+}
+
+.device-history-section.open {
+    display: block !important;
+    animation: fadeInHistory 0.22s ease !important;
+}
+
+@keyframes fadeInHistory {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.history-heading {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.history-logs-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.log-item-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    transition: all 0.16s ease !important;
+}
+
+.log-item-card:hover {
+    border-color: rgba(194, 65, 12, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+}
+
+.log-item-left {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.log-date-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    background: #F1F5F9 !important;
+    border-radius: 6px !important;
+    padding: 2px 7px !important;
+    width: fit-content !important;
+}
+
+.log-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 2px 0 0 0 !important;
+}
+
+.log-meta-row {
+    font-size: 12px !important;
+    color: #64748B !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    margin-top: 2px !important;
+}
+
+.log-meta-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+}
+
+.log-item-right {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+.log-cost-amount {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    white-space: nowrap !important;
+}
+
+.log-item-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+.btn-log-action {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border: none !important;
+    background: #F8FAFC !important;
+    color: #64748B !important;
+    transition: all 0.15s ease !important;
+}
+
+.btn-log-action:hover {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+}
+
+.btn-log-action.btn-del:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+}
+
+.btn-log-action svg {
+    width: 13px !important;
+    height: 13px !important;
+}
+
+/* Empty State */
+.maintenance-empty-state {
+    text-align: center !important;
+    padding: 48px 20px !important;
+    background: #FFFFFF !important;
+    border: 1px dashed rgba(194, 65, 12, 0.25) !important;
+    border-radius: 24px !important;
+}
+
+.empty-icon-wrap {
+    font-size: 42px !important;
+    margin-bottom: 12px !important;
+}
+
+.empty-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.empty-sub {
+    font-size: 13px !important;
+    color: #64748B !important;
+    max-width: 380px !important;
+    margin: 0 auto 16px !important;
+    line-height: 1.5 !important;
+}
+
+/* ── 7. POPUP MODAL STYLING (WARM TERRACOTTA) ── */
+.modal-header-upgraded {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.12) !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+.modal-header-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.modal-eyebrow-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    padding: 2.5px 8.5px !important;
+    border-radius: 999px !important;
+    width: fit-content !important;
+}
+
+.modal-sheet h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.modal-header-sub {
+    font-size: 12px !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.target-device-pill {
+    color: #C2410C !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    padding: 1px 7px !important;
+    border-radius: 6px !important;
+}
+
+.modal-close-btn {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 11px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.modal-close-btn:hover {
+    background: #FFF1F2 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    color: #E11D48 !important;
+    transform: rotate(90deg) scale(1.05) !important;
+}
+
+/* Modal Form Fields */
+.form-group {
+    margin-bottom: 12px !important;
+}
+
+.form-field-label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    letter-spacing: 0.02em !important;
+    margin-bottom: 5px !important;
+    display: block !important;
+}
+
+.required-star {
+    color: #E11D48 !important;
+}
+
+.form-row-2col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+}
+
+.input-wrapper,
+.select-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 14px !important;
+    transition: all 0.18s ease !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+}
+
+.input-wrapper:focus-within,
+.select-wrapper:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.15) !important;
+}
+
+.field-icon {
+    position: absolute !important;
+    left: 12px !important;
+    color: #EA580C !important;
+    pointer-events: none !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.input-wrapper input,
+.select-wrapper select {
+    width: 100% !important;
+    height: 42px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 12px 0 38px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+.select-wrapper select {
+    cursor: pointer !important;
+    padding-right: 28px !important;
+}
+
+.textarea-wrapper {
+    padding: 10px 12px !important;
+}
+
+.textarea-wrapper textarea {
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    font-family: 'Be Vietnam Pro', 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    color: #0F172A !important;
+    outline: none !important;
+    resize: vertical !important;
+    min-height: 54px !important;
+}
+
+/* Quick chips inside modals */
+.device-quick-suggestions,
+.log-quick-suggestions,
+.log-cost-chips {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-top: 6px !important;
+}
+
+.quick-dev-chip,
+.quick-log-chip,
+.quick-cost-chip {
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    background: #F8FAFC !important;
+    border-radius: 8px !important;
+    padding: 3px 9px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.quick-dev-chip:hover,
+.quick-log-chip:hover,
+.quick-cost-chip:hover {
+    background: #FFF7ED !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    color: #C2410C !important;
+    transform: translateY(-1px) !important;
+}
+
+.log-quick-date-btn-wrap {
+    margin-top: 4px !important;
+}
+
+.quick-today-btn {
+    border: none !important;
+    background: transparent !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+}
+
+.quick-today-btn:hover {
+    text-decoration: underline !important;
+}
+
+/* Form actions row */
+.form-actions-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding-top: 16px !important;
+    margin-top: 14px !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.form-actions-row .btn-secondary {
+    flex: 1 !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+}
+
+.form-actions-row .btn-secondary:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+.form-actions-row .btn-primary {
+    flex: 2 !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+}
+
+.form-actions-row .btn-primary:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+/* ── 8. CONFIRM DELETE MODAL ── */
+.confirm-delete-sheet {
+    text-align: center !important;
+    max-width: 380px !important;
+    padding: 24px !important;
+}
+
+.delete-icon-bubble {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 16px !important;
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.22) !important;
+    color: #E11D48 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 12px !important;
+}
+
+.delete-icon-bubble svg {
+    width: 26px !important;
+    height: 26px !important;
+}
+
+.delete-modal-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 0 0 6px 0 !important;
+}
+
+.delete-modal-msg {
+    font-size: 13px !important;
+    color: #64748B !important;
+    line-height: 1.5 !important;
+    margin: 0 0 18px 0 !important;
+}
+
+.delete-actions-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+}
+
+.btn-danger-confirm {
+    height: 42px !important;
+    border-radius: 12px !important;
+    background: #E11D48 !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.28) !important;
+}
+
+.btn-danger-confirm:hover {
+    background: #BE123C !important;
+}
+
+/* ── 9. TOAST NOTIFICATION ── */
+.maintenance-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: #0F172A;
+    color: #FFFFFF;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20000;
+}
+
+.maintenance-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ── 10. RESPONSIVE MOBILE (< 640px) ── */
+@media (max-width: 640px) {
+    .maintenance-header-row,
+    header.maintenance-header-row {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+    }
+
+    .maintenance-title-info h2 {
+        font-size: 19px !important;
+    }
+
+    .btn-add-device {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 13px !important;
+        border-radius: 11px !important;
+    }
+
+    .maintenance-action-icon-btn,
+    .header-close-btn,
+    .maintenance-exit-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .maintenance-action-icon-btn svg,
+    .header-close-btn svg,
+    .maintenance-exit-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .maintenance-summary-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    .form-row-2col {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+    }
+
+    .device-card-header {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .device-header-actions {
+        align-self: flex-end !important;
+        margin-top: -34px !important;
+    }
+
+    .device-stats-bar {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+
+    .device-card-bottom {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .btn-add-log,
+    .btn-toggle-history {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* ── Compact Device Modal Header (Gọn gàng, loại bỏ tiêu đề thừa) ── */
+.compact-device-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 14px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.12) !important;
+}
+
+.compact-device-header .modal-header-info {
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+.compact-device-header .modal-eyebrow-badge {
+    margin-bottom: 0 !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 4px 12px !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* ── Custom Date Picker Wrapper (dd/mm/yyyy chuẩn Việt Nam) ── */
+.custom-dmy-picker-wrap {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.custom-dmy-picker-wrap .custom-dmy-input {
+    width: 100% !important;
+    height: 42px !important;
+    padding: 8px 42px 8px 12px !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0.3px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    transition: all 0.2s ease !important;
+}
+
+.custom-dmy-picker-wrap .custom-dmy-input:focus {
+    border-color: #C2410C !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12) !important;
+    outline: none !important;
+}
+
+.custom-dmy-trigger-btn {
+    position: absolute !important;
+    right: 6px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 30px !important;
+    height: 30px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.25) !important;
+    color: #C2410C !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    z-index: 2 !important;
+}
+
+.custom-dmy-trigger-btn:hover {
+    background: #FFEDD5 !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.custom-dmy-trigger-btn svg,
+.custom-dmy-trigger-btn i {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.custom-dmy-hidden-native {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}

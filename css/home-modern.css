@@ -1,0 +1,435 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   HOME-MODERN.CSS — TRANG CHỦ HIỆN ĐẠI (FINTECH / WARM TERRACOTTA)
+   Tông màu chủ đạo: Màu Cam / Cam Đất (#C2410C / #EA580C / #F97316)
+   Phông chữ: Nunito & Be Vietnam Pro
+   Đồng bộ 100% với toàn bộ ứng dụng
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. GLOBAL BACKGROUND CHO TRANG CHỦ ── */
+body {
+    background-color: #FAF7F2 !important;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.welcome-hub-page {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 9995 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 10% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 90% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: fixed !important;
+    padding: max(20px, env(safe-area-inset-top)) 20px max(32px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Khung bọc trung tâm chuẩn cho lưới 3x4 (3 cột 4 hàng) */
+.welcome-hub-inner {
+    width: 100% !important;
+    max-width: 780px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+}
+
+/* ── 2. TOP BAR FLOATING CARD (HEADER) ── */
+.welcome-hub-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    padding: 14px 20px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+    position: relative !important;
+    top: auto !important;
+    z-index: 100 !important;
+}
+
+.welcome-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.welcome-brand-logo {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.1) !important;
+    flex-shrink: 0 !important;
+    object-fit: cover !important;
+}
+
+.welcome-brand-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.welcome-brand-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.welcome-brand-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    color: #C2410C !important;
+}
+
+.status-dot {
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 50% !important;
+    background-color: #EA580C !important;
+    box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.25) !important;
+    animation: statusPulseOrange 2s infinite ease-in-out !important;
+}
+
+@keyframes statusPulseOrange {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0.6; }
+}
+
+.welcome-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* Badge hiển thị Ngày Giờ tông cam ấm */
+.welcome-hub-date-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 8px 15px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 999px !important;
+    box-shadow: inset 0 1px 2px rgba(194, 65, 12, 0.04) !important;
+}
+
+.welcome-hub-date-badge .date-icon {
+    width: 14.5px !important;
+    height: 14.5px !important;
+    color: #EA580C !important;
+    stroke-width: 2.3px !important;
+}
+
+.welcome-hub-date {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    letter-spacing: 0.01em !important;
+    white-space: nowrap !important;
+}
+
+/* Nút Đăng xuất */
+.welcome-hub-logout-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+    border-radius: 13px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+}
+
+.welcome-hub-logout-btn i {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.2px !important;
+}
+
+.welcome-hub-logout-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.welcome-hub-logout-btn:active {
+    transform: scale(0.94) !important;
+}
+
+/* ── 3. HERO GREETING SECTION ── */
+.welcome-hub-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    padding: 4px 2px !important;
+}
+
+.welcome-hub-greeting {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.welcome-hub-question {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* ── 4. LƯỚI BENTO 3 CỘT x 4 HÀNG (3x4 GRID) HIỆN ĐẠI ── */
+.welcome-hub-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+/* ── 5. CÁC Ô TÍNH NĂNG (BENTO TILE THẺ TRẮNG BO TRÒN) ── */
+.welcome-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 22px !important;
+    padding: 22px 10px 18px !important;
+    min-height: 126px !important;
+    cursor: pointer !important;
+    transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 4px 16px rgba(194, 65, 12, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.welcome-card:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    border-color: rgba(194, 65, 12, 0.42) !important;
+    box-shadow: 0 16px 32px -4px rgba(194, 65, 12, 0.14), 0 4px 12px rgba(194, 65, 12, 0.06) !important;
+    background: #FFFDFB !important;
+}
+
+.welcome-card:active {
+    transform: scale(0.96) !important;
+}
+
+/* Biểu tượng Squircle rực rỡ tông cam ấm */
+.welcome-card-icon-wrap {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 17px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 12px !important;
+    flex-shrink: 0 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 12px rgba(194, 65, 12, 0.08) !important;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.welcome-card:hover .welcome-card-icon-wrap {
+    transform: scale(1.1) !important;
+}
+
+.welcome-card-icon-wrap > i,
+.welcome-card-icon-wrap > svg:not(.icon-her-svg) {
+    width: 26px !important;
+    height: 26px !important;
+    stroke-width: 2.2px !important;
+    background: transparent !important;
+}
+
+/* Tông màu cam ấm / terracotta đồng bộ cho toàn bộ icon */
+.icon-thuchi   { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #EA580C !important; border: 1px solid rgba(234, 88, 12, 0.28) !important; }
+.icon-tietkiem { background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%) !important; color: #C2410C !important; border: 1px solid rgba(194, 65, 12, 0.28) !important; }
+.icon-her      { background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%) !important; color: #E11D48 !important; border: 1px solid rgba(225, 29, 72, 0.25) !important; }
+.icon-suckhoe  { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #EA580C !important; border: 1px solid rgba(234, 88, 12, 0.28) !important; }
+.icon-congviec { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #C2410C !important; border: 1px solid rgba(194, 65, 12, 0.28) !important; }
+.icon-ghichu   { background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%) !important; color: #D97706 !important; border: 1px solid rgba(217, 119, 6, 0.28) !important; }
+.icon-hotro    { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #EA580C !important; border: 1px solid rgba(234, 88, 12, 0.28) !important; }
+.icon-wishlist { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #C2410C !important; border: 1px solid rgba(194, 65, 12, 0.28) !important; }
+.icon-list     { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #EA580C !important; border: 1px solid rgba(234, 88, 12, 0.28) !important; }
+.icon-quote    { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #C2410C !important; border: 1px solid rgba(194, 65, 12, 0.28) !important; }
+.icon-handbook { background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important; color: #EA580C !important; border: 1px solid rgba(234, 88, 12, 0.28) !important; }
+.icon-baotri   { background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%) !important; color: #C2410C !important; border: 1px solid rgba(194, 65, 12, 0.28) !important; }
+
+/* Tên tính năng */
+.welcome-card-name {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.015em !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+    transition: color 0.2s ease !important;
+}
+
+.welcome-card:hover .welcome-card-name {
+    color: #C2410C !important;
+}
+
+/* Badge Két bí mật */
+.welcome-card-badge-pink {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%) !important;
+    color: #E11D48 !important;
+    border: 1px solid rgba(225, 29, 72, 0.25) !important;
+    border-radius: 999px !important;
+    padding: 2px 7px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 9.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.03em !important;
+    box-shadow: 0 1px 3px rgba(225, 29, 72, 0.1) !important;
+    text-transform: uppercase !important;
+}
+
+/* ── 6. NÂNG CẤP MÀN HÌNH ĐĂNG NHẬP (LOGIN OVERLAY) ── */
+#login-screen .meta-btn-primary {
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    box-shadow: 0 4px 18px rgba(194, 65, 12, 0.35) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#login-screen .meta-btn-primary:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 22px rgba(194, 65, 12, 0.45) !important;
+}
+
+#login-screen .meta-input:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.18) !important;
+}
+
+/* ── 7. RESPONSIVE MOBILE (< 640px) ── */
+@media (max-width: 640px) {
+    .welcome-hub-page {
+        padding: max(14px, env(safe-area-inset-top)) 12px max(24px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .welcome-hub-inner {
+        gap: 16px !important;
+    }
+
+    .welcome-hub-header {
+        padding: 10px 14px !important;
+        border-radius: 16px !important;
+    }
+
+    .welcome-brand-logo {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 10px !important;
+    }
+
+    .welcome-brand-title {
+        font-size: 14px !important;
+    }
+
+    .welcome-hub-date-badge {
+        padding: 6px 10px !important;
+    }
+
+    .welcome-hub-date {
+        font-size: 11px !important;
+    }
+
+    .welcome-hub-logout-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .welcome-hub-greeting {
+        font-size: 23px !important;
+    }
+
+    .welcome-hub-question {
+        font-size: 13.5px !important;
+    }
+
+    .welcome-hub-cards {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    .welcome-card {
+        padding: 14px 6px 12px !important;
+        min-height: 106px !important;
+        border-radius: 18px !important;
+    }
+
+    .welcome-card-icon-wrap {
+        width: 46px !important;
+        height: 46px !important;
+        border-radius: 14px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .welcome-card-icon-wrap > i,
+    .welcome-card-icon-wrap > svg:not(.icon-her-svg) {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .welcome-card-name {
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 350px) {
+    .welcome-hub-cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}

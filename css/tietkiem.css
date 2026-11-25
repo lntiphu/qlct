@@ -1182,6 +1182,14 @@ html, body, .saver-container {
 }
 
 .modal-sheet .input-wrapper input,
+.modal-sheet .input-wrapper input:focus {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
 .modal-sheet select {
     background: #FFFFFF !important;
     border: 1px solid var(--al-border-strong) !important;
@@ -1194,7 +1202,6 @@ html, body, .saver-container {
     transition: border-color 0.16s ease, box-shadow 0.16s ease !important;
 }
 
-.modal-sheet input:focus,
 .modal-sheet select:focus {
     background: #FFFFFF !important;
     border-color: var(--al-accent) !important;

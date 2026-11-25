@@ -1,0 +1,2610 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   SUC-KHOE-MODERN.CSS — THIẾT KẾ HIỆN ĐẠI CHUẨN FINTECH / WARM TERRACOTTA
+   Tông màu chủ đạo: Cam Đất (Warm Terracotta #C2410C / #EA580C)
+   Phông chữ: Nunito & Be Vietnam Pro
+   Đồng bộ 100% với phong cách Thu Chi và Tiết Kiệm
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. GLOBAL & CONTAINER ── */
+body[data-feature="suc-khoe"] {
+    background-color: #FAF7F2 !important;
+    background-image: 
+        radial-gradient(circle at 12% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
+        radial-gradient(circle at 88% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
+        linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
+    background-attachment: fixed !important;
+    color: #0F172A !important;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    min-height: 100vh !important;
+}
+
+body[data-feature="suc-khoe"] .container {
+    max-width: 860px !important;
+    margin: 0 auto !important;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(32px, env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ── 2. HEADER SỨC KHỎE (FLOATING CARD DESIGN) ── */
+.ckkn-header-wrap,
+header.ckkn-header-wrap {
+    position: relative !important;
+    top: auto !important;
+    z-index: 100 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 16px 0 !important;
+    margin-bottom: 8px !important;
+}
+
+.ckkn-header-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 12px !important;
+}
+
+.ckkn-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+}
+
+.ckkn-title-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.ckkn-badge-icon {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 13px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.35rem !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.08) !important;
+    flex-shrink: 0 !important;
+}
+
+.ckkn-title-wrap h1 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.025em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.ckkn-header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Nút Thêm mới */
+.ckkn-header-add-btn {
+    height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.ckkn-header-add-btn:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+.ckkn-header-add-btn:active {
+    transform: scale(0.96) !important;
+}
+
+.ckkn-header-add-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke-width: 2.4 !important;
+}
+
+/* Nút Thoát ✕ đồng bộ chuẩn Thu Chi & Tiết Kiệm */
+.ckkn-exit-btn,
+.header-close-btn.ckkn-exit-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.ckkn-exit-btn svg,
+.ckkn-exit-btn i {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2.2px !important;
+}
+
+.ckkn-exit-btn:hover,
+.header-close-btn.ckkn-exit-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.14) !important;
+}
+
+.ckkn-exit-btn:active,
+.header-close-btn.ckkn-exit-btn:active {
+    transform: scale(0.95) !important;
+}
+
+/* ── 3. SEGMENTED TABS (PHÍM TẮT CHUYỂN CHU KỲ / QUAN HỆ) ── */
+.ckkn-segmented-tabs,
+.segmented-control {
+    display: flex !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 16px !important;
+    padding: 4px !important;
+    gap: 6px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+}
+
+.ckkn-segmented-tabs .tab-btn {
+    flex: 1 !important;
+    height: 42px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ckkn-segmented-tabs .tab-btn:hover:not(.active) {
+    background: #FFEDD5 !important;
+    color: #C2410C !important;
+}
+
+.ckkn-segmented-tabs .tab-btn.active {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+    font-weight: 900 !important;
+    box-shadow: 0 3px 12px rgba(194, 65, 12, 0.12) !important;
+    transform: scale(1.01) !important;
+}
+
+.ckkn-segmented-tabs .tab-btn .nav-icon {
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+}
+
+/* ── 4. THỐNG KÊ (STATS ROW & STAT CARDS) ── */
+.stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+}
+
+.stat-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 18px !important;
+    padding: 16px 12px !important;
+    text-align: center !important;
+    box-shadow: 0 4px 16px rgba(194, 65, 12, 0.04) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    box-shadow: 0 6px 20px rgba(194, 65, 12, 0.1) !important;
+}
+
+.stat-card .val {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.stat-card.purple .val,
+.stat-card.rose .val {
+    color: #EA580C !important;
+}
+
+.stat-card.green .val,
+.stat-card.blue .val {
+    color: #059669 !important;
+}
+
+.stat-card.orange .val {
+    color: #D97706 !important;
+}
+
+.stat-card .lbl {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    margin-top: 6px !important;
+    line-height: 1.25 !important;
+}
+
+/* ── 5. PREDICT BANNER (DỰ ĐOÁN CHU KỲ TIẾP THEO) ── */
+.predict-banner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.24) !important;
+    border-radius: 18px !important;
+    padding: 14px 20px !important;
+    margin-bottom: 18px !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.08) !important;
+}
+
+.predict-banner .pi {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    background: rgba(194, 65, 12, 0.12) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.45rem !important;
+    flex-shrink: 0 !important;
+}
+
+.predict-banner h3 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #7C2D12 !important;
+    margin: 0 !important;
+}
+
+.predict-banner p {
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: #9A3412 !important;
+    margin-top: 3px !important;
+}
+
+/* ── 6. CARDS & TIMELINE HISTORY ── */
+.card,
+.card.rose-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 24px !important;
+}
+
+.list-header {
+    margin-bottom: 16px !important;
+}
+
+.list-header h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.history-hint {
+    font-size: 12.5px !important;
+    color: #64748B !important;
+    font-weight: 500 !important;
+}
+
+/* Search bar */
+.search-row {
+    display: flex !important;
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+}
+
+.search-row input,
+.search-row select {
+    height: 44px !important;
+    border-radius: 14px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #0F172A !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    padding: 0 16px !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+}
+
+.search-row input:focus,
+.search-row select:focus {
+    background: #FFFFFF !important;
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.18) !important;
+    outline: none !important;
+}
+
+/* Nhóm tháng */
+.history-month-heading {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 4px 8px !important;
+    margin-top: 8px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.1) !important;
+    margin-bottom: 10px !important;
+}
+
+.history-month-heading h3 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    text-transform: capitalize !important;
+    margin: 0 !important;
+}
+
+.history-month-heading span {
+    font-size: 12px !important;
+    color: #94A3B8 !important;
+    font-weight: 600 !important;
+}
+
+.history-month-items {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+/* History Item Card */
+.history-item {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden !important;
+}
+
+.history-item:hover {
+    background: #FFFDFB !important;
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.09) !important;
+}
+
+.history-item-toggle {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 14px 18px !important;
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    text-align: left !important;
+}
+
+.item-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.35rem !important;
+    flex-shrink: 0 !important;
+}
+
+.item-icon.rose {
+    background: #FFF1F2 !important;
+    border-color: rgba(225, 29, 72, 0.18) !important;
+}
+
+.history-item-main {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+
+.history-item-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.history-item-subtitle {
+    font-size: 12.5px !important;
+    color: #64748B !important;
+    font-weight: 600 !important;
+}
+
+/* Badge số ngày */
+.badge.badge-green {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    border-radius: 999px !important;
+    padding: 3px 9px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+
+/* ── Nút chevron mở rộng lịch sử dạng button hiện đại ── */
+.history-chevron {
+    display: none !important;
+}
+
+.history-chevron-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(194, 65, 12, 0.08) !important;
+}
+
+.history-item-toggle:hover .history-chevron-btn {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.4) !important;
+    transform: scale(1.06) !important;
+    box-shadow: 0 2px 6px rgba(194, 65, 12, 0.16) !important;
+}
+
+.history-item.is-open .history-chevron-btn {
+    background: #C2410C !important;
+    border-color: #C2410C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.28) !important;
+}
+
+.history-chevron-btn .chevron-svg {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.history-item.is-open .history-chevron-btn .chevron-svg {
+    transform: rotate(180deg) !important;
+}
+
+/* Thẻ tab quan hệ (hồng/rose) */
+.rose-history-item .history-chevron-btn {
+    background: #FFF1F2 !important;
+    border-color: rgba(225, 29, 72, 0.2) !important;
+    color: #E11D48 !important;
+    box-shadow: 0 1px 3px rgba(225, 29, 72, 0.08) !important;
+}
+
+.rose-history-item .history-item-toggle:hover .history-chevron-btn {
+    background: #FFE4E6 !important;
+    border-color: rgba(225, 29, 72, 0.4) !important;
+}
+
+.rose-history-item.is-open .history-chevron-btn {
+    background: #E11D48 !important;
+    border-color: #E11D48 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.28) !important;
+}
+
+/* ── Chi tiết lịch sử chu kỳ: Hiển thị trực quan theo nhóm ── */
+.history-item-details {
+    padding: 12px 16px 16px 16px !important;
+    border-top: 1px dashed rgba(194, 65, 12, 0.14) !important;
+    margin-top: 2px !important;
+    background: linear-gradient(180deg, rgba(255, 247, 237, 0.35) 0%, rgba(255, 255, 255, 0.8) 100%) !important;
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+.cycle-details-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.cycle-detail-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.12) !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03) !important;
+}
+
+.cycle-detail-head {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-bottom: 7px !important;
+}
+
+.detail-icon-wrap {
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+.detail-head-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #475569 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.detail-count-badge {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 999px !important;
+    padding: 0 6px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 16px !important;
+}
+
+.detail-chips-wrap {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+
+/* Flow pill indicators */
+.cycle-flow-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 5px 13px !important;
+    border-radius: 999px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+.flow-dot-indicator {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+}
+
+.cycle-flow-pill.flow-heavy {
+    background: #FEF2F2 !important;
+    border: 1px solid #FECACA !important;
+    color: #DC2626 !important;
+}
+.cycle-flow-pill.flow-heavy .flow-dot-indicator {
+    background: #DC2626 !important;
+    box-shadow: 0 0 6px rgba(220, 38, 38, 0.5) !important;
+}
+
+.cycle-flow-pill.flow-medium {
+    background: #FFFBEB !important;
+    border: 1px solid #FDE68A !important;
+    color: #D97706 !important;
+}
+.cycle-flow-pill.flow-medium .flow-dot-indicator {
+    background: #F59E0B !important;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.5) !important;
+}
+
+.cycle-flow-pill.flow-light {
+    background: #F0FDF4 !important;
+    border: 1px solid #BBF7D0 !important;
+    color: #16A34A !important;
+}
+.cycle-flow-pill.flow-light .flow-dot-indicator {
+    background: #22C55E !important;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.5) !important;
+}
+
+.cycle-flow-pill.flow-spot {
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    color: #64748B !important;
+}
+.cycle-flow-pill.flow-spot .flow-dot-indicator {
+    background: #94A3B8 !important;
+}
+
+.cycle-flow-pill.flow-default {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.25) !important;
+    color: #C2410C !important;
+}
+.cycle-flow-pill.flow-default .flow-dot-indicator {
+    background: #EA580C !important;
+}
+
+/* Chips for symptoms and moods */
+.cycle-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px 11px !important;
+    border-radius: 8px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+}
+
+.cycle-chip.chip-symptom {
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.18) !important;
+    color: #BE123C !important;
+}
+
+.cycle-chip.chip-symptom .chip-dot {
+    width: 5px !important;
+    height: 5px !important;
+    border-radius: 50% !important;
+    background: #E11D48 !important;
+}
+
+.cycle-chip.chip-mood {
+    background: #EFF6FF !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    color: #1D4ED8 !important;
+}
+
+/* Note card */
+.cycle-note-card {
+    background: #FAF8F5 !important;
+    border: 1px dashed rgba(194, 65, 12, 0.2) !important;
+}
+.cycle-note-content {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+    color: #334155 !important;
+    font-style: italic !important;
+    margin: 0 !important;
+}
+
+.cycle-detail-empty {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 14px !important;
+    background: #F8FAFC !important;
+    border-radius: 10px !important;
+    color: #94A3B8 !important;
+    font-size: 13px !important;
+    font-style: italic !important;
+}
+
+/* ── Action bar: Sửa / Xóa ở chân card chi tiết ── */
+.cycle-item-actions-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(194, 65, 12, 0.08) !important;
+    flex-wrap: wrap !important;
+}
+
+.actions-bar-info {
+    font-size: 12.5px !important;
+    color: #64748B !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    flex-wrap: wrap !important;
+}
+
+.actions-bar-info strong {
+    color: #C2410C !important;
+    font-weight: 800 !important;
+}
+
+.actions-bar-info .info-dates {
+    color: #94A3B8 !important;
+    font-size: 12px !important;
+}
+
+.actions-bar-buttons {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-left: auto !important;
+}
+
+.cycle-action-btn {
+    height: 33px !important;
+    padding: 0 13px !important;
+    border-radius: 9px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.cycle-action-btn.action-edit {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.24) !important;
+    color: #C2410C !important;
+}
+
+.cycle-action-btn.action-edit:hover {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.45) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 3px 8px rgba(194, 65, 12, 0.18) !important;
+}
+
+.cycle-action-btn.action-del {
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.24) !important;
+    color: #E11D48 !important;
+}
+
+.cycle-action-btn.action-del:hover {
+    background: #FFE4E6 !important;
+    border-color: rgba(225, 29, 72, 0.45) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 3px 8px rgba(225, 29, 72, 0.18) !important;
+}
+
+/* ── Modern Pagination Bar (Nút chuyển trang) ── */
+.history-pagination {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 18px !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+}
+
+.modern-pagination-container {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #FFFFFF !important;
+    padding: 5px 8px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.08) !important;
+}
+
+.modern-pagi-btn {
+    height: 36px !important;
+    padding: 0 16px !important;
+    border-radius: 999px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(194, 65, 12, 0.06) !important;
+}
+
+.modern-pagi-btn:hover:not(:disabled) {
+    background: #EA580C !important;
+    border-color: #EA580C !important;
+    color: #FFFFFF !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.28) !important;
+}
+
+.modern-pagi-btn:disabled {
+    background: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+    color: #94A3B8 !important;
+    cursor: not-allowed !important;
+    opacity: 0.55 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.modern-pagi-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 0 12px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    user-select: none !important;
+}
+
+.pagi-page-current {
+    color: #C2410C !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+}
+
+.pagi-page-divider {
+    color: #CBD5E1 !important;
+    font-weight: 600 !important;
+}
+
+.pagi-page-total {
+    color: #64748B !important;
+    font-weight: 800 !important;
+}
+
+.modern-pagi-single {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #78716C !important;
+    background: #FFF7ED !important;
+    padding: 7px 18px !important;
+    border-radius: 999px !important;
+    border: 1px dashed rgba(194, 65, 12, 0.22) !important;
+}
+
+/* ── 7. POPUPS / MODALS ── */
+.ckkn-modal-overlay {
+    background: rgba(15, 23, 42, 0.5) !important;
+    backdrop-filter: blur(10px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+}
+
+.ckkn-modal-sheet {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px 24px 0 0 !important;
+    box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.15) !important;
+}
+
+@media (min-width: 641px) {
+    .ckkn-modal-sheet {
+        border-radius: 24px !important;
+        max-width: 520px !important;
+    }
+}
+
+.ckkn-modal-header h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+}
+
+.ckkn-modal-close-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: #64748B !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.ckkn-modal-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+}
+
+/* Nút lưu form */
+.btn-pink,
+.btn-rose {
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    border-radius: 12px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.3) !important;
+    border: none !important;
+}
+
+.btn-pink:hover,
+.btn-rose:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Chips khi chọn */
+.chip.active {
+    background: #FFF7ED !important;
+    border-color: #C2410C !important;
+    color: #C2410C !important;
+    font-weight: 700 !important;
+}
+
+/* ── 8. MOBILE RESPONSIVENESS (< 640px) ── */
+@media (max-width: 640px) {
+    .ckkn-header-top {
+        padding: 12px 14px !important;
+        border-radius: 16px !important;
+        gap: 10px !important;
+    }
+
+    .ckkn-title-wrap h1 {
+        font-size: 19px !important;
+    }
+
+    .ckkn-header-add-btn {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 13px !important;
+        border-radius: 11px !important;
+    }
+
+    .ckkn-exit-btn,
+    .header-close-btn.ckkn-exit-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        border-radius: 11px !important;
+    }
+
+    .ckkn-exit-btn svg,
+    .ckkn-exit-btn i {
+        width: 17px !important;
+        height: 17px !important;
+    }
+
+    .stats-row {
+        gap: 8px !important;
+    }
+
+    .stat-card {
+        padding: 12px 6px !important;
+        border-radius: 14px !important;
+    }
+
+    .stat-card .val {
+        font-size: 20px !important;
+    }
+
+    .stat-card .lbl {
+        font-size: 11px !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   9. MODERN SEARCH & FILTER (CHUẨN WARM TERRACOTTA)
+══════════════════════════════════════════════════════════════════════════ */
+.modern-search-row {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+}
+
+.modern-search-box {
+    position: relative !important;
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.modern-search-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.16) !important;
+    background: #FFFFFF !important;
+}
+
+.modern-search-box .search-icon {
+    position: absolute !important;
+    left: 14px !important;
+    color: #EA580C !important;
+    pointer-events: none !important;
+    flex-shrink: 0 !important;
+}
+
+.modern-search-box input {
+    width: 100% !important;
+    height: 44px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 38px 0 42px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    outline: none !important;
+}
+
+.modern-search-box input::placeholder {
+    color: #94A3B8 !important;
+    font-weight: 500 !important;
+}
+
+.modern-search-box .search-clear-btn {
+    position: absolute !important;
+    right: 10px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: #F1F5F9 !important;
+    border: none !important;
+    color: #64748B !important;
+    display: none;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+.modern-search-box .search-clear-btn:hover {
+    background: #FFE4E6 !important;
+    color: #E11D48 !important;
+}
+
+/* Modern Select Dropdown */
+.modern-select-box {
+    position: relative !important;
+    min-width: 155px !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.18) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+}
+
+.modern-select-box:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.16) !important;
+}
+
+.modern-select-box select {
+    width: 100% !important;
+    height: 44px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 38px 0 16px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    outline: none !important;
+    cursor: pointer !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+.modern-select-box .select-chevron {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #EA580C !important;
+    pointer-events: none !important;
+    flex-shrink: 0 !important;
+}
+
+@media (max-width: 580px) {
+    .modern-search-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+    }
+
+    .modern-select-box {
+        width: 100% !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   10. RELATION MONTHLY CALENDAR (LỊCH QUAN HỆ CHUẨN THU CHI)
+══════════════════════════════════════════════════════════════════════════ */
+.relation-calendar-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    border-radius: 22px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.05) !important;
+    margin-bottom: 24px !important;
+}
+
+.relation-calendar-card .dashboard-calendar-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 14px !important;
+}
+
+.relation-calendar-card .calendar-title-block {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.relation-calendar-card .calendar-year-label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #94A3B8 !important;
+    line-height: 1 !important;
+}
+
+.relation-calendar-card .calendar-month-row {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.relation-calendar-card .calendar-month-label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.relation-calendar-card .compact-month-count-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 3px 11px !important;
+    border-radius: 999px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    box-shadow: 0 1px 3px rgba(194, 65, 12, 0.08) !important;
+}
+
+.relation-calendar-card .calendar-nav-controls {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.relation-calendar-card .calendar-nav-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 12px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.18) !important;
+    color: #C2410C !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding: 0 !important;
+}
+
+.relation-calendar-card .calendar-nav-btn:hover {
+    background: #FFEDD5 !important;
+    border-color: #EA580C !important;
+    transform: scale(1.06) !important;
+}
+
+.relation-calendar-card .calendar-nav-btn:active {
+    transform: scale(0.94) !important;
+}
+
+/* Ẩn banner cũ, thay bằng badge nhỏ cạnh tên tháng */
+.relation-calendar-summary {
+    display: none !important;
+}
+
+.relation-calendar-summary strong {
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+}
+
+/* Weekday header row */
+.relation-calendar-card .calendar-weekdays {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    text-align: center !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    margin-bottom: 8px !important;
+    padding: 0 2px !important;
+}
+
+.relation-calendar-card .calendar-weekdays .sunday {
+    color: #EA580C !important;
+}
+
+/* Calendar Days Grid */
+.relation-calendar-days-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+}
+
+.relation-calendar-days-grid .calendar-day-cell {
+    aspect-ratio: 1 !important;
+    position: relative !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 5px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    cursor: pointer !important;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+}
+
+.relation-calendar-days-grid .calendar-day-cell.empty {
+    background: transparent !important;
+    border: none !important;
+    cursor: default !important;
+    box-shadow: none !important;
+}
+
+.relation-calendar-days-grid .calendar-day-cell:not(.empty):hover {
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.08) !important;
+}
+
+.relation-calendar-days-grid .calendar-day-cell.today {
+    border: 2px solid #C2410C !important;
+    box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.18), 0 2px 8px rgba(194, 65, 12, 0.1) !important;
+}
+
+.relation-calendar-days-grid .calendar-day-number {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    line-height: 1 !important;
+    margin-top: 2px !important;
+}
+
+.relation-calendar-days-grid .calendar-day-cell.sunday .calendar-day-number {
+    color: #EA580C !important;
+}
+
+/* Day Badges (Safe vs Unsafe) */
+.relation-calendar-days-grid .calendar-day-badge {
+    margin-top: auto !important;
+    margin-bottom: 2px !important;
+    padding: 2px 5px !important;
+    border-radius: 8px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    letter-spacing: -0.2px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ĐIỀU KIỆN MÀU Ô LỊCH:
+   1. AN TOÀN -> XANH LÁ
+   2. KHÔNG AN TOÀN -> ĐỎ
+   3. HỖN HỢP (1 LẦN AN TOÀN, 1 LẦN KHÔNG AN TOÀN) -> NỬA XANH NỬA ĐỎ
+══════════════════════════════════════════════════════════════ */
+
+/* Ô An Toàn: Xanh lá */
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-safe {
+    background: #ECFDF5 !important;
+    border: 1.5px solid #10B981 !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-safe:hover {
+    background: #D1FAE5 !important;
+    border-color: #059669 !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-safe .calendar-day-number {
+    color: #065F46 !important;
+    font-weight: 800 !important;
+}
+.relation-calendar-days-grid .calendar-day-badge.badge-safe {
+    background: #D1FAE5 !important;
+    border: 1px solid #6EE7B7 !important;
+    color: #047857 !important;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.12) !important;
+}
+
+/* Ô Không An Toàn: Đỏ */
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-unsafe {
+    background: #FEF2F2 !important;
+    border: 1.5px solid #EF4444 !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-unsafe:hover {
+    background: #FEE2E2 !important;
+    border-color: #DC2626 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2) !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-unsafe .calendar-day-number {
+    color: #991B1B !important;
+    font-weight: 800 !important;
+}
+.relation-calendar-days-grid .calendar-day-badge.badge-unsafe {
+    background: #FEE2E2 !important;
+    border: 1px solid #FCA5A5 !important;
+    color: #B91C1C !important;
+    box-shadow: 0 1px 4px rgba(220, 38, 38, 0.12) !important;
+}
+
+/* Ô Hỗn Hợp (Cả an toàn và không an toàn): Nửa xanh nửa đỏ */
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-mixed {
+    background: linear-gradient(135deg, #DCFCE7 50%, #FEE2E2 50%) !important;
+    border: 1.5px solid #10B981 !important;
+    border-right-color: #EF4444 !important;
+    border-bottom-color: #EF4444 !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-mixed:hover {
+    background: linear-gradient(135deg, #BBF7D0 50%, #FECACA 50%) !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15) !important;
+}
+.relation-calendar-days-grid .calendar-day-cell.has-relation.relation-mixed .calendar-day-number {
+    color: #065F46 !important;
+    font-weight: 900 !important;
+}
+.relation-calendar-days-grid .calendar-day-badge.badge-mixed {
+    background: #FFFFFF !important;
+    border: 1px solid #94A3B8 !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Calendar Legend */
+.relation-calendar-legend {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    border-top: 1px dashed rgba(194, 65, 12, 0.14) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    flex-wrap: wrap !important;
+}
+
+.relation-calendar-legend .legend-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.relation-calendar-legend .legend-badge {
+    padding: 2.5px 8px !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+}
+
+.relation-calendar-legend .legend-badge.safe {
+    background: #DCFCE7 !important;
+    border: 1px solid #86EFAC !important;
+    color: #15803D !important;
+}
+
+.relation-calendar-legend .legend-badge.unsafe {
+    background: #FEE2E2 !important;
+    border: 1px solid #FCA5A5 !important;
+    color: #B91C1C !important;
+}
+
+.relation-calendar-legend .legend-badge.mixed {
+    background: linear-gradient(135deg, #DCFCE7 50%, #FEE2E2 50%) !important;
+    border: 1px solid #94A3B8 !important;
+    color: #0F172A !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   11. RELATION DAY DETAIL MODAL SHEET (CHI TIẾT NGÀY CHUẨN THU CHI)
+══════════════════════════════════════════════════════════════════════════ */
+.relation-day-sheet {
+    max-width: 540px !important;
+    width: 92% !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    padding: 20px 22px !important;
+}
+
+.calendar-day-detail-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+}
+
+.calendar-day-detail-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+.calendar-day-detail-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    border-radius: 20px !important;
+    padding: 3px 10px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    width: fit-content !important;
+}
+
+.calendar-day-detail-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 2px 0 0 0 !important;
+    line-height: 1.25 !important;
+}
+
+.relation-day-summary-banner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 16px !important;
+    padding: 12px 18px !important;
+    margin-bottom: 16px !important;
+}
+
+.relation-day-summary-banner .day-stat-lbl {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    color: #7C2D12 !important;
+    font-weight: 700 !important;
+}
+
+.relation-day-summary-banner .day-stat-val {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    color: #C2410C !important;
+    margin-left: 6px !important;
+}
+
+.badge-safe-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: #ECFDF5 !important;
+    border: 1px solid #A7F3D0 !important;
+    color: #059669 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+}
+
+.badge-unsafe-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: #FEF2F2 !important;
+    border: 1px solid #FECACA !important;
+    color: #DC2626 !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+}
+
+.badge-neutral {
+    display: inline-flex !important;
+    padding: 4px 10px !important;
+    border-radius: 20px !important;
+    background: #F1F5F9 !important;
+    color: #64748B !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+/* Record cards inside Day Detail */
+.relation-day-records-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    max-height: 48vh !important;
+    overflow-y: auto !important;
+    padding-right: 2px !important;
+}
+
+.relation-day-record-card {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.04) !important;
+    transition: all 0.18s ease !important;
+}
+
+.relation-day-record-card:hover {
+    border-color: rgba(194, 65, 12, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.08) !important;
+}
+
+.record-card-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.1) !important;
+}
+
+.record-time-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.record-num {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    padding: 2px 7px !important;
+    border-radius: 8px !important;
+}
+
+.record-time {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+}
+
+.record-safety-pill {
+    padding: 2px 8px !important;
+    border-radius: 12px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+}
+
+.record-safety-pill.safe {
+    background: #ECFDF5 !important;
+    color: #059669 !important;
+    border: 1px solid #A7F3D0 !important;
+}
+
+.record-safety-pill.unsafe {
+    background: #FEF2F2 !important;
+    color: #DC2626 !important;
+    border: 1px solid #FECACA !important;
+}
+
+.record-detail-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px 12px !important;
+    margin-bottom: 12px !important;
+}
+
+.record-detail-item {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+}
+
+.record-detail-item.full {
+    grid-column: 1 / -1 !important;
+}
+
+.record-detail-item .dt-lbl {
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    margin-right: 4px !important;
+}
+
+.record-detail-item .dt-val {
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+}
+
+.record-detail-item .dt-val.note-val {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+.record-card-actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px dashed rgba(194, 65, 12, 0.1) !important;
+}
+
+.btn-action-edit,
+.btn-action-delete {
+    height: 32px !important;
+    padding: 0 12px !important;
+    border-radius: 10px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-action-edit {
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+    color: #C2410C !important;
+}
+
+.btn-action-edit:hover {
+    background: #FFEDD5 !important;
+    color: #9A3412 !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-action-delete {
+    background: #FFF1F2 !important;
+    border: 1px solid rgba(225, 29, 72, 0.2) !important;
+    color: #E11D48 !important;
+}
+
+.btn-action-delete:hover {
+    background: #FFE4E6 !important;
+    color: #BE123C !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Empty state */
+.calendar-day-empty-state {
+    text-align: center !important;
+    padding: 24px 16px !important;
+    background: #FFFDFB !important;
+    border: 1px dashed rgba(194, 65, 12, 0.2) !important;
+    border-radius: 16px !important;
+}
+
+.calendar-day-empty-icon {
+    font-size: 2.2rem !important;
+    margin-bottom: 6px !important;
+}
+
+.calendar-day-empty-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin-bottom: 4px !important;
+}
+
+.calendar-day-empty-desc {
+    font-size: 13px !important;
+    color: #64748B !important;
+}
+
+.relation-day-actions {
+    margin-top: 14px !important;
+}
+
+.relation-day-actions .btn.full-width {
+    width: 100% !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+@media (max-width: 640px) {
+    .relation-calendar-card {
+        padding: 16px 14px !important;
+        border-radius: 18px !important;
+    }
+
+    .relation-calendar-days-grid {
+        gap: 4px !important;
+    }
+
+    .relation-calendar-days-grid .calendar-day-cell {
+        border-radius: 10px !important;
+        padding: 3px !important;
+    }
+
+    .relation-calendar-days-grid .calendar-day-number {
+        font-size: 12px !important;
+    }
+
+    .relation-calendar-days-grid .calendar-day-badge {
+        font-size: 9.5px !important;
+        padding: 1.5px 3.5px !important;
+    }
+
+    .record-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   12. HEALTH ADD-NEW PICKER MODAL (NÂNG CẤP THÊM GHI NHẬN MỚI)
+══════════════════════════════════════════════════════════════════════════ */
+.health-picker-modal-sheet {
+    max-width: 500px !important;
+    width: 92% !important;
+    padding: 22px 24px !important;
+    background: #FFFFFF !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18), 0 4px 20px rgba(194, 65, 12, 0.08) !important;
+}
+
+.picker-modal-top {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    margin-bottom: 20px !important;
+    gap: 12px !important;
+}
+
+.picker-modal-title-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+
+.picker-eyebrow-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 20px !important;
+    padding: 3px 10px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #C2410C !important;
+    width: fit-content !important;
+    letter-spacing: 0.04em !important;
+}
+
+.picker-modal-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.picker-modal-subtitle {
+    font-size: 13px !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
+}
+
+.picker-close-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+}
+
+.picker-close-btn:hover {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    transform: rotate(90deg) scale(1.06) !important;
+}
+
+/* Option Cards List */
+.health-picker-options {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 0 !important;
+}
+
+.health-picker-card {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 16px 18px !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 18px !important;
+    cursor: pointer !important;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.health-picker-card::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 4px !important;
+    background: transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.health-picker-card.card-cycle:hover {
+    border-color: rgba(225, 29, 72, 0.4) !important;
+    background: #FFFBFB !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.1) !important;
+}
+
+.health-picker-card.card-cycle:hover::before {
+    background: #E11D48 !important;
+}
+
+.health-picker-card.card-relation:hover {
+    border-color: rgba(194, 65, 12, 0.4) !important;
+    background: #FFFDFB !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(194, 65, 12, 0.1) !important;
+}
+
+.health-picker-card.card-relation:hover::before {
+    background: #EA580C !important;
+}
+
+.health-picker-card:active {
+    transform: scale(0.98) !important;
+}
+
+/* Icon Bubbles */
+.picker-card-icon {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.picker-card-icon.cycle-icon {
+    background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%) !important;
+    border: 1px solid rgba(225, 29, 72, 0.22) !important;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.12) !important;
+}
+
+.health-picker-card.card-cycle:hover .picker-card-icon.cycle-icon {
+    transform: scale(1.08) rotate(-4deg) !important;
+}
+
+.picker-card-icon.relation-icon {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.12) !important;
+}
+
+.health-picker-card.card-relation:hover .picker-card-icon.relation-icon {
+    transform: scale(1.08) rotate(4deg) !important;
+}
+
+/* Content Area */
+.picker-card-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.picker-card-head {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 4px !important;
+    flex-wrap: wrap !important;
+}
+
+.picker-card-head h4 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15.5px !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.picker-tag {
+    display: inline-flex !important;
+    padding: 2px 7px !important;
+    border-radius: 6px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+}
+
+.picker-tag.cycle-tag {
+    background: #FFF1F2 !important;
+    color: #E11D48 !important;
+    border: 1px solid rgba(225, 29, 72, 0.2) !important;
+}
+
+.picker-tag.relation-tag {
+    background: #FFF7ED !important;
+    color: #C2410C !important;
+    border: 1px solid rgba(194, 65, 12, 0.2) !important;
+}
+
+.picker-card-content p {
+    font-size: 12.5px !important;
+    color: #64748B !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
+}
+
+/* Arrow Button */
+.picker-card-arrow {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    color: #94A3B8 !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.health-picker-card.card-cycle:hover .picker-card-arrow {
+    background: #FFE4E6 !important;
+    border-color: rgba(225, 29, 72, 0.3) !important;
+    color: #E11D48 !important;
+    transform: translateX(3px) !important;
+}
+
+.health-picker-card.card-relation:hover .picker-card-arrow {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    color: #C2410C !important;
+    transform: translateX(3px) !important;
+}
+
+@media (max-width: 540px) {
+    .health-picker-modal-sheet {
+        padding: 18px 16px !important;
+        border-radius: 20px !important;
+    }
+
+    .health-picker-card {
+        padding: 13px 14px !important;
+        gap: 12px !important;
+    }
+
+    .picker-card-icon {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        border-radius: 13px !important;
+    }
+
+    .picker-card-icon svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .picker-card-head h4 {
+        font-size: 14.5px !important;
+    }
+
+    .picker-card-arrow {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NÂNG CẤP MODAL FORM THÊM / CHỈNH SỬA CHU KỲ & QUAN HỆ
+══════════════════════════════════════════════════════════════ */
+.health-form-modal-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.12) !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 18px !important;
+}
+
+.health-form-header-left {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+}
+
+.health-form-modal-header .modal-eyebrow-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    align-self: flex-start !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    padding: 2.5px 8.5px !important;
+    border-radius: 999px !important;
+    margin-bottom: 5px !important;
+}
+
+.health-form-modal-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.health-form-modal-sub {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+    margin: 3px 0 0 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* ── Compact Header (Ẩn tiêu đề & mô tả thừa, căn chỉnh badge tối giản) ── */
+.compact-cycle-header,
+.compact-relation-header {
+    align-items: center !important;
+    padding-bottom: 8px !important;
+    margin-bottom: 12px !important;
+}
+
+.compact-cycle-header .health-form-header-left,
+.compact-relation-header .health-form-header-left {
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+.compact-cycle-header .modal-eyebrow-badge,
+.compact-relation-header .modal-eyebrow-badge {
+    margin-bottom: 0 !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    padding: 3.5px 12px !important;
+    letter-spacing: 0.06em !important;
+}
+
+/* ── Custom Date Picker Wrapper (dd/mm/yyyy chuẩn Việt Nam) ── */
+.custom-dmy-picker-wrap {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.custom-dmy-picker-wrap .custom-dmy-input {
+    width: 100% !important;
+    padding-right: 42px !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0.3px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    box-sizing: border-box !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    height: 42px !important;
+    transition: all 0.2s ease !important;
+}
+
+.custom-dmy-picker-wrap .custom-dmy-input:focus {
+    border-color: #C2410C !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12) !important;
+    outline: none !important;
+}
+
+.custom-dmy-trigger-btn {
+    position: absolute !important;
+    right: 5px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 9px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    color: #C2410C !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+    z-index: 2 !important;
+}
+
+.custom-dmy-trigger-btn:hover {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.45) !important;
+    transform: translateY(-50%) scale(1.05) !important;
+}
+
+.custom-dmy-hidden-native {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* Nâng cấp form inputs trong modal Sức Khỏe */
+#modal-cycle .form-group label,
+#modal-relation .form-group label,
+#modal-cycle .form-label,
+#modal-relation .form-label {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    letter-spacing: 0.02em !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+#modal-cycle input,
+#modal-relation input,
+#modal-cycle textarea,
+#modal-relation textarea {
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(15, 23, 42, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 10px 14px !important;
+    font-family: 'Nunito', 'Be Vietnam Pro', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    transition: all 0.18s ease !important;
+    box-sizing: border-box !important;
+}
+
+#modal-cycle input:focus,
+#modal-relation input:focus,
+#modal-cycle textarea:focus,
+#modal-relation textarea:focus {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3.5px rgba(194, 65, 12, 0.16) !important;
+    outline: none !important;
+}
+
+/* Nâng cấp Chip chọn triệu chứng / bảo vệ / cảm xúc */
+#modal-cycle .chip,
+#modal-relation .chip {
+    padding: 6px 14px !important;
+    border-radius: 11px !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    background: #F8FAFC !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+}
+
+#modal-cycle .chip:hover,
+#modal-relation .chip:hover {
+    background: #FFF7ED !important;
+    border-color: rgba(194, 65, 12, 0.3) !important;
+    color: #C2410C !important;
+    transform: translateY(-1px) !important;
+}
+
+#modal-cycle .chip.active,
+#modal-relation .chip.active {
+    background: #FFF7ED !important;
+    border-color: #C2410C !important;
+    color: #C2410C !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.18) !important;
+}
+
+/* Nút bấm hành động trong modal */
+#modal-cycle .btn-row,
+#modal-relation .btn-row {
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    padding-top: 18px !important;
+    margin-top: 20px !important;
+    display: flex !important;
+    gap: 10px !important;
+}
+
+#modal-cycle .btn-pink,
+#modal-relation .btn-rose {
+    flex: 1 !important;
+    min-height: 44px !important;
+    padding: 0 20px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%) !important;
+    color: #FFFFFF !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    transition: all 0.2s ease !important;
+}
+
+#modal-cycle .btn-pink:hover,
+#modal-relation .btn-rose:hover {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(194, 65, 12, 0.42) !important;
+}
+
+#modal-cycle .btn-secondary,
+#modal-relation .btn-secondary {
+    min-height: 44px !important;
+    padding: 0 18px !important;
+    border-radius: 14px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.12) !important;
+    color: #475569 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease !important;
+}
+
+#modal-cycle .btn-secondary:hover,
+#modal-relation .btn-secondary:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+/* ── Tối ưu khung popup Chu Kỳ: vừa trọn vẹn khung hình không cần cuộn ── */
+#modal-cycle .ckkn-modal-sheet {
+    padding: 16px 20px 16px !important;
+    max-height: min(96vh, 800px) !important;
+    overflow-y: auto !important;
+    scrollbar-width: none !important; /* Firefox ẩn scrollbar */
+    -ms-overflow-style: none !important;
+}
+
+#modal-cycle .ckkn-modal-sheet::-webkit-scrollbar {
+    display: none !important; /* Chrome / Safari ẩn scrollbar */
+    width: 0 !important;
+    height: 0 !important;
+}
+
+#modal-cycle .health-form-modal-header {
+    padding-bottom: 6px !important;
+    margin-bottom: 10px !important;
+}
+
+#modal-cycle .form-grid {
+    gap: 10px !important;
+    margin-bottom: 0 !important;
+}
+
+#modal-cycle .form-group label,
+#modal-cycle .form-label {
+    font-size: 11px !important;
+    margin-bottom: 3.5px !important;
+    letter-spacing: 0.02em !important;
+}
+
+#modal-cycle .form-group.mt {
+    margin-top: 8px !important;
+}
+
+#modal-cycle .custom-dmy-picker-wrap .custom-dmy-input {
+    height: 38px !important;
+    font-size: 13.5px !important;
+    padding: 6px 40px 6px 12px !important;
+}
+
+#modal-cycle .custom-dmy-trigger-btn {
+    width: 28px !important;
+    height: 28px !important;
+    right: 5px !important;
+}
+
+#modal-cycle .chip-group {
+    gap: 4px 6px !important;
+    margin-top: 2px !important;
+}
+
+#modal-cycle .chip {
+    padding: 4px 10px !important;
+    font-size: 11.5px !important;
+    border-radius: 9px !important;
+}
+
+#modal-cycle textarea {
+    min-height: 40px !important;
+    height: 42px !important;
+    padding: 6px 12px !important;
+    font-size: 12.5px !important;
+    border-radius: 11px !important;
+    resize: none !important;
+}
+
+#modal-cycle .btn-row {
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+    gap: 8px !important;
+}
+
+#modal-cycle .btn-pink,
+#modal-cycle .btn-secondary {
+    min-height: 38px !important;
+    height: 38px !important;
+    font-size: 13.5px !important;
+    border-radius: 12px !important;
+}
+
+/* ── Popup xác nhận xóa luôn nổi lên trên mọi modal ── */
+#del-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 30000 !important;
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(8px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+}
+
+#del-modal.open {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 30000 !important;
+}
+
+#del-modal .modal {
+    position: relative !important;
+    z-index: 30001 !important;
+}
+
+/* ── Bộ nhập giờ 24h (Modal Lần Quan Hệ) ── */
+.time-label-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 4px !important;
+}
+
+.time-now-btn {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #E11D48 !important;
+    background: #FFE4E6 !important;
+    border: 1px solid rgba(225, 29, 72, 0.25) !important;
+    border-radius: 999px !important;
+    padding: 2px 8px !important;
+    cursor: pointer !important;
+    line-height: 1.3 !important;
+    transition: all 0.15s ease !important;
+}
+
+.time-now-btn:hover {
+    background: #FECDD3 !important;
+    transform: scale(1.04) !important;
+}
+
+.custom-24h-time-wrap {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.custom-24h-time-input {
+    width: 100% !important;
+    height: 38px !important;
+    padding: 6px 42px 6px 12px !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0.5px !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+}
+
+.custom-24h-time-input:focus {
+    border-color: #C2410C !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12) !important;
+    outline: none !important;
+}
+
+.time-24h-tag {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    color: #94A3B8 !important;
+    background: #F1F5F9 !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+    pointer-events: none !important;
+}
+
+.quick-time-chips {
+    display: flex !important;
+    gap: 4px !important;
+    flex-wrap: wrap !important;
+    margin-top: 5px !important;
+}
+
+.quick-time-chip {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 7px !important;
+    padding: 2.5px 7px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    line-height: 1.2 !important;
+}
+
+.quick-time-chip:hover {
+    background: #FFEDD5 !important;
+    border-color: rgba(194, 65, 12, 0.4) !important;
+    color: #C2410C !important;
+    transform: translateY(-1px) !important;
+}
+
+
