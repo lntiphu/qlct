@@ -11,10 +11,15 @@ html {
     overflow-x: hidden !important;
     overscroll-behavior-y: auto !important;
     scroll-behavior: smooth !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: rgba(194, 65, 12, 0.35) transparent !important;
     height: auto !important;
     min-height: 100% !important;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(194, 65, 12, 0.25) transparent !important;
+    }
 }
 
 body[data-feature="cong-viec"] {
@@ -36,22 +41,27 @@ body[data-feature="cong-viec"] {
 }
 
 /* Thanh cuộn Desktop cam đất mỏng, thanh lịch */
-html::-webkit-scrollbar {
-    width: 6px !important;
+html::-webkit-scrollbar,
+body[data-feature="cong-viec"]::-webkit-scrollbar {
+    width: 4px !important;
+    height: 4px !important;
     display: block !important;
 }
 
-html::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track,
+body[data-feature="cong-viec"]::-webkit-scrollbar-track {
     background: transparent !important;
 }
 
-html::-webkit-scrollbar-thumb {
-    background: rgba(194, 65, 12, 0.3) !important;
+html::-webkit-scrollbar-thumb,
+body[data-feature="cong-viec"]::-webkit-scrollbar-thumb {
+    background: rgba(194, 65, 12, 0.22) !important;
     border-radius: 9999px !important;
 }
 
-html::-webkit-scrollbar-thumb:hover {
-    background: rgba(194, 65, 12, 0.55) !important;
+html::-webkit-scrollbar-thumb:hover,
+body[data-feature="cong-viec"]::-webkit-scrollbar-thumb:hover {
+    background: rgba(194, 65, 12, 0.45) !important;
 }
 
 /* Đồng bộ kích thước khung 860px cho cả Header và Danh sách việc ở dưới */

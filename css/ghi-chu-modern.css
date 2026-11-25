@@ -16,6 +16,37 @@ html {
     -webkit-overflow-scrolling: touch !important;
 }
 
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(194, 65, 12, 0.25) transparent !important;
+    }
+}
+
+/* Thanh cuộn mỏng, thanh lịch đồng bộ các chức năng khác */
+html::-webkit-scrollbar,
+body[data-feature="ghi-chu"]::-webkit-scrollbar {
+    width: 4px !important;
+    height: 4px !important;
+    display: block !important;
+}
+
+html::-webkit-scrollbar-track,
+body[data-feature="ghi-chu"]::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+html::-webkit-scrollbar-thumb,
+body[data-feature="ghi-chu"]::-webkit-scrollbar-thumb {
+    background: rgba(194, 65, 12, 0.22) !important;
+    border-radius: 9999px !important;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body[data-feature="ghi-chu"]::-webkit-scrollbar-thumb:hover {
+    background: rgba(194, 65, 12, 0.45) !important;
+}
+
 body[data-feature="ghi-chu"] {
     background-color: #FAF7F2 !important;
     background-image: 

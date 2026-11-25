@@ -5,22 +5,52 @@
    Khung view: max-width 860px đồng bộ Thu Chi, Tiết Kiệm, Sức Khỏe
    ========================================================================== */
 
-/* ── 1. NỀN & CONTAINER ── */
+/* ── 1. NỀN & CONTAINER (DOCUMENT SCROLL DUY NHẤT) ── */
+html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: clip !important;
+    overscroll-behavior-y: auto !important;
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
 body[data-feature="bao-tri"] {
     background-color: #FAF7F2 !important;
     background-image: 
         radial-gradient(circle at 12% 8%, rgba(254, 215, 170, 0.45) 0%, transparent 48%),
         radial-gradient(circle at 88% 90%, rgba(255, 237, 213, 0.5) 0%, transparent 55%),
         linear-gradient(180deg, #FAF7F2 0%, #F5EFE6 100%) !important;
-    background-attachment: fixed !important;
+    background-attachment: scroll !important;
     color: #0F172A !important;
     font-family: 'Be Vietnam Pro', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    height: auto !important;
+    min-height: 100% !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow-y: visible !important;
+    overflow-x: clip !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+body[data-feature="bao-tri"] *,
+body[data-feature="bao-tri"] *::before,
+body[data-feature="bao-tri"] *::after {
+    box-sizing: border-box;
 }
 
 body[data-feature="bao-tri"] .maintenance-container {
     max-width: 860px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     margin: 0 auto !important;
     padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(36px, env(safe-area-inset-bottom, 0px)) !important;
+    overflow: visible !important;
+    height: auto !important;
+    touch-action: pan-y !important;
 }
 
 /* ── 2. HEADER BẢO TRÌ ── */
@@ -317,15 +347,11 @@ header.maintenance-header-row {
 /* Category Tabs */
 .maintenance-category-tabs {
     display: flex !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
     gap: 8px !important;
-    overflow-x: auto !important;
+    overflow-x: visible !important;
     padding-bottom: 2px !important;
-    scrollbar-width: none !important;
-}
-
-.maintenance-category-tabs::-webkit-scrollbar {
-    display: none !important;
 }
 
 .category-tab {
@@ -472,6 +498,7 @@ header.maintenance-header-row {
     margin-top: 3px !important;
     font-weight: 500 !important;
     display: flex !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
     gap: 8px !important;
 }
