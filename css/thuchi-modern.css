@@ -2012,6 +2012,16 @@ body:has(#spending-analysis-page.active) .ios-status-bar-spacer {
 
 /* 8. RESPONSIVE MOBILE CHO THU CHI (< 640px) */
 @media (max-width: 640px) {
+    html:has(body[data-feature="thuchi"]),
+    body[data-feature="thuchi"] {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: clip !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
+    }
+
     body[data-feature="thuchi"] .ios-status-bar-spacer {
         display: none !important;
         height: 0 !important;
