@@ -2,14 +2,19 @@
 <html data-loading lang="vi">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🌸 Sức Khoẻ Cá Nhân</title>
-  <!-- Google Fonts: Be Vietnam Pro -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="theme-color" content="#FAF7F2"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <title>Sức Khoẻ</title>
+  <!-- Google Fonts: Nunito & Be Vietnam Pro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/suc-khoe.css"/>
+  <link rel="stylesheet" href="../css/suc-khoe.css"/>
+  <link rel="stylesheet" href="../css/suc-khoe-modern.css?v=20261124_07"/>
   
 <style>html[data-loading] body{visibility:hidden}</style>
 </head>
@@ -23,13 +28,7 @@
   <template data-header class="ckkn-header-wrap">
     <div class="ckkn-header-top">
       <div class="ckkn-header-left">
-        <button type="button" class="ckkn-back-btn" onclick="goBackToHome()" title="Quay lại Trang chủ" aria-label="Quay lại">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-          </svg>
-        </button>
         <div class="ckkn-title-wrap">
-          <div class="ckkn-badge-icon">🌸</div>
           <h1>Sức Khoẻ</h1>
         </div>
       </div>
@@ -42,6 +41,12 @@
           </svg>
           <span>Thêm mới</span>
         </button>
+        <button type="button" class="header-close-btn ckkn-exit-btn" id="btn-exit-suckhoe" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -52,7 +57,7 @@
         <span class="nav-label">Chu Kỳ</span>
       </button>
       <button type="button" class="tab-btn" data-tab="relation" onclick="switchTab('relation')" role="tab" aria-label="Quan Hệ">
-        <span class="nav-icon">💞</span>
+        <span class="nav-icon">💕</span>
         <span class="nav-label">Quan Hệ</span>
       </button>
     </div>
@@ -94,8 +99,15 @@
          <h2>📋 Lịch Sử Chu Kỳ (Chi Tiết)</h2>
          <p class="history-hint">5 bản ghi mỗi trang · Tìm theo tháng/năm</p>
        </div>
-       <div class="search-row">
-         <input type="text" id="c-search" placeholder="🔍 Tìm theo tháng/năm..." oninput="handleCycleHistorySearch()"/>
+       <div class="search-row modern-search-row">
+         <div class="modern-search-box">
+           <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+             <circle cx="11" cy="11" r="8"></circle>
+             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+           </svg>
+           <input type="text" id="c-search" placeholder="🔍 Tìm theo tháng/năm (vd: 11/2026)..." oninput="handleCycleHistorySearch()"/>
+           <button type="button" class="search-clear-btn" id="c-search-clear" onclick="clearCycleSearch()" title="Xóa tìm kiếm" aria-label="Xóa">✕</button>
+         </div>
        </div>
        <div class="item-list" id="c-list"></div>
        <div class="history-pagination" id="c-history-pagination"></div>
@@ -113,7 +125,7 @@
     <div class="stats-row">
       <div class="stat-card blue">
         <div class="val" id="r-total">0</div>
-        <div class="lbl">💞 Tổng lần</div>
+        <div class="lbl">💕 Tổng lần</div>
       </div>
       <div class="stat-card rose">
         <div class="val" id="r-this-month">0</div>
@@ -125,21 +137,41 @@
       </div>
     </div>
 
+    <!-- Monthly Relation Calendar Card (Lịch tháng đồng bộ chuẩn Thu Chi) -->
+    <div class="card relation-calendar-card">
+      <div class="dashboard-calendar-header">
+        <div class="calendar-title-block">
+          <span class="calendar-year-label" id="r-calendar-year-label">2026</span>
+          <div class="calendar-month-row">
+            <span class="calendar-month-label" id="r-calendar-month-title">Tháng 11</span>
+            <span class="compact-month-count-badge" id="r-calendar-month-total" title="Tổng số lần trong tháng">0 lần</span>
+          </div>
+        </div>
+        <div class="calendar-nav-controls">
+          <button type="button" class="calendar-nav-btn" id="btn-r-prev-month" onclick="prevRelationMonth()" aria-label="Tháng trước" title="Tháng trước">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="calendar-nav-btn" id="btn-r-next-month" onclick="nextRelationMonth()" aria-label="Tháng sau" title="Tháng sau">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
 
-     <!-- Danh sách Timeline -->
-     <div class="card rose-card">
-       <div class="list-header">
-         <h2>📋 Lịch Sử Quan Hệ (Chi Tiết)</h2>
-         <p class="history-hint">Nhóm theo tháng · Chạm vào bản ghi để xem thêm</p>
-       </div>
-       <div class="search-row">
-         <input type="text" id="r-search" placeholder="🔍 Tìm kiếm..." oninput="renderRelations()"/>
-         <select id="r-month-filter" onchange="renderRelations()">
-           <option value="all">Tất cả tháng</option>
-         </select>
-       </div>
-       <div class="item-list" id="r-list"></div>
-     </div>
+      <div class="calendar-weekdays">
+        <div>T2</div><div>T3</div><div>T4</div>
+        <div>T5</div><div>T6</div><div>T7</div><div class="sunday">CN</div>
+      </div>
+
+      <div class="calendar-days-grid relation-calendar-days-grid" id="r-calendar-days-grid">
+        <!-- Render động qua JavaScript -->
+      </div>
+
+      <div class="relation-calendar-legend">
+        <div class="legend-item"><span class="legend-badge safe">An toàn</span> Xanh lá</div>
+        <div class="legend-item"><span class="legend-badge unsafe">Không an toàn</span> Đỏ</div>
+        <div class="legend-item"><span class="legend-badge mixed">Hỗn hợp</span> Nửa xanh nửa đỏ</div>
+      </div>
+    </div>
 
   </div><!-- /tab-relation -->
 
@@ -147,28 +179,83 @@
 
 <!-- ══ POPUP 1: LỰA CHỌN THÊM CHU KỲ HOẶC QUAN HỆ ══ -->
 <div class="ckkn-modal-overlay" id="modal-add-picker" onclick="if(event.target===this)closeAddPickerModal()">
-  <div class="ckkn-modal-sheet">
+  <div class="ckkn-modal-sheet health-picker-modal-sheet">
     <div class="ckkn-drag-handle"></div>
-    <div class="ckkn-modal-header">
-      <h2>✨ Thêm Ghi Nhận Mới</h2>
-      <button type="button" class="ckkn-modal-close-btn" onclick="closeAddPickerModal()" title="Đóng">✕</button>
-    </div>
-    <div class="health-picker-options">
-      <div class="health-picker-option" onclick="selectAddOption('cycle')">
-        <div class="option-icon">🩸</div>
-        <div class="option-info">
-          <h4>Chu Kỳ Kinh Nguyệt</h4>
-          <p>Ghi nhận ngày bắt đầu, ngày kết thúc, triệu chứng &amp; tâm trạng</p>
+    
+    <div class="picker-modal-top">
+      <div class="picker-modal-title-group">
+        <div class="picker-eyebrow-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+          <span>GHI NHẬN SỨC KHỎE</span>
         </div>
-        <span class="option-arrow">›</span>
+        <h2 class="picker-modal-title">Thêm Ghi Nhận Mới</h2>
+        <p class="picker-modal-subtitle">Chọn mục sức khỏe bạn muốn theo dõi &amp; lưu lại</p>
       </div>
-      <div class="health-picker-option" onclick="selectAddOption('relation')">
-        <div class="option-icon">💞</div>
-        <div class="option-info">
-          <h4>Lần Quan Hệ</h4>
-          <p>Ghi nhận thời gian, biện pháp bảo vệ &amp; cảm xúc</p>
+      <button type="button" class="ckkn-modal-close-btn picker-close-btn" onclick="closeAddPickerModal()" title="Đóng" aria-label="Đóng">✕</button>
+    </div>
+
+    <div class="health-picker-options">
+      <!-- OPTION 1: CHU KỲ KINH NGUYỆT -->
+      <div class="health-picker-card card-cycle" onclick="selectAddOption('cycle')">
+        <div class="picker-card-icon cycle-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" fill="url(#cycleDropGrad)"/>
+            <path d="M9.5 9c0-1.38 1.12-2.5 2.5-2.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+            <defs>
+              <linearGradient id="cycleDropGrad" x1="6" y1="3" x2="18" y2="21" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FB7185"/>
+                <stop offset="1" stop-color="#E11D48"/>
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
-        <span class="option-arrow">›</span>
+        <div class="picker-card-content">
+          <div class="picker-card-head">
+            <h4>Chu Kỳ Kinh Nguyệt</h4>
+            <span class="picker-tag cycle-tag">Kỳ kinh</span>
+          </div>
+          <p>Ghi nhận ngày bắt đầu, kết thúc, triệu chứng &amp; tâm trạng</p>
+        </div>
+        <div class="picker-card-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- OPTION 2: LẦN QUAN HỆ (ICON MỚI TRỰC QUAN HƠN) -->
+      <div class="health-picker-card card-relation" onclick="selectAddOption('relation')">
+        <div class="picker-card-icon relation-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <!-- Trái tim đôi lồng nhau trực quan, thanh thoát -->
+            <path d="M9.8 4.2C8.3 4.2 6.9 5.2 6.2 6.7 5.5 5.2 4.1 4.2 2.6 4.2 1.2 4.2 0 5.4 0 6.9c0 2.9 3.6 5.5 6.2 7.7 2.6-2.2 6.2-4.8 6.2-7.7 0-1.5-1.2-2.7-2.6-2.7z" fill="url(#relHeartBack)" opacity="0.85"/>
+            <path d="M17.6 7.2c-1.5 0-2.9 1-3.6 2.5-.7-1.5-2.1-2.5-3.6-2.5-1.4 0-2.6 1.2-2.6 2.7 0 2.9 3.6 5.5 6.2 7.7 2.6-2.2 6.2-4.8 6.2-7.7 0-1.5-1.2-2.7-2.6-2.7z" fill="url(#relHeartFront)"/>
+            <defs>
+              <linearGradient id="relHeartBack" x1="0" y1="4" x2="12" y2="15" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FDBA74"/>
+                <stop offset="1" stop-color="#EA580C"/>
+              </linearGradient>
+              <linearGradient id="relHeartFront" x1="7" y1="7" x2="20" y2="18" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FB7185"/>
+                <stop offset="1" stop-color="#E11D48"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="picker-card-content">
+          <div class="picker-card-head">
+            <h4>Lần Quan Hệ</h4>
+            <span class="picker-tag relation-tag">Thân mật &amp; An toàn</span>
+          </div>
+          <p>Ghi nhận thời gian, biện pháp bảo vệ, cảm xúc &amp; ghi chú</p>
+        </div>
+        <div class="picker-card-arrow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
@@ -178,19 +265,62 @@
 <div class="ckkn-modal-overlay" id="modal-cycle" onclick="if(event.target===this)closeCycleModal()">
   <div class="ckkn-modal-sheet">
     <div class="ckkn-drag-handle"></div>
-    <div class="ckkn-modal-header">
-      <h2>🩸 <span id="c-form-title">Thêm Chu Kỳ Mới</span></h2>
-      <button type="button" class="ckkn-modal-close-btn" onclick="closeCycleModal()" title="Đóng">✕</button>
+    <div class="health-form-modal-header compact-cycle-header">
+      <div class="health-form-header-left">
+        <div class="modal-eyebrow-badge" id="c-form-title">CHU KỲ KINH NGUYỆT</div>
+      </div>
+      <button type="button" class="ckkn-modal-close-btn" onclick="closeCycleModal()" title="Đóng" aria-label="Đóng">✕</button>
     </div>
 
     <div class="form-grid">
       <div class="form-group">
-        <label for="c-start">📅 Ngày bắt đầu <span class="required">*</span></label>
-        <input type="date" id="c-start"/>
+        <label for="c-start-display">📅 Ngày bắt đầu <span class="required">*</span></label>
+        <div class="custom-dmy-picker-wrap">
+          <input type="text"
+                 id="c-start-display"
+                 class="custom-dmy-input"
+                 placeholder="dd/mm/yyyy"
+                 maxlength="10"
+                 autocomplete="off"
+                 required />
+          <input type="date"
+                 id="c-start"
+                 class="custom-dmy-hidden-native"
+                 tabindex="-1"
+                 aria-hidden="true" />
+          <button type="button" class="custom-dmy-trigger-btn" id="btn-trigger-c-start" title="Mở lịch chọn ngày bắt đầu" aria-label="Mở lịch chọn ngày bắt đầu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="form-group">
-        <label for="c-end">📅 Ngày kết thúc</label>
-        <input type="date" id="c-end"/>
+        <label for="c-end-display">📅 Ngày kết thúc</label>
+        <div class="custom-dmy-picker-wrap">
+          <input type="text"
+                 id="c-end-display"
+                 class="custom-dmy-input"
+                 placeholder="dd/mm/yyyy"
+                 maxlength="10"
+                 autocomplete="off" />
+          <input type="date"
+                 id="c-end"
+                 class="custom-dmy-hidden-native"
+                 tabindex="-1"
+                 aria-hidden="true" />
+          <button type="button" class="custom-dmy-trigger-btn" id="btn-trigger-c-end" title="Mở lịch chọn ngày kết thúc" aria-label="Mở lịch chọn ngày kết thúc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -214,9 +344,9 @@
       <textarea id="c-note" placeholder="Ghi thêm..."></textarea>
     </div>
 
-    <div class="btn-row" style="margin-top: 16px;">
+    <div class="btn-row" style="margin-top: 20px;">
       <button type="button" class="btn btn-secondary" onclick="closeCycleModal()">Hủy</button>
-      <button type="button" class="btn btn-pink" onclick="saveCycle()">💾 Lưu chu kỳ</button>
+      <button type="button" class="btn btn-pink" onclick="saveCycle()">Lưu chu kỳ</button>
     </div>
   </div>
 </div>
@@ -225,19 +355,60 @@
 <div class="ckkn-modal-overlay" id="modal-relation" onclick="if(event.target===this)closeRelationModal()">
   <div class="ckkn-modal-sheet">
     <div class="ckkn-drag-handle"></div>
-    <div class="ckkn-modal-header">
-      <h2>💞 <span id="r-form-title">Thêm Lần Quan Hệ</span></h2>
-      <button type="button" class="ckkn-modal-close-btn" onclick="closeRelationModal()" title="Đóng">✕</button>
+    <div class="health-form-modal-header compact-relation-header">
+      <div class="health-form-header-left">
+        <div class="modal-eyebrow-badge" id="r-form-title">LẦN QUAN HỆ</div>
+      </div>
+      <button type="button" class="ckkn-modal-close-btn" onclick="closeRelationModal()" title="Đóng" aria-label="Đóng">✕</button>
     </div>
 
     <div class="form-grid">
       <div class="form-group">
-        <label for="r-date">📅 Ngày <span class="required">*</span></label>
-        <input type="date" id="r-date"/>
+        <label for="r-date-display">📅 Ngày <span class="required">*</span></label>
+        <div class="custom-dmy-picker-wrap">
+          <input type="text"
+                 id="r-date-display"
+                 class="custom-dmy-input"
+                 placeholder="dd/mm/yyyy"
+                 maxlength="10"
+                 autocomplete="off"
+                 required />
+          <input type="date"
+                 id="r-date"
+                 class="custom-dmy-hidden-native"
+                 tabindex="-1"
+                 aria-hidden="true" />
+          <button type="button" class="custom-dmy-trigger-btn" id="btn-trigger-r-date" title="Mở lịch chọn ngày" aria-label="Mở lịch chọn ngày">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="form-group">
-        <label for="r-time">⏰ Giờ</label>
-        <input type="time" id="r-time"/>
+        <div class="time-label-row">
+          <label for="r-time">⏰ Giờ (24h)</label>
+          <button type="button" class="time-now-btn" onclick="setQuickRelationTime('now')">⚡ Bây giờ</button>
+        </div>
+        <div class="custom-24h-time-wrap">
+          <input type="text"
+                 id="r-time"
+                 class="custom-24h-time-input"
+                 placeholder="22:30"
+                 maxlength="5"
+                 inputmode="numeric"
+                 autocomplete="off" />
+          <span class="time-24h-tag">24H</span>
+        </div>
+        <div class="quick-time-chips">
+          <button type="button" class="quick-time-chip" onclick="setQuickRelationTime('22:00')">22:00</button>
+          <button type="button" class="quick-time-chip" onclick="setQuickRelationTime('22:30')">22:30</button>
+          <button type="button" class="quick-time-chip" onclick="setQuickRelationTime('23:00')">23:00</button>
+          <button type="button" class="quick-time-chip" onclick="setQuickRelationTime('00:00')">00:00</button>
+        </div>
       </div>
     </div>
 
@@ -261,9 +432,50 @@
       <textarea id="r-note" placeholder="Ghi thêm..."></textarea>
     </div>
 
-    <div class="btn-row" style="margin-top: 16px;">
+    <div class="btn-row" style="margin-top: 20px;">
       <button type="button" class="btn btn-secondary" onclick="closeRelationModal()">Hủy</button>
-      <button type="button" class="btn btn-rose" onclick="saveRelation()">💾 Lưu lần quan hệ</button>
+      <button type="button" class="btn btn-rose" onclick="saveRelation()">Lưu lần quan hệ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ POPUP 4: CHI TIẾT QUAN HỆ TRONG NGÀY (LỊCH BẤM VÀO NGÀY) ══ -->
+<div class="ckkn-modal-overlay" id="relation-day-modal" onclick="if(event.target===this)closeRelationDayModal()">
+  <div class="ckkn-modal-sheet relation-day-sheet">
+    <div class="ckkn-drag-handle"></div>
+    <div class="calendar-header-row calendar-day-detail-header">
+      <div class="calendar-day-detail-brand">
+        <div class="calendar-day-detail-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>QUAN HỆ TRONG NGÀY</span>
+        </div>
+        <h3 class="calendar-day-detail-title" id="r-day-detail-title">--/--/----</h3>
+      </div>
+      <button type="button" class="ckkn-modal-close-btn" onclick="closeRelationDayModal()" aria-label="Đóng" title="Đóng">✕</button>
+    </div>
+
+    <!-- Banner tổng kết ngày -->
+    <div class="relation-day-summary-banner" id="r-day-summary-banner">
+      <div class="day-stat-col">
+        <span class="day-stat-lbl">Tổng số lần:</span>
+        <strong class="day-stat-val" id="r-day-summary-count">0 lần</strong>
+      </div>
+      <div class="day-stat-badge-wrap" id="r-day-summary-status">
+        <!-- Badge an toàn hoặc không an toàn -->
+      </div>
+    </div>
+
+    <!-- Danh sách các lần quan hệ trong ngày -->
+    <div class="relation-day-records-list" id="r-day-records-list">
+      <!-- Sinh động qua JS -->
+    </div>
+
+    <!-- Nút thêm cho ngày này -->
+    <div class="relation-day-actions">
+      <button type="button" class="btn btn-rose full-width" onclick="addRelationForSelectedDate()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Thêm lần quan hệ cho ngày này</span>
+      </button>
     </div>
   </div>
 </div>
@@ -292,6 +504,6 @@
 
 
 
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_07"></script>
 </body>
 </html>

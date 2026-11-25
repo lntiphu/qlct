@@ -2,16 +2,16 @@
 <html data-loading lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0F172A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
     <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="../manifest.json">
-    <title>trich-dan - Làm chủ mọi thứ</title>
+    <title>Trích dẫn</title>
     <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
     <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
     <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
@@ -19,58 +19,44 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://unpkg.com">
     
-    <!-- Google Fonts: Be Vietnam Pro -->
+    <!-- Google Fonts: Nunito & Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/shell.css">
+    <link rel="stylesheet" href="../css/support-pages-modern.css?v=20261125_08">
 <style>html[data-loading] body{visibility:hidden}</style>
 </head><body data-feature="trich-dan"><div class="app-container">    <div class="modal-overlay support-page-modal quote-page-modal" id="quote-modal" aria-hidden="true">
         <div class="modal-sheet support-page-sheet quote-page-sheet" role="dialog" aria-modal="true" aria-label="Trích dẫn">
             <template data-header class="ckkn-page-header support-page-header quote-page-header">
                 <div class="support-header-left quote-header-left">
-                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn quote-header-back-btn" id="btn-close-quote-modal" aria-label="Quay lại" title="Quay lại">
-                        <i data-lucide="arrow-left"></i>
-                    </button>
                     <div class="quote-page-title">
                         <h2>Trích dẫn</h2>
                     </div>
                 </div>
                 <div class="support-header-actions quote-header-actions" aria-label="Thao tác Trích dẫn">
-                    <div class="support-count quote-count-pill" id="quote-count-pill" title="Số lượng trích dẫn">
+                    <span class="quote-count-badge" id="quote-count-pill" title="Số lượng trích dẫn">
+                        <i data-lucide="quote" class="quote-count-icon"></i>
                         <strong id="quote-entry-count">0</strong>
                         <span>câu</span>
-                    </div>
-                    <button type="button" class="support-action-btn quote-action-btn quote-delete-btn" id="btn-delete-quote-entry" aria-label="Chọn câu quote để xóa" title="Chế độ xóa">
-                        <i data-lucide="trash-2"></i>
-                    </button>
+                    </span>
                     <button type="button" class="support-action-btn quote-action-btn quote-add-btn" id="btn-add-quote-entry" aria-label="Thêm câu quote" title="Thêm mới">
                         <i data-lucide="plus"></i>
                         <span class="quote-add-btn-text">Thêm mới</span>
+                    </button>
+                    <button type="button" class="header-close-btn quote-exit-btn" id="btn-close-quote-modal" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
             </template>
 
             <!-- Vùng cuộn chính của trang Trích dẫn -->
             <div class="quote-page-scroll" id="quote-page-scroll">
-                <!-- Highlight Hero Banner: CẢM HỨNG HÔM NAY / NGẪU NHIÊN -->
-                <div class="quote-hero-banner" id="quote-hero-banner">
-                    <div class="quote-hero-top-row">
-                        <div class="quote-hero-badge">
-                            <i data-lucide="sparkles"></i>
-                            <span>CẢM HỨNG HÔM NAY</span>
-                        </div>
-                    </div>
-                    <div class="quote-hero-body">
-                        <p class="quote-hero-text" id="quote-hero-text">“Hành trình vạn dặm bắt đầu từ một bước chân.”</p>
-                        <div class="quote-hero-footer">
-                            <span class="quote-hero-author" id="quote-hero-author">— Lão Tử</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Thanh tìm kiếm và bộ lọc nhanh -->
                 <div class="quote-toolbar-section">
                     <div class="quote-search-bar">
@@ -110,35 +96,30 @@
         </div>
     </div><!-- End #quote-modal -->
 
-    <!-- FORM THÊM / SỬA TRÍCH DẪN -->
-    <div class="modal-overlay support-entry-form-overlay quote-entry-form-overlay" id="quote-entry-modal" aria-hidden="true">
-        <div class="support-entry-form-sheet quote-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="quote-entry-form-title">
-            <div class="support-modal-header">
-                <div class="support-modal-title-wrap">
-                    <span class="support-modal-eyebrow">TRÍCH DẪN &amp; DANH NGÔN</span>
-                    <h2 id="quote-entry-form-title">Thêm câu quote</h2>
-                    <p id="quote-entry-form-description">Lưu câu nói hay và nguồn tác giả.</p>
+    <!-- TRANG THÊM / SỬA TRÍCH DẪN (FULL PAGE VIEW) -->
+    <div class="quote-entry-fullpage" id="quote-entry-modal" aria-hidden="true">
+        <div class="quote-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="quote-entry-form-title">
+            <div class="ckkn-page-header support-page-header quote-page-header quote-entry-page-header">
+                <div class="support-header-left quote-entry-header-left">
+                    <h2 id="quote-entry-form-title">Thêm trích dẫn mới</h2>
                 </div>
-                <button class="modal-close-btn" id="btn-close-quote-entry-modal" aria-label="Đóng form Trích dẫn" title="Đóng">
-                    <i data-lucide="x"></i>
-                </button>
+                <div class="support-header-actions quote-header-actions">
+                    <button type="button" class="header-close-btn quote-exit-btn" id="btn-close-quote-entry-modal" aria-label="Đóng và quay lại Trích dẫn" title="Đóng">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <form id="quote-entry-form" class="support-entry-form">
                 <div class="support-form-field quote-form-field">
                     <label for="quote-entry-text"><span class="support-field-icon"><i data-lucide="quote"></i></span>Nội dung câu quote <span class="required-mark">*</span></label>
-                    <textarea id="quote-entry-text" rows="4" maxlength="1000" placeholder="Nhập câu danh ngôn, trích dẫn hoặc câu nói tâm đắc..." required></textarea>
+                    <textarea id="quote-entry-text" rows="6" maxlength="1000" placeholder="Nhập câu danh ngôn, trích dẫn hoặc câu nói tâm đắc..." required></textarea>
                 </div>
                 <div class="support-form-field quote-form-field">
                     <label for="quote-entry-author"><span class="support-field-icon"><i data-lucide="user"></i></span>Tác giả / Nguồn</label>
                     <input type="text" id="quote-entry-author" maxlength="120" placeholder="Ví dụ: Steve Jobs, Khuyết danh, Sách Dám bị ghét...">
-                    <div class="quote-author-chips" id="quote-author-chips">
-                        <span class="quote-chip-label">Gợi ý nhanh:</span>
-                        <button type="button" class="quote-chip-btn" data-author="Khuyết danh">Khuyết danh</button>
-                        <button type="button" class="quote-chip-btn" data-author="Steve Jobs">Steve Jobs</button>
-                        <button type="button" class="quote-chip-btn" data-author="Albert Einstein">Albert Einstein</button>
-                        <button type="button" class="quote-chip-btn" data-author="Lão Tử">Lão Tử</button>
-                        <button type="button" class="quote-chip-btn" data-author="Sách hay">Sách hay</button>
-                    </div>
                 </div>
                 <p class="support-entry-form-error" id="quote-entry-form-error" role="alert" hidden></p>
                 <div class="support-entry-form-actions">
@@ -152,5 +133,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_05"></script>
 </body></html>

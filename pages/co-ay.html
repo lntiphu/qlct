@@ -2,16 +2,16 @@
 <html data-loading lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0F172A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
     <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="../manifest.json">
-    <title>co-ay - Làm chủ mọi thứ</title>
+    <title>Bé iu</title>
     <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
     <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
     <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
@@ -25,17 +25,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/shell.css">
+    <link rel="stylesheet" href="../css/shell.css?v=20261124_01">
 <style>html[data-loading] body{visibility:hidden}</style>
 </head><body data-feature="co-ay"><div class="app-container">    <div class="modal-overlay support-page-modal her-page-modal" id="her-modal" aria-hidden="true">
-        <div class="modal-sheet support-page-sheet her-page-sheet" role="dialog" aria-modal="true" aria-label="Két bí mật về cô ấy">
+        <div class="modal-sheet support-page-sheet her-page-sheet" role="dialog" aria-modal="true" aria-label="Bé iu">
             
             <!-- Header chuẩn Két Bí Mật (coral/mint dynamic theme) -->
             <template data-header class="her-page-header theme-coral" id="her-page-header">
                 <div class="her-header-left">
-                    <button type="button" class="modal-close-btn ckkn-back-btn her-header-back-btn" id="btn-close-her-modal" aria-label="Quay lại" title="Quay lại">
-                        <i data-lucide="arrow-left"></i>
-                    </button>
                     <div class="her-header-vault-badge" id="her-vault-shield-badge">
                         <svg class="her-shield-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L4 5V11C4 16.55 7.4 21.74 12 23C16.6 21.74 20 16.55 20 11V5L12 2Z" fill="currentColor"/>
@@ -43,11 +40,18 @@
                         </svg>
                     </div>
                     <div class="her-header-title-block">
-                        <h2 class="her-header-title" id="her-header-title-text">Két Bí Mật</h2>
-                        <span class="her-header-subtitle" id="her-header-subtitle-text">Bí mật về cô ấy</span>
+                        <h2 class="her-header-title" id="her-header-title-text">Bé iu</h2>
+                        <span class="her-header-subtitle" id="her-header-subtitle-text" style="display:none;"></span>
                     </div>
                 </div>
-                <div class="her-header-right"></div>
+                <div class="her-header-right">
+                    <button type="button" class="header-close-btn her-header-close-btn" id="btn-close-her-modal" onclick="window.closeHerModal ? window.closeHerModal() : goBackToHome()" aria-label="Thoát" title="Thoát">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </template>
 
             <!-- 5 Navigation Tabs -->
@@ -106,20 +110,25 @@
                     </div>
                     <div class="her-hero-info">
                         <div class="her-hero-top-row">
-                            <h3 class="her-hero-name" id="her-hero-name">Cô ấy</h3>
+                            <div class="her-hero-titles">
+                                <h3 class="her-hero-name" id="her-hero-name">Bé iu</h3>
+                                <p class="her-hero-quote" id="her-hero-quote">Người con gái ta thương</p>
+                            </div>
                             <button type="button" class="her-hero-edit-btn" id="btn-edit-her-hero-profile" title="Chỉnh sửa hồ sơ cô ấy">
                                 <i data-lucide="edit-3"></i> <span>Chỉnh sửa</span>
                             </button>
                         </div>
                         <div class="her-hero-meta-row">
-                            <span class="her-hero-chip" id="her-hero-days-chip">
+                            <span class="her-hero-chip her-hero-days-chip" id="her-hero-days-chip">
                                 <i data-lucide="heart"></i> <span id="her-hero-days-text">Bên nhau mỗi ngày</span>
+                            </span>
+                            <span class="her-hero-chip her-hero-anni-chip" id="her-hero-anni-chip" style="display:none;">
+                                <i data-lucide="sparkles"></i> <span id="her-hero-anni-text">Kỷ niệm</span>
                             </span>
                             <span class="her-hero-chip her-hero-bday-chip" id="her-hero-bday-chip" style="display:none;">
                                 <i data-lucide="cake"></i> <span id="her-hero-bday-text">Sinh nhật</span>
                             </span>
                         </div>
-                        <p class="her-hero-quote" id="her-hero-quote">Lưu lại những điều nhỏ bé để yêu thương cô ấy nhiều hơn ✨</p>
                     </div>
                 </div>
 
@@ -629,7 +638,7 @@
             <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
             <div class="support-modal-header her-entry-header">
                 <div class="support-modal-title-wrap">
-                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> KÉT BÍ MẬT VỀ CÔ ẤY</span>
+                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> BÉ IU</span>
                     <h2 id="her-entry-title">Thêm thông tin</h2>
                 </div>
                 <button type="button" class="modal-close-btn support-modal-close" id="btn-close-her-entry" aria-label="Đóng form" title="Đóng">
@@ -658,8 +667,8 @@
             <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
             <div class="support-modal-header her-entry-header">
                 <div class="support-modal-title-wrap">
-                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> HỒ SƠ CÔ ẤY</span>
-                    <h2 id="her-profile-modal-title">Cá nhân hóa Két Bí Mật</h2>
+                    <span class="support-modal-eyebrow her-form-eyebrow"><i data-lucide="sparkles"></i> HỒ SƠ BÉ IU</span>
+                    <h2 id="her-profile-modal-title">Cá nhân hóa thông tin Bé iu</h2>
                 </div>
                 <button type="button" class="modal-close-btn support-modal-close" id="btn-close-her-profile" aria-label="Đóng form" title="Đóng">
                     <i data-lucide="x"></i>
@@ -781,5 +790,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_04"></script>
 </body></html>

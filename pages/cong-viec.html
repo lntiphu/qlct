@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0F172A">
+  <meta name="theme-color" content="#FAF7F2">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Phú ơi làm đi - To-Do List</title>
+  <title>Công việc</title>
   
-  <!-- Google Fonts: Be Vietnam Pro -->
+  <!-- Google Fonts: Nunito & Be Vietnam Pro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -21,15 +22,15 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Be Vietnam Pro"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            sans: ['"Be Vietnam Pro"', '"Nunito"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
           },
           colors: {
             brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#ea580c',
+              600: '#c2410c',
+              700: '#9a3412',
             }
           }
         }
@@ -41,15 +42,16 @@
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom Modern CSS -->
   <link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/cong-viec.css">
+  <link rel="stylesheet" href="../css/cong-viec.css">
+  <link rel="stylesheet" href="../css/cong-viec-modern.css?v=20261125_01">
   
 <style>html[data-loading] body{visibility:hidden}</style>
 </head>
-<body data-feature="cong-viec" class="bg-[#f8fafc] dark:bg-[#090d16] text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white pb-10 touch-manipulation relative overflow-x-hidden">
+<body data-feature="cong-viec" class="bg-[#f8fafc] dark:bg-[#090d16] text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white pb-10 relative overflow-x-hidden">
 
   <!-- Ambient Luxury Background Glows -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
@@ -58,8 +60,8 @@
     <div class="absolute -bottom-32 left-1/4 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-600/15 rounded-full blur-3xl"></div>
   </div>
 
-  <!-- Mobile Main Content Area -->
-  <div class="max-w-md mx-auto px-4">
+  <!-- Main Content Area (Unified 860px Max Width) -->
+  <div class="todo-main-container max-w-[860px] mx-auto px-4">
 
     <!-- ══════════════════════════════════════
          TOP STICKY HEADER & CONTROLS
@@ -67,17 +69,8 @@
     <template data-header class="todo-header-wrap">
       <div class="todo-header-top">
         <div class="todo-header-left">
-          <button type="button" class="todo-back-btn" onclick="goBackToHome()" title="Quay lại Trang chủ" aria-label="Quay lại">
-            <i data-lucide="arrow-left"></i>
-          </button>
           <div class="todo-title-wrap">
-            <div class="todo-badge-icon">
-              <i data-lucide="check-square"></i>
-            </div>
-            <div class="todo-title-info">
-              <h1>Công việc</h1>
-              <p>Kế hoạch & tiến độ hằng ngày</p>
-            </div>
+            <h1>Công việc</h1>
           </div>
         </div>
 
@@ -88,6 +81,12 @@
           <button type="button" id="header-add-btn" onclick="openAddTaskModal()" class="todo-header-add-btn" title="Thêm công việc mới" aria-label="Thêm việc">
             <i data-lucide="plus"></i>
             <span>Thêm việc</span>
+          </button>
+          <button type="button" class="header-close-btn todo-exit-btn" id="btn-exit-congviec" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           </button>
         </div>
       </div>
@@ -166,7 +165,7 @@
   <!-- ==================== MOBILE BOTTOM SHEET & POPUPS ==================== -->
 
   <!-- EDIT TASK / DUE TIME BOTTOM SHEET MODAL -->
-  <div id="task-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-md hidden transition-opacity duration-300">
+  <div id="task-modal" class="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-md hidden transition-opacity duration-300">
     <div class="relative w-full max-w-md rounded-t-3xl sm:rounded-3xl bg-white dark:bg-slate-900 border-t sm:border border-slate-200/80 dark:border-slate-800 shadow-2xl p-4 sm:p-5 transform transition-transform duration-300 ease-out translate-y-full sm:translate-y-0 sm:scale-95 modal-content max-h-[92vh] max-h-[92dvh] overflow-y-auto">
       
       <!-- Pull handle for mobile sheet -->
@@ -175,7 +174,7 @@
       <!-- Modal Header -->
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-xs" style="background: linear-gradient(135deg, var(--qlct-olive), var(--qlct-sage));">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-xs" style="background: linear-gradient(135deg, #EA580C, #C2410C);">
             <i data-lucide="check-square" class="w-4 h-4"></i>
           </div>
           <div>
@@ -359,7 +358,7 @@
           <button type="button" id="cancel-modal-btn" class="w-24 py-2.5 text-xs font-bold text-slate-600 bg-slate-100 dark:bg-slate-800 dark:text-slate-300 rounded-xl active:scale-95 transition-transform">
             Hủy bỏ
           </button>
-          <button type="submit" class="flex-1 py-2.5 text-xs font-extrabold text-white rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center gap-1.5" style="background: linear-gradient(135deg, var(--qlct-olive), var(--qlct-sage)); box-shadow: 0 4px 12px rgba(52, 66, 55, 0.2);">
+          <button type="submit" class="flex-1 py-2.5 text-xs font-extrabold text-white rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center gap-1.5" style="background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%); box-shadow: 0 4px 14px rgba(194, 65, 12, 0.32);">
             <i data-lucide="check" class="w-4 h-4"></i>
             <span>Lưu Công Việc</span>
           </button>
@@ -369,7 +368,7 @@
   </div>
 
   <!-- EDIT COMPLETED TIME MODAL (For History Tab) -->
-  <div id="history-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
+  <div id="history-modal" class="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
     <div class="relative w-full max-w-md rounded-t-3xl sm:rounded-3xl bg-white dark:bg-slate-900 border-t sm:border border-slate-200 dark:border-slate-800 shadow-2xl p-5 transform transition-all translate-y-full sm:translate-y-0 sm:scale-95 history-modal-content">
       <div class="w-10 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 mx-auto mb-4 sm:hidden"></div>
 
@@ -414,7 +413,7 @@
   </div>
 
   <!-- REMINDER ALERT POPUP -->
-  <div id="reminder-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
+  <div id="reminder-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
     <div class="relative w-full max-w-xs rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-5 text-center transform transition-all scale-95 opacity-0 reminder-content">
       <div class="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-2 animate-bounce">
         <i data-lucide="alarm-clock" class="w-6 h-6"></i>
@@ -443,7 +442,7 @@
   </div>
 
   <!-- CONFIRM DELETE MODAL -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
+  <div id="confirm-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden transition-opacity">
     <div class="relative w-full max-w-xs rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl p-5 text-center transform transition-all scale-95 opacity-0 confirm-content">
       <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-1" id="confirm-modal-title">Xác nhận?</h3>
       <p class="text-xs text-slate-500 dark:text-slate-400 mb-4" id="confirm-modal-message">
@@ -462,7 +461,7 @@
   </div>
 
   <!-- FULLSCREEN IMAGE VIEWER MODAL (LIGHTBOX) -->
-  <div id="image-viewer-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/85 backdrop-blur-md hidden transition-opacity">
+  <div id="image-viewer-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-3 bg-black/85 backdrop-blur-md hidden transition-opacity">
     <div class="relative max-w-lg w-full flex flex-col items-center">
       <button id="close-image-viewer-btn" class="absolute -top-10 right-0 p-2 rounded-full bg-white/20 text-white hover:bg-white/40 active:scale-90 transition-all">
         <i data-lucide="x" class="w-5 h-5"></i>
@@ -474,10 +473,10 @@
   </div>
 
   <!-- MOBILE TOAST CONTAINER -->
-  <div id="toast-container" class="fixed top-4 left-4 right-4 z-50 flex flex-col items-center gap-2 pointer-events-none"></div>
+  <div id="toast-container" class="fixed top-4 left-4 right-4 z-[10000] flex flex-col items-center gap-2 pointer-events-none"></div>
 
   <!-- Application Logic -->
   
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_09"></script>
 </body>
 </html>

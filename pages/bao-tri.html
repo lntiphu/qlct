@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html data-loading lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Bảo Trì Thiết Bị</title>
+    <!-- Google Fonts: Nunito & Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/bao-tri.css">
+    <link rel="stylesheet" href="../css/bao-tri-modern.css?v=20261124_01">
+    
+<style>html[data-loading] body{visibility:hidden}</style>
+</head>
+<body data-feature="bao-tri">
+    <div class="maintenance-container">
+        <!-- ══ 1. HEADER BẢO TRÌ ══ -->
+        <template data-header class="maintenance-header-row">
+            <div class="maintenance-header-left">
+                <div class="maintenance-title-info">
+                    <h2>Bảo trì</h2>
+                </div>
+            </div>
+            <div class="maintenance-header-actions">
+                <button type="button" class="maintenance-action-icon-btn" onclick="toggleMaintenanceSearch()" title="Tìm kiếm thiết bị" aria-label="Tìm kiếm">
+                    <i data-lucide="search"></i>
+                </button>
+                <button type="button" class="btn-add-device" onclick="openAddDeviceModal()" title="Thêm thiết bị mới" aria-label="Thêm thiết bị mới">
+                    <i data-lucide="plus"></i>
+                    <span>Thêm thiết bị</span>
+                </button>
+                <button type="button" class="header-close-btn maintenance-exit-btn" id="btn-exit-maintenance" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+        </template>
+
+        <!-- ══ 2. TỔNG QUAN THỐNG KÊ (3 CARDS) ══ -->
+        <div class="maintenance-summary-grid">
+            <div class="maintenance-stat-card card-devices">
+                <div class="stat-card-icon-wrap icon-devices-wrap">
+                    <i data-lucide="cpu"></i>
+                </div>
+                <div class="stat-card-content">
+                    <span class="stat-card-label">Tổng thiết bị</span>
+                    <strong class="stat-card-val" id="stat-total-devices">0</strong>
+                </div>
+            </div>
+            <div class="maintenance-stat-card card-cost">
+                <div class="stat-card-icon-wrap icon-cost-wrap">
+                    <i data-lucide="wallet"></i>
+                </div>
+                <div class="stat-card-content">
+                    <span class="stat-card-label">Tổng chi phí bảo trì</span>
+                    <strong class="stat-card-val text-terracotta" id="stat-total-cost">0 VNĐ</strong>
+                </div>
+            </div>
+            <div class="maintenance-stat-card card-logs">
+                <div class="stat-card-icon-wrap icon-logs-wrap">
+                    <i data-lucide="clipboard-check"></i>
+                </div>
+                <div class="stat-card-content">
+                    <span class="stat-card-label">Lượt sửa chữa</span>
+                    <strong class="stat-card-val" id="stat-total-logs">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ 3. THANH TÌM KIẾM & BỘ LỌC DANH MỤC ══ -->
+        <div class="maintenance-filter-bar">
+            <!-- Search Input Box -->
+            <div class="maintenance-search-box" id="maintenance-search-box">
+                <i data-lucide="search" class="search-input-icon"></i>
+                <input type="text" id="maintenance-search-input" placeholder="Tìm theo tên thiết bị, biển số, hạng mục sửa chữa..." oninput="filterMaintenanceData()" autocomplete="off">
+                <button type="button" class="search-clear-btn" id="maintenance-search-clear" onclick="clearMaintenanceSearch()" title="Xóa tìm kiếm" aria-label="Xóa tìm kiếm" style="display: none;">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="maintenance-category-tabs">
+                <button type="button" class="category-tab active" data-cat="all" onclick="selectCategoryFilter('all')">
+                    <span>Tất cả</span>
+                    <span class="cat-count-badge" id="cat-count-all">0</span>
+                </button>
+                <button type="button" class="category-tab" data-cat="vehicle" onclick="selectCategoryFilter('vehicle')">
+                    <span>🛵 Phương tiện</span>
+                    <span class="cat-count-badge" id="cat-count-vehicle">0</span>
+                </button>
+                <button type="button" class="category-tab" data-cat="electronics" onclick="selectCategoryFilter('electronics')">
+                    <span>💻 Điện tử</span>
+                    <span class="cat-count-badge" id="cat-count-electronics">0</span>
+                </button>
+                <button type="button" class="category-tab" data-cat="appliance" onclick="selectCategoryFilter('appliance')">
+                    <span>❄️ Gia dụng</span>
+                    <span class="cat-count-badge" id="cat-count-appliance">0</span>
+                </button>
+                <button type="button" class="category-tab" data-cat="other" onclick="selectCategoryFilter('other')">
+                    <span>📦 Khác</span>
+                    <span class="cat-count-badge" id="cat-count-other">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ══ 4. DANH SÁCH THIẾT BỊ & LỊCH SỬ BẢO TRÌ ══ -->
+        <div id="devices-list-container" class="devices-list-container">
+            <!-- Dynamic Rendered Device Cards -->
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         MODAL 1: THÊM / CHỈNH SỬA THIẾT BỊ
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="modal-device" onclick="if(event.target===this)closeDeviceModal()">
+        <div class="modal-sheet device-modal-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header compact-device-header">
+                <div class="modal-header-info">
+                    <span class="modal-eyebrow-badge"><i data-lucide="cpu"></i> <span id="device-modal-title">QUẢN LÝ THIẾT BỊ</span></span>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeDeviceModal()" title="Đóng" aria-label="Đóng"><i data-lucide="x"></i></button>
+            </div>
+
+            <form id="device-form" class="modal-form" onsubmit="handleSaveDevice(event)">
+                <input type="hidden" id="device-id-field" value="">
+
+                <div class="device-form-body">
+                    <!-- Tên thiết bị -->
+                    <div class="form-group">
+                        <label for="device-input-name" class="form-field-label">Tên thiết bị <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <i data-lucide="bookmark" class="field-icon"></i>
+                            <input type="text" id="device-input-name" placeholder="VD: Xe Honda AirBlade 150, Laptop Dell XPS, Điều hòa Daikin..." required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Loại thiết bị & Biển số / Serial (2 cột) -->
+                    <div class="form-row-2col">
+                        <div class="form-group">
+                            <label for="device-input-category" class="form-field-label">Loại thiết bị <span class="required-star">*</span></label>
+                            <div class="select-wrapper">
+                                <i data-lucide="layers" class="field-icon"></i>
+                                <select id="device-input-category" required>
+                                    <option value="vehicle">🛵 Phương tiện (Xe máy, ô tô...)</option>
+                                    <option value="electronics">💻 Điện tử (Laptop, PC, phone...)</option>
+                                    <option value="appliance">❄️ Gia dụng (Điều hòa, máy giặt...)</option>
+                                    <option value="other">📦 Thiết bị khác</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="device-input-code" class="form-field-label">Biển số / Mã máy / Serial</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="tag" class="field-icon"></i>
+                                <input type="text" id="device-input-code" placeholder="VD: 59-X1 123.45 hoặc SN889" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ngày bắt đầu dùng & Tình trạng / ODO ban đầu (2 cột) -->
+                    <div class="form-row-2col">
+                        <div class="form-group">
+                            <label for="device-input-date-display" class="form-field-label">Ngày mua / Bắt đầu dùng</label>
+                            <div class="custom-dmy-picker-wrap">
+                                <input type="text"
+                                       id="device-input-date-display"
+                                       class="custom-dmy-input"
+                                       placeholder="dd/mm/yyyy"
+                                       maxlength="10"
+                                       autocomplete="off" />
+                                <input type="date"
+                                       id="device-input-date"
+                                       class="custom-dmy-hidden-native"
+                                       tabindex="-1"
+                                       aria-hidden="true" />
+                                <button type="button" class="custom-dmy-trigger-btn" id="btn-trigger-device-date" title="Mở lịch chọn ngày" aria-label="Mở lịch chọn ngày">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="device-input-odo" class="form-field-label">Mốc ban đầu / Số km hiện tại</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="gauge" class="field-icon"></i>
+                                <input type="text" id="device-input-odo" placeholder="VD: 12.000 km hoặc Mới mua" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú thiết bị -->
+                    <div class="form-group">
+                        <label for="device-input-notes" class="form-field-label">Ghi chú thiết bị</label>
+                        <div class="input-wrapper textarea-wrapper">
+                            <textarea id="device-input-notes" rows="2" placeholder="VD: Định kỳ thay nhớt 2.500km, bảo dưỡng hãng mỗi năm..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions-row">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeviceModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="check"></i> <span>Lưu thiết bị</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         MODAL 2: THÊM / CHỈNH SỬA LƯỢT BẢO TRÌ SỬA CHỮA
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="modal-log" onclick="if(event.target===this)closeLogModal()">
+        <div class="modal-sheet log-modal-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="modal-header modal-header-upgraded">
+                <div class="modal-header-info">
+                    <span class="modal-eyebrow-badge"><i data-lucide="wrench"></i> LƯỢT BẢO TRÌ &amp; SỬA CHỮA</span>
+                    <h2 id="log-modal-title">Thêm lượt bảo trì</h2>
+                    <p class="modal-header-sub">
+                        Thiết bị: <strong class="target-device-pill" id="log-modal-device-badge">--</strong>
+                    </p>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeLogModal()" title="Đóng" aria-label="Đóng"><i data-lucide="x"></i></button>
+            </div>
+
+            <form id="log-form" class="modal-form" onsubmit="handleSaveLog(event)">
+                <input type="hidden" id="log-id-field" value="">
+                <input type="hidden" id="log-device-id-field" value="">
+
+                <div class="log-form-body">
+                    <!-- Hạng mục sửa chữa / bảo trì -->
+                    <div class="form-group">
+                        <label for="log-input-title" class="form-field-label">Hạng mục / Nội dung sửa chữa <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <i data-lucide="wrench" class="field-icon"></i>
+                            <input type="text" id="log-input-title" placeholder="VD: Thay nhớt máy &amp; lọc gió, Vệ sinh máy lạnh..." required autocomplete="off">
+                        </div>
+                        <!-- Quick Maintenance Suggestions -->
+                        <div class="log-quick-suggestions" id="log-quick-suggestions">
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Thay nhớt máy định kỳ')">🛢️ Thay nhớt máy</button>
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Thay nhớt lap / nhớt số')">⚙️ Thay nhớt lap</button>
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Vệ sinh nồi &amp; lọc gió')">🧹 Vệ sinh nồi</button>
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Thay vỏ / lốp xe')">🛞 Thay lốp</button>
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Vệ sinh &amp; nạp ga máy lạnh')">❄️ Vệ sinh nạp ga</button>
+                            <button type="button" class="quick-log-chip" onclick="quickFillLogTitle('Bảo dưỡng toàn bộ')">✨ Bảo dưỡng tổng</button>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí & Ngày thực hiện (2 cột) -->
+                    <div class="form-row-2col">
+                        <div class="form-group">
+                            <label for="log-input-cost" class="form-field-label">Chi phí / Giá tiền (VNĐ) <span class="required-star">*</span></label>
+                            <div class="input-wrapper">
+                                <i data-lucide="banknote" class="field-icon"></i>
+                                <input type="text" id="log-input-cost" placeholder="0" inputmode="numeric" required autocomplete="off">
+                            </div>
+                            <!-- Quick Cost Chips -->
+                            <div class="log-cost-chips">
+                                <button type="button" class="quick-cost-chip" onclick="quickFillCost(150000)">150k</button>
+                                <button type="button" class="quick-cost-chip" onclick="quickFillCost(250000)">250k</button>
+                                <button type="button" class="quick-cost-chip" onclick="quickFillCost(500000)">500k</button>
+                                <button type="button" class="quick-cost-chip" onclick="quickFillCost(1000000)">1Tr</button>
+                                <button type="button" class="quick-cost-chip" onclick="quickFillCost(2000000)">2Tr</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="log-input-date-display" class="form-field-label">Ngày sửa chữa <span class="required-star">*</span></label>
+                            <div class="custom-dmy-picker-wrap">
+                                <input type="text"
+                                       id="log-input-date-display"
+                                       class="custom-dmy-input"
+                                       placeholder="dd/mm/yyyy"
+                                       maxlength="10"
+                                       autocomplete="off"
+                                       required />
+                                <input type="date"
+                                       id="log-input-date"
+                                       class="custom-dmy-hidden-native"
+                                       tabindex="-1"
+                                       aria-hidden="true" />
+                                <button type="button" class="custom-dmy-trigger-btn" id="btn-trigger-log-date" title="Mở lịch chọn ngày" aria-label="Mở lịch chọn ngày">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="log-quick-date-btn-wrap">
+                                <button type="button" class="quick-today-btn" onclick="setLogTodayDate()">Hôm nay</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nơi sửa chữa & Mốc số km lúc bảo trì (2 cột) -->
+                    <div class="form-row-2col">
+                        <div class="form-group">
+                            <label for="log-input-location" class="form-field-label">Nơi sửa chữa / Gara / Cửa hàng</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="map-pin" class="field-icon"></i>
+                                <input type="text" id="log-input-location" placeholder="VD: Head Honda Phát Tiến, Tiệm quen..." autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="log-input-odo" class="form-field-label">Mốc km lúc bảo trì</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="gauge" class="field-icon"></i>
+                                <input type="text" id="log-input-odo" placeholder="VD: 15.200 km" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú thêm / Thời hạn bảo hành phụ tùng -->
+                    <div class="form-group">
+                        <label for="log-input-notes" class="form-field-label">Ghi chú chi tiết / Bảo hành</label>
+                        <div class="input-wrapper textarea-wrapper">
+                            <textarea id="log-input-notes" rows="2" placeholder="VD: Bảo hành bình ắc quy 6 tháng, nhớt Motul Scooter Power 5W40..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions-row">
+                    <button type="button" class="btn btn-secondary" onclick="closeLogModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="check"></i> <span>Lưu lượt bảo trì</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         MODAL 3: XÁC NHẬN XÓA
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="modal-confirm-delete" onclick="if(event.target===this)closeDeleteModal()">
+        <div class="modal-sheet confirm-delete-sheet">
+            <div class="modal-drag-indicator"></div>
+            <div class="delete-icon-bubble">
+                <i data-lucide="trash-2"></i>
+            </div>
+            <h3 class="delete-modal-title">Xác nhận xóa</h3>
+            <p class="delete-modal-msg" id="delete-modal-msg">Bạn có chắc chắn muốn xóa mục này không? Thao tác này không thể hoàn tác.</p>
+            <div class="delete-actions-row">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Hủy bỏ</button>
+                <button type="button" class="btn btn-danger-confirm" id="btn-confirm-delete-action">
+                    <i data-lucide="trash-2"></i> <span>Xóa vĩnh viễn</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="maintenance-toast" class="maintenance-toast"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="../js/boot.js?v=20261124_08"></script>
+</body>
+</html>

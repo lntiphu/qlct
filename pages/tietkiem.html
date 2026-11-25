@@ -3,30 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Quản Lý Tiết Kiệm (Saver)</title>
-    <!-- Google Fonts: Be Vietnam Pro -->
+    <meta name="theme-color" content="#FAF7F2">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Tiết Kiệm</title>
+    <!-- Google Fonts: Nunito & Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/tietkiem.css">
+    <link rel="stylesheet" href="../css/tietkiem.css?v=20261125_01">
+    <link rel="stylesheet" href="../css/tietkiem-modern.css?v=20261125_02">
     
-<style>html[data-loading] body{visibility:hidden}</style>
+<style>
+html[data-loading] body{visibility:hidden}
+/* Giao diện khung Thêm / Chỉnh sửa mục tiết kiệm & Điều chỉnh số tiền: To hơn, rộng rãi, sang trọng và chuẩn đẹp */
+#add-saver-modal.modal-overlay,
+#adjust-saver-amount-modal.modal-overlay {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)) !important;
+    box-sizing: border-box !important;
+}
+
+#add-saver-modal .add-saver-sheet {
+    width: min(94vw, 560px) !important;
+    max-width: 560px !important;
+    max-height: min(92vh, 850px) !important;
+    padding: 24px 26px 22px !important;
+    border-radius: 24px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2), 0 4px 20px rgba(194, 65, 12, 0.08) !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+}
+
+#add-saver-modal .modal-drag-indicator {
+    display: none !important;
+}
+
+#add-saver-modal .modal-header-upgraded {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.14) !important;
+}
+
+#add-saver-modal .modal-header-upgraded h2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 21px !important;
+    font-weight: 900 !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.3px !important;
+}
+
+#add-saver-modal .modal-close-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+    color: #64748B !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+#add-saver-modal .modal-close-btn:hover {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+}
+
+#add-saver-modal .saver-form-sections {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+#add-saver-modal .saver-form-card {
+    padding: 13px 16px !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(194, 65, 12, 0.14) !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02) !important;
+}
+
+#add-saver-modal .saver-card-label-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-bottom: 8px !important;
+}
+
+#add-saver-modal .saver-badge-step {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    font-size: 11.5px !important;
+    background: #FFF7ED !important;
+    border: 1px solid rgba(194, 65, 12, 0.28) !important;
+    color: #C2410C !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+}
+
+#add-saver-modal .saver-group-title {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #334155 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    margin: 0 !important;
+}
+
+#add-saver-modal .input-wrapper {
+    height: 44px !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid rgba(194, 65, 12, 0.22) !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#add-saver-modal .input-wrapper:focus-within {
+    border-color: #C2410C !important;
+    box-shadow: 0 0 0 3px rgba(194, 65, 12, 0.12) !important;
+}
+
+#add-saver-modal .input-wrapper .field-icon {
+    width: 16px !important;
+    height: 16px !important;
+    left: 13px !important;
+    position: absolute !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+#add-saver-modal .input-wrapper input,
+#add-saver-modal .input-wrapper input:focus {
+    height: 44px !important;
+    width: 100% !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    padding: 0 14px 0 38px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    color: #0F172A !important;
+}
+
+#add-saver-modal .saver-sources-grid,
+#add-saver-modal .saver-targets-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+}
+
+#add-saver-modal .source-col-head {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-bottom: 5px !important;
+}
+
+#add-saver-modal .source-name,
+#add-saver-modal .target-field-label {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin: 0 0 4px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+#add-saver-modal .target-field-label svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+#add-saver-modal .saver-live-sum-bar {
+    margin-top: 10px !important;
+    padding: 9px 14px !important;
+    border-radius: 11px !important;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+    border: 1px solid rgba(194, 65, 12, 0.22) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+#add-saver-modal .live-sum-label {
+    font-size: 13px !important;
+    color: #7C2D12 !important;
+    font-weight: 700 !important;
+}
+
+#add-saver-modal .live-sum-amount {
+    font-size: 16px !important;
+    color: #C2410C !important;
+    font-weight: 900 !important;
+}
+
+#add-saver-modal .saver-live-progress-card {
+    margin-top: 10px !important;
+    padding: 10px 14px !important;
+    border-radius: 12px !important;
+    background: #F8FAFC !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+#add-saver-modal .progress-preview-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 5px !important;
+}
+
+#add-saver-modal .preview-head-label,
+#add-saver-modal .preview-head-pct {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+}
+
+#add-saver-modal .progress-preview-track {
+    height: 6px !important;
+    background: #E2E8F0 !important;
+    border-radius: 999px !important;
+    margin-bottom: 4px !important;
+    overflow: hidden !important;
+}
+
+#add-saver-modal .preview-foot-status {
+    font-size: 11px !important;
+    color: #64748B !important;
+}
+
+#add-saver-modal .form-actions-row {
+    display: flex !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+}
+
+#add-saver-modal .form-actions-row .btn-secondary,
+#add-saver-modal .form-actions-row .btn-primary {
+    height: 46px !important;
+    border-radius: 14px !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+/* Khung Điều Chỉnh Số Tiền To Hơn */
+#adjust-saver-amount-modal .adjust-amount-sheet {
+    width: min(94vw, 540px) !important;
+    max-width: 540px !important;
+    padding: 24px 26px 22px !important;
+    border-radius: 24px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2), 0 4px 20px rgba(194, 65, 12, 0.08) !important;
+    border: 1px solid rgba(194, 65, 12, 0.16) !important;
+}
+</style>
 </head>
 <body data-feature="tietkiem">
     <div class="saver-container">
-        <!-- Header Quản lý Tiết kiệm -->
+        <!-- Header Tiết kiệm -->
         <template data-header class="saver-header-row">
             <div class="saver-header-left">
-                <button type="button" class="saver-back-btn" onclick="goBackToHome()" title="Quay lại Trang chủ" aria-label="Quay lại">
-                    <i data-lucide="arrow-left"></i>
-                </button>
-                <div class="saver-badge-icon">
-                    <i data-lucide="piggy-bank"></i>
-                </div>
                 <div class="saver-title-info">
-                    <h2>Quản lý Tiết kiệm</h2>
-                    <p>Theo dõi mục tiêu & số dư tài chính</p>
+                    <h2>Tiết kiệm</h2>
                 </div>
             </div>
             <div class="saver-header-actions">
@@ -36,6 +310,9 @@
                 <button type="button" class="btn-add-saver" onclick="openAddSaverModal()" title="Thêm mục tiết kiệm mới" aria-label="Thêm mục tiết kiệm">
                     <i data-lucide="plus"></i>
                     <span>Thêm mục</span>
+                </button>
+                <button type="button" class="header-close-btn saver-exit-btn" id="btn-exit-saver" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát trang Tiết kiệm">
+                    <i data-lucide="x"></i>
                 </button>
             </div>
         </template>
@@ -71,67 +348,146 @@
             </div>
         </div>
 
+        <!-- Sort Bar (hidden by default) -->
+        <div id="saver-sort-bar" class="saver-sort-bar" style="display: none;">
+            <div class="saver-sort-inner">
+                <div class="saver-sort-header">
+                    <span class="saver-sort-title"><i data-lucide="arrow-up-down"></i> Sắp xếp vị trí:</span>
+                    <span class="saver-sort-hint">Kéo thả thẻ hoặc dùng nút ▲ ▼ để đổi chỗ</span>
+                </div>
+                <div class="saver-sort-chips">
+                    <button type="button" class="saver-sort-chip active" data-sort="custom" onclick="applySaverSort('custom')">
+                        <i data-lucide="move"></i> <span>Tùy chỉnh (Thủ công)</span>
+                    </button>
+                    <button type="button" class="saver-sort-chip" data-sort="saved-desc" onclick="applySaverSort('saved-desc')">
+                        <i data-lucide="trending-up"></i> <span>Tiền có nhiều nhất</span>
+                    </button>
+                    <button type="button" class="saver-sort-chip" data-sort="percent-desc" onclick="applySaverSort('percent-desc')">
+                        <i data-lucide="check-circle"></i> <span>Tiến độ cao nhất</span>
+                    </button>
+                    <button type="button" class="saver-sort-chip" data-sort="target-desc" onclick="applySaverSort('target-desc')">
+                        <i data-lucide="target"></i> <span>Mục tiêu lớn nhất</span>
+                    </button>
+                    <button type="button" class="saver-sort-chip" data-sort="name-asc" onclick="applySaverSort('name-asc')">
+                        <i data-lucide="arrow-up-down"></i> <span>Tên (A ➔ Z)</span>
+                    </button>
+                    <button type="button" class="saver-sort-chip" data-sort="newest" onclick="applySaverSort('newest')">
+                        <i data-lucide="clock"></i> <span>Mới tạo nhất</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Cards View -->
         <div id="saver-cards-container" class="saver-cards-list">
             <!-- Dynamic Saver Cards -->
         </div>
     </div>
 
-    <!-- MODAL THÊM / SỬA MỤC TIẾT KIỆM -->
+    <!-- MODAL THÊM / SỬA MỤC TIẾT KIỆM (KHU VỰC 1 & KHU VỰC 3) -->
     <div class="modal-overlay" id="add-saver-modal">
         <div class="modal-sheet add-saver-sheet">
             <div class="modal-drag-indicator"></div>
-            <div class="modal-header">
+            <div class="modal-header modal-header-upgraded">
                 <h2 id="add-saver-modal-title">Thêm mục tiết kiệm</h2>
-                <button type="button" class="modal-close-btn" onclick="closeAddSaverModal()" title="Đóng"><i data-lucide="x"></i></button>
+                <button type="button" class="modal-close-btn" onclick="closeAddSaverModal()" title="Đóng" aria-label="Đóng"><i data-lucide="x"></i></button>
             </div>
             
-            <form id="add-saver-form" class="modal-form">
+            <form id="add-saver-form" class="modal-form saver-modern-form">
                 <input type="hidden" id="saver-item-id" value="">
                 
-                <div class="form-fields">
-                    <!-- Tên mục -->
-                    <div class="form-group">
-                        <label for="saver-input-title">Tên mục tiết kiệm</label>
-                        <div class="input-wrapper">
+                <div class="saver-form-sections">
+                    <!-- SECTION 1: TÊN MỤC TIÊU & GỢI Ý NHANH -->
+                    <div class="saver-form-card">
+                        <div class="saver-card-label-row">
+                            <span class="saver-badge-step">1</span>
+                            <label for="saver-input-title" class="saver-group-title">Tên mục tiết kiệm <span class="required-star">*</span></label>
+                        </div>
+                        <div class="input-wrapper saver-title-wrapper">
                             <i data-lucide="bookmark" class="field-icon"></i>
-                            <input type="text" id="saver-input-title" placeholder="VD: Mua xe, Quỹ dự phòng, Du lịch..." required>
+                            <input type="text" id="saver-input-title" placeholder="VD: Mua xe, Quỹ dự phòng, Đi Đà Lạt..." required autocomplete="off">
                         </div>
                     </div>
 
-                    <!-- Tiền MoMo -->
-                    <div class="form-group">
-                        <label for="saver-input-momo">Tiền đang có ở MoMo (VNĐ)</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="wallet" class="field-icon"></i>
-                            <input type="text" id="saver-input-momo" placeholder="0" inputmode="numeric">
+                    <!-- SECTION 2: SỐ TIỀN HIỆN CÓ (MOMO & NGÂN HÀNG) + LIVE TOTAL -->
+                    <div class="saver-form-card">
+                        <div class="saver-card-label-row">
+                            <span class="saver-badge-step">2</span>
+                            <label class="saver-group-title">Số tiền đang có (Nguồn tích lũy)</label>
+                        </div>
+                        <div class="saver-sources-grid">
+                            <!-- MoMo -->
+                            <div class="saver-source-col source-momo">
+                                <div class="source-col-head">
+                                    <span class="source-dot momo-dot"></span>
+                                    <span class="source-name">Ví MoMo</span>
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="wallet" class="field-icon text-pink-600"></i>
+                                    <input type="text" id="saver-input-momo" placeholder="0" inputmode="numeric" oninput="updateSaverModalLivePreview()">
+                                </div>
+                            </div>
+                            <!-- Ngân hàng -->
+                            <div class="saver-source-col source-bank">
+                                <div class="source-col-head">
+                                    <span class="source-dot bank-dot"></span>
+                                    <span class="source-name">Ngân hàng</span>
+                                </div>
+                                <div class="input-wrapper">
+                                    <i data-lucide="landmark" class="field-icon text-blue-600"></i>
+                                    <input type="text" id="saver-input-bank" placeholder="0" inputmode="numeric" oninput="updateSaverModalLivePreview()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Total Counter Bar -->
+                        <div class="saver-live-sum-bar">
+                            <span class="live-sum-label"><i data-lucide="coins"></i> Tổng tích lũy hiện có:</span>
+                            <strong class="live-sum-amount" id="saver-live-total-val">0 VNĐ</strong>
                         </div>
                     </div>
 
-                    <!-- Tiền Ngân hàng -->
-                    <div class="form-group">
-                        <label for="saver-input-bank">Tiền đang có ở NH (VNĐ)</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="landmark" class="field-icon"></i>
-                            <input type="text" id="saver-input-bank" placeholder="0" inputmode="numeric">
+                    <!-- SECTION 3: MỤC TIÊU & THIẾU NỢ + LIVE PROGRESS -->
+                    <div class="saver-form-card">
+                        <div class="saver-card-label-row">
+                            <span class="saver-badge-step">3</span>
+                            <label class="saver-group-title">Kế hoạch mục tiêu &amp; Nghĩa vụ nợ</label>
                         </div>
-                    </div>
-
-                    <!-- Mục tiêu -->
-                    <div class="form-group">
-                        <label for="saver-input-target">Mục tiêu tiền (VNĐ)</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="target" class="field-icon"></i>
-                            <input type="text" id="saver-input-target" placeholder="0" inputmode="numeric">
+                        <div class="saver-targets-grid">
+                            <!-- Target -->
+                            <div class="saver-target-col">
+                                <label for="saver-input-target" class="target-field-label">
+                                    <i data-lucide="target" class="text-orange-600"></i> Mục tiêu cần đạt
+                                </label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="target" class="field-icon text-orange-600"></i>
+                                    <input type="text" id="saver-input-target" placeholder="0" inputmode="numeric" oninput="updateSaverModalLivePreview()">
+                                </div>
+                            </div>
+                            <!-- Debt -->
+                            <div class="saver-debt-col">
+                                <label for="saver-input-debt" class="target-field-label">
+                                    <i data-lucide="alert-circle" class="text-rose-600"></i> Tiền đang thiếu nợ
+                                </label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="alert-circle" class="field-icon text-rose-600"></i>
+                                    <input type="text" id="saver-input-debt" placeholder="0" inputmode="numeric">
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Thiếu nợ -->
-                    <div class="form-group">
-                        <label for="saver-input-debt">Tiền đang thiếu nợ (VNĐ)</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="alert-circle" class="field-icon"></i>
-                            <input type="text" id="saver-input-debt" placeholder="0" inputmode="numeric">
+                        <!-- Live Progress Preview Card -->
+                        <div class="saver-live-progress-card" id="saver-live-progress-card">
+                            <div class="progress-preview-head">
+                                <span class="preview-head-label"><i data-lucide="trending-up"></i> Tiến độ dự kiến:</span>
+                                <span class="preview-head-pct" id="saver-live-percent-val">0%</span>
+                            </div>
+                            <div class="progress-preview-track">
+                                <div class="progress-preview-fill" id="saver-live-progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <div class="progress-preview-foot">
+                                <span class="preview-foot-status" id="saver-live-remaining-val">Chưa đặt mục tiêu</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,66 +502,90 @@
         </div>
     </div>
 
-    <!-- MODAL ĐIỀU CHỈNH TĂNG / GIẢM TIỀN NHANH -->
+    <!-- MODAL ĐIỀU CHỈNH TĂNG / GIẢM TIỀN NHANH (KHU VỰC 2) -->
     <div class="modal-overlay" id="adjust-saver-amount-modal">
         <div class="modal-sheet adjust-amount-sheet">
             <div class="modal-drag-indicator"></div>
-            <div class="modal-header">
-                <div>
-                    <h2 style="font-size: 1.15rem; margin: 0;">Điều chỉnh số tiền</h2>
-                    <span id="adjust-modal-subtitle" style="font-size: 0.76rem; color: var(--text-secondary);">Mục: Quỹ phòng thân · MoMo</span>
+            <div class="modal-header modal-header-upgraded">
+                <div class="modal-header-info">
+                    <span class="modal-eyebrow-badge"><i data-lucide="wallet"></i> SỐ DƯ TIẾT KIỆM</span>
+                    <h2>Điều chỉnh số tiền</h2>
+                    <span id="adjust-modal-subtitle" class="modal-header-sub">Mục: Quỹ phòng thân · MoMo</span>
                 </div>
-                <button type="button" class="modal-close-btn" onclick="closeAdjustAmountModal()" title="Đóng"><i data-lucide="x"></i></button>
+                <button type="button" class="modal-close-btn" onclick="closeAdjustAmountModal()" title="Đóng" aria-label="Đóng"><i data-lucide="x"></i></button>
             </div>
 
-            <!-- Current Amount Indicator -->
-            <div class="adjust-current-box">
-                <span class="adjust-current-label">Số dư hiện tại</span>
-                <span class="adjust-current-val" id="adjust-current-val">0 VNĐ</span>
+            <!-- Current Amount Fintech Hero Card -->
+            <div class="adjust-hero-card">
+                <div class="adjust-hero-top">
+                    <span class="adjust-hero-label"><i data-lucide="banknote"></i> Số dư hiện tại</span>
+                    <span class="adjust-hero-badge" id="adjust-hero-field-badge">Ví tiền</span>
+                </div>
+                <div class="adjust-hero-amount" id="adjust-current-val">0 VNĐ</div>
+                <div class="adjust-hero-hint">Bấm các mức bên dưới để thay đổi số dư nhanh chóng</div>
             </div>
 
-            <!-- Quick Step Buttons -->
-            <div class="adjust-quick-section">
-                <div class="adjust-quick-title">Tăng nhanh (+)</div>
-                <div class="adjust-quick-buttons">
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(50000)">+50k</button>
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(100000)">+100k</button>
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(500000)">+500k</button>
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(1000000)">+1Tr</button>
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(5000000)">+5Tr</button>
-                    <button type="button" class="btn-quick-adjust plus" onclick="quickAdjustAmount(10000000)">+10Tr</button>
+            <!-- Quick Step Buttons: Tăng nhanh (+) (3 cột x 2 hàng tiện lợi) -->
+            <div class="adjust-quick-section section-plus">
+                <div class="adjust-quick-title">
+                    <span class="quick-title-badge plus-badge">+</span>
+                    <span>TĂNG NHANH (+)</span>
+                </div>
+                <div class="adjust-quick-grid">
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(50000)">+50k</button>
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(100000)">+100k</button>
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(500000)">+500k</button>
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(1000000)">+1Tr</button>
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(5000000)">+5Tr</button>
+                    <button type="button" class="btn-quick-pill plus" onclick="quickAdjustAmount(10000000)">+10Tr</button>
                 </div>
             </div>
 
-            <div class="adjust-quick-section" style="margin-top: 10px;">
-                <div class="adjust-quick-title">Giảm nhanh (-)</div>
-                <div class="adjust-quick-buttons">
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-50000)">-50k</button>
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-100000)">-100k</button>
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-500000)">-500k</button>
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-1000000)">-1Tr</button>
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-5000000)">-5Tr</button>
-                    <button type="button" class="btn-quick-adjust minus" onclick="quickAdjustAmount(-10000000)">-10Tr</button>
+            <!-- Quick Step Buttons: Giảm nhanh (-) (3 cột x 2 hàng tiện lợi) -->
+            <div class="adjust-quick-section section-minus">
+                <div class="adjust-quick-title">
+                    <span class="quick-title-badge minus-badge">-</span>
+                    <span>GIẢM NHANH (-)</span>
+                </div>
+                <div class="adjust-quick-grid">
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-50000)">-50k</button>
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-100000)">-100k</button>
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-500000)">-500k</button>
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-1000000)">-1Tr</button>
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-5000000)">-5Tr</button>
+                    <button type="button" class="btn-quick-pill minus" onclick="quickAdjustAmount(-10000000)">-10Tr</button>
                 </div>
             </div>
 
             <!-- Custom Input Amount -->
-            <div style="margin-top: 16px;">
-                <label for="adjust-custom-input" style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">Nhập số tiền tùy chỉnh (VNĐ)</label>
-                <div class="input-wrapper" style="margin-bottom: 12px;">
+            <div class="adjust-custom-section">
+                <div class="adjust-custom-header">
+                    <label for="adjust-custom-input" class="adjust-custom-label">Nhập số tiền tùy chỉnh (VNĐ)</label>
+                </div>
+                <div class="input-wrapper custom-adjust-wrapper">
                     <i data-lucide="edit-3" class="field-icon"></i>
-                    <input type="text" id="adjust-custom-input" placeholder="0" inputmode="numeric" style="font-weight: 700; font-size: 1.05rem;">
+                    <input type="text" id="adjust-custom-input" placeholder="0" inputmode="numeric">
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                    <button type="button" class="btn btn-primary" onclick="applyCustomAdjust('add')" style="background: #2e7d32; padding: 10px 6px; font-size: 0.78rem; justify-content: center;">
-                        <i data-lucide="plus"></i> Tăng (+)
+                <!-- Custom Step Chips -->
+                <div class="adjust-custom-presets">
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(100000)">100k</button>
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(200000)">200k</button>
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(500000)">500k</button>
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(1000000)">1Tr</button>
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(2000000)">2Tr</button>
+                    <button type="button" class="preset-chip" onclick="setCustomAdjustInput(5000000)">5Tr</button>
+                </div>
+
+                <div class="adjust-action-grid">
+                    <button type="button" class="btn btn-adjust-plus" onclick="applyCustomAdjust('add')">
+                        <i data-lucide="plus"></i> <span>Tăng (+)</span>
                     </button>
-                    <button type="button" class="btn btn-danger" onclick="applyCustomAdjust('sub')" style="background: #c62828; color: #fff; padding: 10px 6px; font-size: 0.78rem; justify-content: center;">
-                        <i data-lucide="minus"></i> Giảm (-)
+                    <button type="button" class="btn btn-adjust-minus" onclick="applyCustomAdjust('sub')">
+                        <i data-lucide="minus"></i> <span>Giảm (-)</span>
                     </button>
-                    <button type="button" class="btn btn-secondary" onclick="applyCustomAdjust('set')" style="padding: 10px 6px; font-size: 0.78rem; justify-content: center;">
-                        <i data-lucide="check"></i> Đặt số này
+                    <button type="button" class="btn btn-adjust-set" onclick="applyCustomAdjust('set')">
+                        <i data-lucide="check"></i> <span>Đặt số này</span>
                     </button>
                 </div>
             </div>
@@ -217,6 +597,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_07"></script>
 </body>
 </html>

@@ -2,16 +2,16 @@
 <html data-loading lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0F172A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Làm chủ mọi thứ">
     <link rel="icon" type="image/png" href="../assets/icon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="../manifest.json">
-    <title>so-tay - Làm chủ mọi thứ</title>
+    <title>Sổ tay sức khỏe</title>
     <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
     <link rel="dns-prefetch" href="https://ghdydszifdaiphcjguri.supabase.co">
     <link rel="preconnect" href="https://ghdydszifdaiphcjguri.supabase.co" crossorigin>
@@ -19,83 +19,52 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://unpkg.com">
     
-    <!-- Google Fonts: Be Vietnam Pro -->
+    <!-- Google Fonts: Nunito & Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/shell.css">
+    <link rel="stylesheet" href="../css/support-pages-modern.css?v=20261125_08">
+    <link rel="stylesheet" href="../css/so-tay-modern.css?v=20261125_07">
 <style>html[data-loading] body{visibility:hidden}</style>
 </head><body data-feature="so-tay"><div class="app-container">    <div class="modal-overlay support-page-modal handbook-page-modal" id="handbook-modal" aria-hidden="true">
-        <div class="modal-sheet support-page-sheet handbook-page-sheet" role="dialog" aria-modal="true" aria-label="Sổ tay">
+        <div class="modal-sheet support-page-sheet handbook-page-sheet" role="dialog" aria-modal="true" aria-label="Sổ tay sức khỏe">
             <!-- Header chuẩn Florenté Luxury -->
             <template data-header class="ckkn-page-header support-page-header handbook-page-header">
                 <div class="support-header-left handbook-header-left">
-                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn handbook-header-back-btn" id="btn-close-handbook-modal" aria-label="Quay lại trang chức năng" title="Quay lại">
-                        <i data-lucide="arrow-left"></i>
-                    </button>
                     <div class="handbook-page-title">
-                        <h2>Sổ tay</h2>
+                        <h2>Sổ tay sức khỏe</h2>
                     </div>
                 </div>
-                <div class="support-header-actions handbook-header-actions" aria-label="Thao tác Sổ tay">
-                    <div class="support-count handbook-count-pill" id="handbook-header-count-pill" title="Tổng số bài trong Sổ tay">
-                        <strong id="handbook-header-count">0</strong>
-                        <span>bài</span>
-                    </div>
-                    <button type="button" class="support-action-btn handbook-action-btn handbook-add-btn" id="btn-add-handbook-entry" aria-label="Thêm bài mới" title="Thêm mới">
-                        <i data-lucide="plus"></i>
+                <div class="support-header-actions handbook-header-actions" aria-label="Thao tác Sổ tay sức khỏe">
+                    <button type="button" class="handbook-star-filter-btn" id="btn-toggle-handbook-fav" aria-label="Lọc bài viết đã ghim sao" title="Chỉ hiện bài yêu thích">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="star-icon"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <span class="handbook-star-filter-text">Yêu thích</span>
+                    </button>
+                    <button type="button" class="handbook-add-btn" id="btn-add-handbook-entry" aria-label="Thêm bài mới" title="Thêm mới">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         <span class="handbook-add-btn-text">Thêm bài</span>
+                    </button>
+                    <button type="button" class="header-close-btn handbook-exit-btn" id="btn-close-handbook-modal" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
             </template>
 
             <div class="handbook-page-scroll" id="handbook-page-scroll">
-                <!-- Hero Banner: CẢM HỨNG & SỨC KHỎE GIA ĐÌNH -->
-                <div class="handbook-intro-card" id="handbook-intro-card">
-                    <div class="handbook-intro-top-row">
-                        <div class="handbook-intro-badge">
-                            <i data-lucide="sparkles"></i>
-                            <span>MẸO HAY &amp; SỨC KHỎE GIA ĐÌNH</span>
-                        </div>
-                        <span class="handbook-sync-status" id="handbook-sync-status">Đang kiểm tra lưu trữ...</span>
-                    </div>
-                    <div class="handbook-intro-body">
-                        <h3 class="handbook-intro-title">Ghi lại điều hữu ích cho cả nhà</h3>
-                        <p class="handbook-intro-desc">Tra cứu nhanh công dụng, nguyên liệu &amp; bài thuốc dân gian chăm sóc sức khỏe.</p>
-                    </div>
-                </div>
-
-                <!-- Thanh tìm kiếm & bộ lọc phân loại -->
+                <!-- Thanh tìm kiếm -->
                 <div class="handbook-toolbar">
                     <div class="handbook-search-bar">
                         <i data-lucide="search" class="handbook-search-icon"></i>
-                        <input type="search" id="handbook-search-input" placeholder="Tìm theo tên bài, công dụng, nguyên liệu..." autocomplete="off">
+                        <input type="search" id="handbook-search-input" placeholder="Tìm theo tên bài, công dụng, nguyên liệu, danh mục..." autocomplete="off">
                         <button type="button" class="handbook-search-clear-btn" id="btn-clear-handbook-search" aria-label="Xóa tìm kiếm" title="Xóa tìm kiếm" hidden>
                             <i data-lucide="x"></i>
                         </button>
-                    </div>
-
-                    <div class="handbook-filter-row">
-                        <div class="handbook-category-wrap">
-                            <i data-lucide="layers-3" class="handbook-filter-icon"></i>
-                            <select id="handbook-category-filter" aria-label="Lọc theo danh mục">
-                                <option value="all">Tất cả danh mục</option>
-                                <option value="Ho/cảm cúm">Ho/cảm cúm</option>
-                                <option value="Tiêu hóa">Tiêu hóa</option>
-                                <option value="Da liễu">Da liễu</option>
-                                <option value="Xương khớp">Xương khớp</option>
-                                <option value="Mẹo vặt gia đình">Mẹo vặt gia đình</option>
-                                <option value="Khác">Khác</option>
-                            </select>
-                        </div>
-                        <label class="handbook-favorite-filter" title="Lọc các bài đánh dấu sao yêu thích">
-                            <input type="checkbox" id="handbook-favorite-filter">
-                            <i data-lucide="star"></i>
-                            <span>Yêu thích</span>
-                        </label>
-                        <span class="handbook-count" id="handbook-entry-count">0 bài</span>
                     </div>
                 </div>
 
@@ -113,26 +82,30 @@
     <!-- MODAL 10B: TRANG CHI TIẾT BÀI VIẾT SỔ TAY (Full Page View) -->
     <div class="modal-overlay support-page-modal handbook-page-modal handbook-detail-page-modal" id="handbook-detail-modal" aria-hidden="true">
         <div class="modal-sheet support-page-sheet handbook-page-sheet handbook-detail-page-sheet" role="dialog" aria-modal="true" aria-labelledby="handbook-detail-title">
-            <!-- Header chi tiết chuẩn Florenté Luxury -->
+            <!-- Header chi tiết Sổ tay hiện đại -->
             <div class="ckkn-page-header support-page-header handbook-page-header handbook-detail-page-header">
                 <div class="support-header-left handbook-header-left">
-                    <button class="modal-close-btn ckkn-back-btn support-header-back-btn handbook-header-back-btn" id="btn-close-handbook-detail" aria-label="Quay lại danh sách" title="Quay lại">
-                        <i data-lucide="arrow-left"></i>
-                    </button>
                     <div class="handbook-page-title handbook-detail-page-heading">
                         <span class="handbook-detail-eyebrow" id="handbook-detail-category">Danh mục</span>
                         <h2>Chi tiết bài viết</h2>
                     </div>
                 </div>
                 <div class="support-header-actions handbook-header-actions handbook-detail-header-actions" aria-label="Thao tác bài viết">
-                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-print-btn" id="btn-print-handbook-detail" aria-label="In hoặc lưu bài" title="In / Lưu PDF">
-                        <i data-lucide="printer"></i>
+                    <button type="button" class="handbook-detail-btn handbook-print-btn" id="btn-print-handbook-detail" aria-label="In hoặc lưu PDF" title="In / Lưu PDF">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                     </button>
-                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-edit-btn" id="btn-edit-handbook-detail" aria-label="Chỉnh sửa bài viết" title="Chỉnh sửa">
-                        <i data-lucide="pencil"></i>
+                    <button type="button" class="handbook-detail-btn handbook-edit-btn" id="btn-edit-handbook-detail" aria-label="Chỉnh sửa bài viết" title="Chỉnh sửa bài viết">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                     </button>
-                    <button type="button" class="support-action-btn handbook-action-btn handbook-detail-action-btn handbook-delete-btn" id="btn-delete-handbook-detail" aria-label="Xóa bài viết" title="Xóa bài">
-                        <i data-lucide="trash-2"></i>
+                    <button type="button" class="handbook-detail-btn handbook-delete-btn" id="btn-delete-handbook-detail" aria-label="Xóa bài viết" title="Xóa bài viết">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                    <!-- Nút quay lại đổi thành dấu X dời sang cùng bên phải -->
+                    <button type="button" class="header-close-btn handbook-exit-btn handbook-detail-exit-btn" id="btn-close-handbook-detail" aria-label="Đóng chi tiết" title="Đóng">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -147,17 +120,21 @@
         </div>
     </div>
 
-    <!-- Form thêm / sửa bài trong Sổ tay -->
-    <div class="modal-overlay support-entry-form-overlay handbook-entry-modal" id="handbook-entry-modal" aria-hidden="true">
-        <div class="support-entry-form-sheet handbook-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="handbook-entry-form-title">
-            <div class="handbook-detail-drag-bar" aria-hidden="true"></div>
-            <div class="support-modal-header handbook-entry-header">
-                <div class="support-modal-title-wrap">
-                    <span class="support-modal-eyebrow handbook-form-eyebrow">SỔ TAY GIA ĐÌNH</span>
+    <!-- TRANG THÊM / SỬA BÀI TRONG SỔ TAY (FULL PAGE VIEW) -->
+    <div class="handbook-entry-fullpage" id="handbook-entry-modal" aria-hidden="true">
+        <div class="handbook-entry-sheet" role="dialog" aria-modal="true" aria-labelledby="handbook-entry-form-title">
+            <div class="ckkn-page-header support-page-header handbook-page-header handbook-entry-page-header">
+                <div class="support-header-left handbook-entry-header-left">
                     <h2 id="handbook-entry-form-title">Thêm bài mới</h2>
-                    <p id="handbook-entry-form-description">Ghi lại kinh nghiệm &amp; mẹo hay để dễ tìm và dùng lại sau này.</p>
                 </div>
-                <button class="modal-close-btn support-modal-close" id="btn-close-handbook-entry" aria-label="Đóng form" title="Đóng"><i data-lucide="x"></i></button>
+                <div class="support-header-actions handbook-header-actions">
+                    <button type="button" class="header-close-btn handbook-exit-btn" id="btn-close-handbook-entry" aria-label="Đóng và quay lại Sổ tay sức khỏe" title="Đóng">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <form id="handbook-entry-form" class="handbook-entry-form">
                 <input type="hidden" id="handbook-entry-id" value="">
@@ -166,8 +143,11 @@
                         <label for="handbook-entry-title"><i data-lucide="bookmark"></i>Tên bài <span>*</span></label>
                         <input id="handbook-entry-title" type="text" maxlength="180" required placeholder="Ví dụ: Nước gừng ấm giảm ho">
                     </div>
-                    <div class="handbook-form-field">
-                        <label for="handbook-entry-category"><i data-lucide="tag"></i>Danh mục <span>*</span></label>
+                    <div class="handbook-form-field handbook-field-wide">
+                        <div class="handbook-cat-header-row">
+                            <label for="handbook-entry-category"><i data-lucide="tag"></i>Danh mục <span>*</span></label>
+                            <button type="button" class="handbook-add-cat-btn" id="btn-toggle-custom-cat" title="Thêm danh mục mới">+ Danh mục mới</button>
+                        </div>
                         <select id="handbook-entry-category" required>
                             <option value="Ho/cảm cúm">Ho/cảm cúm</option>
                             <option value="Tiêu hóa">Tiêu hóa</option>
@@ -175,7 +155,12 @@
                             <option value="Xương khớp">Xương khớp</option>
                             <option value="Mẹo vặt gia đình">Mẹo vặt gia đình</option>
                             <option value="Khác">Khác</option>
+                            <option value="__custom__">➕ Thêm danh mục mới...</option>
                         </select>
+                        <div class="handbook-custom-cat-box" id="handbook-custom-cat-box" hidden>
+                            <input type="text" id="handbook-entry-custom-category" maxlength="80" placeholder="Nhập tên danh mục tùy ý của bạn...">
+                            <button type="button" class="handbook-confirm-cat-btn" id="btn-confirm-custom-cat">Thêm</button>
+                        </div>
                     </div>
                     <div class="handbook-form-field">
                         <label for="handbook-entry-use"><i data-lucide="sparkles"></i>Công dụng</label>
@@ -214,5 +199,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_05"></script>
 </body></html>

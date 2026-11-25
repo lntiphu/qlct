@@ -2,11 +2,11 @@
 <html data-loading lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0F172A">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#FAF7F2">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="manifest" href="../manifest.json">
     <title>Money - Quản Lý Thu Chi</title>
     <!-- Preconnect & DNS-Prefetch for Fast Loading on Mobile Networks -->
@@ -23,7 +23,8 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/thuchi.css">
+    <link rel="stylesheet" href="../css/thuchi.css">
+    <link rel="stylesheet" href="../css/thuchi-modern.css?v=20261125_06">
     
 <style>html[data-loading] body{visibility:hidden}</style>
 </head>
@@ -35,29 +36,24 @@
         <!-- HEADER -->
         <template data-header class="app-header header-overview">
             <div class="header-left">
-                <div class="header-eyebrow">
-                    <span class="header-status-badge">
-                        <span class="status-pulse-dot"></span>
-                        <span>Hôm nay</span>
-                    </span>
-                    <span class="header-clock-wrap">
-                        <i data-lucide="clock"></i>
-                        <span id="header-live-clock">--:--:--</span>
-                    </span>
+                <div class="header-nav-row">
+                    <div class="header-eyebrow">
+                        <span class="header-sub-tag"><i data-lucide="wallet"></i> Sổ Thu Chi</span>
+                        <span class="header-clock-wrap" aria-label="Giờ hiện tại">
+                            <span class="clock-live-dot" aria-hidden="true"></span>
+                            <i data-lucide="clock"></i>
+                            <span id="header-live-clock">--:--:--</span>
+                        </span>
+                    </div>
                 </div>
                 <h1 class="header-main-date" id="current-date">Thứ Bảy, ngày 17 tháng 10 năm 2026</h1>
-                <div class="header-date-sub">
-                    <span class="header-sub-tag"><i data-lucide="wallet"></i> Sổ Thu Chi</span>
-                    <span class="header-sub-sep">·</span>
-                    <span class="header-sub-desc">Quản lý dòng tiền & ngân sách chi tiêu</span>
-                </div>
             </div>
             <div class="header-right">
-                <div class="header-calendar-badge" title="Lịch hôm nay">
-                    <div class="calendar-badge-top" id="header-calendar-month">Thg 10</div>
-                    <div class="calendar-badge-day" id="header-calendar-day">17</div>
-                    <div class="calendar-badge-bottom" id="header-calendar-weekday">Thứ 7</div>
-                </div>
+                <button type="button" class="header-close-btn" id="btn-exit-thuchi" onclick="goBackToHome()" title="Thoát về Trang chủ" aria-label="Thoát trang Thu Chi">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
             </div>
         </template>
 
@@ -75,7 +71,6 @@
                             <span class="card-label">Hôm nay</span>
                         </div>
                         <h2 class="card-amount" id="sum-today">0 VNĐ</h2>
-                        <span class="card-trend-caption">Chi trong ngày</span>
                     </div>
                     <div class="card card-week">
                         <div class="card-top-row">
@@ -85,7 +80,6 @@
                             <span class="card-label">Tuần này</span>
                         </div>
                         <h2 class="card-amount" id="sum-week">0 VNĐ</h2>
-                        <span class="card-trend-caption">7 ngày qua</span>
                     </div>
                     <div class="card card-month">
                         <div class="card-top-row">
@@ -95,7 +89,6 @@
                             <span class="card-label">Tháng này</span>
                         </div>
                         <h2 class="card-amount" id="sum-month">0 VNĐ</h2>
-                        <span class="card-trend-caption">Toàn tháng</span>
                     </div>
                 </div>
 
@@ -106,25 +99,31 @@
                             <div class="shortcut-icon-bubble">
                                 <i data-lucide="plus-circle"></i>
                             </div>
-                            <span class="shortcut-label">Ghi khoản chi mới</span>
+                            <div class="shortcut-text-wrap">
+                                <span class="shortcut-label">Ghi nhận</span>
+                                <span class="shortcut-sub">Nhập nhanh số tiền</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="shortcut-arrow"></i>
                         </button>
                         <button type="button" class="shortcut-pill shortcut-pill-analysis" onclick="openSpendingAnalysisPage()">
                             <div class="shortcut-icon-bubble">
                                 <i data-lucide="bar-chart-3"></i>
                             </div>
-                            <span class="shortcut-label">Toàn cảnh tài chính</span>
+                            <div class="shortcut-text-wrap">
+                                <span class="shortcut-label">Phân tích</span>
+                                <span class="shortcut-sub">Biểu đồ &amp; xu hướng</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="shortcut-arrow"></i>
                         </button>
                         <button type="button" class="shortcut-pill shortcut-pill-history" onclick="switchTab('history')">
                             <div class="shortcut-icon-bubble">
                                 <i data-lucide="receipt"></i>
                             </div>
-                            <span class="shortcut-label">Xem lịch sử chi</span>
-                        </button>
-                        <button type="button" class="shortcut-pill shortcut-pill-home" onclick="goBackToHome()">
-                            <div class="shortcut-icon-bubble">
-                                <i data-lucide="layout-grid"></i>
+                            <div class="shortcut-text-wrap">
+                                <span class="shortcut-label">Lịch sử</span>
+                                <span class="shortcut-sub">Tra cứu giao dịch</span>
                             </div>
-                            <span class="shortcut-label">Trung tâm chức năng</span>
+                            <i data-lucide="chevron-right" class="shortcut-arrow"></i>
                         </button>
                     </div>
                 </div>
@@ -157,60 +156,71 @@
                 </div>
             </section>
 
-            <!-- TAB 2: HISTORY (TRANSACTIONS) -->
-            <section id="tab-history" class="tab-panel">
-                <div class="history-top-actions" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
-                    <button type="button" class="history-back-btn" onclick="switchTab('dashboard')" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid rgba(52, 66, 55, 0.12); border-radius: 12px; background: #ffffff; color: var(--accent-olive); font-size: 0.82rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
-                        <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
-                        <span>Quay lại Tổng quan</span>
-                    </button>
-                    <div class="history-month-selector" style="display: inline-flex; align-items: center; gap: 2px; padding: 3px 6px; border: 1px solid rgba(52, 66, 55, 0.14); border-radius: 12px; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.03); position: relative;">
-                        <button type="button" id="btn-history-prev-month" class="history-month-nav-btn" aria-label="Tháng trước" title="Tháng trước" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: rgba(52, 66, 55, 0.05); border: none; border-radius: 8px; color: var(--accent-olive); cursor: pointer;">
-                            <i data-lucide="chevron-left" style="width: 16px; height: 16px;"></i>
-                        </button>
-                        <button type="button" id="btn-open-history-month-modal" class="history-month-display-btn" title="Bấm để chọn nhanh tháng năm hoặc Tất cả thời gian" style="background: none; border: none; padding: 3px 8px; font-size: 0.82rem; font-weight: 700; color: var(--accent-olive); min-width: 96px; text-align: center; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; border-radius: 8px; transition: background 0.15s ease;">
-                            <span id="history-month-label">Tháng 10/2026</span>
-                            <i data-lucide="chevron-down" style="width: 13px; height: 13px; opacity: 0.65; pointer-events: none;"></i>
-                        </button>
-                        <button type="button" id="btn-history-next-month" class="history-month-nav-btn" aria-label="Tháng sau" title="Tháng sau" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: rgba(52, 66, 55, 0.05); border: none; border-radius: 8px; color: var(--accent-olive); cursor: pointer;">
-                            <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
-                        </button>
+            <!-- TAB 2: HISTORY (FULL PAGE TRANSACTIONS) -->
+            <section id="tab-history" class="tab-panel history-full-page">
+                <header class="history-fullpage-header">
+                    <div class="history-header-brand">
+                        <span class="history-header-eyebrow">TRA CỨU &amp; LỊCH SỬ</span>
+                        <h2 class="history-header-title">Lịch sử chi tiêu</h2>
                     </div>
-                </div>
-                <div class="history-controls">
-                    <div class="search-bar">
-                        <i data-lucide="search" class="search-icon"></i>
-                        <input type="text" id="search-input" placeholder="Tìm nội dung, số tiền hoặc ngày/tháng/năm..." autocomplete="off">
-                    </div>
-                </div>
 
-                <div class="spending-list" id="history-spendings-list">
-                    <!-- Dynamic history content -->
+                    <div class="history-month-selector">
+                        <button type="button" id="btn-history-prev-month" class="history-month-nav-btn" aria-label="Tháng trước" title="Tháng trước">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <button type="button" id="btn-open-history-month-modal" class="history-month-display-btn" title="Bấm để chọn nhanh tháng năm hoặc Tất cả thời gian">
+                            <i data-lucide="calendar" class="history-cal-icon"></i>
+                            <span id="history-month-label">Tháng 11/2026</span>
+                            <i data-lucide="chevron-down" class="history-chevron-icon"></i>
+                        </button>
+                        <button type="button" id="btn-history-next-month" class="history-month-nav-btn" aria-label="Tháng sau" title="Tháng sau">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <button type="button" class="history-close-btn" onclick="switchTab('dashboard')" aria-label="Đóng lịch sử và về trang thu chi" title="Về trang thu chi">
+                        <i data-lucide="x"></i>
+                    </button>
+                </header>
+
+                <div class="history-page-scroll">
+                    <div class="history-page-inner">
+                        <div class="history-search-card">
+                            <div class="history-search-box">
+                                <i data-lucide="search" class="history-search-icon"></i>
+                                <input type="text" id="search-input" placeholder="Tìm kiếm nội dung, số tiền hoặc ngày..." autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="spending-list" id="history-spendings-list">
+                            <!-- Dynamic history content -->
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
 
         <!-- SPENDING ANALYSIS PAGE -->
         <div class="analysis-page" id="spending-analysis-page" aria-hidden="true">
-            <header class="analysis-page-header">
-                <button class="analysis-back-btn" id="btn-close-spending-analysis" aria-label="Quay lại tổng quan">
-                    <i data-lucide="arrow-left"></i>
-                </button>
-                <div class="analysis-page-title">
-                    <h2>Toàn cảnh tài chính</h2>
-                </div>
-            </header>
-
             <div class="analysis-page-scroll">
                 <div class="analysis-period-card">
-                    <div>
+                    <div class="analysis-period-left">
                         <span class="analysis-overline">KHOẢNG THỜI GIAN</span>
-                        <strong id="analysis-period-label">Tháng 9, 2026</strong>
+                        <div class="analysis-period-row">
+                            <strong id="analysis-period-label">Tháng 9, 2026</strong>
+                            <div class="analysis-period-actions">
+                                <button type="button" id="btn-analysis-prev-month" aria-label="Tháng phân tích trước" title="Tháng trước">
+                                    <i data-lucide="chevron-left"></i>
+                                </button>
+                                <button type="button" id="btn-analysis-next-month" aria-label="Tháng phân tích sau" title="Tháng sau">
+                                    <i data-lucide="chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="analysis-period-actions">
-                        <button id="btn-analysis-prev-month" aria-label="Tháng phân tích trước"><i data-lucide="chevron-left"></i></button>
-                        <button id="btn-analysis-next-month" aria-label="Tháng phân tích sau"><i data-lucide="chevron-right"></i></button>
-                    </div>
+                    <button type="button" class="analysis-close-btn" id="btn-close-spending-analysis" onclick="closeSpendingAnalysisPage()" aria-label="Đóng toàn cảnh tài chính" title="Đóng toàn cảnh tài chính">
+                        <i data-lucide="x"></i>
+                    </button>
                 </div>
 
                 <div class="analysis-kpi-grid">
@@ -345,7 +355,6 @@
                     <div class="amount-card">
                         <div class="amount-card-top">
                             <span class="amount-card-label">Số tiền chi</span>
-                            <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
                         </div>
                         <div class="amount-input-container">
                             <input type="text" id="expense-amount" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
@@ -446,7 +455,6 @@
                     <div class="amount-card">
                         <div class="amount-card-top">
                             <span class="amount-card-label">Số tiền chi</span>
-                            <span class="amount-card-chip"><i data-lucide="wallet"></i> VNĐ</span>
                         </div>
                         <div class="amount-input-container">
                             <input type="text" id="detail-amount-input" placeholder="0" inputmode="numeric" required aria-label="Số tiền chi">
@@ -546,22 +554,28 @@
 
                 <!-- VIEW 2: CHI TIẾT NGÀY -->
                 <div id="calendar-day-detail" style="display: none;">
-                    <div class="calendar-header-row">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <div class="calendar-title-block">
-                                <span class="calendar-year-label">Chi tiêu trong ngày</span>
-                                <span class="calendar-month-label" id="cal-day-detail-title">22/07/26</span>
+                    <div class="calendar-header-row calendar-day-detail-header">
+                        <div class="calendar-day-detail-brand">
+                            <div class="calendar-day-detail-badge">
+                                <i data-lucide="calendar"></i>
+                                <span>CHI TIÊU TRONG NGÀY</span>
                             </div>
+                            <h3 class="calendar-day-detail-title" id="cal-day-detail-title">22/07/2026</h3>
                         </div>
-                        <button class="modal-close-btn" onclick="closeCalendarModal()"><i data-lucide="x"></i></button>
+                        <button type="button" class="calendar-day-close-btn modal-close-btn" onclick="closeCalendarModal()" aria-label="Đóng chi tiết ngày" title="Đóng">
+                            <i data-lucide="x"></i>
+                        </button>
                     </div>
 
-                    <div class="calendar-month-summary" style="margin-top: 14px;">
-                        <span>Tổng chi trong ngày</span>
-                        <strong id="cal-day-detail-total" style="color: #ff9f0a;">0 VNĐ</strong>
+                    <div class="calendar-month-summary calendar-day-summary">
+                        <div class="calendar-day-summary-label">
+                            <i data-lucide="receipt"></i>
+                            <span>Tổng chi trong ngày</span>
+                        </div>
+                        <strong id="cal-day-detail-total">0 VNĐ</strong>
                     </div>
 
-                    <div id="cal-day-expense-list" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px; max-height: 340px; overflow-y: auto;">
+                    <div id="cal-day-expense-list" class="calendar-day-expense-list">
                         <!-- Dynamic -->
                     </div>
                 </div>
@@ -659,6 +673,6 @@
             });
         }
     </script>
-<script type="module" src="../js/boot.js"></script>
+<script type="module" src="../js/boot.js?v=20261124_03"></script>
 </body>
 </html>
