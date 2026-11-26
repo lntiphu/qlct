@@ -63,7 +63,17 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
         const storageKey = currentUserId ? `money_savers_order_${currentUserId}` : 'money_savers_order_local';
         try {
             const idOrder = savers.map(s => String(s.id));
-            localStorage.setItem(storageKey, JSON.stringify(idOrder));
+            const serialized = JSON.stringify(idOrder);
+            try {
+                localStorage.setItem(storageKey, serialized);
+            } catch (e) {
+                console.warn('[Saver] Lỗi lưu thứ tự vào localStorage:', e);
+            }
+            try {
+                sessionStorage.setItem(storageKey, serialized);
+            } catch (e) {
+                // ignore sessionStorage errors
+            }
         } catch (e) {
             console.warn('[Saver] Lỗi lưu thứ tự:', e);
         }
@@ -73,7 +83,15 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
         if (!Array.isArray(savers) || savers.length <= 1) return;
         const storageKey = currentUserId ? `money_savers_order_${currentUserId}` : 'money_savers_order_local';
         try {
-            const raw = localStorage.getItem(storageKey);
+            let raw = null;
+            try {
+                raw = localStorage.getItem(storageKey);
+            } catch (e) { /* ignore */ }
+            if (!raw) {
+                try {
+                    raw = sessionStorage.getItem(storageKey);
+                } catch (e) { /* ignore */ }
+            }
             if (!raw) return;
             const idOrder = JSON.parse(raw);
             if (Array.isArray(idOrder) && idOrder.length > 0) {
@@ -166,6 +184,69 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
             console.warn('[Saver] Lỗi sync item:', e);
         }
     }
+
+    let orderSyncTimer = null;
+    let orderSyncPending = false;
+
+    async function syncSaverOrderToSupabase() {
+        orderSyncPending = false;
+        if (!saverClient || !currentUserId || !Array.isArray(savers) || savers.length <= 1) return;
+
+        try {
+            const nowMs = Date.now();
+            const maxExistingMs = savers.reduce((max, s) => {
+                const t = new Date(s.createdAt || 0).getTime() || 0;
+                return t > max ? t : max;
+            }, nowMs);
+            const baseMs = Math.max(nowMs, maxExistingMs) + savers.length * 1000;
+            const updatedIso = new Date().toISOString();
+
+            const payloads = savers.map((item, idx) => {
+                const targetIso = new Date(baseMs - idx * 1000).toISOString();
+                if (item.createdAt === targetIso) return null;
+                item.createdAt = targetIso;
+                return {
+                    id: String(item.id),
+                    user_id: currentUserId,
+                    title: item.title,
+                    momo: Number(item.momo) || 0,
+                    bank: Number(item.bank) || 0,
+                    target: Number(item.target) || 0,
+                    debt: Number(item.debt) || 0,
+                    created_at: targetIso,
+                    updated_at: updatedIso
+                };
+            }).filter(Boolean);
+
+            if (payloads.length === 0) return;
+
+            saveSaverData();
+            await saverClient
+                .from('savers')
+                .upsert(payloads, { onConflict: 'user_id,id' });
+        } catch (e) {
+            console.warn('[Saver] Lỗi đồng bộ thứ tự lên Supabase:', e);
+        }
+    }
+
+    function scheduleSyncSaverOrderToSupabase() {
+        orderSyncPending = true;
+        if (orderSyncTimer) clearTimeout(orderSyncTimer);
+        orderSyncTimer = setTimeout(() => {
+            orderSyncTimer = null;
+            syncSaverOrderToSupabase();
+        }, 200);
+    }
+
+    window.addEventListener('pagehide', () => {
+        if (orderSyncPending) {
+            if (orderSyncTimer) {
+                clearTimeout(orderSyncTimer);
+                orderSyncTimer = null;
+            }
+            syncSaverOrderToSupabase();
+        }
+    });
 
     async function deleteSaverItemFromSupabase(id) {
         if (!saverClient || !currentUserId) return;
@@ -547,6 +628,7 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
                 syncSaverItemToSupabase(savers[idx]);
             }
         } else {
+            const topMs = savers.length > 0 ? (new Date(savers[0].createdAt || 0).getTime() || 0) + 1000 : 0;
             const newItem = {
                 id: 'saver_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
                 title: title,
@@ -554,9 +636,10 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
                 bank: bank,
                 target: target,
                 debt: debt,
-                createdAt: new Date().toISOString()
+                createdAt: new Date(Math.max(Date.now(), topMs)).toISOString()
             };
             savers.unshift(newItem);
+            persistSaverOrder();
             syncSaverItemToSupabase(newItem);
         }
 
@@ -791,6 +874,7 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
         updateSortChipsActive();
         saveSaverData();
         persistSaverOrder();
+        scheduleSyncSaverOrderToSupabase();
         renderSaverTable();
     }
 
@@ -811,14 +895,26 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
         updateSortChipsActive();
         saveSaverData();
         persistSaverOrder();
+        scheduleSyncSaverOrderToSupabase();
         renderSaverTable();
     }
 
     function moveSaverItem(id, direction) {
+        const searchInput = document.getElementById('saver-search-input');
+        const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        const visibleList = searchTerm
+            ? savers.filter(s => (s.title || '').toLowerCase().includes(searchTerm))
+            : savers;
+
+        const visibleIdx = visibleList.findIndex(s => s.id === String(id));
+        if (visibleIdx === -1) return;
+        const targetVisibleIdx = visibleIdx + direction;
+        if (targetVisibleIdx < 0 || targetVisibleIdx >= visibleList.length) return;
+
+        const targetItem = visibleList[targetVisibleIdx];
         const idx = savers.findIndex(s => s.id === String(id));
-        if (idx === -1) return;
-        const targetIdx = idx + direction;
-        if (targetIdx < 0 || targetIdx >= savers.length) return;
+        const targetIdx = savers.findIndex(s => s.id === String(targetItem.id));
+        if (idx === -1 || targetIdx === -1) return;
 
         const temp = savers[idx];
         savers[idx] = savers[targetIdx];
@@ -828,6 +924,7 @@ import {SUPABASE_URL,SUPABASE_KEY} from './config.js';
         updateSortChipsActive();
         saveSaverData();
         persistSaverOrder();
+        scheduleSyncSaverOrderToSupabase();
         renderSaverTable();
     }
 
