@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/tietkiem.css?v=20261125_01">
-    <link rel="stylesheet" href="../css/tietkiem-modern.css?v=20261125_04">
+    <link rel="stylesheet" href="../css/tietkiem-modern.css?v=20261126_01">
     
 <style>
 html[data-loading] body{visibility:hidden}
@@ -286,11 +286,65 @@ html[data-loading] body{visibility:hidden}
 #adjust-saver-amount-modal .adjust-amount-sheet {
     width: min(94vw, 540px) !important;
     max-width: 540px !important;
+    max-height: min(92vh, 850px) !important;
+    overflow-y: auto !important;
     padding: 24px 26px 22px !important;
     border-radius: 24px !important;
     background: #FFFFFF !important;
     box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2), 0 4px 20px rgba(194, 65, 12, 0.08) !important;
     border: 1px solid rgba(194, 65, 12, 0.16) !important;
+}
+
+@media (max-width: 640px) {
+    #add-saver-modal.modal-overlay,
+    #adjust-saver-amount-modal.modal-overlay {
+        padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)) !important;
+    }
+
+    #add-saver-modal .add-saver-sheet,
+    #adjust-saver-amount-modal .adjust-amount-sheet {
+        width: min(96vw, 540px) !important;
+        max-height: min(90dvh, 850px) !important;
+        padding: 18px 16px max(18px, env(safe-area-inset-bottom)) !important;
+        border-radius: 20px !important;
+    }
+
+    #add-saver-modal .modal-header-upgraded {
+        margin-bottom: 12px !important;
+        padding-bottom: 10px !important;
+    }
+
+    #add-saver-modal .modal-header-upgraded h2 {
+        font-size: 18px !important;
+    }
+
+    #add-saver-modal .saver-form-card {
+        padding: 11px 12px !important;
+        border-radius: 14px !important;
+    }
+
+    #add-saver-modal .saver-sources-grid,
+    #add-saver-modal .saver-targets-grid {
+        gap: 9px !important;
+    }
+
+    #add-saver-modal .input-wrapper,
+    #add-saver-modal .input-wrapper input,
+    #add-saver-modal .input-wrapper input:focus {
+        height: 40px !important;
+    }
+
+    #add-saver-modal .form-actions-row {
+        gap: 9px !important;
+        margin-top: 12px !important;
+    }
+
+    #add-saver-modal .form-actions-row .btn-secondary,
+    #add-saver-modal .form-actions-row .btn-primary {
+        height: 42px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+    }
 }
 </style>
 </head>
